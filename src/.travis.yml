@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - node
+cache:
+  - npm
+  - yarn
+script:
+  - yarn build
+  - git diff-index --quiet HEAD --

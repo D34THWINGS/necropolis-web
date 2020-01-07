@@ -4,6 +4,8 @@
   "license": "ISC",
   "scripts": {
     "dev": "parcel ./src/index.html",
+    "build": "parcel build ./src/index.html",
+    "re:build": "bsb -make-world -clean-world",
     "re:watch": "bsb -make-world -clean-world -w"
   },
   "devDependencies": {

@@ -4,3 +4,4 @@ dist/
 *.bs.js
 .bsb.lock
 lib/
+.merlin
