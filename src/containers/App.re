@@ -28,20 +28,31 @@ module Styles = {
       backgroundRepeat(noRepeat),
     ]);
 
-  let middleSection = style([flex(`num(1.0)), overflowY(auto)]);
+  let middleSection =
+    style([position(relative), flex(`num(1.0)), overflowY(auto)]);
 };
 
 [@react.component]
-let make = () =>
+let make = () => {
+  let isFullScreen = () =>
+    switch (Routes.getCurrentRouteName()) {
+    | Expeditions => true
+    | _ => false
+    };
+
   <div className=Styles.appContainer>
     <div className=Styles.gameContainer>
       <Header />
       <div className=Styles.middleSection>
-        {switch (Routes.getCurrentRouteName()) {
-         | Build => <Build />
-         | _ => <div> {ReasonReact.string("404 Not found :(")} </div>
-         }}
+        <SlideTransition animationKey={Routes.getCurrentRouteName()}>
+          {switch (Routes.getCurrentRouteName()) {
+           | Build => <Build />
+           | Expeditions => <Expeditions />
+           | _ => <div> {ReasonReact.string("404 Not found :(")} </div>
+           }}
+        </SlideTransition>
       </div>
       <Footer />
     </div>
   </div>;
+};
