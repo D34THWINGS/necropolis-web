@@ -9,7 +9,7 @@
     "re:watch": "bsb -make-world -clean-world -w"
   },
   "devDependencies": {
-    "bs-platform": "^7.1.1",
+    "bs-platform": "^7.2.1",
     "bsb-js": "^1.1.7",
     "parcel-bundler": "^1.12.4"
   },
