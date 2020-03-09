@@ -1144,10 +1144,10 @@ bs-css@^12.0.1:
   resolved "https://registry.yarnpkg.com/bs-css/-/bs-css-12.0.1.tgz#6ff1159f3b708784a8f71e0ba791191a7cda21ba"
   integrity sha512-kzmLxEptpsE8spP8VSUsTX2wKRd/i9VI8ygBb9QnWj51x0eXNpnk96z1q6/iMgu9FuS3MY2Nb5o6XURG2PsHxg==
 
-bs-platform@^7.1.1:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-7.1.1.tgz#ed4032de7ab15158c61d8994680a05393e3ddd74"
-  integrity sha512-ckZHR3J+yxyEKXOBHX8+hfzWG2XX5BxhQ4Iw9lulHFGYdAm9Ep9LgKkIah7G6RYADLmVfTxFE48igvY3kkkl+g==
+bs-platform@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-7.2.1.tgz#8a7084fb4c7c929075fe211e44627f7b478506b8"
+  integrity sha512-5Opx+I/+f0nWwDmjWhE7B2xAIR4tzQKY7OPFtYO/Eprx3hnLruDPu/jAyShU+Fv8qPWnYcqulw+i0UKOE72kNA==
 
 bsb-js@^1.1.7:
   version "1.1.7"
