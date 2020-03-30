@@ -5,6 +5,7 @@ import { MouseEventHandler, ReactNode } from 'react'
 import { colors } from '../../config/theme'
 import { useTranslation } from '../../lang/useTranslation'
 import upgradeButtonBackgroundUrl from '../../assets/images/upgrade-button.png'
+import chainsBackgroundUrl from '../../assets/images/chains.png'
 import { buttonPress, resetButton } from '../../helpers/styles'
 
 const buildingHeader = css({
@@ -47,14 +48,27 @@ const buildingUpgradeButton = [
   buttonPress,
 ]
 
+const buildingLocked = css({
+  position: 'absolute',
+  top: '-0.4rem',
+  left: '-1rem',
+  right: '-1rem',
+  bottom: '-0.35rem',
+  backgroundImage: `url(${chainsBackgroundUrl})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+})
+
 export type BuildingProps = {
   name: ReactNode
   description: ReactNode
   level: number
+  locked?: boolean
   onClick: MouseEventHandler
 }
 
-export const Building = ({ name, description, level, onClick }: BuildingProps) => {
+export const Building = ({ name, description, level, locked, onClick }: BuildingProps) => {
   const { t } = useTranslation()
   return (
     <Panel css={buildingPanel}>
@@ -63,7 +77,8 @@ export const Building = ({ name, description, level, onClick }: BuildingProps) =
         <span css={buildingLevel}>{t('buildingLevel', level)}</span>
       </div>
       <p css={buildingDescription}>{description}</p>
-      <button css={buildingUpgradeButton} type="button" onClick={onClick} />
+      {!locked && <button css={buildingUpgradeButton} type="button" onClick={onClick} />}
+      {locked && <div css={buildingLocked} />}
     </Panel>
   )
 }

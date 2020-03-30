@@ -33,11 +33,12 @@ export const Build = () => {
         description={t('soulWellDescription', <span css={textColor('BLUE')}>{t('soulAmount', 1)}</span>)}
         onClick={handleClick}
       />
-      <Building name={t('ossuary')} level={1} description={t('ossuaryDescription')} onClick={handleClick} />
+      <Building name={t('ossuary')} level={1} description={t('ossuaryDescription')} locked onClick={handleClick} />
       <Building
         name={t('battlements')}
         level={1}
         description={t('battlementDescription', <span css={textColor('LIME')}>{t('defenseBonus', 4)}</span>)}
+        locked
         onClick={handleClick}
       />
     </div>
