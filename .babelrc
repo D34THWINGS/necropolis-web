@@ -1,0 +1,24 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "useBuiltIns": "entry",
+        "corejs": 3,
+        "exclude": ["transform-typeof-symbol"]
+      }
+    ],
+    "@babel/preset-typescript",
+    "@emotion/babel-preset-css-prop"
+  ],
+  "plugins": [
+    ["@babel/plugin-transform-runtime", {
+      "corejs": false,
+      "regenerator": true,
+      "useESModules": true
+    }],
+    "emotion",
+    "babel-plugin-transform-inline-environment-variables"
+  ]
+}
