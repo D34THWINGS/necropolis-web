@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { Link } from 'react-router-dom'
-import { BUILD } from '../config/routes'
+import { BUILD, EXPEDITIONS, RESEARCH, SPELLS } from '../config/routes'
 import buttonBackgroundUrl from '../assets/images/footer/button.png'
 import buildIconUrl from '../assets/images/footer/build.png'
 import expeditionsIconUrl from '../assets/images/footer/expeditions.png'
@@ -45,13 +45,13 @@ export const NavigationBar = () => (
     <Link to={BUILD} css={footerButton}>
       <span css={[footerButtonIcon, backgroundImage(buildIconUrl)]} />
     </Link>
-    <Link to={BUILD} css={footerButton}>
+    <Link to={EXPEDITIONS} css={footerButton}>
       <span css={[footerButtonIcon, backgroundImage(expeditionsIconUrl)]} />
     </Link>
-    <Link to={BUILD} css={footerButton}>
+    <Link to={SPELLS} css={footerButton}>
       <span css={[footerButtonIcon, backgroundImage(spellsIconUrl)]} />
     </Link>
-    <Link to={BUILD} css={footerButton}>
+    <Link to={RESEARCH} css={footerButton}>
       <span css={[footerButtonIcon, backgroundImage(researchIconUrl)]} />
     </Link>
   </div>

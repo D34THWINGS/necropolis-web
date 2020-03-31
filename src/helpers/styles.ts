@@ -1,5 +1,6 @@
 import { css } from '@emotion/core'
 import { colors } from '../config/theme'
+import upgradeButtonBackgroundUrl from '../assets/images/upgrade-button.png'
 
 export const backgroundImage = (url: string) =>
   css({
@@ -20,6 +21,22 @@ export const buttonPress = css({
     transform: 'translateY(0.1rem)',
   },
 })
+
+export const buttonBase = [
+  resetButton,
+  css({
+    position: 'absolute',
+    bottom: '-1.2rem',
+    right: '-1.4rem',
+    width: '3rem',
+    height: '3rem',
+    backgroundImage: `url(${upgradeButtonBackgroundUrl})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+  }),
+  buttonPress,
+]
 
 export const textColor = (color: keyof typeof colors) =>
   css({

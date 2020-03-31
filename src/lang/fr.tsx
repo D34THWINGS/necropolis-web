@@ -23,6 +23,8 @@ export const fr = {
   ossuaryDescription: '- Action: Découvrir un sort.',
   battlements: 'Remparts',
   battlementDescription: (defenseBonus: ReactNode) => <>- Confère {defenseBonus} contre les attaques de paladins.</>,
+
+  settings: 'Paramètres',
 }
 
 export type TranslationBundle = typeof fr

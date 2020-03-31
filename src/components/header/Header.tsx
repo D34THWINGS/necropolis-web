@@ -9,6 +9,8 @@ import spellImageUrl from '../../assets/images/spell.png'
 import { backgroundImage, buttonPress, resetButton } from '../../helpers/styles'
 import { colors, shadows } from '../../config/theme'
 import { TurnCounter } from './TurnCounter'
+import { SettingsModal } from './SettingsModal'
+import { useModalState } from '../ui/Modal'
 
 const headerContainer = css({
   display: 'flex',
@@ -58,18 +60,23 @@ const headerSpacer = css({
   flexGrow: 1,
 })
 
-export const Header = () => (
-  <div css={headerContainer}>
-    <TurnCounter currentTurn={5} />
-    <div css={headerCountersWrapper}>
-      <div css={headerResourceCounter(resourcesImageUrl)}>6</div>
-      <div css={headerResourceCounter(meatImageUrl)}>6</div>
-      <span css={headerSpacer} />
-      <button type="button" css={headerButton(settingsImageUrl)} />
-      <div css={headerResourceCounter(soulsImageUrl)}>6</div>
-      <div css={headerResourceCounter(bonesImageUrl)}>6</div>
-      <span css={headerSpacer} />
-      <button type="button" css={headerButton(spellImageUrl)} />
+export const Header = () => {
+  const { isOpen, close, open } = useModalState()
+
+  return (
+    <div css={headerContainer}>
+      <TurnCounter currentTurn={5} />
+      <div css={headerCountersWrapper}>
+        <div css={headerResourceCounter(resourcesImageUrl)}>6</div>
+        <div css={headerResourceCounter(meatImageUrl)}>6</div>
+        <span css={headerSpacer} />
+        <button type="button" css={headerButton(settingsImageUrl)} onClick={open} />
+        <SettingsModal isOpen={isOpen} onClose={close} />
+        <div css={headerResourceCounter(soulsImageUrl)}>6</div>
+        <div css={headerResourceCounter(bonesImageUrl)}>6</div>
+        <span css={headerSpacer} />
+        <button type="button" css={headerButton(spellImageUrl)} />
+      </div>
     </div>
-  </div>
-)
+  )
+}

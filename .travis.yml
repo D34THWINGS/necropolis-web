@@ -6,4 +6,5 @@ cache:
   - yarn
 script:
   - yarn build
+  - yarn lint
   - git diff-index --quiet HEAD --

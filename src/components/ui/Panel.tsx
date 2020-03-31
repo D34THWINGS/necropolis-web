@@ -7,7 +7,7 @@ import { colors, shadows } from '../../config/theme'
 const panel = css({
   margin: '0.5rem 0',
   border: '15px solid transparent',
-  borderImage: `url(${panelBackgroundUrl}) 70 round`,
+  borderImage: `url(${panelBackgroundUrl}) 80 round`,
 })
 
 const panelInner = css({

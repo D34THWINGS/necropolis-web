@@ -5,13 +5,15 @@ import { useTranslation } from '../../lang/useTranslation'
 import { textColor } from '../../helpers/styles'
 
 const buildWrapper = css({
-  padding: '0 2rem 0 1rem',
+  padding: '0 1rem',
 })
 
 export const Build = () => {
   const { t } = useTranslation()
 
-  const handleClick = () => {}
+  const handleClick = () => {
+    /* Empty for now */
+  }
 
   return (
     <div css={buildWrapper}>
