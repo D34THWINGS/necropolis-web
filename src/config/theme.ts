@@ -10,9 +10,11 @@ export const colors = {
 }
 
 const TEXT_FLAT = `-1px 1px ${colors.BLACK}, 1px -1px ${colors.BLACK}, -1px -1px ${colors.BLACK}, 1px 1px ${colors.BLACK}`
+const ELEVATED = '0 3px 2px rgba(0, 0, 0, 0.8)'
 
 export const shadows = {
   TEXT_FLAT,
-  TEXT: `${TEXT_FLAT}, 0 3px 2px rgba(0, 0, 0, 0.8)`,
+  TEXT: `${TEXT_FLAT}, ${ELEVATED}`,
   TEXT_SOLID: `${TEXT_FLAT}, 1px 3px ${colors.BLACK}`,
+  ELEVATED,
 }
