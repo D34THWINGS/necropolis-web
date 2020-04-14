@@ -1,9 +1,19 @@
 {
   "parser": "@typescript-eslint/parser",
   "plugins": ["prettier", "@typescript-eslint/eslint-plugin", "react"],
-  "extends": ["plugin:@typescript-eslint/recommended"],
+  "extends": ["airbnb", "plugin:@typescript-eslint/recommended"],
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "rules": {
     "prettier/prettier": "error",
+    "semi": ["error", "never"],
+    "max-len": ["error", 120],
+    "object-curly-newline": "off",
+    "implicit-arrow-linebreak": "off",
+    "no-confusing-arrow": "off",
+    "arrow-parens": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/member-delimiter-style": ["error", {
       "multiline": {
@@ -14,6 +24,26 @@
         "delimiter": "semi",
         "requireLast": false
       }
-    }]
+    }],
+    "import/prefer-default-export": "off",
+    "import/extensions": [
+      "error",
+      "always",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "react/jsx-filename-extension": ["error", { "extensions": [".jsx", ".tsx"] }],
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-fragments": "off",
+    "jsx-a11y/control-has-associated-label": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": { "extensions": [".js", ".jsx", ".mjs", ".json", ".d.ts", ".ts", ".tsx"] }
+    }
   }
 }

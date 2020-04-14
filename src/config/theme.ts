@@ -10,6 +10,7 @@ export const colors = {
   BROWN: '#b8724b',
 }
 
+// eslint-disable-next-line max-len
 const TEXT_FLAT = `-1px 1px ${colors.BLACK}, 1px -1px ${colors.BLACK}, -1px -1px ${colors.BLACK}, 1px 1px ${colors.BLACK}`
 const ELEVATED = '0 3px 2px rgba(0, 0, 0, 0.8)'
 

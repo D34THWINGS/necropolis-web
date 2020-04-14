@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import React from 'react'
 import { css, jsx } from '@emotion/core'
-import backgroundImageUrl from '../assets/images/background.jpg'
 import { Redirect, Route, Switch } from 'react-router'
+import backgroundImageUrl from '../assets/images/background.jpg'
 import { BUILD, EXPEDITIONS, HOME, OSSUARY, CATACOMBS, SOUL_WELL, BATTLEMENTS, CHARNEL_HOUSE } from '../config/routes'
 import { Build } from '../screens/build/Build'
 import { NavigationBar } from '../components/NavigationBar'
@@ -60,38 +60,36 @@ const buildingsBackground = [
   }),
 ]
 
-export const App = () => {
-  return (
-    <React.Fragment>
-      <ResetCSS />
-      <Fonts />
-      <div css={appContainer}>
-        <div css={gameContainer}>
+export const App = () => (
+  <React.Fragment>
+    <ResetCSS />
+    <Fonts />
+    <div css={appContainer}>
+      <div css={gameContainer}>
+        <Switch>
+          <Route path={[EXPEDITIONS, BUILD]} />
+          <Route render={() => <div css={buildingsBackground} />} />
+        </Switch>
+        <div css={gameContent}>
           <Switch>
-            <Route path={[EXPEDITIONS, BUILD]} />
-            <Route render={() => <div css={buildingsBackground} />} />
+            <Route path={EXPEDITIONS} />
+            <Header />
           </Switch>
-          <div css={gameContent}>
+          <div css={middleSection}>
             <Switch>
-              <Route path={EXPEDITIONS} />
-              <Header />
+              <Route path={BUILD} component={Build} />
+              <Route path={EXPEDITIONS} component={Expeditions} />
+              <Route path={CATACOMBS} component={Catacombs} />
+              <Route path={OSSUARY} component={Ossuary} />
+              <Route path={SOUL_WELL} component={SoulWell} />
+              <Route path={BATTLEMENTS} component={Battlements} />
+              <Route path={CHARNEL_HOUSE} component={CharnelHouse} />
+              <Redirect from={HOME} to={BUILD} />
             </Switch>
-            <div css={middleSection}>
-              <Switch>
-                <Route path={BUILD} component={Build} />
-                <Route path={EXPEDITIONS} component={Expeditions} />
-                <Route path={CATACOMBS} component={Catacombs} />
-                <Route path={OSSUARY} component={Ossuary} />
-                <Route path={SOUL_WELL} component={SoulWell} />
-                <Route path={BATTLEMENTS} component={Battlements} />
-                <Route path={CHARNEL_HOUSE} component={CharnelHouse} />
-                <Redirect from={HOME} to={BUILD} />
-              </Switch>
-            </div>
-            <NavigationBar />
           </div>
+          <NavigationBar />
         </div>
       </div>
-    </React.Fragment>
-  )
-}
+    </div>
+  </React.Fragment>
+)

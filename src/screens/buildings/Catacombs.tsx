@@ -28,7 +28,7 @@ export const Catacombs = () => {
   const { t } = useTranslation()
   return (
     <div css={buildingWrapper}>
-      <button css={[...cyanSquareButton, reanimateButton]}>
+      <button css={[...cyanSquareButton, reanimateButton]} type="button">
         <img css={reanimateIcon} src={reanimateIconUrl} alt="" />
       </button>
       <Panel>

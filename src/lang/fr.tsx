@@ -61,7 +61,7 @@ export const fr = {
   ),
   catacombUnlock: (
     <Fragment>
-      Débloque l'action "<span css={textColor('PURPLE')}>Réanimer un mort</span>"
+      Débloque l&apos;action &quot;<span css={textColor('PURPLE')}>Réanimer un mort</span>&quot;
     </Fragment>
   ),
   catacombUpgrade: (count: number) => (
@@ -95,7 +95,7 @@ export const fr = {
   ),
   soulWellUpgradeStorm: (
     <Fragment>
-      Débloque le sort "<span css={textColor('BLUE')}>Déluge d'âme</span>"
+      Débloque le sort &quot;<span css={textColor('BLUE')}>Déluge d&apos;âme</span>&quot;
     </Fragment>
   ),
   soulWellUpgrade: (souls: number) => (
@@ -112,13 +112,13 @@ export const fr = {
   ossuaryDescription: (cost: number) => (
     <Fragment>
       - Action : <span css={textColor('BROWN')}>Découvrir un Sort</span> au prix de {cost} Ossements.
-      <br />- Les <span css={textColor('BROWN')}>ossements</span> s'obtiennent dans des excursions et des évènements
-      particuliers.
+      <br />- Les <span css={textColor('BROWN')}>ossements</span> s&apos;obtiennent dans des excursions et des
+      évènements particuliers.
     </Fragment>
   ),
   ossuaryUnlock: (
     <Fragment>
-      Débloque l'action "<span css={textColor('BROWN')}>Découvrir un sort</span>"
+      Débloque l&apos;action &quot;<span css={textColor('BROWN')}>Découvrir un sort</span>&quot;
     </Fragment>
   ),
   ossuaryUpgrade: (meat: number, bones: number) => (

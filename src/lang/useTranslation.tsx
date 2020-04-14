@@ -8,6 +8,7 @@ export enum SupportedLanguages {
 type Translator = {
   t: <K extends TranslationKey>(
     key: K,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ...args: TranslationBundle[K] extends (...args: any) => any ? Parameters<TranslationBundle[K]> : []
   ) => ReactNode
   setLang: (lang: SupportedLanguages) => void
@@ -48,8 +49,8 @@ export const TranslationProvider = ({ children }: TranslationProviderProps) => {
 
   useEffect(() => {
     const doTask = async () => {
-      const bundle = await bundleImporters[currentLanguage]()
-      setBundle(bundle)
+      const translationBundle = await bundleImporters[currentLanguage]()
+      setBundle(translationBundle)
     }
 
     doTask()

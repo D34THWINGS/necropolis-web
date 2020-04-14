@@ -59,43 +59,41 @@ export type ModalProps = {
   children: ReactNode
 }
 
-export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children }: ModalProps) => {
-  return (
-    <ClassNames>
-      {({ css }) => (
-        <ReactModal
-          className={css({
-            position: 'relative',
-            outline: 0,
-            border: '2px solid #0E4039',
-            borderRadius: '15px',
-            margin: '0.8rem 0',
-            padding: '10px',
-            minWidth: '20rem',
-            boxShadow: 'inset 0px 1px 1px rgba(255, 255, 255, 0.5)',
-            background: modalColorsMap[color][0],
-          })}
-          overlayClassName={css({
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'fixed',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          })}
-          isOpen={isOpen}
-          onRequestClose={onClose}
-          ariaHideApp={false}
-        >
-          <div css={modalInner(modalColorsMap[color][1])}>{children}</div>
-          <button css={closeButton} onClick={onClose}>
-            <img css={closeIcon} src={closeIconUrl} alt="" />
-          </button>
-        </ReactModal>
-      )}
-    </ClassNames>
-  )
-}
+export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children }: ModalProps) => (
+  <ClassNames>
+    {({ css: scopedCss }) => (
+      <ReactModal
+        className={scopedCss({
+          position: 'relative',
+          outline: 0,
+          border: '2px solid #0E4039',
+          borderRadius: '15px',
+          margin: '0.8rem 0',
+          padding: '10px',
+          minWidth: '20rem',
+          boxShadow: 'inset 0px 1px 1px rgba(255, 255, 255, 0.5)',
+          background: modalColorsMap[color][0],
+        })}
+        overlayClassName={scopedCss({
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        })}
+        isOpen={isOpen}
+        onRequestClose={onClose}
+        ariaHideApp={false}
+      >
+        <div css={modalInner(modalColorsMap[color][1])}>{children}</div>
+        <button css={closeButton} onClick={onClose} type="button">
+          <img css={closeIcon} src={closeIconUrl} alt="" />
+        </button>
+      </ReactModal>
+    )}
+  </ClassNames>
+)

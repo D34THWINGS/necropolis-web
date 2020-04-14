@@ -28,7 +28,7 @@ export const Ossuary = () => {
   const { t } = useTranslation()
   return (
     <div css={buildingWrapper}>
-      <button css={[...cyanSquareButton, researchButton]}>
+      <button css={[...cyanSquareButton, researchButton]} type="button">
         <img css={researchIcon} src={researchIconUrl} alt="" />
       </button>
       <Panel>
