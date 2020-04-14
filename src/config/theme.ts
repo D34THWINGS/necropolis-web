@@ -7,6 +7,7 @@ export const colors = {
   PURPLE: '#9a58fd',
   BLUE: '#12c1f4',
   LIME: '#2bfd02',
+  BROWN: '#b8724b',
 }
 
 const TEXT_FLAT = `-1px 1px ${colors.BLACK}, 1px -1px ${colors.BLACK}, -1px -1px ${colors.BLACK}, 1px 1px ${colors.BLACK}`

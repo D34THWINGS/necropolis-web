@@ -34,12 +34,15 @@ export const cyanRoundButton = roundButton()
 const squareButton = (backgroundColor: string = colors.CYAN) => [
   ...buttonBase,
   css({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: '0.3rem',
     backgroundColor,
     border: '2px solid #0F3D36',
     boxSizing: 'border-box',
     boxShadow: 'inset 0px 10px 10px rgba(255, 255, 255, 0.5), inset 0px -10px 3px #40B099',
-    borderRadius: '20px',
+    borderRadius: '15px',
   }),
 ]
 

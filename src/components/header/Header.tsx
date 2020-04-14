@@ -6,8 +6,7 @@ import meatImageUrl from '../../assets/images/resources/meat.png'
 import soulsImageUrl from '../../assets/images/resources/souls.png'
 import settingsImageUrl from '../../assets/images/header/settings.png'
 import spellImageUrl from '../../assets/images/header/spell.png'
-import { buttonBase, buttonPress, resetButton } from '../../styles/buttons'
-import { backgroundImage } from '../../styles/base'
+import { buttonBase } from '../../styles/buttons'
 import { colors, shadows } from '../../config/theme'
 import { TurnCounter } from './TurnCounter'
 import { SettingsModal } from './SettingsModal'
@@ -26,21 +25,34 @@ const headerCountersWrapper = css({
   marginLeft: '0.5rem',
 })
 
-const headerResourceCounter = (url: string) =>
+const headerResourceCounter = (backgroundColor: string) =>
   css({
-    marginRight: '0.8rem',
-    padding: '0.8rem 1rem',
-    width: '5rem',
-    height: '3rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    position: 'relative',
+    margin: '0 0.8rem 0 1.8rem',
+    border: '2px solid rgba(0, 0, 0, 0.3)',
+    borderRadius: '26px',
+    padding: '0.2rem 0.5rem 0.2rem 0',
+    width: '4rem',
     flex: '0 0 auto',
-    backgroundImage: `url(${url})`,
-    backgroundSize: 'contain',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
+    backgroundColor,
+    boxSizing: 'border-box',
+    boxShadow: 'inset 0px -12px 0px rgba(0, 0, 0, 0.16)',
     textAlign: 'right',
+    fontSize: '1.3rem',
+    lineHeight: '1',
     color: colors.WHITE,
     textShadow: shadows.TEXT,
   })
+
+const headerResourceIcon = css({
+  position: 'absolute',
+  left: 0,
+  width: '3rem',
+  transform: 'translateX(-50%)',
+})
 
 const headerButton = (url: string) => [
   buttonBase,
@@ -66,13 +78,21 @@ export const Header = () => {
     <div css={headerContainer}>
       <TurnCounter currentTurn={5} />
       <div css={headerCountersWrapper}>
-        <div css={headerResourceCounter(resourcesImageUrl)}>6</div>
-        <div css={headerResourceCounter(meatImageUrl)}>6</div>
+        <div css={headerResourceCounter('#94C58C')}>
+          <img css={headerResourceIcon} src={resourcesImageUrl} alt="" />6
+        </div>
+        <div css={headerResourceCounter('#C58C8F')}>
+          <img css={headerResourceIcon} src={meatImageUrl} alt="" />6
+        </div>
         <span css={headerSpacer} />
         <button type="button" css={headerButton(settingsImageUrl)} onClick={open} />
         <SettingsModal isOpen={isOpen} onClose={close} />
-        <div css={headerResourceCounter(soulsImageUrl)}>6</div>
-        <div css={headerResourceCounter(bonesImageUrl)}>6</div>
+        <div css={headerResourceCounter('#83B9D6')}>
+          <img css={headerResourceIcon} src={soulsImageUrl} alt="" />6
+        </div>
+        <div css={headerResourceCounter('#CDC59C')}>
+          <img css={headerResourceIcon} src={bonesImageUrl} alt="" />6
+        </div>
         <span css={headerSpacer} />
         <button type="button" css={headerButton(spellImageUrl)} />
       </div>

@@ -3,7 +3,6 @@ import type { TranslationBundle, TranslationKey } from './fr'
 
 export enum SupportedLanguages {
   FR = 'fr',
-  EN = 'en',
 }
 
 type Translator = {
@@ -16,7 +15,6 @@ type Translator = {
 
 const bundleImporters: Record<SupportedLanguages, () => Promise<TranslationBundle>> = {
   [SupportedLanguages.FR]: async () => (await import('./fr')).fr,
-  [SupportedLanguages.EN]: async () => (await import('./en')).en,
 }
 
 const i18nContext = createContext<Translator>({

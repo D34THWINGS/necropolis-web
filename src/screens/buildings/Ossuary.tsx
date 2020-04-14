@@ -4,7 +4,17 @@ import { Panel } from '../../components/ui/Panel'
 import { useTranslation } from '../../lang/useTranslation'
 import { cyanSquareButton } from '../../styles/buttons'
 import researchIconUrl from '../../assets/images/icons/research.png'
-import { buildingLevel, buildingTitle, buildingWrapper } from './helpers/buildingsStyles'
+import resourcesIconUrl from '../../assets/images/resources/resources.png'
+import {
+  buildingLevel,
+  buildingResourceCost,
+  buildingTitle,
+  buildingUpgradeArrow,
+  buildingUpgradeButton,
+  buildingUpgradeContainer,
+  buildingUpgradeFrame,
+  buildingWrapper,
+} from './helpers/buildingsStyles'
 
 const researchButton = css({
   alignSelf: 'center',
@@ -24,7 +34,16 @@ export const Ossuary = () => {
       <Panel>
         <h2 css={buildingTitle}>{t('ossuary')}</h2>
         <p css={buildingLevel}>{t('buildingLevel', 1)}</p>
-        <p>{t('ossuaryDescription')}</p>
+        <p>{t('ossuaryDescription', 3)}</p>
+        <div css={buildingUpgradeContainer}>
+          <div css={buildingUpgradeFrame}>
+            <div css={buildingUpgradeArrow}>{t('buildingLevel', 2)}</div>
+            <span>{t('ossuaryUnlock')}</span>
+          </div>
+          <div css={buildingUpgradeButton}>
+            <img css={buildingResourceCost} src={resourcesIconUrl} alt="" /> 2
+          </div>
+        </div>
       </Panel>
     </div>
   )

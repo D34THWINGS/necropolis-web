@@ -2,10 +2,19 @@
 import { css, jsx } from '@emotion/core'
 import { Panel } from '../../components/ui/Panel'
 import { useTranslation } from '../../lang/useTranslation'
-import { textColor } from '../../styles/base'
 import { cyanSquareButton } from '../../styles/buttons'
 import reanimateIconUrl from '../../assets/images/icons/reanimate.png'
-import { buildingLevel, buildingTitle, buildingWrapper } from './helpers/buildingsStyles'
+import {
+  buildingLevel,
+  buildingResourceCost,
+  buildingTitle,
+  buildingUpgradeArrow,
+  buildingUpgradeButton,
+  buildingUpgradeContainer,
+  buildingUpgradeFrame,
+  buildingWrapper,
+} from './helpers/buildingsStyles'
+import resourcesIconUrl from '../../assets/images/resources/resources.png'
 
 const reanimateButton = css({
   alignSelf: 'center',
@@ -25,7 +34,16 @@ export const Catacombs = () => {
       <Panel>
         <h2 css={buildingTitle}>{t('catacomb')}</h2>
         <p css={buildingLevel}>{t('buildingLevel', 1)}</p>
-        <p>{t('catacombDescription', <span css={textColor('PURPLE')}>{t('undead')} (0/1)</span>)}</p>
+        <p>{t('catacombDescription', 0, 1, 3)}</p>
+        <div css={buildingUpgradeContainer}>
+          <div css={buildingUpgradeFrame}>
+            <div css={buildingUpgradeArrow}>{t('buildingLevel', 2)}</div>
+            <span>{t('catacombUnlock')}</span>
+          </div>
+          <div css={buildingUpgradeButton}>
+            <img css={buildingResourceCost} src={resourcesIconUrl} alt="" /> 2
+          </div>
+        </div>
       </Panel>
     </div>
   )

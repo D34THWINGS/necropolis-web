@@ -2,8 +2,17 @@
 import { jsx } from '@emotion/core'
 import { Panel } from '../../components/ui/Panel'
 import { useTranslation } from '../../lang/useTranslation'
-import { textColor } from '../../styles/base'
-import { buildingLevel, buildingTitle, buildingWrapper } from './helpers/buildingsStyles'
+import {
+  buildingLevel,
+  buildingResourceCost,
+  buildingTitle,
+  buildingUpgradeArrow,
+  buildingUpgradeButton,
+  buildingUpgradeContainer,
+  buildingUpgradeFrame,
+  buildingWrapper,
+} from './helpers/buildingsStyles'
+import resourcesIconUrl from '../../assets/images/resources/resources.png'
 
 export const SoulWell = () => {
   const { t } = useTranslation()
@@ -12,7 +21,16 @@ export const SoulWell = () => {
       <Panel>
         <h2 css={buildingTitle}>{t('soulWell')}</h2>
         <p css={buildingLevel}>{t('buildingLevel', 1)}</p>
-        <p>{t('soulWellDescription', <span css={textColor('BLUE')}>{t('soulAmount', 1)}</span>)}</p>
+        <p>{t('soulWellDescription', 1)}</p>
+        <div css={buildingUpgradeContainer}>
+          <div css={buildingUpgradeFrame}>
+            <div css={buildingUpgradeArrow}>{t('buildingLevel', 2)}</div>
+            <span>{t('soulWellUnlock', 3)}</span>
+          </div>
+          <div css={buildingUpgradeButton}>
+            <img css={buildingResourceCost} src={resourcesIconUrl} alt="" /> 2
+          </div>
+        </div>
       </Panel>
     </div>
   )
