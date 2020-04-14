@@ -24,4 +24,6 @@ export const en: TranslationBundle = {
   ossuaryDescription: '- Action: Discover new spell.',
   battlements: 'Battlements',
   battlementDescription: (defenseBonus: ReactNode) => <>- Grants {defenseBonus} against paladins' attacks.</>,
+
+  settings: 'Settings',
 }

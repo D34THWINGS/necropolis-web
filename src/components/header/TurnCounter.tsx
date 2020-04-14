@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import skullImageUrl from '../../assets/images/skull.png'
+import skullImageUrl from '../../assets/images/header/skull.png'
 import { colors, shadows } from '../../config/theme'
 
 const turnCounter = css({

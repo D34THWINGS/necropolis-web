@@ -1,13 +1,14 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { Link } from 'react-router-dom'
-import { BUILD, EXPEDITIONS, RESEARCH, SPELLS } from '../config/routes'
+import { BUILD, EXPEDITIONS, OSSUARY, CATACOMBS } from '../config/routes'
 import buttonBackgroundUrl from '../assets/images/footer/button.png'
 import buildIconUrl from '../assets/images/footer/build.png'
 import expeditionsIconUrl from '../assets/images/footer/expeditions.png'
 import spellsIconUrl from '../assets/images/footer/spells.png'
 import researchIconUrl from '../assets/images/footer/research.png'
-import { backgroundImage, buttonPress } from '../helpers/styles'
+import { backgroundImage } from '../styles/base'
+import { buttonPress } from '../styles/buttons'
 
 const footerContainer = css({
   display: 'flex',
@@ -40,18 +41,22 @@ const footerButtonIcon = css({
   backgroundRepeat: 'no-repeat',
 })
 
+const buildIcon = css({
+  transform: 'rotateZ(30deg)',
+})
+
 export const NavigationBar = () => (
   <div css={footerContainer}>
     <Link to={BUILD} css={footerButton}>
-      <span css={[footerButtonIcon, backgroundImage(buildIconUrl)]} />
+      <span css={[footerButtonIcon, buildIcon, backgroundImage(buildIconUrl)]} />
     </Link>
     <Link to={EXPEDITIONS} css={footerButton}>
       <span css={[footerButtonIcon, backgroundImage(expeditionsIconUrl)]} />
     </Link>
-    <Link to={SPELLS} css={footerButton}>
+    <Link to={CATACOMBS} css={footerButton}>
       <span css={[footerButtonIcon, backgroundImage(spellsIconUrl)]} />
     </Link>
-    <Link to={RESEARCH} css={footerButton}>
+    <Link to={OSSUARY} css={footerButton}>
       <span css={[footerButtonIcon, backgroundImage(researchIconUrl)]} />
     </Link>
   </div>

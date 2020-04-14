@@ -1,19 +1,22 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { ReactNode } from 'react'
-import panelBackgroundUrl from '../../assets/images/panel.png'
 import { colors, shadows } from '../../config/theme'
 
 const panel = css({
-  margin: '0.5rem 0',
-  border: '15px solid transparent',
-  borderImage: `url(${panelBackgroundUrl}) 80 round`,
+  border: '2px solid #0E4039',
+  borderRadius: '15px',
+  margin: '0.8rem 0',
+  padding: '5px',
+  boxShadow: 'inset 0px 1px 1px rgba(255, 255, 255, 0.5)',
+  background: '#5DA59E',
 })
 
 const panelInner = css({
-  backgroundColor: colors.GREEN,
-  margin: '-0.2rem',
-  paddingBottom: '0.3rem',
+  padding: '0.5rem',
+  borderRadius: '10px',
+  boxShadow: 'inset 0px 3px 0px #0E4039, 0px 1px 1px rgba(255, 255, 255, 0.5)',
+  background: '#41837C',
   color: colors.WHITE,
   textShadow: shadows.TEXT_FLAT,
 })

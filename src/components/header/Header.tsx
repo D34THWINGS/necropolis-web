@@ -1,12 +1,13 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import bonesImageUrl from '../../assets/images/bones.png'
-import resourcesImageUrl from '../../assets/images/resources.png'
-import meatImageUrl from '../../assets/images/meat.png'
-import soulsImageUrl from '../../assets/images/souls.png'
-import settingsImageUrl from '../../assets/images/settings.png'
-import spellImageUrl from '../../assets/images/spell.png'
-import { backgroundImage, buttonPress, resetButton } from '../../helpers/styles'
+import bonesImageUrl from '../../assets/images/resources/bones.png'
+import resourcesImageUrl from '../../assets/images/resources/resources.png'
+import meatImageUrl from '../../assets/images/resources/meat.png'
+import soulsImageUrl from '../../assets/images/resources/souls.png'
+import settingsImageUrl from '../../assets/images/header/settings.png'
+import spellImageUrl from '../../assets/images/header/spell.png'
+import { buttonBase, buttonPress, resetButton } from '../../styles/buttons'
+import { backgroundImage } from '../../styles/base'
 import { colors, shadows } from '../../config/theme'
 import { TurnCounter } from './TurnCounter'
 import { SettingsModal } from './SettingsModal'
@@ -25,35 +26,33 @@ const headerCountersWrapper = css({
   marginLeft: '0.5rem',
 })
 
-const headerResourceCounter = (url: string) => [
+const headerResourceCounter = (url: string) =>
   css({
     marginRight: '0.8rem',
     padding: '0.8rem 1rem',
     width: '5rem',
     height: '3rem',
     flex: '0 0 auto',
+    backgroundImage: `url(${url})`,
     backgroundSize: 'contain',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     textAlign: 'right',
     color: colors.WHITE,
     textShadow: shadows.TEXT,
-  }),
-  backgroundImage(url),
-]
+  })
 
 const headerButton = (url: string) => [
-  resetButton,
+  buttonBase,
   css({
     flex: '0 0 auto',
     width: '3.5rem',
     height: '3.5rem',
+    backgroundImage: `url(${url})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
   }),
-  backgroundImage(url),
-  buttonPress,
 ]
 
 const headerSpacer = css({

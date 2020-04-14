@@ -1,12 +1,14 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
+import { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { Panel } from '../../components/ui/Panel'
-import { MouseEventHandler, ReactNode } from 'react'
 import { colors } from '../../config/theme'
 import { useTranslation } from '../../lang/useTranslation'
-import upgradeButtonBackgroundUrl from '../../assets/images/upgrade-button.png'
+import buildOutlinedIconUrl from '../../assets/images/build-outlined.png'
 import chainsBackgroundUrl from '../../assets/images/chains.png'
-import { buttonPress, resetButton } from '../../helpers/styles'
+import { cyanRoundButton } from '../../styles/buttons'
+import { backgroundImage, contentCover } from '../../styles/base'
 
 const buildingHeader = css({
   display: 'flex',
@@ -33,42 +35,45 @@ const buildingDescription = css({
 })
 
 const buildingUpgradeButton = [
-  resetButton,
+  cyanRoundButton,
   css({
     position: 'absolute',
-    bottom: '-1.2rem',
-    right: '-1.4rem',
-    width: '3rem',
-    height: '3rem',
-    backgroundImage: `url(${upgradeButtonBackgroundUrl})`,
-    backgroundPosition: 'center',
-    backgroundSize: 'contain',
-    backgroundRepeat: 'no-repeat',
+    bottom: '-0.7rem',
+    right: '-0.7rem',
+    padding: '0.2rem',
   }),
-  buttonPress,
 ]
 
-const buildingLocked = css({
-  position: 'absolute',
-  top: '-0.4rem',
-  left: '-1rem',
-  right: '-1rem',
-  bottom: '-0.35rem',
-  backgroundImage: `url(${chainsBackgroundUrl})`,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-})
+const buildingUpgradeIcon = [
+  css({
+    width: '2.6rem',
+    height: '2.6rem',
+    backgroundImage: `url(${buildOutlinedIconUrl})`,
+    backgroundSize: 'contain',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  }),
+]
+
+const buildingLocked = [
+  contentCover,
+  css({
+    backgroundImage: `url(${chainsBackgroundUrl})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  }),
+]
 
 export type BuildingProps = {
   name: ReactNode
   description: ReactNode
   level: number
   locked?: boolean
-  onClick: MouseEventHandler
+  route: string
 }
 
-export const Building = ({ name, description, level, locked, onClick }: BuildingProps) => {
+export const Building = ({ name, description, level, locked, route }: BuildingProps) => {
   const { t } = useTranslation()
   return (
     <Panel css={buildingPanel}>
@@ -77,7 +82,11 @@ export const Building = ({ name, description, level, locked, onClick }: Building
         <span css={buildingLevel}>{t('buildingLevel', level)}</span>
       </div>
       <p css={buildingDescription}>{description}</p>
-      {!locked && <button css={buildingUpgradeButton} type="button" onClick={onClick} />}
+      {!locked && (
+        <Link to={route} css={buildingUpgradeButton} type="button">
+          <div css={buildingUpgradeIcon} />
+        </Link>
+      )}
       {locked && <div css={buildingLocked} />}
     </Panel>
   )

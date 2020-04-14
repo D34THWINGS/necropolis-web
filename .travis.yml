@@ -7,4 +7,5 @@ cache:
 script:
   - yarn build
   - yarn lint
+  - yarn typecheck
   - git diff-index --quiet HEAD --

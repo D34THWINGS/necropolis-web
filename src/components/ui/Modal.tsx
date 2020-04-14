@@ -2,11 +2,11 @@
 import ReactModal from 'react-modal'
 import { jsx, ClassNames, css } from '@emotion/core'
 import { Panel } from './Panel'
-import { buttonBase } from '../../helpers/styles'
+import { cyanRoundButton } from '../../styles/buttons'
 import { ReactNode, useMemo, useState } from 'react'
 
 const closeButton = [
-  ...buttonBase,
+  ...cyanRoundButton,
   css({
     position: 'absolute',
     top: 0,
