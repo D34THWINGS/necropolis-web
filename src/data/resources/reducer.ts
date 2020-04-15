@@ -1,16 +1,8 @@
-import { Action } from 'redux'
+import { createReducer } from 'typesafe-actions'
 
-export type ResourceState = {
-  zombies: number
-}
-
-const initialState: ResourceState = {
-  zombies: 0,
-}
-
-export const resources = (state = initialState, action: Action): ResourceState => {
-  switch (action.type) {
-    default:
-      return state
-  }
-}
+export const resources = createReducer({
+  meat: 0,
+  souls: 0,
+  bones: 0,
+  materials: 0,
+})

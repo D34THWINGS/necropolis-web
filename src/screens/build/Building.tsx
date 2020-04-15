@@ -55,25 +55,26 @@ const buildingUpgradeIcon = [
   }),
 ]
 
-const buildingLocked = [
-  contentCover,
-  css({
-    backgroundImage: `url(${chainsBackgroundUrl})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-  }),
-]
+const buildingLocked = css({
+  position: 'absolute',
+  top: 5,
+  right: 5,
+  bottom: 5,
+  left: 5,
+  backgroundImage: `url(${chainsBackgroundUrl})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+})
 
 export type BuildingProps = {
   name: ReactNode
   description: ReactNode
   level: number
-  locked?: boolean
   route: string
 }
 
-export const Building = ({ name, description, level, locked, route }: BuildingProps) => {
+export const Building = ({ name, description, level, route }: BuildingProps) => {
   const { t } = useTranslation()
   return (
     <Panel css={buildingPanel}>
@@ -82,12 +83,10 @@ export const Building = ({ name, description, level, locked, route }: BuildingPr
         <span css={buildingLevel}>{t('buildingLevel', level)}</span>
       </div>
       <p css={buildingDescription}>{description}</p>
-      {!locked && (
-        <Link to={route} css={buildingUpgradeButton} type="button">
-          <div css={buildingUpgradeIcon} />
-        </Link>
-      )}
-      {locked && <div css={buildingLocked} />}
+      {level === 0 && <div css={buildingLocked} />}
+      <Link to={route} css={buildingUpgradeButton} type="button">
+        <div css={buildingUpgradeIcon} />
+      </Link>
     </Panel>
   )
 }

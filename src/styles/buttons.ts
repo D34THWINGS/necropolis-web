@@ -1,5 +1,5 @@
 import { css } from '@emotion/core'
-import { colors } from '../config/theme'
+import { colors, shadows } from '../config/theme'
 
 export const resetButton = css({
   borderStyle: 'none',
@@ -43,6 +43,8 @@ const squareButton = (backgroundColor: string = colors.CYAN) => [
     boxSizing: 'border-box',
     boxShadow: 'inset 0px 10px 10px rgba(255, 255, 255, 0.5), inset 0px -10px 3px #40B099',
     borderRadius: '15px',
+    color: colors.WHITE,
+    textShadow: shadows.TEXT_FLAT,
   }),
 ]
 

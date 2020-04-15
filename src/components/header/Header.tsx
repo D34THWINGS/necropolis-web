@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
+import { useSelector } from 'react-redux'
 import bonesImageUrl from '../../assets/images/resources/bones.png'
 import resourcesImageUrl from '../../assets/images/resources/resources.png'
 import meatImageUrl from '../../assets/images/resources/meat.png'
@@ -11,6 +12,7 @@ import { colors, shadows } from '../../config/theme'
 import { TurnCounter } from './TurnCounter'
 import { SettingsModal } from './SettingsModal'
 import { useModalState } from '../ui/Modal'
+import { getResources } from '../../data/resources/selectors'
 
 const headerContainer = css({
   display: 'flex',
@@ -73,25 +75,30 @@ const headerSpacer = css({
 
 export const Header = () => {
   const { isOpen, close, open } = useModalState()
+  const resources = useSelector(getResources)
 
   return (
     <div css={headerContainer}>
       <TurnCounter currentTurn={5} />
       <div css={headerCountersWrapper}>
         <div css={headerResourceCounter('#94C58C')}>
-          <img css={headerResourceIcon} src={resourcesImageUrl} alt="" />6
+          <img css={headerResourceIcon} src={resourcesImageUrl} alt="" />
+          <span>{resources.materials}</span>
         </div>
         <div css={headerResourceCounter('#C58C8F')}>
-          <img css={headerResourceIcon} src={meatImageUrl} alt="" />6
+          <img css={headerResourceIcon} src={meatImageUrl} alt="" />
+          <span>{resources.meat}</span>
         </div>
         <span css={headerSpacer} />
         <button type="button" css={headerButton(settingsImageUrl)} onClick={open} />
         <SettingsModal isOpen={isOpen} onClose={close} />
         <div css={headerResourceCounter('#83B9D6')}>
-          <img css={headerResourceIcon} src={soulsImageUrl} alt="" />6
+          <img css={headerResourceIcon} src={soulsImageUrl} alt="" />
+          <span>{resources.souls}</span>
         </div>
         <div css={headerResourceCounter('#CDC59C')}>
-          <img css={headerResourceIcon} src={bonesImageUrl} alt="" />6
+          <img css={headerResourceIcon} src={bonesImageUrl} alt="" />
+          <span>{resources.bones}</span>
         </div>
         <span css={headerSpacer} />
         <button type="button" css={headerButton(spellImageUrl)} />
