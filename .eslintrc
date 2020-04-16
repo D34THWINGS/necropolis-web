@@ -14,6 +14,7 @@
     "implicit-arrow-linebreak": "off",
     "no-confusing-arrow": "off",
     "arrow-parens": "off",
+    "indent": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/member-delimiter-style": ["error", {
       "multiline": {

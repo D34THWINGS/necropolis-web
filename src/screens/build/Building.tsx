@@ -71,10 +71,11 @@ export type BuildingProps = {
   name: ReactNode
   description: ReactNode
   level: number
+  maxLevel: number
   route: string
 }
 
-export const Building = ({ name, description, level, route }: BuildingProps) => {
+export const Building = ({ name, description, level, maxLevel, route }: BuildingProps) => {
   const { t } = useTranslation()
   return (
     <Panel css={buildingPanel}>
@@ -84,9 +85,11 @@ export const Building = ({ name, description, level, route }: BuildingProps) => 
       </div>
       <p css={buildingDescription}>{description}</p>
       {level === 0 && <div css={buildingLocked} />}
-      <Link to={route} css={buildingUpgradeButton} type="button">
-        <div css={buildingUpgradeIcon} />
-      </Link>
+      {level < maxLevel && (
+        <Link to={route} css={buildingUpgradeButton} type="button">
+          <div css={buildingUpgradeIcon} />
+        </Link>
+      )}
     </Panel>
   )
 }

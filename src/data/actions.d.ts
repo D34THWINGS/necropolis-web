@@ -1,9 +1,9 @@
-import { StateType, ActionType } from 'typesafe-actions';
+import { ActionType } from 'typesafe-actions'
 
-export type RootAction = ActionType<typeof import('./buildings/actions')>;
+export type RootAction = ActionType<typeof import('./buildings/actions')>
 
 declare module 'typesafe-actions' {
   interface Types {
-    RootAction: RootAction;
+    RootAction: RootAction
   }
 }

@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
+import { useDispatch, useSelector } from 'react-redux'
 import { Panel } from '../../components/ui/Panel'
 import { useTranslation } from '../../lang/useTranslation'
 import {
@@ -13,24 +14,46 @@ import {
   buildingWrapper,
 } from './helpers/buildingsStyles'
 import resourcesIconUrl from '../../assets/images/resources/resources.png'
+import { getSoulWell } from '../../data/buildings/selectors'
+import { upgradeBuilding } from '../../data/buildings/actions'
+import { SOUL_WELL_MAX_LEVEL, SOUL_WELL_SOUL_PRODUCTION, SOUL_WELL_UPGRADE_COST } from '../../config/constants'
 
 export const SoulWell = () => {
   const { t } = useTranslation()
+  const { level } = useSelector(getSoulWell)
+  const dispatch = useDispatch()
+
+  const handleUpgrade = () => dispatch(upgradeBuilding('soulWell'))
+
   return (
     <div css={buildingWrapper}>
       <Panel>
         <h2 css={buildingTitle}>{t('soulWell')}</h2>
-        <p css={buildingLevel}>{t('buildingLevel', 1)}</p>
-        <p>{t('soulWellDescription', 1)}</p>
-        <div css={buildingUpgradeContainer}>
-          <div css={buildingUpgradeFrame}>
-            <div css={buildingUpgradeArrow}>{t('buildingLevel', 2)}</div>
-            <span>{t('soulWellUnlock', 3)}</span>
+        <p css={buildingLevel}>{t('buildingLevel', level)}</p>
+        {level > 0 && <p>{t('soulWellDescription', SOUL_WELL_SOUL_PRODUCTION[level])}</p>}
+        {level < SOUL_WELL_MAX_LEVEL && (
+          <div css={buildingUpgradeContainer}>
+            <div css={buildingUpgradeFrame}>
+              <div css={buildingUpgradeArrow}>{t('buildingLevel', level + 1)}</div>
+              <span>
+                {(() => {
+                  switch (level) {
+                    case 0:
+                      return t('soulWellUnlock', SOUL_WELL_SOUL_PRODUCTION[1])
+                    case 1:
+                      return t('soulWellUpgradeStorm')
+                    default:
+                      return t('soulWellUpgrade', SOUL_WELL_SOUL_PRODUCTION[1])
+                  }
+                })()}
+              </span>
+            </div>
+            <button type="button" css={buildingUpgradeButton} onClick={handleUpgrade}>
+              <img css={buildingResourceCost} src={resourcesIconUrl} alt="" />
+              <span>{SOUL_WELL_UPGRADE_COST[level + 1]}</span>
+            </button>
           </div>
-          <div css={buildingUpgradeButton}>
-            <img css={buildingResourceCost} src={resourcesIconUrl} alt="" /> 2
-          </div>
-        </div>
+        )}
       </Panel>
     </div>
   )

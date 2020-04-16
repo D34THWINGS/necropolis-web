@@ -48,7 +48,7 @@ export const Ossuary = () => {
       <Panel>
         <h2 css={buildingTitle}>{t('ossuary')}</h2>
         <p css={buildingLevel}>{t('buildingLevel', level)}</p>
-        <p>{t('ossuaryDescription', 3)}</p>
+        {level > 0 && <p>{t('ossuaryDescription', 3)}</p>}
         {level < OSSUARY_MAX_LEVEL && (
           <div css={buildingUpgradeContainer}>
             <div css={buildingUpgradeFrame}>

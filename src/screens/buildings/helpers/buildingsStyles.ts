@@ -22,6 +22,7 @@ export const buildingLevel = css({ margin: 0, textAlign: 'center', fontSize: '1.
 
 export const buildingUpgradeContainer = css({
   display: 'flex',
+  marginTop: '1rem',
 })
 
 export const buildingUpgradeFrame = css({

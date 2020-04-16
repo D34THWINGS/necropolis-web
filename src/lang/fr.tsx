@@ -15,6 +15,7 @@ export const fr = {
         {meat} chair{plural(meat, 's')}
       </span>{' '}
       par tour.
+      <br />
       {bones === 0 ? null : (
         <Fragment>
           - Produit{' '}
