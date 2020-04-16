@@ -13,6 +13,7 @@ import { TurnCounter } from './TurnCounter'
 import { SettingsModal } from './SettingsModal'
 import { useModalState } from '../ui/Modal'
 import { getResources } from '../../data/resources/selectors'
+import { getTurn } from '../../data/turn/selectors'
 
 const headerContainer = css({
   display: 'flex',
@@ -76,10 +77,11 @@ const headerSpacer = css({
 export const Header = () => {
   const { isOpen, close, open } = useModalState()
   const resources = useSelector(getResources)
+  const turn = useSelector(getTurn)
 
   return (
     <div css={headerContainer}>
-      <TurnCounter currentTurn={5} />
+      <TurnCounter currentTurn={turn} />
       <div css={headerCountersWrapper}>
         <div css={headerResourceCounter('#94C58C')}>
           <img css={headerResourceIcon} src={resourcesImageUrl} alt="" />

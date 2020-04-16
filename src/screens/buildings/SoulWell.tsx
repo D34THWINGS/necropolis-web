@@ -17,13 +17,17 @@ import resourcesIconUrl from '../../assets/images/resources/resources.png'
 import { getSoulWell } from '../../data/buildings/selectors'
 import { upgradeBuilding } from '../../data/buildings/actions'
 import { SOUL_WELL_MAX_LEVEL, SOUL_WELL_SOUL_PRODUCTION, SOUL_WELL_UPGRADE_COST } from '../../config/constants'
+import { spendResources } from '../../data/resources/actions'
 
 export const SoulWell = () => {
   const { t } = useTranslation()
   const { level } = useSelector(getSoulWell)
   const dispatch = useDispatch()
 
-  const handleUpgrade = () => dispatch(upgradeBuilding('soulWell'))
+  const handleUpgrade = () => {
+    dispatch(spendResources({ materials: SOUL_WELL_UPGRADE_COST[level + 1] }))
+    dispatch(upgradeBuilding('soulWell'))
+  }
 
   return (
     <div css={buildingWrapper}>

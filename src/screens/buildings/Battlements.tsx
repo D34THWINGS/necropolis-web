@@ -17,13 +17,17 @@ import resourcesIconUrl from '../../assets/images/resources/resources.png'
 import { getBattlements } from '../../data/buildings/selectors'
 import { upgradeBuilding } from '../../data/buildings/actions'
 import { BATTLEMENTS_DEFENSE_BONUS, BATTLEMENTS_MAX_LEVEL, BATTLEMENTS_UPGRADE_COST } from '../../config/constants'
+import { spendResources } from '../../data/resources/actions'
 
 export const Battlements = () => {
   const { t } = useTranslation()
   const { level } = useSelector(getBattlements)
   const dispatch = useDispatch()
 
-  const handleUpgrade = () => dispatch(upgradeBuilding('battlements'))
+  const handleUpgrade = () => {
+    dispatch(spendResources({ materials: BATTLEMENTS_UPGRADE_COST[level + 1] }))
+    dispatch(upgradeBuilding('battlements'))
+  }
 
   return (
     <div css={buildingWrapper}>

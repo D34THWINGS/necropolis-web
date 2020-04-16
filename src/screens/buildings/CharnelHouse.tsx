@@ -23,13 +23,17 @@ import {
   CHARNEL_HOUSE_PRODUCTION_TURNS,
   CHARNEL_HOUSE_UPGRADE_COST,
 } from '../../config/constants'
+import { spendResources } from '../../data/resources/actions'
 
 export const CharnelHouse = () => {
   const { t } = useTranslation()
   const { level } = useSelector(getCharnelHouse)
   const dispatch = useDispatch()
 
-  const handleUpgrade = () => dispatch(upgradeBuilding('charnelHouse'))
+  const handleUpgrade = () => {
+    dispatch(spendResources({ materials: CHARNEL_HOUSE_UPGRADE_COST[level + 1] }))
+    dispatch(upgradeBuilding('charnelHouse'))
+  }
 
   return (
     <div css={buildingWrapper}>

@@ -24,6 +24,7 @@ import {
   OSSUARY_UPGRADE_COST,
 } from '../../config/constants'
 import { upgradeBuilding } from '../../data/buildings/actions'
+import { spendResources } from '../../data/resources/actions'
 
 const researchButton = css({
   alignSelf: 'center',
@@ -38,7 +39,10 @@ export const Ossuary = () => {
   const { level } = useSelector(getOssuary)
   const dispatch = useDispatch()
 
-  const handleUpgrade = () => dispatch(upgradeBuilding('ossuary'))
+  const handleUpgrade = () => {
+    dispatch(spendResources({ materials: OSSUARY_UPGRADE_COST[level + 1] }))
+    dispatch(upgradeBuilding('ossuary'))
+  }
 
   return (
     <div css={buildingWrapper}>

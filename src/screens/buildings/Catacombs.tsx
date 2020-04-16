@@ -24,6 +24,7 @@ import {
   CATACOMBS_SOUL_COST,
   CATACOMBS_UPGRADE_COST,
 } from '../../config/constants'
+import { spendResources } from '../../data/resources/actions'
 
 const reanimateButton = css({
   alignSelf: 'center',
@@ -38,7 +39,10 @@ export const Catacombs = () => {
   const { level } = useSelector(getCatacombs)
   const dispatch = useDispatch()
 
-  const handleUpgrade = () => dispatch(upgradeBuilding('catacombs'))
+  const handleUpgrade = () => {
+    dispatch(spendResources({ materials: CATACOMBS_UPGRADE_COST[level + 1] }))
+    dispatch(upgradeBuilding('catacombs'))
+  }
 
   return (
     <div css={buildingWrapper}>
