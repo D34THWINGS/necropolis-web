@@ -24,10 +24,12 @@ import {
   CHARNEL_HOUSE_UPGRADE_COST,
 } from '../../config/constants'
 import { spendResources } from '../../data/resources/actions'
+import { getMaterials } from '../../data/resources/selectors'
 
 export const CharnelHouse = () => {
   const { t } = useTranslation()
   const { level } = useSelector(getCharnelHouse)
+  const materials = useSelector(getMaterials)
   const dispatch = useDispatch()
 
   const handleUpgrade = () => {
@@ -64,7 +66,12 @@ export const CharnelHouse = () => {
                     )}
               </span>
             </div>
-            <button type="button" css={buildingUpgradeButton} onClick={handleUpgrade}>
+            <button
+              type="button"
+              disabled={CHARNEL_HOUSE_UPGRADE_COST[level + 1] > materials}
+              css={buildingUpgradeButton}
+              onClick={handleUpgrade}
+            >
               <img css={buildingResourceCost} src={resourcesIconUrl} alt="" />
               <span>{CHARNEL_HOUSE_UPGRADE_COST[level + 1]}</span>
             </button>

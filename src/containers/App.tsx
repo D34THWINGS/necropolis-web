@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import React from 'react'
-import { css, jsx } from '@emotion/core'
+import { css, jsx, keyframes } from '@emotion/core'
 import { Redirect, Route, Switch } from 'react-router'
 import backgroundImageUrl from '../assets/images/background.jpg'
 import { BUILD, EXPEDITIONS, HOME, OSSUARY, CATACOMBS, SOUL_WELL, BATTLEMENTS, CHARNEL_HOUSE } from '../config/routes'
@@ -50,9 +50,22 @@ const middleSection = css({
   overflowY: 'auto',
 })
 
+const fadeIn = keyframes({
+  from: {
+    opacity: 0,
+  },
+
+  to: {
+    opacity: 1,
+  },
+})
+
 const buildingsBackground = [
   contentCover,
   css({
+    animationName: fadeIn,
+    animationDuration: '200ms',
+    animationTimingFunction: 'ease-in-out',
     backgroundImage: `url(${charnelHouseBgUrl})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',

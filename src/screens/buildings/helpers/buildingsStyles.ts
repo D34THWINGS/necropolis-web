@@ -1,8 +1,9 @@
 import { css } from '@emotion/core'
 import { colors, shadows } from '../../../config/theme'
-import { textColor } from '../../../styles/base'
+import { contentCover, textColor } from '../../../styles/base'
 import upgradeArrowUrl from '../../../assets/images/upgrade-arrow.png'
 import { cyanSquareButton } from '../../../styles/buttons'
+import actionLockIconUrl from '../../../assets/images/icons/action-lock.png'
 
 export const buildingWrapper = css({
   display: 'flex',
@@ -63,3 +64,13 @@ export const buildingResourceCost = css({
   width: '2rem',
   marginRight: '0.3rem',
 })
+
+export const buildingActionLocked = [
+  contentCover,
+  css({
+    backgroundImage: `url(${actionLockIconUrl})`,
+    backgroundSize: 'contain',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  }),
+]

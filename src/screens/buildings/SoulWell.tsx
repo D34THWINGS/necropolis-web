@@ -18,10 +18,12 @@ import { getSoulWell } from '../../data/buildings/selectors'
 import { upgradeBuilding } from '../../data/buildings/actions'
 import { SOUL_WELL_MAX_LEVEL, SOUL_WELL_SOUL_PRODUCTION, SOUL_WELL_UPGRADE_COST } from '../../config/constants'
 import { spendResources } from '../../data/resources/actions'
+import { getMaterials } from '../../data/resources/selectors'
 
 export const SoulWell = () => {
   const { t } = useTranslation()
   const { level } = useSelector(getSoulWell)
+  const materials = useSelector(getMaterials)
   const dispatch = useDispatch()
 
   const handleUpgrade = () => {
@@ -52,7 +54,12 @@ export const SoulWell = () => {
                 })()}
               </span>
             </div>
-            <button type="button" css={buildingUpgradeButton} onClick={handleUpgrade}>
+            <button
+              type="button"
+              disabled={SOUL_WELL_UPGRADE_COST[level + 1] > materials}
+              css={buildingUpgradeButton}
+              onClick={handleUpgrade}
+            >
               <img css={buildingResourceCost} src={resourcesIconUrl} alt="" />
               <span>{SOUL_WELL_UPGRADE_COST[level + 1]}</span>
             </button>

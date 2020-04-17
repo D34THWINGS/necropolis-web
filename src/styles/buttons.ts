@@ -11,12 +11,19 @@ export const resetButton = css({
 })
 
 export const buttonPress = css({
-  ':active': {
+  ':not(:disabled):active': {
     transform: 'translateY(0.1rem)',
   },
 })
 
-export const buttonBase = [resetButton, buttonPress]
+export const buttonDisabled = css({
+  ':disabled': {
+    cursor: 'not-allowed',
+    filter: 'grayscale(1)',
+  },
+})
+
+export const buttonBase = [resetButton, buttonPress, buttonDisabled]
 
 const roundButton = (backgroundColor: string = colors.CYAN) => [
   ...buttonBase,

@@ -6,6 +6,7 @@ import { useTranslation } from '../../lang/useTranslation'
 import { cyanSquareButton } from '../../styles/buttons'
 import reanimateIconUrl from '../../assets/images/icons/reanimate.png'
 import {
+  buildingActionLocked,
   buildingLevel,
   buildingResourceCost,
   buildingTitle,
@@ -25,8 +26,10 @@ import {
   CATACOMBS_UPGRADE_COST,
 } from '../../config/constants'
 import { spendResources } from '../../data/resources/actions'
+import { getMaterials, getSouls } from '../../data/resources/selectors'
 
 const reanimateButton = css({
+  position: 'relative',
   alignSelf: 'center',
 })
 
@@ -37,6 +40,8 @@ const reanimateIcon = css({
 export const Catacombs = () => {
   const { t } = useTranslation()
   const { level } = useSelector(getCatacombs)
+  const materials = useSelector(getMaterials)
+  const souls = useSelector(getSouls)
   const dispatch = useDispatch()
 
   const handleUpgrade = () => {
@@ -46,7 +51,12 @@ export const Catacombs = () => {
 
   return (
     <div css={buildingWrapper}>
-      <button css={[...cyanSquareButton, reanimateButton]} type="button">
+      <button
+        type="button"
+        disabled={level === 0 || CATACOMBS_SOUL_COST[level] > souls}
+        css={[...cyanSquareButton, reanimateButton]}
+      >
+        {level === 0 && <div css={buildingActionLocked} />}
         <img css={reanimateIcon} src={reanimateIconUrl} alt="" />
       </button>
       <Panel>
@@ -63,7 +73,12 @@ export const Catacombs = () => {
                   : t('catacombUpgrade', CATACOMBS_MAX_UNDEAD[level + 1] - CATACOMBS_MAX_UNDEAD[level])}
               </span>
             </div>
-            <button type="button" css={buildingUpgradeButton} onClick={handleUpgrade}>
+            <button
+              type="button"
+              disabled={CATACOMBS_UPGRADE_COST[level + 1] > materials}
+              css={buildingUpgradeButton}
+              onClick={handleUpgrade}
+            >
               <img css={buildingResourceCost} src={resourcesIconUrl} alt="" />
               <span>{CATACOMBS_UPGRADE_COST[level + 1]}</span>
             </button>

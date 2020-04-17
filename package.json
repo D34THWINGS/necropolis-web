@@ -6,6 +6,7 @@
     "dev": "parcel ./src/index.html",
     "build": "parcel build ./src/index.html",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
+    "lint:cache": "yarn lint --cache",
     "typecheck": "tsc"
   },
   "devDependencies": {

@@ -18,10 +18,12 @@ import { getBattlements } from '../../data/buildings/selectors'
 import { upgradeBuilding } from '../../data/buildings/actions'
 import { BATTLEMENTS_DEFENSE_BONUS, BATTLEMENTS_MAX_LEVEL, BATTLEMENTS_UPGRADE_COST } from '../../config/constants'
 import { spendResources } from '../../data/resources/actions'
+import { getMaterials } from '../../data/resources/selectors'
 
 export const Battlements = () => {
   const { t } = useTranslation()
   const { level } = useSelector(getBattlements)
+  const materials = useSelector(getMaterials)
   const dispatch = useDispatch()
 
   const handleUpgrade = () => {
@@ -43,7 +45,12 @@ export const Battlements = () => {
                 {t('battlementUpgrade', BATTLEMENTS_DEFENSE_BONUS[level + 1] - BATTLEMENTS_DEFENSE_BONUS[level])}
               </span>
             </div>
-            <button type="button" css={buildingUpgradeButton} onClick={handleUpgrade}>
+            <button
+              type="button"
+              disabled={BATTLEMENTS_UPGRADE_COST[level + 1] > materials}
+              css={buildingUpgradeButton}
+              onClick={handleUpgrade}
+            >
               <img css={buildingResourceCost} src={resourcesIconUrl} alt="" />
               <span>{BATTLEMENTS_UPGRADE_COST[level + 1]}</span>
             </button>

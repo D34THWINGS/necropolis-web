@@ -15,9 +15,11 @@ import {
   buildingUpgradeContainer,
   buildingUpgradeFrame,
   buildingWrapper,
+  buildingActionLocked,
 } from './helpers/buildingsStyles'
 import { getOssuary } from '../../data/buildings/selectors'
 import {
+  OSSUARY_BONES_COST,
   OSSUARY_MAX_LEVEL,
   OSSUARY_UPGRADE_BONUS_BONES,
   OSSUARY_UPGRADE_BONUS_MEAT,
@@ -25,9 +27,11 @@ import {
 } from '../../config/constants'
 import { upgradeBuilding } from '../../data/buildings/actions'
 import { spendResources } from '../../data/resources/actions'
+import { getBones, getMaterials } from '../../data/resources/selectors'
 
-const researchButton = css({
+const discoverSpellButton = css({
   alignSelf: 'center',
+  position: 'relative',
 })
 
 const researchIcon = css({
@@ -37,6 +41,8 @@ const researchIcon = css({
 export const Ossuary = () => {
   const { t } = useTranslation()
   const { level } = useSelector(getOssuary)
+  const materials = useSelector(getMaterials)
+  const bones = useSelector(getBones)
   const dispatch = useDispatch()
 
   const handleUpgrade = () => {
@@ -46,7 +52,12 @@ export const Ossuary = () => {
 
   return (
     <div css={buildingWrapper}>
-      <button css={[...cyanSquareButton, researchButton]} type="button">
+      <button
+        type="button"
+        disabled={OSSUARY_BONES_COST[level] > bones || level === 0}
+        css={[...cyanSquareButton, discoverSpellButton]}
+      >
+        {level === 0 && <div css={buildingActionLocked} />}
         <img css={researchIcon} src={researchIconUrl} alt="" />
       </button>
       <Panel>
@@ -63,7 +74,12 @@ export const Ossuary = () => {
                   : t('ossuaryUpgrade', OSSUARY_UPGRADE_BONUS_MEAT[level + 1], OSSUARY_UPGRADE_BONUS_BONES[level + 1])}
               </span>
             </div>
-            <button type="button" css={buildingUpgradeButton} onClick={handleUpgrade}>
+            <button
+              type="button"
+              disabled={OSSUARY_UPGRADE_COST[level + 1] > materials}
+              css={buildingUpgradeButton}
+              onClick={handleUpgrade}
+            >
               <img css={buildingResourceCost} src={resourcesIconUrl} alt="" />
               <span>{OSSUARY_UPGRADE_COST[level + 1]}</span>
             </button>
