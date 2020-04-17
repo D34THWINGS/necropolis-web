@@ -16,15 +16,15 @@ import {
 import resourcesIconUrl from '../../assets/images/resources/resources.png'
 import { getCharnelHouse } from '../../data/buildings/selectors'
 import { upgradeBuilding } from '../../data/buildings/actions'
-import {
-  CHARNEL_HOUSE_BONES_PRODUCTION,
-  CHARNEL_HOUSE_MAX_LEVEL,
-  CHARNEL_HOUSE_MEAT_PRODUCTION,
-  CHARNEL_HOUSE_PRODUCTION_TURNS,
-  CHARNEL_HOUSE_UPGRADE_COST,
-} from '../../config/constants'
-import { spendResources } from '../../data/resources/actions'
+import { BuildingType } from '../../config/constants'
 import { getMaterials } from '../../data/resources/selectors'
+import {
+  getBuildingMaxLevel,
+  getBuildingUpgradeCost,
+  getCharnelHouseBonesProduction,
+  getCharnelHouseMeatProduction,
+  getCharnelHouseProductionTurns,
+} from '../../data/buildings/helpers'
 
 export const CharnelHouse = () => {
   const { t } = useTranslation()
@@ -32,48 +32,41 @@ export const CharnelHouse = () => {
   const materials = useSelector(getMaterials)
   const dispatch = useDispatch()
 
-  const handleUpgrade = () => {
-    dispatch(spendResources({ materials: CHARNEL_HOUSE_UPGRADE_COST[level + 1] }))
-    dispatch(upgradeBuilding('charnelHouse'))
-  }
+  const maxLevel = getBuildingMaxLevel(BuildingType.CharnelHouse)
+  const upgradeCost = getBuildingUpgradeCost(BuildingType.CharnelHouse, level + 1)
+  const meatProduction = getCharnelHouseMeatProduction(level)
+  const bonesProduction = getCharnelHouseBonesProduction(level)
+  const productionTurns = getCharnelHouseProductionTurns(level)
+  const upgradeMeatProduction = getCharnelHouseMeatProduction(level + 1)
+  const upgradeBonesProduction = getCharnelHouseBonesProduction(level + 1)
+  const upgradeProductionTurns = getCharnelHouseProductionTurns(level + 1)
+
+  const handleUpgrade = () => dispatch(upgradeBuilding(BuildingType.CharnelHouse, level + 1))
 
   return (
     <div css={buildingWrapper}>
       <Panel>
         <h2 css={buildingTitle}>{t('charnelHouse')}</h2>
         <p css={buildingLevel}>{t('buildingLevel', level)}</p>
-        {level > 0 && (
-          <p>
-            {t(
-              'charnelHouseDescription',
-              CHARNEL_HOUSE_MEAT_PRODUCTION[level],
-              CHARNEL_HOUSE_BONES_PRODUCTION[level],
-              CHARNEL_HOUSE_PRODUCTION_TURNS[level],
-            )}
-          </p>
-        )}
-        {level < CHARNEL_HOUSE_MAX_LEVEL && (
+        {level > 0 && <p>{t('charnelHouseDescription', meatProduction, bonesProduction, productionTurns)}</p>}
+        {level < maxLevel && (
           <div css={buildingUpgradeContainer}>
             <div css={buildingUpgradeFrame}>
               <div css={buildingUpgradeArrow}>{t('buildingLevel', level + 1)}</div>
               <span>
                 {level === 0
-                  ? t('charnelHouseUnlock', CHARNEL_HOUSE_MEAT_PRODUCTION[level + 1])
-                  : t(
-                      'charnelHouseUpgrade',
-                      CHARNEL_HOUSE_BONES_PRODUCTION[level + 1],
-                      CHARNEL_HOUSE_PRODUCTION_TURNS[level + 1],
-                    )}
+                  ? t('charnelHouseUnlock', upgradeMeatProduction)
+                  : t('charnelHouseUpgrade', upgradeBonesProduction, upgradeProductionTurns)}
               </span>
             </div>
             <button
               type="button"
-              disabled={CHARNEL_HOUSE_UPGRADE_COST[level + 1] > materials}
+              disabled={upgradeCost > materials}
               css={buildingUpgradeButton}
               onClick={handleUpgrade}
             >
               <img css={buildingResourceCost} src={resourcesIconUrl} alt="" />
-              <span>{CHARNEL_HOUSE_UPGRADE_COST[level + 1]}</span>
+              <span>{upgradeCost}</span>
             </button>
           </div>
         )}

@@ -1,6 +1,7 @@
-import { ActionType, createAction } from 'typesafe-actions'
-import type { BuildingName } from './reducer'
+import { createAction } from 'typesafe-actions'
+import { BuildingType } from '../../config/constants'
 
-export const upgradeBuilding = createAction('buildings/UPGRADE', (name: BuildingName) => ({
-  name,
-}))<{ name: BuildingName }>()
+export const upgradeBuilding = createAction('buildings/UPGRADE', (type: BuildingType, level: number) => ({
+  type,
+  level,
+}))<{ type: BuildingType; level: number }>()

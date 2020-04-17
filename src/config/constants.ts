@@ -35,3 +35,11 @@ export enum UndeadTalent {
   Muscles = 'muscles',
   Lethality = 'lethality',
 }
+
+export enum BuildingType {
+  CharnelHouse = 'charnelHouse',
+  Ossuary = 'ossuary',
+  Battlements = 'battlements',
+  SoulWell = 'soulWell',
+  Catacombs = 'catacombs',
+}

@@ -19,14 +19,16 @@ import {
 import resourcesIconUrl from '../../assets/images/resources/resources.png'
 import { getCatacombs } from '../../data/buildings/selectors'
 import { upgradeBuilding } from '../../data/buildings/actions'
-import {
-  CATACOMBS_MAX_LEVEL,
-  CATACOMBS_MAX_UNDEAD,
-  CATACOMBS_SOUL_COST,
-  CATACOMBS_UPGRADE_COST,
-} from '../../config/constants'
-import { spendResources } from '../../data/resources/actions'
+import { BuildingType } from '../../config/constants'
 import { getMaterials, getSouls } from '../../data/resources/selectors'
+import {
+  getBuildingMaxLevel,
+  getBuildingUpgradeCost,
+  getCatacombsUpgradeMaxRaising,
+  getMaxUndeadRaising,
+  getRaiseUndeadSoulCost,
+} from '../../data/buildings/helpers'
+import { getRaisedUndeadCount } from '../../data/undeads/selectors'
 
 const reanimateButton = css({
   position: 'relative',
@@ -42,45 +44,41 @@ export const Catacombs = () => {
   const { level } = useSelector(getCatacombs)
   const materials = useSelector(getMaterials)
   const souls = useSelector(getSouls)
+  const raisedUndead = useSelector(getRaisedUndeadCount)
   const dispatch = useDispatch()
 
-  const handleUpgrade = () => {
-    dispatch(spendResources({ materials: CATACOMBS_UPGRADE_COST[level + 1] }))
-    dispatch(upgradeBuilding('catacombs'))
-  }
+  const upgradeCost = getBuildingUpgradeCost(BuildingType.Catacombs, level + 1)
+  const soulCost = getRaiseUndeadSoulCost(level)
+  const maxUndeadRaising = getMaxUndeadRaising(level)
+  const maxUndeadRaisingUpgrade = getCatacombsUpgradeMaxRaising(level)
+  const maxLevel = getBuildingMaxLevel(BuildingType.Catacombs)
+
+  const handleUpgrade = () => dispatch(upgradeBuilding(BuildingType.Catacombs, level + 1))
 
   return (
     <div css={buildingWrapper}>
-      <button
-        type="button"
-        disabled={level === 0 || CATACOMBS_SOUL_COST[level] > souls}
-        css={[...cyanSquareButton, reanimateButton]}
-      >
+      <button type="button" disabled={level === 0 || soulCost > souls} css={[...cyanSquareButton, reanimateButton]}>
         {level === 0 && <div css={buildingActionLocked} />}
         <img css={reanimateIcon} src={reanimateIconUrl} alt="" />
       </button>
       <Panel>
         <h2 css={buildingTitle}>{t('catacomb')}</h2>
         <p css={buildingLevel}>{t('buildingLevel', level)}</p>
-        {level > 0 && <p>{t('catacombDescription', 0, CATACOMBS_MAX_UNDEAD[level], CATACOMBS_SOUL_COST[level])}</p>}
-        {level < CATACOMBS_MAX_LEVEL && (
+        {level > 0 && <p>{t('catacombDescription', raisedUndead, maxUndeadRaising, soulCost)}</p>}
+        {level < maxLevel && (
           <div css={buildingUpgradeContainer}>
             <div css={buildingUpgradeFrame}>
               <div css={buildingUpgradeArrow}>{t('buildingLevel', level + 1)}</div>
-              <span>
-                {level === 0
-                  ? t('catacombUnlock')
-                  : t('catacombUpgrade', CATACOMBS_MAX_UNDEAD[level + 1] - CATACOMBS_MAX_UNDEAD[level])}
-              </span>
+              <span>{level === 0 ? t('catacombUnlock') : t('catacombUpgrade', maxUndeadRaisingUpgrade)}</span>
             </div>
             <button
               type="button"
-              disabled={CATACOMBS_UPGRADE_COST[level + 1] > materials}
+              disabled={upgradeCost > materials}
               css={buildingUpgradeButton}
               onClick={handleUpgrade}
             >
               <img css={buildingResourceCost} src={resourcesIconUrl} alt="" />
-              <span>{CATACOMBS_UPGRADE_COST[level + 1]}</span>
+              <span>{upgradeCost}</span>
             </button>
           </div>
         )}

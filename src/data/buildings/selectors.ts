@@ -1,6 +1,7 @@
 import { RootState } from '../../store/mainReducer'
 import { getTurn } from '../turn/selectors'
 import {
+  BuildingType,
   CHARNEL_HOUSE_BONES_PRODUCTION,
   CHARNEL_HOUSE_MEAT_PRODUCTION,
   CHARNEL_HOUSE_PRODUCTION_TURNS,
@@ -10,18 +11,17 @@ import { ResourcesState } from '../resources/reducer'
 
 export const getBuildings = (state: RootState) => state.buildings
 
-export const getBuilding = <T extends keyof RootState['buildings']>(name: T) => (state: RootState) =>
-  getBuildings(state)[name]
+export const getBuilding = (name: BuildingType) => (state: RootState) => getBuildings(state)[name]
 
-export const getOssuary = getBuilding('ossuary')
+export const getOssuary = getBuilding(BuildingType.Ossuary)
 
-export const getBattlements = getBuilding('battlements')
+export const getBattlements = getBuilding(BuildingType.Battlements)
 
-export const getSoulWell = getBuilding('soulWell')
+export const getSoulWell = getBuilding(BuildingType.SoulWell)
 
-export const getCharnelHouse = getBuilding('charnelHouse')
+export const getCharnelHouse = getBuilding(BuildingType.CharnelHouse)
 
-export const getCatacombs = getBuilding('catacombs')
+export const getCatacombs = getBuilding(BuildingType.Catacombs)
 
 export const getBuildingsProduction = (state: RootState): ResourcesState => {
   const turn = getTurn(state)

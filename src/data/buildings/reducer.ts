@@ -1,30 +1,33 @@
 import { createReducer } from 'typesafe-actions'
 import { upgradeBuilding } from './actions'
+import { BuildingType } from '../../config/constants'
 
 const initialState = {
-  ossuary: {
+  [BuildingType.Ossuary]: {
     level: 0,
   },
-  soulWell: {
+  [BuildingType.SoulWell]: {
     level: 0,
   },
-  battlements: {
+  [BuildingType.Battlements]: {
     level: 0,
   },
-  catacombs: {
+  [BuildingType.Catacombs]: {
     level: 0,
   },
-  charnelHouse: {
+  [BuildingType.CharnelHouse]: {
     level: 0,
+    firstBonesProduction: 0,
   },
 }
 
-export type BuildingName = keyof typeof initialState
-
-export const buildings = createReducer(initialState).handleAction(upgradeBuilding, (state, { payload: { name } }) => ({
-  ...state,
-  [name]: {
-    ...state[name],
-    level: state[name].level + 1,
-  },
-}))
+export const buildings = createReducer(initialState).handleAction(
+  upgradeBuilding,
+  (state, { payload: { type, level } }) => ({
+    ...state,
+    [type]: {
+      ...state[type],
+      level,
+    },
+  }),
+)

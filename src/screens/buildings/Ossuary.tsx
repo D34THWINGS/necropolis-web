@@ -18,16 +18,16 @@ import {
   buildingActionLocked,
 } from './helpers/buildingsStyles'
 import { getOssuary } from '../../data/buildings/selectors'
-import {
-  OSSUARY_BONES_COST,
-  OSSUARY_MAX_LEVEL,
-  OSSUARY_UPGRADE_BONUS_BONES,
-  OSSUARY_UPGRADE_BONUS_MEAT,
-  OSSUARY_UPGRADE_COST,
-} from '../../config/constants'
+import { BuildingType } from '../../config/constants'
 import { upgradeBuilding } from '../../data/buildings/actions'
-import { spendResources } from '../../data/resources/actions'
 import { getBones, getMaterials } from '../../data/resources/selectors'
+import {
+  getBuildingMaxLevel,
+  getBuildingUpgradeCost,
+  getOssuaryBonesCost,
+  getOssuaryUpgradeBonusBones,
+  getOssuaryUpgradeBonusMeat,
+} from '../../data/buildings/helpers'
 
 const discoverSpellButton = css({
   alignSelf: 'center',
@@ -45,16 +45,19 @@ export const Ossuary = () => {
   const bones = useSelector(getBones)
   const dispatch = useDispatch()
 
-  const handleUpgrade = () => {
-    dispatch(spendResources({ materials: OSSUARY_UPGRADE_COST[level + 1] }))
-    dispatch(upgradeBuilding('ossuary'))
-  }
+  const maxLevel = getBuildingMaxLevel(BuildingType.Ossuary)
+  const upgradeCost = getBuildingUpgradeCost(BuildingType.Ossuary, level + 1)
+  const bonesCost = getOssuaryBonesCost(level)
+  const upgradeBonusMeat = getOssuaryUpgradeBonusMeat(level + 1)
+  const upgradeBonusBones = getOssuaryUpgradeBonusBones(level + 1)
+
+  const handleUpgrade = () => dispatch(upgradeBuilding(BuildingType.Ossuary, level + 1))
 
   return (
     <div css={buildingWrapper}>
       <button
         type="button"
-        disabled={OSSUARY_BONES_COST[level] > bones || level === 0}
+        disabled={bonesCost > bones || level === 0}
         css={[...cyanSquareButton, discoverSpellButton]}
       >
         {level === 0 && <div css={buildingActionLocked} />}
@@ -64,24 +67,20 @@ export const Ossuary = () => {
         <h2 css={buildingTitle}>{t('ossuary')}</h2>
         <p css={buildingLevel}>{t('buildingLevel', level)}</p>
         {level > 0 && <p>{t('ossuaryDescription', 3)}</p>}
-        {level < OSSUARY_MAX_LEVEL && (
+        {level < maxLevel && (
           <div css={buildingUpgradeContainer}>
             <div css={buildingUpgradeFrame}>
               <div css={buildingUpgradeArrow}>{t('buildingLevel', level + 1)}</div>
-              <span>
-                {level === 0
-                  ? t('ossuaryUnlock')
-                  : t('ossuaryUpgrade', OSSUARY_UPGRADE_BONUS_MEAT[level + 1], OSSUARY_UPGRADE_BONUS_BONES[level + 1])}
-              </span>
+              <span>{level === 0 ? t('ossuaryUnlock') : t('ossuaryUpgrade', upgradeBonusMeat, upgradeBonusBones)}</span>
             </div>
             <button
               type="button"
-              disabled={OSSUARY_UPGRADE_COST[level + 1] > materials}
+              disabled={upgradeCost > materials}
               css={buildingUpgradeButton}
               onClick={handleUpgrade}
             >
               <img css={buildingResourceCost} src={resourcesIconUrl} alt="" />
-              <span>{OSSUARY_UPGRADE_COST[level + 1]}</span>
+              <span>{upgradeCost}</span>
             </button>
           </div>
         )}
