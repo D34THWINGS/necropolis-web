@@ -22,3 +22,16 @@ export const OSSUARY_MAX_LEVEL = 3
 export const BATTLEMENTS_DEFENSE_BONUS = [0, 3, 5, 7]
 export const BATTLEMENTS_UPGRADE_COST = [0, 5, 3, 3]
 export const BATTLEMENTS_MAX_LEVEL = 3
+
+export enum UndeadType {
+  Valet = 'valet',
+  Brikoler = 'brikoler',
+  LaMotte = 'laMotte',
+  Skeleton = 'skeleton',
+  BloodPrince = 'bloodPrince',
+}
+
+export enum UndeadTalent {
+  Muscles = 'muscles',
+  Lethality = 'lethality',
+}
