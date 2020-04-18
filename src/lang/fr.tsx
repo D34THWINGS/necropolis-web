@@ -193,6 +193,17 @@ export const fr = {
     </Fragment>
   ),
   paladinsStrength: (strength: number) => `Force actuelle : ${strength}`,
+
+  upkeepTitle: 'Ravitaillement',
+  upkeepInsufficient: (upkeep: number, meat: number) => (
+    <Fragment>
+      Votre armée consomme trop de{' '}
+      <span css={textColor('RED')}>
+        chair ({upkeep}/{meat})
+      </span>
+      . Des sacrifices sont nécessaires pour continuer.
+    </Fragment>
+  ),
 }
 
 export type TranslationBundle = typeof fr

@@ -20,7 +20,10 @@ const smallMarginBottom = css({
   margin: '0 0 0.5rem',
 })
 
-export type TurnsModalProps = Pick<ModalProps, 'isOpen' | 'onClose'>
+export type TurnsModalProps = {
+  isOpen: boolean
+  onClose: () => void
+}
 
 export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
   const { t } = useTranslation()

@@ -59,7 +59,7 @@ export const useModalState = (initialState = false) => {
 export type ModalProps = {
   color?: ModalColor
   isOpen: boolean
-  onClose: () => void
+  onClose?: () => void
   children: ReactNode
 }
 
@@ -93,9 +93,11 @@ export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children }: M
         ariaHideApp={false}
       >
         <div css={modalInner(modalColorsMap[color][1])}>{children}</div>
-        <button css={closeButton} onClick={onClose} type="button">
-          <img css={closeIcon} src={closeIconUrl} alt="" />
-        </button>
+        {onClose && (
+          <button css={closeButton} onClick={onClose} type="button">
+            <img css={closeIcon} src={closeIconUrl} alt="" />
+          </button>
+        )}
       </ReactModal>
     )}
   </ClassNames>

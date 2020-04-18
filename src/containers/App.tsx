@@ -18,6 +18,7 @@ import { CharnelHouse } from '../screens/buildings/CharnelHouse'
 import charnelHouseBgUrl from '../assets/images/charnel-house-bg.jpg'
 import { contentCover } from '../styles/base'
 import { UndeadOverlay } from '../components/undeadOverlay/UndeadOverlay'
+import { UndeadUpkeep } from '../components/undeadOverlay/UndeadUpkeep'
 
 const appContainer = css({
   display: 'flex',
@@ -104,6 +105,7 @@ export const App = () => (
           </div>
           <NavigationBar />
           <UndeadOverlay />
+          <UndeadUpkeep />
         </div>
       </div>
     </div>

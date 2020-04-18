@@ -5,6 +5,8 @@ export const getResources = (state: RootState) => state.resources
 
 export const getMaterials = (state: RootState) => getResources(state)[ResourceType.Materials]
 
+export const getMeat = (state: RootState) => getResources(state)[ResourceType.Meat]
+
 export const getBones = (state: RootState) => getResources(state)[ResourceType.Bones]
 
 export const getSouls = (state: RootState) => getResources(state)[ResourceType.Souls]
