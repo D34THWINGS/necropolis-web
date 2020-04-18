@@ -1,6 +1,6 @@
 import { css } from '@emotion/core'
 import { colors, shadows } from '../../../config/theme'
-import { contentCover, textColor } from '../../../styles/base'
+import { contentCover, cyanBox, textColor } from '../../../styles/base'
 import upgradeArrowUrl from '../../../assets/images/upgrade-arrow.png'
 import { cyanSquareButton } from '../../../styles/buttons'
 import actionLockIconUrl from '../../../assets/images/icons/action-lock.png'
@@ -26,16 +26,15 @@ export const buildingUpgradeContainer = css({
   marginTop: '1rem',
 })
 
-export const buildingUpgradeFrame = css({
-  display: 'flex',
-  alignItems: 'center',
-  border: '2px solid #0F3D36',
-  borderRadius: '15px',
-  padding: '0.3rem 0.5rem',
-  flex: 1,
-  minHeight: '4rem',
-  backgroundColor: colors.CYAN,
-})
+export const buildingUpgradeFrame = [
+  cyanBox,
+  css({
+    display: 'flex',
+    alignItems: 'center',
+    flex: 1,
+    minHeight: '4rem',
+  }),
+]
 
 export const buildingUpgradeArrow = css({
   display: 'flex',
@@ -57,13 +56,9 @@ export const buildingUpgradeButton = [
   css({
     marginLeft: '0.2rem',
     padding: '0 0.5rem',
+    minWidth: '5rem',
   }),
 ]
-
-export const buildingResourceCost = css({
-  width: '2rem',
-  marginRight: '0.3rem',
-})
 
 export const buildingActionLocked = [
   contentCover,

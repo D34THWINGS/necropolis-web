@@ -17,6 +17,7 @@ import { Battlements } from '../screens/buildings/Battlements'
 import { CharnelHouse } from '../screens/buildings/CharnelHouse'
 import charnelHouseBgUrl from '../assets/images/charnel-house-bg.jpg'
 import { contentCover } from '../styles/base'
+import { UndeadOverlay } from '../components/undeadOverlay/UndeadOverlay'
 
 const appContainer = css({
   display: 'flex',
@@ -35,6 +36,7 @@ const gameContainer = css({
   maxWidth: '27.5rem',
   height: '100vh',
   maxHeight: '50rem',
+  overflow: 'hidden',
 })
 
 const gameContent = css({
@@ -101,6 +103,7 @@ export const App = () => (
             </Switch>
           </div>
           <NavigationBar />
+          <UndeadOverlay />
         </div>
       </div>
     </div>

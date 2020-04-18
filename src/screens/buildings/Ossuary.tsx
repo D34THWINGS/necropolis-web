@@ -5,18 +5,7 @@ import { Panel } from '../../components/ui/Panel'
 import { useTranslation } from '../../lang/useTranslation'
 import { cyanSquareButton } from '../../styles/buttons'
 import researchIconUrl from '../../assets/images/icons/research.png'
-import resourcesIconUrl from '../../assets/images/resources/resources.png'
-import {
-  buildingLevel,
-  buildingResourceCost,
-  buildingTitle,
-  buildingUpgradeArrow,
-  buildingUpgradeButton,
-  buildingUpgradeContainer,
-  buildingUpgradeFrame,
-  buildingWrapper,
-  buildingActionLocked,
-} from './helpers/buildingsStyles'
+import { buildingLevel, buildingTitle, buildingWrapper, buildingActionLocked } from './helpers/buildingsStyles'
 import { getOssuary } from '../../data/buildings/selectors'
 import { BuildingType } from '../../config/constants'
 import { upgradeBuilding } from '../../data/buildings/actions'
@@ -28,6 +17,7 @@ import {
   getOssuaryUpgradeBonusBones,
   getOssuaryUpgradeBonusMeat,
 } from '../../data/buildings/helpers'
+import { BuildingUpgrade } from './components/BuildingUpgrade'
 
 const discoverSpellButton = css({
   alignSelf: 'center',
@@ -68,21 +58,13 @@ export const Ossuary = () => {
         <p css={buildingLevel}>{t('buildingLevel', level)}</p>
         {level > 0 && <p>{t('ossuaryDescription', 3)}</p>}
         {level < maxLevel && (
-          <div css={buildingUpgradeContainer}>
-            <div css={buildingUpgradeFrame}>
-              <div css={buildingUpgradeArrow}>{t('buildingLevel', level + 1)}</div>
-              <span>{level === 0 ? t('ossuaryUnlock') : t('ossuaryUpgrade', upgradeBonusMeat, upgradeBonusBones)}</span>
-            </div>
-            <button
-              type="button"
-              disabled={upgradeCost > materials}
-              css={buildingUpgradeButton}
-              onClick={handleUpgrade}
-            >
-              <img css={buildingResourceCost} src={resourcesIconUrl} alt="" />
-              <span>{upgradeCost}</span>
-            </button>
-          </div>
+          <BuildingUpgrade
+            level={level + 1}
+            description={level === 0 ? t('ossuaryUnlock') : t('ossuaryUpgrade', upgradeBonusMeat, upgradeBonusBones)}
+            upgradeCost={upgradeCost}
+            canUpgrade={upgradeCost > materials}
+            onUpgrade={handleUpgrade}
+          />
         )}
       </Panel>
     </div>

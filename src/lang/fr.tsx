@@ -3,6 +3,7 @@ import { jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import { plural } from './i18nHelpers'
 import { textColor } from '../styles/base'
+import { UndeadType } from '../config/constants'
 
 export const fr = {
   buildingLevel: (level: number) => `niv. ${level}`,
@@ -149,6 +150,27 @@ export const fr = {
   ),
 
   settings: 'Paramètres',
+
+  undeadOverlayTitle: 'Morts-vivants',
+  undeadUpkeep: (meatCost: number) => `Consomation par tour : ${meatCost}`,
+  undeadName: (type: UndeadType) => {
+    switch (type) {
+      case UndeadType.Valet:
+        return 'Valet'
+      case UndeadType.Brikoler:
+        return "Jan Brik'Holeur"
+      case UndeadType.LaMotte:
+        return 'Sir de la Motte'
+      case UndeadType.Skeleton:
+        return 'Squelette'
+      case UndeadType.BloodPrince:
+        return 'Prince de Sang-Séché'
+      default:
+        return ''
+    }
+  },
+  undeadTalents: 'Talents :',
+  undeadAbility: 'Capacité :',
 }
 
 export type TranslationBundle = typeof fr

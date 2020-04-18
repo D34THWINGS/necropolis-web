@@ -5,18 +5,7 @@ import { Panel } from '../../components/ui/Panel'
 import { useTranslation } from '../../lang/useTranslation'
 import { cyanSquareButton } from '../../styles/buttons'
 import reanimateIconUrl from '../../assets/images/icons/reanimate.png'
-import {
-  buildingActionLocked,
-  buildingLevel,
-  buildingResourceCost,
-  buildingTitle,
-  buildingUpgradeArrow,
-  buildingUpgradeButton,
-  buildingUpgradeContainer,
-  buildingUpgradeFrame,
-  buildingWrapper,
-} from './helpers/buildingsStyles'
-import resourcesIconUrl from '../../assets/images/resources/resources.png'
+import { buildingActionLocked, buildingLevel, buildingTitle, buildingWrapper } from './helpers/buildingsStyles'
 import { getCatacombs } from '../../data/buildings/selectors'
 import { upgradeBuilding } from '../../data/buildings/actions'
 import { BuildingType } from '../../config/constants'
@@ -29,6 +18,7 @@ import {
   getRaiseUndeadSoulCost,
 } from '../../data/buildings/helpers'
 import { getRaisedUndeadCount } from '../../data/undeads/selectors'
+import { BuildingUpgrade } from './components/BuildingUpgrade'
 
 const reanimateButton = css({
   position: 'relative',
@@ -66,21 +56,13 @@ export const Catacombs = () => {
         <p css={buildingLevel}>{t('buildingLevel', level)}</p>
         {level > 0 && <p>{t('catacombDescription', raisedUndead, maxUndeadRaising, soulCost)}</p>}
         {level < maxLevel && (
-          <div css={buildingUpgradeContainer}>
-            <div css={buildingUpgradeFrame}>
-              <div css={buildingUpgradeArrow}>{t('buildingLevel', level + 1)}</div>
-              <span>{level === 0 ? t('catacombUnlock') : t('catacombUpgrade', maxUndeadRaisingUpgrade)}</span>
-            </div>
-            <button
-              type="button"
-              disabled={upgradeCost > materials}
-              css={buildingUpgradeButton}
-              onClick={handleUpgrade}
-            >
-              <img css={buildingResourceCost} src={resourcesIconUrl} alt="" />
-              <span>{upgradeCost}</span>
-            </button>
-          </div>
+          <BuildingUpgrade
+            level={level + 1}
+            description={level === 0 ? t('catacombUnlock') : t('catacombUpgrade', maxUndeadRaisingUpgrade)}
+            upgradeCost={upgradeCost}
+            canUpgrade={upgradeCost > materials}
+            onUpgrade={handleUpgrade}
+          />
         )}
       </Panel>
     </div>

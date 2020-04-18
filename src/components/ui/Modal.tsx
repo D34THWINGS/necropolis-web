@@ -8,10 +8,12 @@ import closeIconUrl from '../../assets/images/icons/close.png'
 
 export enum ModalColor {
   GREEN,
+  PURPLE,
 }
 
-const modalColorsMap: Record<ModalColor, [string, string]> = {
+export const modalColorsMap: Record<ModalColor, [string, string]> = {
   [ModalColor.GREEN]: ['#448B84', '#1B655F'],
+  [ModalColor.PURPLE]: ['#664991', '#3F216B'],
 }
 
 const closeButton = [
@@ -66,9 +68,8 @@ export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children }: M
         className={scopedCss({
           position: 'relative',
           outline: 0,
-          border: '2px solid #0E4039',
+          border: '2px solid rgba(0, 0, 0, 0.5)',
           borderRadius: '15px',
-          margin: '0.8rem 0',
           padding: '10px',
           minWidth: '20rem',
           boxShadow: 'inset 0px 1px 1px rgba(255, 255, 255, 0.5)',

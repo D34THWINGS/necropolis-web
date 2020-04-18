@@ -18,3 +18,15 @@ export const contentCover = css({
   right: 0,
   bottom: 0,
 })
+
+const coloredBox = (backgroundColor: string) =>
+  css({
+    border: '2px solid rgba(0, 0, 0, 0.75)',
+    borderRadius: '15px',
+    padding: '0.3rem 0.5rem',
+    backgroundColor,
+  })
+
+export const cyanBox = coloredBox(colors.CYAN)
+
+export const purpleBox = coloredBox(colors.DARK_PURPLE)

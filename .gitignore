@@ -6,3 +6,4 @@ dist/
 lib/
 .merlin
 yarn-error.log
+.eslintcache

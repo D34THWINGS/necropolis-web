@@ -7,7 +7,7 @@ import { RootState } from '../store/mainReducer'
 import { upgradeBuilding } from './buildings/actions'
 import { nextTurn } from './turn/actions'
 import { gainResources, spendResources } from './resources/actions'
-import { getUndeadCount } from './undeads/selectors'
+import { getUpkeep } from './undeads/selectors'
 import { getBuildingsProduction } from './buildings/selectors'
 import { getBuildingUpgradeCost } from './buildings/helpers'
 
@@ -22,7 +22,7 @@ const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = action$ =>
 const newTurnEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   state$.pipe(
     throttle(() => action$.pipe(filter(isActionOf(nextTurn))), { leading: false, trailing: true }),
-    flatMap(state => of(spendResources({ meat: getUndeadCount(state) }), gainResources(getBuildingsProduction(state)))),
+    flatMap(state => of(spendResources({ meat: getUpkeep(state) }), gainResources(getBuildingsProduction(state)))),
   )
 
 export const rootEpic = combineEpics(upgradeBuildingEpic, newTurnEpic)

@@ -1,10 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { useSelector } from 'react-redux'
-import bonesImageUrl from '../../assets/images/resources/bones.png'
-import resourcesImageUrl from '../../assets/images/resources/resources.png'
-import meatImageUrl from '../../assets/images/resources/meat.png'
-import soulsImageUrl from '../../assets/images/resources/souls.png'
 import settingsImageUrl from '../../assets/images/header/settings.png'
 import spellImageUrl from '../../assets/images/header/spell.png'
 import { buttonBase } from '../../styles/buttons'
@@ -14,6 +10,8 @@ import { SettingsModal } from './SettingsModal'
 import { useModalState } from '../ui/Modal'
 import { getResources } from '../../data/resources/selectors'
 import { getTurn } from '../../data/turn/selectors'
+import { ResourceIcon } from '../icons/ResourceIcon'
+import { ResourceType } from '../../config/constants'
 
 const headerContainer = css({
   display: 'flex',
@@ -84,22 +82,22 @@ export const Header = () => {
       <TurnCounter currentTurn={turn} />
       <div css={headerCountersWrapper}>
         <div css={headerResourceCounter('#94C58C')}>
-          <img css={headerResourceIcon} src={resourcesImageUrl} alt="" />
+          <ResourceIcon css={headerResourceIcon} type={ResourceType.Materials} />
           <span>{resources.materials}</span>
         </div>
         <div css={headerResourceCounter('#C58C8F')}>
-          <img css={headerResourceIcon} src={meatImageUrl} alt="" />
+          <ResourceIcon css={headerResourceIcon} type={ResourceType.Meat} />
           <span>{resources.meat}</span>
         </div>
         <span css={headerSpacer} />
         <button type="button" css={headerButton(settingsImageUrl)} onClick={open} />
         <SettingsModal isOpen={isOpen} onClose={close} />
         <div css={headerResourceCounter('#83B9D6')}>
-          <img css={headerResourceIcon} src={soulsImageUrl} alt="" />
+          <ResourceIcon css={headerResourceIcon} type={ResourceType.Souls} />
           <span>{resources.souls}</span>
         </div>
         <div css={headerResourceCounter('#CDC59C')}>
-          <img css={headerResourceIcon} src={bonesImageUrl} alt="" />
+          <ResourceIcon css={headerResourceIcon} type={ResourceType.Bones} />
           <span>{resources.bones}</span>
         </div>
         <span css={headerSpacer} />

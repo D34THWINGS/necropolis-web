@@ -8,7 +8,6 @@ import { useTranslation } from '../../lang/useTranslation'
 import buildOutlinedIconUrl from '../../assets/images/icons/build-outlined.png'
 import chainsBackgroundUrl from '../../assets/images/chains.png'
 import { cyanRoundButton } from '../../styles/buttons'
-import { contentCover } from '../../styles/base'
 
 const buildingHeader = css({
   display: 'flex',

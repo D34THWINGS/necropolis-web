@@ -43,3 +43,10 @@ export enum BuildingType {
   SoulWell = 'soulWell',
   Catacombs = 'catacombs',
 }
+
+export const enum ResourceType {
+  Meat = 'meat',
+  Souls = 'souls',
+  Bones = 'bones',
+  Materials = 'materials',
+}

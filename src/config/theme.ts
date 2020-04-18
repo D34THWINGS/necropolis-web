@@ -6,6 +6,7 @@ export const colors = {
   CYAN: '#80f4d2',
   RED: '#fb5d46',
   PURPLE: '#9a58fd',
+  DARK_PURPLE: '#61458C',
   BLUE: '#12c1f4',
   LIME: '#2bfd02',
   BROWN: '#b8724b',
@@ -20,4 +21,8 @@ export const shadows = {
   TEXT: `${TEXT_FLAT}, ${ELEVATED}`,
   TEXT_SOLID: `${TEXT_FLAT}, 1px 3px ${colors.BLACK}`,
   ELEVATED,
+}
+
+export const transitions = {
+  SLOW: '300ms ease-in-out',
 }

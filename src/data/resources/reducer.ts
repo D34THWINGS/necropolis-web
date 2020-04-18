@@ -1,18 +1,14 @@
 import { createReducer } from 'typesafe-actions'
 import { gainResources, spendResources } from './actions'
+import { ResourceType } from '../../config/constants'
 
-export type ResourcesState = {
-  meat: number
-  souls: number
-  bones: number
-  materials: number
-}
+export type ResourcesState = Record<ResourceType, number>
 
 const initialState: ResourcesState = {
-  meat: 2,
-  souls: 0,
-  bones: 0,
-  materials: 7,
+  [ResourceType.Meat]: 2,
+  [ResourceType.Souls]: 0,
+  [ResourceType.Bones]: 0,
+  [ResourceType.Materials]: 7,
 }
 
 export const resources = createReducer(initialState)
