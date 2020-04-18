@@ -1,5 +1,5 @@
 import { css } from '@emotion/core'
-import { colors } from '../config/theme'
+import { colors, shadows } from '../config/theme'
 
 export const backgroundImage = (url: string) =>
   css({
@@ -27,6 +27,23 @@ const coloredBox = (backgroundColor: string) =>
     backgroundColor,
   })
 
+export const greenBox = coloredBox(colors.GREEN)
+
 export const cyanBox = coloredBox(colors.CYAN)
 
 export const purpleBox = coloredBox(colors.DARK_PURPLE)
+
+export const h2Title = css({
+  margin: 0,
+  fontSize: '1.8rem',
+  textAlign: 'center',
+  textShadow: shadows.TEXT_SOLID,
+})
+
+export const noMargin = css({
+  margin: 0,
+})
+
+export const textCenter = css({
+  textAlign: 'center',
+})

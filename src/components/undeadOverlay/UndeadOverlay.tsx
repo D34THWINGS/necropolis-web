@@ -9,7 +9,7 @@ import overlayCloseUrl from '../../assets/images/overlay-close.png'
 import { resetButton } from '../../styles/buttons'
 import { useTranslation } from '../../lang/useTranslation'
 import { getUndeads, getUpkeep } from '../../data/undeads/selectors'
-import { contentCover } from '../../styles/base'
+import { contentCover, h2Title } from '../../styles/base'
 import { ResourceIcon } from '../icons/ResourceIcon'
 import { ResourceType } from '../../config/constants'
 import { UndeadBox } from './UndeadBox'
@@ -23,7 +23,7 @@ const undeadOverlayContainer = (isOpen: boolean) =>
     border: '2px solid rgba(0, 0, 0, 0.5)',
     borderRadius: '15px',
     padding: '10px',
-    minWidth: '20rem',
+    width: '20rem',
     boxShadow: 'inset 0px 1px 1px rgba(255, 255, 255, 0.5)',
     background: modalColorsMap[ModalColor.PURPLE][0],
     transition: `transform ${transitions.SLOW}, left ${transitions.SLOW}`,
@@ -53,13 +53,6 @@ const undeadOverlayToggle = [
 
 const undeadOverlayToggleIcon = css({
   width: '2rem',
-})
-
-const undeadOverlayTitle = css({
-  margin: 0,
-  fontSize: '1.8rem',
-  textAlign: 'center',
-  textShadow: shadows.TEXT_SOLID,
 })
 
 const undeadOverlayUpkeep = css({
@@ -99,7 +92,7 @@ export const UndeadOverlay = () => {
       <div css={undeadOverlayShadow(isOpen)} onClick={close} />
       <div css={undeadOverlayContainer(isOpen)}>
         <div css={undeadOverlayInner}>
-          <h2 css={undeadOverlayTitle}>{t('undeadOverlayTitle')}</h2>
+          <h2 css={h2Title}>{t('undeadOverlayTitle')}</h2>
           <p css={undeadOverlayUpkeep}>
             {t('undeadUpkeep', meatCost)}
             <ResourceIcon type={ResourceType.Meat} marginLeft="0.5rem" />

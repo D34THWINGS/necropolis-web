@@ -171,6 +171,28 @@ export const fr = {
   },
   undeadTalents: 'Talents :',
   undeadAbility: 'Capacité :',
+
+  turns: 'Tours de jeu',
+  turnsEventSpacing: (turnSpacing: number) => (
+    <Fragment>
+      Un évènement aléatoire a lieu tous les <span css={textColor('CYAN')}>{turnSpacing}</span> tours.
+    </Fragment>
+  ),
+  turnsNextEvent: (nextEventIn: number) => (
+    <Fragment>
+      <span css={textColor('CYAN')}>Prochain évènement dans :</span> {nextEventIn} tour.
+    </Fragment>
+  ),
+  skipTurn: 'Passer le tour',
+
+  paladins: (strengthIncrement: number, turns: number) => (
+    <Fragment>
+      Les paladins du coin attaquent régulièrement la Nécropole. La <span css={textColor('RED')}>force</span> de leurs
+      assauts augmente de <span css={textColor('RED')}>{strengthIncrement}</span> tous les{' '}
+      <span css={textColor('CYAN')}>{turns}</span> tours.
+    </Fragment>
+  ),
+  paladinsStrength: (strength: number) => `Force actuelle : ${strength}`,
 }
 
 export type TranslationBundle = typeof fr

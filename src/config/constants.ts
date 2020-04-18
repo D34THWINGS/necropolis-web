@@ -23,6 +23,10 @@ export const BATTLEMENTS_DEFENSE_BONUS = [0, 3, 5, 7]
 export const BATTLEMENTS_UPGRADE_COST = [0, 5, 3, 3]
 export const BATTLEMENTS_MAX_LEVEL = 3
 
+export const EVENTS_TURN_SPACING = 3
+export const PALADINS_STRENGTH_INCREASE = 1
+export const PALADINS_INCREASE_SPACING = 4
+
 export enum UndeadType {
   Valet = 'valet',
   Brikoler = 'brikoler',

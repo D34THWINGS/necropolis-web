@@ -56,7 +56,18 @@ export const buildingUpgradeButton = [
   css({
     marginLeft: '0.2rem',
     padding: '0 0.5rem',
+    width: 'auto',
     minWidth: '5rem',
+  }),
+]
+
+export const buildingActionButton = [
+  ...cyanSquareButton,
+  css({
+    alignSelf: 'center',
+    position: 'relative',
+    padding: '0.3rem',
+    width: 'auto',
   }),
 ]
 

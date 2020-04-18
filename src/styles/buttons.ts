@@ -41,21 +41,26 @@ export const cyanRoundButton = roundButton()
 
 export const purpleRoundButton = roundButton(colors.PURPLE)
 
-const squareButton = (backgroundColor: string = colors.CYAN) => [
+const squareButton = (backgroundColor: string = colors.CYAN, lightOpacity = 0.5, darkOpacity = 0.15) => [
   ...buttonBase,
   css({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '0.3rem',
+    padding: '0.8rem',
+    width: '100%',
     backgroundColor,
     border: '2px solid rgba(0, 0, 0, 0.75)',
     boxSizing: 'border-box',
-    boxShadow: 'inset 0px 10px 10px rgba(255, 255, 255, 0.5), inset 0px -10px 3px #40B099',
+    // eslint-disable-next-line max-len
+    boxShadow: `inset 0px 10px 10px rgba(255, 255, 255, ${lightOpacity}), inset 0px -10px 3px rgba(0, 0, 0, ${darkOpacity})`,
     borderRadius: '15px',
     color: colors.WHITE,
+    fontSize: '1.2rem',
     textShadow: shadows.TEXT_FLAT,
   }),
 ]
 
 export const cyanSquareButton = squareButton()
+
+export const greenSquareButton = squareButton(colors.DARK_GREEN, 0.1)

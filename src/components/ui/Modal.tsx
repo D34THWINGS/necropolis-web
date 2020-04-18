@@ -34,6 +34,8 @@ const closeIcon = css({
 const modalInner = (backgroundColor: string) =>
   css({
     padding: '1rem',
+    overflowY: 'auto',
+    maxHeight: '50vh',
     borderRadius: '10px',
     boxShadow: 'inset 0px 10px 0px rgba(0, 0, 0, 0.35), 0px 1px 1px rgba(255, 255, 255, 0.5)',
     backgroundColor,
@@ -71,7 +73,7 @@ export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children }: M
           border: '2px solid rgba(0, 0, 0, 0.5)',
           borderRadius: '15px',
           padding: '10px',
-          minWidth: '20rem',
+          width: '22rem',
           boxShadow: 'inset 0px 1px 1px rgba(255, 255, 255, 0.5)',
           background: modalColorsMap[color][0],
         })}

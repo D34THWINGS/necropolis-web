@@ -5,7 +5,13 @@ import { Panel } from '../../components/ui/Panel'
 import { useTranslation } from '../../lang/useTranslation'
 import { cyanSquareButton } from '../../styles/buttons'
 import reanimateIconUrl from '../../assets/images/icons/reanimate.png'
-import { buildingActionLocked, buildingLevel, buildingTitle, buildingWrapper } from './helpers/buildingsStyles'
+import {
+  buildingActionButton,
+  buildingActionLocked,
+  buildingLevel,
+  buildingTitle,
+  buildingWrapper,
+} from './helpers/buildingsStyles'
 import { getCatacombs } from '../../data/buildings/selectors'
 import { upgradeBuilding } from '../../data/buildings/actions'
 import { BuildingType } from '../../config/constants'
@@ -19,15 +25,7 @@ import {
 } from '../../data/buildings/helpers'
 import { getRaisedUndeadCount } from '../../data/undeads/selectors'
 import { BuildingUpgrade } from './components/BuildingUpgrade'
-
-const reanimateButton = css({
-  position: 'relative',
-  alignSelf: 'center',
-})
-
-const reanimateIcon = css({
-  width: '3rem',
-})
+import { Icon } from '../../components/icons/Icon'
 
 export const Catacombs = () => {
   const { t } = useTranslation()
@@ -47,9 +45,9 @@ export const Catacombs = () => {
 
   return (
     <div css={buildingWrapper}>
-      <button type="button" disabled={level === 0 || soulCost > souls} css={[...cyanSquareButton, reanimateButton]}>
+      <button type="button" disabled={level === 0 || soulCost > souls} css={buildingActionButton}>
         {level === 0 && <div css={buildingActionLocked} />}
-        <img css={reanimateIcon} src={reanimateIconUrl} alt="" />
+        <Icon src={reanimateIconUrl} size="3rem" />
       </button>
       <Panel>
         <h2 css={buildingTitle}>{t('catacomb')}</h2>

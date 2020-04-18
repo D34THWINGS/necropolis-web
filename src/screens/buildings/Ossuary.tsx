@@ -5,7 +5,13 @@ import { Panel } from '../../components/ui/Panel'
 import { useTranslation } from '../../lang/useTranslation'
 import { cyanSquareButton } from '../../styles/buttons'
 import researchIconUrl from '../../assets/images/icons/research.png'
-import { buildingLevel, buildingTitle, buildingWrapper, buildingActionLocked } from './helpers/buildingsStyles'
+import {
+  buildingLevel,
+  buildingTitle,
+  buildingWrapper,
+  buildingActionLocked,
+  buildingActionButton,
+} from './helpers/buildingsStyles'
 import { getOssuary } from '../../data/buildings/selectors'
 import { BuildingType } from '../../config/constants'
 import { upgradeBuilding } from '../../data/buildings/actions'
@@ -18,15 +24,7 @@ import {
   getOssuaryUpgradeBonusMeat,
 } from '../../data/buildings/helpers'
 import { BuildingUpgrade } from './components/BuildingUpgrade'
-
-const discoverSpellButton = css({
-  alignSelf: 'center',
-  position: 'relative',
-})
-
-const researchIcon = css({
-  width: '3rem',
-})
+import { Icon } from '../../components/icons/Icon'
 
 export const Ossuary = () => {
   const { t } = useTranslation()
@@ -45,13 +43,9 @@ export const Ossuary = () => {
 
   return (
     <div css={buildingWrapper}>
-      <button
-        type="button"
-        disabled={bonesCost > bones || level === 0}
-        css={[...cyanSquareButton, discoverSpellButton]}
-      >
+      <button type="button" disabled={bonesCost > bones || level === 0} css={buildingActionButton}>
         {level === 0 && <div css={buildingActionLocked} />}
-        <img css={researchIcon} src={researchIconUrl} alt="" />
+        <Icon src={researchIconUrl} size="3rem" />
       </button>
       <Panel>
         <h2 css={buildingTitle}>{t('ossuary')}</h2>
