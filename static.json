@@ -1,4 +1,8 @@
 {
   "root": "dist/",
-  "https_only": true
+  "https_only": true,
+  "routes": {
+    "/*.*": "/",
+    "/**": "index.html"
+  }
 }
