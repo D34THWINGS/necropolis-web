@@ -8,13 +8,15 @@ import { upgradeBuilding } from './buildings/actions'
 import { nextPhase } from './turn/actions'
 import { gainResources, spendResources } from './resources/actions'
 import { getRaisableUndeadTypes, getUpkeep } from './undeads/selectors'
-import { getBuildingsProduction, getCatacombs } from './buildings/selectors'
-import { getBuildingUpgradeCost, getRaiseUndeadSoulCost } from './buildings/helpers'
+import { getBuildingsProduction, getCatacombs, getOssuary } from './buildings/selectors'
+import { getBuildingUpgradeCost, getOssuaryBonesCost, getRaiseUndeadSoulCost } from './buildings/helpers'
 import { addUndead, banUndead, raiseUndead } from './undeads/actions'
 import { ResourceType, TurnPhase } from '../config/constants'
 import { getCurrentPhase } from './turn/selectors'
 import { getMeat } from './resources/selectors'
 import { createUndead } from './undeads/helpers'
+import { addSpell, discoverSpell } from './spells/actions'
+import { getDiscoverableSpells } from './spells/selectors'
 
 const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = action$ =>
   action$.pipe(
@@ -59,4 +61,25 @@ const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state
     }),
   )
 
-export const rootEpic = combineEpics(upgradeBuildingEpic, upkeepEpic, productionEpic, raiseUndeadEpic, eventsEpic)
+const discoverSpellEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+  state$.pipe(
+    throttle(() => action$.pipe(filter(isActionOf(discoverSpell))), { leading: false, trailing: true }),
+    flatMap(state => {
+      const discoverableSpells = getDiscoverableSpells(state)
+      const discoveredSpell = discoverableSpells[Math.round(Math.random() * (discoverableSpells.length - 1))]
+      return of(
+        spendResources({ [ResourceType.Bones]: getOssuaryBonesCost(getOssuary(state).level) }),
+        addSpell(discoveredSpell),
+        nextPhase(),
+      )
+    }),
+  )
+
+export const rootEpic = combineEpics(
+  upgradeBuildingEpic,
+  upkeepEpic,
+  productionEpic,
+  raiseUndeadEpic,
+  eventsEpic,
+  discoverSpellEpic,
+)

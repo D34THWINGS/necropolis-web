@@ -39,6 +39,8 @@ const roundButton = (backgroundColor: string = colors.CYAN) => [
 
 export const cyanRoundButton = roundButton()
 
+export const blueRoundButton = roundButton(colors.LIGHT_BLUE)
+
 export const purpleRoundButton = roundButton(colors.PURPLE)
 
 const squareButton = (backgroundColor: string = colors.CYAN, lightOpacity = 0.5, darkOpacity = 0.15) => [
@@ -62,5 +64,7 @@ const squareButton = (backgroundColor: string = colors.CYAN, lightOpacity = 0.5,
 ]
 
 export const cyanSquareButton = squareButton()
+
+export const blueSquareButton = squareButton(colors.LIGHT_BLUE)
 
 export const greenSquareButton = squareButton(colors.DARK_GREEN, 0.1)

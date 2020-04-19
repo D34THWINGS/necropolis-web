@@ -2,8 +2,9 @@
 import { jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import { plural } from './i18nHelpers'
-import { textColor } from '../styles/base'
-import { UndeadType } from '../config/constants'
+import { noBreak, textColor } from '../styles/base'
+import { Spell, UndeadTalent, UndeadType } from '../config/constants'
+import { TalentIcon } from '../components/icons/TalentIcon'
 
 export const fr = {
   buildingLevel: (level: number) => `niv. ${level}`,
@@ -204,6 +205,29 @@ export const fr = {
       . Des sacrifices sont nécessaires pour continuer.
     </Fragment>
   ),
+
+  spells: 'Sorts',
+  spellName: (type: Spell) => {
+    switch (type) {
+      case Spell.SoulStorm:
+        return 'Déluge des âmes'
+      case Spell.TheKey:
+        return 'La clé'
+      default:
+        throw new Error('Unknown spell')
+    }
+  },
+  soulStormDescription: (defenseBonus: number, lethalityBonus: number) => (
+    <Fragment>
+      Confère <span css={textColor('LIME')}>+{defenseBonus}&nbsp;défense</span> et{' '}
+      <span css={[noBreak, textColor('PURPLE')]}>
+        +{lethalityBonus}&nbsp;
+        <TalentIcon type={UndeadTalent.Lethality} size="1.2rem" />
+      </span>{' '}
+      jusqu&apos;à la fin du tour.
+    </Fragment>
+  ),
+  theKeyDescription: "Brise l'évènement en cours.",
 }
 
 export type TranslationBundle = typeof fr

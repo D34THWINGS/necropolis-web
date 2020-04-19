@@ -41,10 +41,11 @@ const undeadName = css({
 
 const undeadDescription = css({
   display: 'flex',
+  alignItems: 'flex-start',
 })
 
 const undeadTalent = css({
-  display: 'flex',
+  display: 'inline-flex',
   alignItems: 'center',
 })
 

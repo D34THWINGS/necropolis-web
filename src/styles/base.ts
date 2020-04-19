@@ -33,6 +33,8 @@ export const cyanBox = coloredBox(colors.CYAN)
 
 export const purpleBox = coloredBox(colors.DARK_PURPLE)
 
+export const blueBox = coloredBox(colors.BLUE)
+
 export const h2Title = css({
   margin: 0,
   fontSize: '1.8rem',
@@ -46,4 +48,8 @@ export const noMargin = css({
 
 export const textCenter = css({
   textAlign: 'center',
+})
+
+export const noBreak = css({
+  whiteSpace: 'nowrap',
 })

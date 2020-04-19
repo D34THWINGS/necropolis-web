@@ -1,30 +1,35 @@
 /** @jsx jsx */
-import { jsx, ClassNames, css } from '@emotion/core'
+import { jsx, ClassNames, css, SerializedStyles } from '@emotion/core'
 import { ReactNode, useMemo, useState } from 'react'
 import ReactModal from 'react-modal'
-import { cyanRoundButton } from '../../styles/buttons'
+import { blueRoundButton, cyanRoundButton, purpleRoundButton } from '../../styles/buttons'
 import { colors, shadows } from '../../config/theme'
 import closeIconUrl from '../../assets/images/icons/close.png'
 
 export enum ModalColor {
   GREEN,
   PURPLE,
+  BLUE,
 }
 
 export const modalColorsMap: Record<ModalColor, [string, string]> = {
   [ModalColor.GREEN]: ['#448B84', '#1B655F'],
   [ModalColor.PURPLE]: ['#664991', '#3F216B'],
+  [ModalColor.BLUE]: ['#457E8C', '#1C5766'],
 }
 
-const closeButton = [
-  ...cyanRoundButton,
-  css({
-    position: 'absolute',
-    top: '-0.5rem',
-    right: '-0.5rem',
-    padding: '0.3rem',
-  }),
-]
+const modalCloseButtonMap: Record<ModalColor, SerializedStyles[]> = {
+  [ModalColor.GREEN]: cyanRoundButton,
+  [ModalColor.PURPLE]: purpleRoundButton,
+  [ModalColor.BLUE]: blueRoundButton,
+}
+
+const closeButton = css({
+  position: 'absolute',
+  top: '-0.5rem',
+  right: '-0.5rem',
+  padding: '0.3rem',
+})
 
 const closeIcon = css({
   display: 'block',
@@ -94,7 +99,7 @@ export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children }: M
       >
         <div css={modalInner(modalColorsMap[color][1])}>{children}</div>
         {onClose && (
-          <button css={closeButton} onClick={onClose} type="button">
+          <button css={[...modalCloseButtonMap[color], closeButton]} onClick={onClose} type="button">
             <img css={closeIcon} src={closeIconUrl} alt="" />
           </button>
         )}

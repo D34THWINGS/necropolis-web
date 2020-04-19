@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
-import type { TranslationBundle, TranslationKey } from './fr'
+import { fr, TranslationBundle, TranslationKey } from './fr'
 
 export enum SupportedLanguages {
   FR = 'fr',
@@ -14,8 +14,8 @@ type Translator = {
   setLang: (lang: SupportedLanguages) => void
 }
 
-const bundleImporters: Record<SupportedLanguages, () => Promise<TranslationBundle>> = {
-  [SupportedLanguages.FR]: async () => (await import('./fr')).fr,
+const bundleImporters: Record<SupportedLanguages, TranslationBundle> = {
+  [SupportedLanguages.FR]: fr,
 }
 
 const i18nContext = createContext<Translator>({
@@ -49,7 +49,7 @@ export const TranslationProvider = ({ children }: TranslationProviderProps) => {
 
   useEffect(() => {
     const doTask = async () => {
-      const translationBundle = await bundleImporters[currentLanguage]()
+      const translationBundle = bundleImporters[currentLanguage]
       setBundle(translationBundle)
     }
 

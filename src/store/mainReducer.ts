@@ -5,6 +5,7 @@ import { buildings } from '../data/buildings/reducer'
 import { turn } from '../data/turn/reducer'
 import { undeads } from '../data/undeads/reducer'
 import { paladins } from '../data/paladins/reducer'
+import { spells } from '../data/spells/reducer'
 
 export const mainReducer = combineReducers({
   resources,
@@ -12,6 +13,7 @@ export const mainReducer = combineReducers({
   turn,
   undeads,
   paladins,
+  spells,
 })
 
 export type RootState = StateType<typeof mainReducer>

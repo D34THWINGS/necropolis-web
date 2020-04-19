@@ -43,6 +43,13 @@ export const Build = () => {
         route={CHARNEL_HOUSE}
       />
       <Building
+        name={t('soulWell')}
+        level={buildings.soulWell.level}
+        maxLevel={getBuildingMaxLevel(BuildingType.SoulWell)}
+        description={t('soulWellDescription', getSoulWellSoulProduction(buildings.soulWell.level || 1))}
+        route={SOUL_WELL}
+      />
+      <Building
         name={t('catacomb')}
         level={buildings.catacombs.level}
         maxLevel={getBuildingMaxLevel(BuildingType.Catacombs)}
@@ -53,13 +60,6 @@ export const Build = () => {
           getRaiseUndeadSoulCost(buildings.catacombs.level || 1),
         )}
         route={CATACOMBS}
-      />
-      <Building
-        name={t('soulWell')}
-        level={buildings.soulWell.level}
-        maxLevel={getBuildingMaxLevel(BuildingType.SoulWell)}
-        description={t('soulWellDescription', getSoulWellSoulProduction(buildings.soulWell.level || 1))}
-        route={SOUL_WELL}
       />
       <Building
         name={t('ossuary')}

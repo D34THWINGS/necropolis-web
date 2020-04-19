@@ -25,6 +25,7 @@ import {
 } from '../../data/buildings/helpers'
 import { BuildingUpgrade } from './components/BuildingUpgrade'
 import { Icon } from '../../components/icons/Icon'
+import { discoverSpell } from '../../data/spells/actions'
 
 export const Ossuary = () => {
   const { t } = useTranslation()
@@ -39,11 +40,17 @@ export const Ossuary = () => {
   const upgradeBonusMeat = getOssuaryUpgradeBonusMeat(level + 1)
   const upgradeBonusBones = getOssuaryUpgradeBonusBones(level + 1)
 
+  const handleDiscoverSpell = () => dispatch(discoverSpell())
   const handleUpgrade = () => dispatch(upgradeBuilding(BuildingType.Ossuary, level + 1))
 
   return (
     <div css={buildingWrapper}>
-      <button type="button" disabled={bonesCost > bones || level === 0} css={buildingActionButton}>
+      <button
+        type="button"
+        disabled={bonesCost > bones || level === 0}
+        css={buildingActionButton}
+        onClick={handleDiscoverSpell}
+      >
         {level === 0 && <div css={buildingActionLocked} />}
         <Icon src={researchIconUrl} size="3rem" />
       </button>

@@ -8,6 +8,7 @@ export const colors = {
   RED: '#fb5d46',
   PURPLE: '#9a58fd',
   DARK_PURPLE: '#61458C',
+  LIGHT_BLUE: '#80DDF4',
   BLUE: '#12c1f4',
   LIME: '#2bfd02',
   BROWN: '#b8724b',

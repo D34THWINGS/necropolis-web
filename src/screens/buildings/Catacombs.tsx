@@ -48,7 +48,7 @@ export const Catacombs = () => {
     <div css={buildingWrapper}>
       <button
         type="button"
-        disabled={level === 0 || soulCost > souls}
+        disabled={level === 0 || soulCost > souls || raisedUndead >= maxUndeadRaising}
         css={buildingActionButton}
         onClick={handleRaiseUndead}
       >

@@ -17,7 +17,6 @@ const initialState = {
   },
   [BuildingType.CharnelHouse]: {
     level: 0,
-    firstBonesProduction: 0,
   },
 }
 
