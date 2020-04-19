@@ -1,9 +1,8 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { Panel } from '../../components/ui/Panel'
 import { useTranslation } from '../../lang/useTranslation'
-import { cyanSquareButton } from '../../styles/buttons'
 import reanimateIconUrl from '../../assets/images/icons/reanimate.png'
 import {
   buildingActionButton,
@@ -26,6 +25,7 @@ import {
 import { getRaisedUndeadCount } from '../../data/undeads/selectors'
 import { BuildingUpgrade } from './components/BuildingUpgrade'
 import { Icon } from '../../components/icons/Icon'
+import { raiseUndead } from '../../data/undeads/actions'
 
 export const Catacombs = () => {
   const { t } = useTranslation()
@@ -41,11 +41,17 @@ export const Catacombs = () => {
   const maxUndeadRaisingUpgrade = getCatacombsUpgradeMaxRaising(level)
   const maxLevel = getBuildingMaxLevel(BuildingType.Catacombs)
 
+  const handleRaiseUndead = () => dispatch(raiseUndead())
   const handleUpgrade = () => dispatch(upgradeBuilding(BuildingType.Catacombs, level + 1))
 
   return (
     <div css={buildingWrapper}>
-      <button type="button" disabled={level === 0 || soulCost > souls} css={buildingActionButton}>
+      <button
+        type="button"
+        disabled={level === 0 || soulCost > souls}
+        css={buildingActionButton}
+        onClick={handleRaiseUndead}
+      >
         {level === 0 && <div css={buildingActionLocked} />}
         <Icon src={reanimateIconUrl} size="3rem" />
       </button>

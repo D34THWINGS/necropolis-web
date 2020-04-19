@@ -48,9 +48,20 @@ export enum BuildingType {
   Catacombs = 'catacombs',
 }
 
-export const enum ResourceType {
+export enum ResourceType {
   Meat = 'meat',
   Souls = 'souls',
   Bones = 'bones',
   Materials = 'materials',
 }
+
+export enum TurnPhase {
+  Production,
+  Event,
+  Action,
+  Upkeep,
+}
+
+export const TURN_PHASES_ORDER = [TurnPhase.Production, TurnPhase.Event, TurnPhase.Action, TurnPhase.Upkeep]
+
+export const RAISABLE_UNDEADS = [UndeadType.Skeleton, UndeadType.LaMotte, UndeadType.BloodPrince]

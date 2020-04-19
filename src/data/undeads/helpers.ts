@@ -3,24 +3,24 @@ import { UndeadTalent, UndeadType } from '../../config/constants'
 export type Undead = {
   id: number
   type: UndeadType
-  talents: Map<UndeadTalent, number>
+  talents: [UndeadTalent, number][]
   raised: boolean
 }
 
 const getBaseTalents = (type: UndeadType): Undead['talents'] => {
   switch (type) {
     case UndeadType.Valet:
-      return new Map([[UndeadTalent.Muscles, 1]])
+      return [[UndeadTalent.Muscles, 1]]
     case UndeadType.Brikoler:
     case UndeadType.Skeleton:
-      return new Map([
+      return [
         [UndeadTalent.Muscles, 1],
         [UndeadTalent.Lethality, 1],
-      ])
+      ]
     case UndeadType.LaMotte:
-      return new Map([[UndeadTalent.Lethality, 3]])
+      return [[UndeadTalent.Lethality, 3]]
     case UndeadType.BloodPrince:
-      return new Map([[UndeadTalent.Lethality, 4]])
+      return [[UndeadTalent.Lethality, 4]]
     default:
       throw Error('Unknown undead type')
   }

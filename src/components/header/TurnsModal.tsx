@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
-import { Modal, ModalProps } from '../ui/Modal'
+import { Modal } from '../ui/Modal'
 import { greenBox, h2Title, noMargin, textCenter, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { EVENTS_TURN_SPACING, PALADINS_INCREASE_SPACING, PALADINS_STRENGTH_INCREASE } from '../../config/constants'
@@ -10,7 +10,7 @@ import paladin1IconUrl from '../../assets/images/paladins/paladins-1.png'
 import paladin2IconUrl from '../../assets/images/paladins/paladins-2.png'
 import paladin3IconUrl from '../../assets/images/paladins/paladins-3.png'
 import { greenSquareButton } from '../../styles/buttons'
-import { nextTurn } from '../../data/turn/actions'
+import { nextPhase } from '../../data/turn/actions'
 import { getTurn } from '../../data/turn/selectors'
 import { getPaladinsStrength } from '../../data/paladins/selectors'
 
@@ -34,7 +34,7 @@ export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
   const nextEventIn = EVENTS_TURN_SPACING - (turn % EVENTS_TURN_SPACING)
 
   const handleSkipTurn = () => {
-    dispatch(nextTurn())
+    dispatch(nextPhase())
     onClose()
   }
 

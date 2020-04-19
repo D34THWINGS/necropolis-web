@@ -77,7 +77,7 @@ export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
         <Icon src={undeadIconUrl} size="4rem" marginRight="0.5rem" />
         <div>
           <div css={textColor('CYAN')}>{t('undeadTalents')}</div>
-          {Array.from(undead.talents.entries()).map(([talent, value]) => (
+          {undead.talents.map(([talent, value]) => (
             <span key={talent} css={undeadTalent}>
               <TalentIcon type={talent} size="1rem" marginLeft="0.5rem" />
               &nbsp;{value}
