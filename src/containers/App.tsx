@@ -1,24 +1,13 @@
 /** @jsx jsx */
 import React from 'react'
-import { css, jsx, keyframes } from '@emotion/core'
-import { Redirect, Route, Switch } from 'react-router'
+import { useSelector } from 'react-redux'
+import { css, jsx } from '@emotion/core'
 import backgroundImageUrl from '../assets/images/background.jpg'
-import { BUILD, EXPEDITIONS, HOME, OSSUARY, CATACOMBS, SOUL_WELL, BATTLEMENTS, CHARNEL_HOUSE } from '../config/routes'
-import { Build } from '../screens/build/Build'
-import { NavigationBar } from '../components/NavigationBar'
-import { Header } from '../components/header/Header'
 import { ResetCSS } from '../components/ResetCSS'
 import { Fonts } from '../components/Fonts'
-import { Expeditions } from '../screens/expeditions/Expeditions'
-import { Catacombs } from '../screens/buildings/Catacombs'
-import { Ossuary } from '../screens/buildings/Ossuary'
-import { SoulWell } from '../screens/buildings/SoulWell'
-import { Battlements } from '../screens/buildings/Battlements'
-import { CharnelHouse } from '../screens/buildings/CharnelHouse'
-import charnelHouseBgUrl from '../assets/images/charnel-house-bg.jpg'
-import { contentCover } from '../styles/base'
-import { UndeadOverlay } from '../components/undeadOverlay/UndeadOverlay'
-import { UndeadUpkeep } from '../components/undeadOverlay/UndeadUpkeep'
+import { GameContent } from './GameContent'
+import { getIsOnboardingActive } from '../data/onboarding/selectors'
+import { Intro } from '../screens/onboarding/Intro'
 
 const appContainer = css({
   display: 'flex',
@@ -40,74 +29,15 @@ const gameContainer = css({
   overflow: 'hidden',
 })
 
-const gameContent = css({
-  display: 'flex',
-  flexDirection: 'column',
-  position: 'relative',
-  width: '100%',
-  height: '100%',
-})
-
-const middleSection = css({
-  flex: 1,
-  overflowY: 'auto',
-})
-
-const fadeIn = keyframes({
-  from: {
-    opacity: 0,
-  },
-
-  to: {
-    opacity: 1,
-  },
-})
-
-const buildingsBackground = [
-  contentCover,
-  css({
-    animationName: fadeIn,
-    animationDuration: '200ms',
-    animationTimingFunction: 'ease-in-out',
-    backgroundImage: `url(${charnelHouseBgUrl})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-  }),
-]
-
-export const App = () => (
-  <React.Fragment>
-    <ResetCSS />
-    <Fonts />
-    <div css={appContainer}>
-      <div css={gameContainer}>
-        <Switch>
-          <Route path={[EXPEDITIONS, BUILD]} />
-          <Route render={() => <div css={buildingsBackground} />} />
-        </Switch>
-        <div css={gameContent}>
-          <Switch>
-            <Route path={EXPEDITIONS} />
-            <Header />
-          </Switch>
-          <div css={middleSection}>
-            <Switch>
-              <Route path={BUILD} component={Build} />
-              <Route path={EXPEDITIONS} component={Expeditions} />
-              <Route path={CATACOMBS} component={Catacombs} />
-              <Route path={OSSUARY} component={Ossuary} />
-              <Route path={SOUL_WELL} component={SoulWell} />
-              <Route path={BATTLEMENTS} component={Battlements} />
-              <Route path={CHARNEL_HOUSE} component={CharnelHouse} />
-              <Redirect from={HOME} to={BUILD} />
-            </Switch>
-          </div>
-          <NavigationBar />
-          <UndeadOverlay />
-          <UndeadUpkeep />
-        </div>
+export const App = () => {
+  const isOnboardingActive = useSelector(getIsOnboardingActive)
+  return (
+    <React.Fragment>
+      <ResetCSS />
+      <Fonts />
+      <div css={appContainer}>
+        <div css={gameContainer}>{isOnboardingActive ? <Intro /> : <GameContent />}</div>
       </div>
-    </div>
-  </React.Fragment>
-)
+    </React.Fragment>
+  )
+}

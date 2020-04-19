@@ -5,6 +5,7 @@ import { plural } from './i18nHelpers'
 import { noBreak, textColor } from '../styles/base'
 import { Spell, UndeadTalent, UndeadType } from '../config/constants'
 import { TalentIcon } from '../components/icons/TalentIcon'
+import { frOnboarding } from './frOnboarding'
 
 export const fr = {
   buildingLevel: (level: number) => `niv. ${level}`,
@@ -228,6 +229,8 @@ export const fr = {
     </Fragment>
   ),
   theKeyDescription: "Brise l'évènement en cours.",
+
+  ...frOnboarding,
 }
 
 export type TranslationBundle = typeof fr

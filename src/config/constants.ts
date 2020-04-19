@@ -80,3 +80,5 @@ export const SPELLS_SOUL_COSTS = {
 
 export const SOUL_STORM_DEFENSE_BONUS = 3
 export const SOUL_STORM_LETHALITY_BONUS = 3
+
+export const ONBOARDING_STEPS_COUNT = 12
