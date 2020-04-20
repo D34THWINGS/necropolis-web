@@ -7,6 +7,7 @@ export type RootAction =
   | ActionType<typeof import('./undeads/actions')>
   | ActionType<typeof import('./spells/actions')>
   | ActionType<typeof import('./onboarding/actions')>
+  | ActionType<typeof import('./expeditions/actions')>
 
 declare module 'typesafe-actions' {
   interface Types {

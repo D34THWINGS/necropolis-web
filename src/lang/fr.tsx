@@ -6,6 +6,7 @@ import { noBreak, textColor } from '../styles/base'
 import { Spell, UndeadTalent, UndeadType } from '../config/constants'
 import { TalentIcon } from '../components/icons/TalentIcon'
 import { frOnboarding } from './frOnboarding'
+import { frExpeditions } from './frExpeditions'
 
 export const fr = {
   buildingLevel: (level: number) => `niv. ${level}`,
@@ -231,6 +232,7 @@ export const fr = {
   theKeyDescription: "Brise l'évènement en cours.",
 
   ...frOnboarding,
+  ...frExpeditions,
 }
 
 export type TranslationBundle = typeof fr

@@ -17,6 +17,8 @@
     "indent": "off",
     "function-paren-newline": "off",
     "operator-linebreak": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/jsx-curly-newline": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/member-delimiter-style": ["error", {
       "multiline": {

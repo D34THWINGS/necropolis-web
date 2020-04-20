@@ -10,12 +10,12 @@ import { colors, shadows } from '../../config/theme'
 import { Undead } from '../../data/undeads/helpers'
 import { purpleRoundButton } from '../../styles/buttons'
 
-const undeadBox = [
+const undeadBox = (canBeBanned: boolean) => [
   purpleBox,
   css({
     position: 'relative',
     paddingBottom: '1.5rem',
-    marginBottom: '2rem',
+    marginBottom: canBeBanned ? '2rem' : '0.4rem',
 
     ':last-child': {
       marginBottom: '1rem',
@@ -65,14 +65,14 @@ const undeadBanButton = [
 
 export type UndeadBoxProps = {
   undead: Undead
-  onBan: () => void
+  onBan?: () => void
 }
 
 export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
   const { t } = useTranslation()
 
   return (
-    <div css={undeadBox}>
+    <div css={undeadBox(!!onBan)}>
       <h4 css={undeadName}>{t('undeadName', undead.type)}</h4>
       <div css={undeadDescription}>
         <Icon src={undeadIconUrl} size="4rem" marginRight="0.5rem" />
@@ -87,9 +87,11 @@ export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
           <div css={textColor('CYAN')}>{t('undeadAbility')}</div>
         </div>
       </div>
-      <button type="button" css={undeadBanButton} onClick={onBan}>
-        <Icon src={closeIconUrl} size="2rem" block />
-      </button>
+      {onBan && (
+        <button type="button" css={undeadBanButton} onClick={onBan}>
+          <Icon src={closeIconUrl} size="2rem" block />
+        </button>
+      )}
     </div>
   )
 }

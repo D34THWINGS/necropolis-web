@@ -17,6 +17,7 @@ import { getMeat } from './resources/selectors'
 import { createUndead } from './undeads/helpers'
 import { addSpell, discoverSpell } from './spells/actions'
 import { getDiscoverableSpells } from './spells/selectors'
+import { endExpedition, fleeExpedition } from './expeditions/actions'
 
 const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = action$ =>
   action$.pipe(
@@ -75,6 +76,9 @@ const discoverSpellEpic: Epic<RootAction, RootAction, RootState> = (action$, sta
     }),
   )
 
+const fleeExpeditionEpic: Epic<RootAction, RootAction, RootState> = $action =>
+  $action.pipe(filter(isActionOf([fleeExpedition, endExpedition])), mapTo(nextPhase()))
+
 export const rootEpic = combineEpics(
   upgradeBuildingEpic,
   upkeepEpic,
@@ -82,4 +86,5 @@ export const rootEpic = combineEpics(
   raiseUndeadEpic,
   eventsEpic,
   discoverSpellEpic,
+  fleeExpeditionEpic,
 )

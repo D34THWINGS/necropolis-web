@@ -53,3 +53,8 @@ export const textCenter = css({
 export const noBreak = css({
   whiteSpace: 'nowrap',
 })
+
+export const alignItemsCenter = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+})

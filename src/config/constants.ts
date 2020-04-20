@@ -82,3 +82,15 @@ export const SOUL_STORM_DEFENSE_BONUS = 3
 export const SOUL_STORM_LETHALITY_BONUS = 3
 
 export const ONBOARDING_STEPS_COUNT = 12
+
+export enum ExpeditionType {
+  OldCoffin,
+  MiseryMarket,
+  TownHall,
+  Bastion,
+}
+
+export enum ExpeditionStep {
+  Overview = 'overview',
+  Reward = 'reward',
+}

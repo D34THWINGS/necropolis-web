@@ -1,12 +1,12 @@
 import React, { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
-import { fr, TranslationBundle, TranslationKey } from './fr'
+import { fr, TranslationBundle, TranslationKey as FrTranslationKey } from './fr'
 
 export enum SupportedLanguages {
   FR = 'fr',
 }
 
 type Translator = {
-  t: <K extends TranslationKey>(
+  t: <K extends FrTranslationKey>(
     key: K,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ...args: TranslationBundle[K] extends (...args: any) => any ? Parameters<TranslationBundle[K]> : []
@@ -24,6 +24,10 @@ const i18nContext = createContext<Translator>({
     /* Do nothing */
   },
 })
+
+export type TranslateFunction = Translator['t']
+
+export type TranslationKey = FrTranslationKey
 
 export type TranslationProviderProps = {
   children: ReactNode
