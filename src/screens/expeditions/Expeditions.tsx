@@ -5,6 +5,7 @@ import { ExpeditionMarker } from './components/ExpeditionMarker'
 import { ExpeditionType } from '../../config/constants'
 import { getHasAchievedExpedition } from '../../data/expeditions/selectors'
 import { MiseryMarket } from './MiseryMarket'
+import { TownHall } from './TownHall'
 
 export const Expeditions = () => {
   const oldCoffinDone = useSelector(getHasAchievedExpedition(ExpeditionType.OldCoffin))
@@ -24,7 +25,11 @@ export const Expeditions = () => {
           <MiseryMarket />
         </ExpeditionMarker>
       )}
-      {!townHallDone && miseryMarketDone && <ExpeditionMarker type={ExpeditionType.TownHall} x={-5} y={-12} />}
+      {!townHallDone && miseryMarketDone && (
+        <ExpeditionMarker type={ExpeditionType.TownHall} x={-5} y={-12}>
+          <TownHall />
+        </ExpeditionMarker>
+      )}
       {!bastionDone && townHallDone && <ExpeditionMarker type={ExpeditionType.Bastion} x={-3} y={5} />}
     </Fragment>
   )

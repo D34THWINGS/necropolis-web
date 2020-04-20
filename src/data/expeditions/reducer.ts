@@ -1,5 +1,5 @@
 import { createReducer } from 'typesafe-actions'
-import { ExpeditionStep, ExpeditionType } from '../../config/constants'
+import { ExpeditionType } from '../../config/constants'
 import {
   beginExpedition,
   closeExpedition,
@@ -11,7 +11,7 @@ import {
 
 export type ActiveExpedition = {
   type: ExpeditionType
-  step: ExpeditionStep | number
+  step: number
 }
 
 export const expeditions = createReducer({

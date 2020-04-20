@@ -89,4 +89,28 @@ export const frExpeditions = {
       <ResourceIcon type={ResourceType.Materials} size="1rem" />.
     </Fragment>
   ),
+
+  townHallTitle: 'Hôtel de ville',
+  townHallOverview:
+    // eslint-disable-next-line max-len
+    'Haut lieu du pouvoir des Paladins craints et respectés. C’est ici qu’ils édictent les lois, rendent la justice et enferment leurs prisonniers.',
+  townHallRewardOverview: 'variable',
+  townHallStep1: 'Entrer dedans ne sera pas évident.',
+  townHallAction1: (
+    <Fragment>
+      Lancer <span css={textColor('LIGHT_BLUE')}>La Clé</span> sur la porte
+    </Fragment>
+  ),
+  townHallStep2: 'De la porte, il n’en reste que des miettes.',
+  townHallStep3:
+    // eslint-disable-next-line max-len
+    'Votre intrusion a alerté le bâtiment. Les Paladins décident d’y mettre le feu, et fuient une fois de plus, mais cette fois-ci vers le Bastion. Vous perdez dans les flammes.',
+  townHallAction2: 'Les poursuivre',
+  townHallAction3: 'Piller autant que vous le pouvez',
+  townHallAction4: 'Fouiller les geôles',
+  townHallGoInFlames: (cost: number) => (
+    <Fragment>
+      Vous perdez <span css={textColor('PURPLE')}>{cost} Mort-vivant</span> de votre choix dans les flammes.
+    </Fragment>
+  ),
 }

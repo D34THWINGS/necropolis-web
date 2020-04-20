@@ -1,5 +1,5 @@
 import { createAction } from 'typesafe-actions'
-import { ExpeditionStep, ExpeditionType } from '../../config/constants'
+import { ExpeditionType } from '../../config/constants'
 
 export const openExpedition = createAction('expeditions/OPEN', (type: ExpeditionType) => ({ type }))<{
   type: ExpeditionType
@@ -17,13 +17,10 @@ export const endExpedition = createAction('expeditions/END', (type: ExpeditionTy
   type: ExpeditionType
 }>()
 
-export const setExpeditionStep = createAction(
-  'expeditions/SET_STEP',
-  (type: ExpeditionType, step: number | ExpeditionStep.Reward) => ({
-    type,
-    step,
-  }),
-)<{
+export const setExpeditionStep = createAction('expeditions/SET_STEP', (type: ExpeditionType, step: number) => ({
+  type,
+  step,
+}))<{
   type: ExpeditionType
-  step: number | ExpeditionStep.Reward
+  step: number
 }>()

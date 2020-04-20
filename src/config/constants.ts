@@ -89,8 +89,3 @@ export enum ExpeditionType {
   TownHall,
   Bastion,
 }
-
-export enum ExpeditionStep {
-  Overview = 'overview',
-  Reward = 'reward',
-}
