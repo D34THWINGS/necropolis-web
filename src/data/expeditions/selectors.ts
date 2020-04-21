@@ -11,3 +11,5 @@ export const getOpenedExpedition = (state: RootState) => state.expeditions.opene
 
 export const getIsExpeditionActive = (type: ExpeditionType) => (state: RootState) =>
   state.expeditions.active.some(expedition => expedition.type === type)
+
+export const getHasCancelledReinforcements = (state: RootState) => state.expeditions.cancelledReinforcements

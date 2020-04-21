@@ -137,4 +137,66 @@ export const frExpeditions = {
         me tuer, mais un changement dans le script me sauva la mise. Je vous remercie de m’avoir libéré.”
       </Fragment>
     ),
+
+  bastionTitle: 'Bastion',
+  bastionOverview:
+    // eslint-disable-next-line max-len
+    'Ce somptueux fortin est le dernier bastion des Paladins. Toutes ces richesses qu’ils prétendent mériter, vous comptez bien les en déshériter.',
+  bastionStep1: 'L’ultime rencontre vous attend au-delà de ce pont-levis.',
+  bastionAction1: (
+    <Fragment>
+      Lancer <span css={textColor('LIGHT_BLUE')}>La Clé</span> sur l’immense porte d’entrée
+    </Fragment>
+  ),
+  bastionStep2: 'La porte est grande ouverte, la fin est proche.',
+  bastionStep3:
+    // eslint-disable-next-line max-len
+    'Vous pénétrez un immense hall magnifiquement décoré. Une horde de molosses enragés vous propose une visite guidée… de leurs estomacs.',
+  bastionAction2: 'Combattre',
+  bastionAction3: 'Les nourrir',
+  bastionStep4: (meat: number, bones: number) => (
+    <Fragment>
+      Vous récupérez{' '}
+      <span css={[alignItemsCenter, textColor('RED')]}>
+        {meat}&nbsp;
+        <ResourceIcon type={ResourceType.Meat} />
+      </span>{' '}
+      et{' '}
+      <span css={[alignItemsCenter, textColor('BROWN')]}>
+        {bones}&nbsp;
+        <ResourceIcon type={ResourceType.Bones} />
+      </span>{' '}
+      sur le “comité d’accueil”, puis continuez votre chemin.
+    </Fragment>
+  ),
+  bastionStep5: 'Le comité d’accueil apprécie votre généreux pourboire.',
+  bastionStep6: (
+    <Fragment>
+      Le corridor que vous parcourez est parsemé de chaînes telles un rappel de la soumission au pouvoir. Les tableaux
+      aux murs suggèrent que les Paladins occupent cette place privilégiée depuis longtemps. En parlant d’eux, ces
+      derniers se sont rassemblés pour un affrontement final. Leur héraut s’exclame“Vous êtes contre-nature, vous n’avez
+      pas le droit d’exister. C’est aller à l’encontre de l’ordre des choses !” Et sur ces mots, ils chargent.
+    </Fragment>
+  ),
+  bastionStep7: (
+    <Fragment>
+      Le corridor que vous parcourez est parsemé de chaînes telles un rappel de la soumission au pouvoir. Les tableaux
+      aux murs suggèrent que les Paladins occupent cette place privilégiée depuis longtemps. En parlant d’eux, ces
+      derniers se sont rassemblés pour un affrontement final. Vos efforts passés ont porté leurs fruits : ils ne sont
+      vraiment pas nombreux. Leur héraut s’exclame néanmoins “Vous êtes contre-nature, vous n’avez pas le droit
+      d’exister. C’est aller à l’encontre de l’ordre des choses !” Et sur ces mots, ils chargent.
+    </Fragment>
+  ),
+  bastionAction4: 'Combattre',
+  bastionAction5: 'Les nourrir',
+  bastionStep8: (materials: number) => (
+    <Fragment>
+      Aucun n’a survécu, c’en est fini d’eux. En fouillant leur palace, vous trouvez la salle du trésor, et à
+      l’intérieur{' '}
+      <span css={[alignItemsCenter, textColor('GREEN')]}>
+        {materials}&nbsp;
+        <ResourceIcon type={ResourceType.Materials} />
+      </span>
+    </Fragment>
+  ),
 }
