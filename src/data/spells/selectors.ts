@@ -9,3 +9,5 @@ export const getHasTheKey = (state: RootState) => getSpells(state).includes(Spel
 
 export const getDiscoverableSpells = (state: RootState) =>
   DISCOVERABLE_SPELLS.filter(spell => !state.spells.includes(spell))
+
+export const getHasDiscoverableSpells = (state: RootState) => getDiscoverableSpells(state).length > 0

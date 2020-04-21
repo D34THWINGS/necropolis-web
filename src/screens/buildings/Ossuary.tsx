@@ -25,12 +25,14 @@ import {
 import { BuildingUpgrade } from './components/BuildingUpgrade'
 import { Icon } from '../../components/icons/Icon'
 import { discoverSpell } from '../../data/spells/actions'
+import { getHasDiscoverableSpells } from '../../data/spells/selectors'
 
 export const Ossuary = () => {
   const { t } = useTranslation()
   const { level } = useSelector(getOssuary)
   const materials = useSelector(getMaterials)
   const bones = useSelector(getBones)
+  const hasDiscoverableSpells = useSelector(getHasDiscoverableSpells)
   const dispatch = useDispatch()
 
   const maxLevel = getBuildingMaxLevel(BuildingType.Ossuary)
@@ -46,7 +48,7 @@ export const Ossuary = () => {
     <div css={buildingWrapper}>
       <button
         type="button"
-        disabled={bonesCost > bones || level === 0}
+        disabled={bonesCost > bones || level === 0 || !hasDiscoverableSpells}
         css={buildingActionButton}
         onClick={handleDiscoverSpell}
       >

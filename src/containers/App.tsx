@@ -8,6 +8,7 @@ import { Fonts } from '../components/Fonts'
 import { GameContent } from './GameContent'
 import { getIsOnboardingActive } from '../data/onboarding/selectors'
 import { Intro } from '../screens/onboarding/Intro'
+import { CheatsModal } from '../components/CheatsModal'
 
 const appContainer = css({
   display: 'flex',
@@ -38,6 +39,7 @@ export const App = () => {
       <div css={appContainer}>
         <div css={gameContainer}>{isOnboardingActive ? <Intro /> : <GameContent />}</div>
       </div>
+      <CheatsModal />
     </React.Fragment>
   )
 }

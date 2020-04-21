@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage'
 import { mainReducer, RootState } from './mainReducer'
 import { rootEpic } from '../data/epics'
 import { RootAction } from '../data/actions'
+import { resetReducer } from './resetableStore'
 
 declare global {
   interface Window {
@@ -19,7 +20,7 @@ const persistConfig = {
 }
 
 export const createAppStore = () => {
-  const persistedReducer = persistReducer(persistConfig, mainReducer)
+  const persistedReducer = persistReducer(persistConfig, resetReducer(mainReducer))
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   const epicMiddleware = createEpicMiddleware<RootAction, RootAction, RootState>()
   const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(epicMiddleware)))

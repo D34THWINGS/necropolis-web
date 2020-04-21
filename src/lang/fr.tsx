@@ -9,6 +9,8 @@ import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
 
 export const fr = {
+  resetGame: 'Reset game',
+
   buildingLevel: (level: number) => `niv. ${level}`,
 
   charnelHouse: 'Charnier',
