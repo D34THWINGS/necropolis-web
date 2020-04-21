@@ -7,7 +7,7 @@ import { blueBox, h2Title } from '../../styles/base'
 import { getSpells } from '../../data/spells/selectors'
 import { colors, shadows } from '../../config/theme'
 import { blueSquareButton } from '../../styles/buttons'
-import { ResourceIcon } from '../icons/ResourceIcon'
+import { ResourceIcon } from '../images/ResourceIcon'
 import soulStormBackgroundUrl from '../../assets/images/spells/soul-storm.png'
 import theKeyBackgroundUrl from '../../assets/images/spells/the-key.png'
 import {

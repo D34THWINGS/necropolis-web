@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon, IconProps } from './Icon'
+import { Image, IconProps } from './Image'
 import { UndeadTalent } from '../../config/constants'
 import musclesImageUrl from '../../assets/images/icons/muscles.png'
 import lethalityImageUrl from '../../assets/images/icons/lethality.png'
@@ -14,7 +14,7 @@ export type TalentIconProps = Omit<IconProps, 'src'> & {
 }
 
 export const TalentIcon = ({ type, className, marginLeft, marginRight, size, block }: TalentIconProps) => (
-  <Icon
+  <Image
     src={iconMap[type]}
     className={className}
     marginLeft={marginLeft}

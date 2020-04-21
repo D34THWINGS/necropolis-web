@@ -8,7 +8,7 @@ import {
   buildingUpgradeFrame,
 } from '../helpers/buildingsStyles'
 import { useTranslation } from '../../../lang/useTranslation'
-import { ResourceIcon } from '../../../components/icons/ResourceIcon'
+import { ResourceIcon } from '../../../components/images/ResourceIcon'
 import { ResourceType } from '../../../config/constants'
 
 export type BuildingUpgradeProps = {

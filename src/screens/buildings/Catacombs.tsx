@@ -24,7 +24,7 @@ import {
 } from '../../data/buildings/helpers'
 import { getRaisedUndeadCount } from '../../data/undeads/selectors'
 import { BuildingUpgrade } from './components/BuildingUpgrade'
-import { Icon } from '../../components/icons/Icon'
+import { Image } from '../../components/images/Image'
 import { raiseUndead } from '../../data/undeads/actions'
 
 export const Catacombs = () => {
@@ -53,7 +53,7 @@ export const Catacombs = () => {
         onClick={handleRaiseUndead}
       >
         {level === 0 && <div css={buildingActionLocked} />}
-        <Icon src={reanimateIconUrl} size="3rem" />
+        <Image src={reanimateIconUrl} size="3rem" />
       </button>
       <Panel>
         <h2 css={buildingTitle}>{t('catacomb')}</h2>

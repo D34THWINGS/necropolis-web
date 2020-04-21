@@ -7,7 +7,7 @@ import coffinOpenedUrl from '../../assets/images/onboarding/coffin-opened.jpg'
 import nextStepArrowUrl from '../../assets/images/onboarding/next-step-arrow.png'
 import { getOnboardingStep } from '../../data/onboarding/selectors'
 import { greenSquareButton } from '../../styles/buttons'
-import { Icon } from '../../components/icons/Icon'
+import { Image } from '../../components/images/Image'
 import { nextOnboardingStep } from '../../data/onboarding/actions'
 import { useTranslation } from '../../lang/useTranslation'
 
@@ -54,7 +54,7 @@ export const Intro = () => {
     <div css={introContainer(step < 5 ? coffinClosedUrl : coffinOpenedUrl)}>
       <p>{t('introText', step)}</p>
       <button type="button" css={nextStepButton} onClick={handleNextStep}>
-        <Icon src={nextStepArrowUrl} marginRight="0.4rem" /> Suite
+        <Image src={nextStepArrowUrl} marginRight="0.4rem" /> Suite
       </button>
     </div>
   )

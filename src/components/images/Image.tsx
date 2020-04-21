@@ -10,7 +10,7 @@ export type IconProps = {
   marginRight?: string | number
 }
 
-export const Icon = ({ className, marginLeft, marginRight, size = '1.5rem', src, block }: IconProps) => (
+export const Image = ({ className, marginLeft, marginRight, size = '1.5rem', src, block }: IconProps) => (
   <img
     className={className}
     src={src}

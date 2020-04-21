@@ -2,7 +2,7 @@
 import { jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import { alignItemsCenter, textColor } from '../styles/base'
-import { ResourceIcon } from '../components/icons/ResourceIcon'
+import { ResourceIcon } from '../components/images/ResourceIcon'
 import { ResourceType } from '../config/constants'
 
 export const frExpeditions = {

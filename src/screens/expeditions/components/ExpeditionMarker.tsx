@@ -9,7 +9,7 @@ import miseryMarketUrl from '../../../assets/images/expeditions/expedition2.png'
 import townHallUrl from '../../../assets/images/expeditions/expedition3.png'
 import bastionUrl from '../../../assets/images/expeditions/expedition4.png'
 import { ExpeditionType } from '../../../config/constants'
-import { Icon } from '../../../components/icons/Icon'
+import { Image } from '../../../components/images/Image'
 import { contentCover } from '../../../styles/base'
 import { resetButton } from '../../../styles/buttons'
 import { openExpedition } from '../../../data/expeditions/actions'
@@ -60,7 +60,7 @@ export const ExpeditionMarker = ({ type, x, y, children }: ExpeditionMarkerProps
   return (
     <Fragment>
       <button type="button" css={markerWrapper(x, y)} onClick={handleClick}>
-        <Icon src={expeditionIconMap[type]} size="5rem" block />
+        <Image src={expeditionIconMap[type]} size="5rem" block />
         <div css={markerFrame(active)} />
       </button>
       {children}

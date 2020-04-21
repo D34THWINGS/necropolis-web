@@ -1,10 +1,10 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { Icon } from '../icons/Icon'
+import { Image } from '../images/Image'
 import undeadIconUrl from '../../assets/images/undead.png'
 import closeIconUrl from '../../assets/images/icons/close.png'
 import { purpleBox, textColor } from '../../styles/base'
-import { TalentIcon } from '../icons/TalentIcon'
+import { TalentIcon } from '../images/TalentIcon'
 import { useTranslation } from '../../lang/useTranslation'
 import { colors, shadows } from '../../config/theme'
 import { Undead } from '../../data/undeads/helpers'
@@ -75,7 +75,7 @@ export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
     <div css={undeadBox(!!onBan)}>
       <h4 css={undeadName}>{t('undeadName', undead.type)}</h4>
       <div css={undeadDescription}>
-        <Icon src={undeadIconUrl} size="4rem" marginRight="0.5rem" />
+        <Image src={undeadIconUrl} size="4rem" marginRight="0.5rem" />
         <div>
           <div css={textColor('CYAN')}>{t('undeadTalents')}</div>
           {undead.talents.map(([talent, value]) => (
@@ -89,7 +89,7 @@ export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
       </div>
       {onBan && (
         <button type="button" css={undeadBanButton} onClick={onBan}>
-          <Icon src={closeIconUrl} size="2rem" block />
+          <Image src={closeIconUrl} size="2rem" block />
         </button>
       )}
     </div>

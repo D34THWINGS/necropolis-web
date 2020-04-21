@@ -15,7 +15,7 @@ import {
   setExpeditionStep,
 } from '../../../data/expeditions/actions'
 import { getExpeditionStep, getOpenedExpedition } from '../../../data/expeditions/selectors'
-import { Icon } from '../../../components/icons/Icon'
+import { Image } from '../../../components/images/Image'
 import greenArrowUrl from '../../../assets/images/onboarding/next-step-arrow.png'
 
 const expeditionButton = [
@@ -88,7 +88,7 @@ export const ExpeditionModal = <TStep extends number = number>({
             const handleFleeExpedition = () => dispatch(fleeExpedition())
             return (
               <button type="button" css={fleeExpeditionButton} onClick={handleFleeExpedition}>
-                <Icon src={greenArrowUrl} block marginRight="0.4rem" />
+                <Image src={greenArrowUrl} block marginRight="0.4rem" />
                 <span css={fleeButtonText}>{t('fleeExpedition')}</span>
               </button>
             )

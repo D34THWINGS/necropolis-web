@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon, IconProps } from './Icon'
+import { Image, IconProps } from './Image'
 import { ResourceType } from '../../config/constants'
 import bonesImageUrl from '../../assets/images/resources/bones.png'
 import materialsImageUrl from '../../assets/images/resources/materials.png'
@@ -18,7 +18,7 @@ export type ResourceIconProps = Omit<IconProps, 'src'> & {
 }
 
 export const ResourceIcon = ({ type, className, marginLeft, marginRight, size, block }: ResourceIconProps) => (
-  <Icon
+  <Image
     src={iconMap[type]}
     className={className}
     marginLeft={marginLeft}

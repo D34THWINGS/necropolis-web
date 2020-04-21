@@ -23,7 +23,7 @@ import {
   getOssuaryUpgradeBonusMeat,
 } from '../../data/buildings/helpers'
 import { BuildingUpgrade } from './components/BuildingUpgrade'
-import { Icon } from '../../components/icons/Icon'
+import { Image } from '../../components/images/Image'
 import { discoverSpell } from '../../data/spells/actions'
 import { getHasDiscoverableSpells } from '../../data/spells/selectors'
 
@@ -53,7 +53,7 @@ export const Ossuary = () => {
         onClick={handleDiscoverSpell}
       >
         {level === 0 && <div css={buildingActionLocked} />}
-        <Icon src={researchIconUrl} size="3rem" />
+        <Image src={researchIconUrl} size="3rem" />
       </button>
       <Panel>
         <h2 css={buildingTitle}>{t('ossuary')}</h2>

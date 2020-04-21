@@ -10,10 +10,10 @@ import { SettingsModal } from './SettingsModal'
 import { useModalState } from '../ui/Modal'
 import { getResources } from '../../data/resources/selectors'
 import { getTurn } from '../../data/turn/selectors'
-import { ResourceIcon } from '../icons/ResourceIcon'
+import { ResourceIcon } from '../images/ResourceIcon'
 import { ResourceType } from '../../config/constants'
 import { SpellsModal } from './SpellsModal'
-import { Icon } from '../icons/Icon'
+import { Image } from '../images/Image'
 import { getHasSpells } from '../../data/spells/selectors'
 
 const headerContainer = css({
@@ -100,11 +100,11 @@ export const Header = () => {
       </div>
       <div css={headerButtons}>
         <button type="button" css={buttonBase} onClick={openSettings}>
-          <Icon src={settingsImageUrl} size="3rem" />
+          <Image src={settingsImageUrl} size="3rem" />
         </button>
         <SettingsModal isOpen={isSettingsModalOpen} onClose={closeSettings} />
         <button type="button" css={buttonBase} disabled={!hasSpells} onClick={openSpells}>
-          <Icon src={spellImageUrl} size="4rem" />
+          <Image src={spellImageUrl} size="4rem" />
         </button>
         <SpellsModal isOpen={isSpellsModalOpen} onClose={closeSpells} />
       </div>

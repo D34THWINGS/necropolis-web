@@ -4,7 +4,7 @@ import { Fragment } from 'react'
 import { plural } from './i18nHelpers'
 import { noBreak, textColor } from '../styles/base'
 import { Spell, UndeadTalent, UndeadType } from '../config/constants'
-import { TalentIcon } from '../components/icons/TalentIcon'
+import { TalentIcon } from '../components/images/TalentIcon'
 import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
 
