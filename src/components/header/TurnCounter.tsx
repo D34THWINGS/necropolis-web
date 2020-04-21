@@ -3,7 +3,7 @@ import { css, jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import skullImageUrl from '../../assets/images/header/skull.png'
 import { colors, shadows } from '../../config/theme'
-import { Modal, useModalState } from '../ui/Modal'
+import { useModalState } from '../ui/Modal'
 import { resetButton } from '../../styles/buttons'
 import { TurnsModal } from './TurnsModal'
 

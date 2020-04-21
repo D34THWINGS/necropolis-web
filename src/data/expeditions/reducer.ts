@@ -2,6 +2,7 @@ import { createReducer } from 'typesafe-actions'
 import { ExpeditionType } from '../../config/constants'
 import {
   beginExpedition,
+  cancelReinforcements,
   closeExpedition,
   endExpedition,
   fleeExpedition,
@@ -18,6 +19,7 @@ export const expeditions = createReducer({
   done: [] as ExpeditionType[],
   active: [] as ActiveExpedition[],
   opened: null as ExpeditionType | null,
+  cancelledReinforcements: false,
 })
   .handleAction(openExpedition, (state, { payload: { type } }) => ({
     ...state,
@@ -38,3 +40,4 @@ export const expeditions = createReducer({
     opened: null,
     active: state.active.filter(expedition => expedition.type !== type),
   }))
+  .handleAction(cancelReinforcements, state => ({ ...state, cancelledReinforcements: true }))

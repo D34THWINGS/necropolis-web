@@ -1,5 +1,5 @@
 import { css } from '@emotion/core'
-import { colors, shadows } from '../../../config/theme'
+import { shadows } from '../../../config/theme'
 import { contentCover, cyanBox, textColor } from '../../../styles/base'
 import upgradeArrowUrl from '../../../assets/images/upgrade-arrow.png'
 import { cyanSquareButton } from '../../../styles/buttons'

@@ -12,6 +12,7 @@ import { TalentIcon } from '../../components/icons/TalentIcon'
 import { getHasTheKey } from '../../data/spells/selectors'
 import { ResourceIcon } from '../../components/icons/ResourceIcon'
 import { gainResources, spendResources } from '../../data/resources/actions'
+import { getSouls } from '../../data/resources/selectors'
 
 const MISERY_MARKET_CATAPULT_COST = 1
 const MISERY_MARKET_STEP1_STRENGTH_REQUIRED = 4
@@ -37,6 +38,7 @@ export const MiseryMarket = () => {
   const muscles = useSelector(getUndeadArmyMuscles)
   const lethality = useSelector(getUndeadArmyLethality)
   const hasTheKey = useSelector(getHasTheKey)
+  const souls = useSelector(getSouls)
   const dispatch = useDispatch()
 
   return (
@@ -77,6 +79,7 @@ export const MiseryMarket = () => {
                 </ExpeditionAction>
                 {hasTheKey && (
                   <ExpeditionAction
+                    disabled={souls < SPELLS_SOUL_COSTS[Spell.TheKey]}
                     cost={
                       <Fragment>
                         <span css={textColor('LIGHT_BLUE')}>{SPELLS_SOUL_COSTS[Spell.TheKey]}</span>&nbsp;

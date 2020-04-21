@@ -1,9 +1,8 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { Panel } from '../../components/ui/Panel'
 import { useTranslation } from '../../lang/useTranslation'
-import { cyanSquareButton } from '../../styles/buttons'
 import researchIconUrl from '../../assets/images/icons/research.png'
 import {
   buildingLevel,

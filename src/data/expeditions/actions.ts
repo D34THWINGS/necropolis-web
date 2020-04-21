@@ -24,3 +24,5 @@ export const setExpeditionStep = createAction('expeditions/SET_STEP', (type: Exp
   type: ExpeditionType
   step: number
 }>()
+
+export const cancelReinforcements = createAction('expedition/CANCEL_REINFORCEMENTS')()

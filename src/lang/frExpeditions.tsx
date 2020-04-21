@@ -113,4 +113,28 @@ export const frExpeditions = {
       Vous perdez <span css={textColor('PURPLE')}>{cost} Mort-vivant</span> de votre choix dans les flammes.
     </Fragment>
   ),
+  townHallStep4:
+    // eslint-disable-next-line max-len
+    'Vous réussissez à tuer plusieurs fuyards, ce qui devrait vous alléger la tâche au Bastion. Par ailleurs, vous trouvez sur l’un des cadavres le plan de leur forteresse et plus particulièrement d’un passage secret.',
+  townHallStep5: (materials: number) => (
+    <Fragment>
+      Vous avez le temps de récupérer{' '}
+      <span css={[alignItemsCenter, textColor('GREEN')]}>
+        {materials}&nbsp;
+        <ResourceIcon type={ResourceType.Materials} />
+      </span>{' '}
+      avant que l’Hôtel de ville ne soit emporté dans le brasier.
+    </Fragment>
+  ),
+  townHallStep6: (hasBloodPrince: boolean) =>
+    hasBloodPrince ? (
+      'Vous ne trouvez rien d’intéressant dans les geôles.'
+    ) : (
+      <Fragment>
+        Vous libérez le <span css={[alignItemsCenter, textColor('PURPLE')]}>Prince de Sang-Séché</span>. Ce dernier
+        s’explique :<br />
+        “Les Paladins m’ont mis en prison car ils doutaient de ma loyauté. L’un a proposé de prendre ma baguette et de
+        me tuer, mais un changement dans le script me sauva la mise. Je vous remercie de m’avoir libéré.”
+      </Fragment>
+    ),
 }

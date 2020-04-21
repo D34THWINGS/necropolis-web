@@ -14,7 +14,7 @@ import { ResourceIcon } from '../icons/ResourceIcon'
 import { ResourceType } from '../../config/constants'
 import { SpellsModal } from './SpellsModal'
 import { Icon } from '../icons/Icon'
-import { getHasSpells, getSpells } from '../../data/spells/selectors'
+import { getHasSpells } from '../../data/spells/selectors'
 
 const headerContainer = css({
   display: 'flex',

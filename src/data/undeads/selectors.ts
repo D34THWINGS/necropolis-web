@@ -1,5 +1,5 @@
 import { RootState } from '../../store/mainReducer'
-import { RAISABLE_UNDEADS, UndeadTalent } from '../../config/constants'
+import { RAISABLE_UNDEADS, UndeadTalent, UndeadType } from '../../config/constants'
 import { Undead } from './helpers'
 
 export const getUndeads = (state: RootState) => state.undeads
@@ -25,3 +25,6 @@ export const getUndeadArmyTalentTotal = (talent: UndeadTalent) => (state: RootSt
 export const getUndeadArmyMuscles = getUndeadArmyTalentTotal(UndeadTalent.Muscles)
 
 export const getUndeadArmyLethality = getUndeadArmyTalentTotal(UndeadTalent.Lethality)
+
+export const getHasBloodPrince = (state: RootState) =>
+  getUndeads(state).some(undead => undead.type === UndeadType.BloodPrince)

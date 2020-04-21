@@ -8,7 +8,8 @@ import { RootAction } from '../data/actions'
 
 declare global {
   interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any
+    // eslint-disable-next-line no-undef
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose
   }
 }
 

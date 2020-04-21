@@ -6,7 +6,6 @@ import { Icon } from '../../../components/icons/Icon'
 import actionArrowUrl from '../../../assets/images/upgrade-arrow.png'
 import { useTranslation } from '../../../lang/useTranslation'
 import { alignItemsCenter, textColor } from '../../../styles/base'
-import { colors } from '../../../config/theme'
 
 const expeditionActionButton = [
   ...cyanSquareButton,
