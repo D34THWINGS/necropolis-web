@@ -18,6 +18,7 @@ import { UndeadOverlay } from '../components/undeadOverlay/UndeadOverlay'
 import { UndeadUpkeep } from '../components/undeadOverlay/UndeadUpkeep'
 import { contentCover } from '../styles/base'
 import { EventModal } from '../screens/events/EventModal'
+import { UndeadSacrifice } from '../components/undeadOverlay/UndeadSacrifice'
 
 const gameContent = css({
   display: 'flex',
@@ -83,6 +84,7 @@ export const GameContent = () => (
       <UndeadUpkeep />
       <EventModal />
       <UndeadOverlay />
+      <UndeadSacrifice />
     </div>
   </Fragment>
 )

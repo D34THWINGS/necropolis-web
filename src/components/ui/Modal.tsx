@@ -69,9 +69,10 @@ export type ModalProps = {
   isOpen: boolean
   onClose?: () => void
   children: ReactNode
+  priority?: number
 }
 
-export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children }: ModalProps) => (
+export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children, priority }: ModalProps) => (
   <ClassNames>
     {({ css: scopedCss }) => (
       <ReactModal
@@ -95,6 +96,7 @@ export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children }: M
           bottom: 0,
           left: 0,
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: priority,
         })}
         isOpen={isOpen}
         onRequestClose={onClose}

@@ -13,6 +13,7 @@ import { getHasTheKey } from '../../data/spells/selectors'
 import { ResourceIcon } from '../../components/images/ResourceIcon'
 import { gainResources, spendResources } from '../../data/resources/actions'
 import { getSouls } from '../../data/resources/selectors'
+import { requireSacrifice } from '../../data/undeads/actions'
 
 const MISERY_MARKET_CATAPULT_COST = 1
 const MISERY_MARKET_STEP1_STRENGTH_REQUIRED = 4
@@ -53,6 +54,10 @@ export const MiseryMarket = () => {
               dispatch(spendResources({ [ResourceType.Souls]: SPELLS_SOUL_COSTS[Spell.TheKey] }))
               goToStep(MiseryMarketStep.Guards)()
             }
+            const handleCatapultUndead = () => {
+              dispatch(requireSacrifice(MISERY_MARKET_CATAPULT_COST))
+              goToStep(MiseryMarketStep.Guards)()
+            }
             return (
               <Fragment>
                 {t('miseryMarketStep1')}
@@ -61,7 +66,7 @@ export const MiseryMarket = () => {
                   cost={
                     <span css={textColor('PURPLE')}>{t('miseryMarketAction1Cost', MISERY_MARKET_CATAPULT_COST)}</span>
                   }
-                  onClick={goToStep(MiseryMarketStep.Guards)}
+                  onClick={handleCatapultUndead}
                 >
                   {t('miseryMarketAction1')}
                 </ExpeditionAction>

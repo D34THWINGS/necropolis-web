@@ -234,6 +234,17 @@ export const fr = {
   ),
   theKeyDescription: "Brise l'évènement en cours.",
 
+  sacrificeRequiredTitle: 'Choix des pertes',
+  sacrificeRequiredDescription: (undeads: number) => (
+    <Fragment>
+      Vous devez choisir{' '}
+      <span css={[noBreak, textColor('PURPLE')]}>
+        {undeads} Mort-vivant{plural(undeads, 's')}
+      </span>{' '}
+      qui {plural(undeads, 'doivent', 'doit')} mourir.
+    </Fragment>
+  ),
+
   ...frOnboarding,
   ...frExpeditions,
   ...frEvents,

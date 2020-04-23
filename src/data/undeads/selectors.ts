@@ -2,7 +2,7 @@ import { RootState } from '../../store/mainReducer'
 import { RAISABLE_UNDEADS, UndeadTalent, UndeadType } from '../../config/constants'
 import { Undead } from './helpers'
 
-export const getUndeads = (state: RootState) => state.undeads
+export const getUndeads = (state: RootState) => state.undeads.list
 
 export const getUndeadCount = (state: RootState) => getUndeads(state).length
 
@@ -20,7 +20,7 @@ const getUndeadTalent = (undead: Undead, searchedTalent: UndeadTalent) =>
   (undead.talents.find(([talent]) => talent === searchedTalent) || [])[1] || 0
 
 export const getUndeadArmyTalentTotal = (talent: UndeadTalent) => (state: RootState) =>
-  state.undeads.reduce((sum, undead) => sum + getUndeadTalent(undead, talent), 0)
+  getUndeads(state).reduce((sum, undead) => sum + getUndeadTalent(undead, talent), 0)
 
 export const getUndeadArmyMuscles = getUndeadArmyTalentTotal(UndeadTalent.Muscles)
 
@@ -28,3 +28,5 @@ export const getUndeadArmyLethality = getUndeadArmyTalentTotal(UndeadTalent.Leth
 
 export const getHasBloodPrince = (state: RootState) =>
   getUndeads(state).some(undead => undead.type === UndeadType.BloodPrince)
+
+export const getRequiredSacrifices = (state: RootState) => state.undeads.requiredSacrifices

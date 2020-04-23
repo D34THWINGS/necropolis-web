@@ -11,7 +11,7 @@ import { getDefenseBonus } from '../../data/buildings/selectors'
 import { getUndeadCount } from '../../data/undeads/selectors'
 import { gainResources } from '../../data/resources/actions'
 import { ResourceType } from '../../config/constants'
-import { killAllUndead } from '../../data/undeads/actions'
+import { killAllUndead, requireSacrifice } from '../../data/undeads/actions'
 
 enum PaladinsAssaultStep {
   Setup,
@@ -75,13 +75,18 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
               </Fragment>
             )
           }
-          case PaladinsAssaultStep.Defeat:
+          case PaladinsAssaultStep.Defeat: {
+            const handleDefeat = () => {
+              handleGainMeat()
+              dispatch(requireSacrifice(Math.abs(diff)))
+            }
             return (
               <Fragment>
                 {t('paladinsAssaultDefeat', Math.abs(diff), Math.abs(diff))}
-                {renderAcknowledgeButton(handleGainMeat)}
+                {renderAcknowledgeButton(handleDefeat)}
               </Fragment>
             )
+          }
           case PaladinsAssaultStep.TotalDefeat: {
             const handleTotalDefeat = () => dispatch(killAllUndead())
             return (
