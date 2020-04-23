@@ -8,6 +8,7 @@ import {
   SOUL_WELL_SOUL_PRODUCTION,
 } from '../../config/constants'
 import { ResourcesState } from '../resources/reducer'
+import { getBattlementsDefenseBonus } from './helpers'
 
 export const getBuildings = (state: RootState) => state.buildings
 
@@ -38,3 +39,5 @@ export const getBuildingsProduction = (state: RootState): ResourcesState => {
     materials: 0,
   }
 }
+
+export const getDefenseBonus = (state: RootState) => getBattlementsDefenseBonus(getBattlements(state).level)

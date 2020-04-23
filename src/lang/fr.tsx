@@ -7,9 +7,10 @@ import { Spell, UndeadTalent, UndeadType } from '../config/constants'
 import { TalentIcon } from '../components/images/TalentIcon'
 import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
+import { frEvents } from './frEvents'
 
 export const fr = {
-  resetGame: 'Reset game',
+  resetGame: 'Recommencer la partie',
 
   buildingLevel: (level: number) => `niv. ${level}`,
 
@@ -235,6 +236,7 @@ export const fr = {
 
   ...frOnboarding,
   ...frExpeditions,
+  ...frEvents,
 }
 
 export type TranslationBundle = typeof fr

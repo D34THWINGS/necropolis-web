@@ -2,7 +2,7 @@
 import { jsx, ClassNames, css, SerializedStyles } from '@emotion/core'
 import { ReactNode, useMemo, useState } from 'react'
 import ReactModal from 'react-modal'
-import { blueRoundButton, cyanRoundButton, purpleRoundButton } from '../../styles/buttons'
+import { blueRoundButton, cyanRoundButton, purpleRoundButton, redRoundButton } from '../../styles/buttons'
 import { colors, shadows } from '../../config/theme'
 import closeIconUrl from '../../assets/images/icons/close.png'
 
@@ -10,18 +10,21 @@ export enum ModalColor {
   GREEN,
   PURPLE,
   BLUE,
+  RED,
 }
 
 export const modalColorsMap: Record<ModalColor, [string, string]> = {
   [ModalColor.GREEN]: ['#448B84', '#1B655F'],
   [ModalColor.PURPLE]: ['#664991', '#3F216B'],
   [ModalColor.BLUE]: ['#457E8C', '#1C5766'],
+  [ModalColor.RED]: ['#8C454E', '#661C25'],
 }
 
 const modalCloseButtonMap: Record<ModalColor, SerializedStyles[]> = {
   [ModalColor.GREEN]: cyanRoundButton,
   [ModalColor.PURPLE]: purpleRoundButton,
   [ModalColor.BLUE]: blueRoundButton,
+  [ModalColor.RED]: redRoundButton,
 }
 
 const closeButton = css({

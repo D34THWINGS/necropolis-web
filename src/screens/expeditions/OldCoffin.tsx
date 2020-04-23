@@ -15,7 +15,7 @@ import { gainResources } from '../../data/resources/actions'
 import { addUndead } from '../../data/undeads/actions'
 
 const OLD_COFFIN_MATERIALS_REWARD = 5
-const OLD_COFFIN_STRENGTH_REQUIRED = 2
+const OLD_COFFIN_STRENGTH_REQUIRED = 1
 
 enum OldCoffinStep {
   Setup,

@@ -18,6 +18,7 @@ import { createUndead } from './undeads/helpers'
 import { addSpell, discoverSpell } from './spells/actions'
 import { getDiscoverableSpells } from './spells/selectors'
 import { endExpedition, fleeExpedition } from './expeditions/actions'
+import { endEventEpic, eventsEpic } from './events/epics'
 
 const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = action$ =>
   action$.pipe(
@@ -39,13 +40,6 @@ const productionEpic: Epic<RootAction, RootAction, RootState> = (action$, state$
     throttle(() => action$.pipe(filter(isActionOf(nextPhase))), { leading: false, trailing: true }),
     filter(state => getCurrentPhase(state) === TurnPhase.Production),
     flatMap(state => of(gainResources(getBuildingsProduction(state)), nextPhase())),
-  )
-
-const eventsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  state$.pipe(
-    throttle(() => action$.pipe(filter(isActionOf(nextPhase))), { leading: false, trailing: true }),
-    filter(state => getCurrentPhase(state) === TurnPhase.Event),
-    mapTo(nextPhase()),
   )
 
 const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
@@ -85,6 +79,7 @@ export const rootEpic = combineEpics(
   productionEpic,
   raiseUndeadEpic,
   eventsEpic,
+  endEventEpic,
   discoverSpellEpic,
   fleeExpeditionEpic,
 )

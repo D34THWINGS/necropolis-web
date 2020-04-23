@@ -10,3 +10,5 @@ export const raiseUndead = createAction('undeads/RAISE')()
 export const addUndead = createAction('undeads/ADD', (undead: Undead) => ({
   undead,
 }))<{ undead: Undead }>()
+
+export const killAllUndead = createAction('undeads/KILL_ALL')()

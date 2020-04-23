@@ -17,6 +17,7 @@ import { NavigationBar } from '../components/NavigationBar'
 import { UndeadOverlay } from '../components/undeadOverlay/UndeadOverlay'
 import { UndeadUpkeep } from '../components/undeadOverlay/UndeadUpkeep'
 import { contentCover } from '../styles/base'
+import { EventModal } from '../screens/events/EventModal'
 
 const gameContent = css({
   display: 'flex',
@@ -79,8 +80,9 @@ export const GameContent = () => (
         </Switch>
       </div>
       <NavigationBar />
-      <UndeadOverlay />
       <UndeadUpkeep />
+      <EventModal />
+      <UndeadOverlay />
     </div>
   </Fragment>
 )

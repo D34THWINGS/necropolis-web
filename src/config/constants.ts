@@ -26,6 +26,8 @@ export const BATTLEMENTS_MAX_LEVEL = 3
 export const EVENTS_TURN_SPACING = 3
 export const PALADINS_STRENGTH_INCREASE = 1
 export const PALADINS_INCREASE_SPACING = 4
+export const PALADINS_CALL_TO_ARMS_TURN = 3
+export const PALADINS_ATTACK_THRESHOLD = 3
 
 export enum UndeadType {
   Valet = 'valet',
@@ -89,3 +91,14 @@ export enum ExpeditionType {
   TownHall,
   Bastion,
 }
+
+export enum EventType {
+  CallToArms,
+  PaladinsAssault,
+  Collapsing,
+  Plunder,
+  Offering,
+  StateOfEmergency,
+}
+
+export const RANDOM_EVENTS = [EventType.Collapsing, EventType.Plunder, EventType.Offering]

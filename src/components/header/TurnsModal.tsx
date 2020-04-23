@@ -5,16 +5,11 @@ import { Modal } from '../ui/Modal'
 import { greenBox, h2Title, noMargin, textCenter, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { EVENTS_TURN_SPACING, PALADINS_INCREASE_SPACING, PALADINS_STRENGTH_INCREASE } from '../../config/constants'
-import { Image } from '../images/Image'
-import paladin1IconUrl from '../../assets/images/paladins/paladins-1.png'
-import paladin2IconUrl from '../../assets/images/paladins/paladins-2.png'
-import paladin3IconUrl from '../../assets/images/paladins/paladins-3.png'
 import { greenSquareButton } from '../../styles/buttons'
 import { nextPhase } from '../../data/turn/actions'
 import { getTurn } from '../../data/turn/selectors'
-import { getPaladinsStrength } from '../../data/paladins/selectors'
-
-const paladinIcons = [paladin1IconUrl, paladin2IconUrl, paladin3IconUrl]
+import { getPaladinsCalledToArms, getPaladinsStrength } from '../../data/paladins/selectors'
+import { PaladinsIcon } from '../images/PaladinsIcon'
 
 const smallMarginBottom = css({
   margin: '0 0 0.5rem',
@@ -29,6 +24,7 @@ export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
   const { t } = useTranslation()
   const turn = useSelector(getTurn)
   const paladinsStrength = useSelector(getPaladinsStrength)
+  const paladinsCalledToArms = useSelector(getPaladinsCalledToArms)
   const dispatch = useDispatch()
 
   const nextEventIn = EVENTS_TURN_SPACING - (turn % EVENTS_TURN_SPACING)
@@ -45,13 +41,15 @@ export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
         <p css={smallMarginBottom}>{t('turnsEventSpacing', EVENTS_TURN_SPACING)}</p>
         <p css={noMargin}>{t('turnsNextEvent', nextEventIn)}</p>
       </div>
-      <div css={[greenBox, smallMarginBottom]}>
-        <p css={smallMarginBottom}>{t('paladins', PALADINS_STRENGTH_INCREASE, PALADINS_INCREASE_SPACING)}</p>
-        <p css={[smallMarginBottom, textColor('RED')]}>{t('paladinsStrength', paladinsStrength)}</p>
-        <p css={[noMargin, textCenter]}>
-          <Image src={paladinIcons[0]} size="8rem" />
-        </p>
-      </div>
+      {paladinsCalledToArms && (
+        <div css={[greenBox, smallMarginBottom]}>
+          <p css={smallMarginBottom}>{t('paladins', PALADINS_STRENGTH_INCREASE, PALADINS_INCREASE_SPACING)}</p>
+          <p css={[smallMarginBottom, textColor('RED')]}>{t('paladinsStrength', paladinsStrength)}</p>
+          <p css={[noMargin, textCenter]}>
+            <PaladinsIcon />
+          </p>
+        </div>
+      )}
       <button type="button" css={greenSquareButton} onClick={handleSkipTurn}>
         {t('skipTurn')}
       </button>

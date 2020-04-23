@@ -10,7 +10,7 @@ import { textColor } from '../../styles/base'
 import { ResourceIcon } from '../../components/images/ResourceIcon'
 import { getBones, getSouls } from '../../data/resources/selectors'
 import { getUndeadArmyLethality } from '../../data/undeads/selectors'
-import { spendResources } from '../../data/resources/actions'
+import { gainResources, spendResources } from '../../data/resources/actions'
 import { TalentIcon } from '../../components/images/TalentIcon'
 import { getHasCancelledReinforcements } from '../../data/expeditions/selectors'
 
@@ -167,13 +167,16 @@ export const Bastion = () => {
                 {renderFleeButton()}
               </Fragment>
             )
-          case BastionStep.Perish:
+          case BastionStep.Perish: {
+            const handleKilledPaladins = () =>
+              dispatch(gainResources({ [ResourceType.Materials]: BASTION_MATERIALS_REWARD }))
             return (
               <Fragment>
                 {t('bastionStep8', BASTION_MATERIALS_REWARD)}
-                {renderEndButton()}
+                {renderEndButton(handleKilledPaladins)}
               </Fragment>
             )
+          }
           default:
             throw new Error('Unknown step')
         }
