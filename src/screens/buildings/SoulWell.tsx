@@ -6,10 +6,11 @@ import { useTranslation } from '../../lang/useTranslation'
 import { buildingLevel, buildingTitle, buildingWrapper } from './helpers/buildingsStyles'
 import { getSoulWell } from '../../data/buildings/selectors'
 import { upgradeBuilding } from '../../data/buildings/actions'
-import { BuildingType } from '../../config/constants'
+import { BuildingType, Spell } from '../../config/constants'
 import { getMaterials } from '../../data/resources/selectors'
 import { getBuildingMaxLevel, getBuildingUpgradeCost, getSoulWellSoulProduction } from '../../data/buildings/helpers'
 import { BuildingUpgrade } from './components/BuildingUpgrade'
+import { addSpell } from '../../data/spells/actions'
 
 export const SoulWell = () => {
   const { t } = useTranslation()
@@ -22,7 +23,12 @@ export const SoulWell = () => {
   const soulProduction = getSoulWellSoulProduction(level)
   const upgradeSoulProduction = getSoulWellSoulProduction(level + 1)
 
-  const handleUpgrade = () => dispatch(upgradeBuilding(BuildingType.SoulWell, level + 1))
+  const handleUpgrade = () => {
+    dispatch(upgradeBuilding(BuildingType.SoulWell, level + 1))
+    if (level + 1 === 2) {
+      dispatch(addSpell(Spell.SoulStorm))
+    }
+  }
 
   return (
     <div css={buildingWrapper}>

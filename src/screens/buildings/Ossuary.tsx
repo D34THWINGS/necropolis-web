@@ -12,7 +12,12 @@ import {
   buildingActionButton,
 } from './helpers/buildingsStyles'
 import { getOssuary } from '../../data/buildings/selectors'
-import { BuildingType } from '../../config/constants'
+import {
+  BuildingType,
+  OSSUARY_UPGRADE_BONUS_BONES,
+  OSSUARY_UPGRADE_BONUS_MEAT,
+  ResourceType,
+} from '../../config/constants'
 import { upgradeBuilding } from '../../data/buildings/actions'
 import { getBones, getMaterials } from '../../data/resources/selectors'
 import {
@@ -26,6 +31,7 @@ import { BuildingUpgrade } from './components/BuildingUpgrade'
 import { Image } from '../../components/images/Image'
 import { discoverSpell } from '../../data/spells/actions'
 import { getHasDiscoverableSpells } from '../../data/spells/selectors'
+import { gainResources } from '../../data/resources/actions'
 
 export const Ossuary = () => {
   const { t } = useTranslation()
@@ -42,7 +48,17 @@ export const Ossuary = () => {
   const upgradeBonusBones = getOssuaryUpgradeBonusBones(level + 1)
 
   const handleDiscoverSpell = () => dispatch(discoverSpell())
-  const handleUpgrade = () => dispatch(upgradeBuilding(BuildingType.Ossuary, level + 1))
+  const handleUpgrade = () => {
+    dispatch(upgradeBuilding(BuildingType.Ossuary, level + 1))
+    if (level + 1 >= 2) {
+      dispatch(
+        gainResources({
+          [ResourceType.Meat]: OSSUARY_UPGRADE_BONUS_MEAT[level + 1],
+          [ResourceType.Bones]: OSSUARY_UPGRADE_BONUS_BONES[level + 1],
+        }),
+      )
+    }
+  }
 
   return (
     <div css={buildingWrapper}>

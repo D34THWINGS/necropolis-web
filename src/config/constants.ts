@@ -73,7 +73,7 @@ export enum Spell {
   TheKey = 'theKey',
 }
 
-export const DISCOVERABLE_SPELLS = [Spell.SoulStorm, Spell.TheKey]
+export const DISCOVERABLE_SPELLS = [Spell.TheKey]
 
 export const SPELLS_SOUL_COSTS = {
   [Spell.SoulStorm]: 3,
