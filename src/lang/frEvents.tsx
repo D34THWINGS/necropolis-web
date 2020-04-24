@@ -10,12 +10,12 @@ export const frEvents = {
   eventAcknowledge: 'Ok',
 
   callToArmsTitle: 'Appel aux armes',
-  callToArmsDescription: (
+  callToArmsDescription: (maxCounter: number) => (
     <Fragment>
       Vous apprenez qu’une clique de seigneurs auto-proclamés et surnommés les Paladins préparent un assaut contre la
       Nécropole. Ils ont l’intention de balayer la menace que vous représentez pour eux. Au fil du temps, ils
       deviendront de mieux en mieux préparés, mais n’attaqueront que lorsqu’ils en verront l’opportunité, c’est-à-dire
-      lorsque l’icone ci-dessous montrera 3 Paladins.
+      lorsque l’icone ci-dessous montrera <span css={textColor('RED')}>{maxCounter}&nbsp;Paladins</span>.
     </Fragment>
   ),
 
@@ -41,11 +41,10 @@ export const frEvents = {
     </Fragment>
   ),
   paladinsAssaultAction1: 'Combattre',
-  paladinsAssaultPrerequisite: (
+  paladinsAssaultPrerequisite: (defense: number) => (
     <Fragment>
-      <span css={textColor('CYAN')}>Prérequis&nbsp;:</span>&nbsp;<span css={textColor('LIME')}>Défense</span>
-      &nbsp;≥&nbsp;
-      <span css={textColor('RED')}>Force</span>
+      <span css={textColor('CYAN')}>Prérequis&nbsp;:</span>&nbsp;
+      <span css={textColor('LIME')}>{defense}&nbsp;Défense</span>
     </Fragment>
   ),
   paladinsAssaultVictory: (meat: number) => (

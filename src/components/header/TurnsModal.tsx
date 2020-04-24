@@ -8,7 +8,7 @@ import { EVENTS_TURN_SPACING, PALADINS_INCREASE_SPACING, PALADINS_STRENGTH_INCRE
 import { greenSquareButton } from '../../styles/buttons'
 import { nextPhase } from '../../data/turn/actions'
 import { getTurn } from '../../data/turn/selectors'
-import { getPaladinsCalledToArms, getPaladinsStrength } from '../../data/paladins/selectors'
+import { getPaladinsCalledToArms, getPaladinsCounter, getPaladinsStrength } from '../../data/paladins/selectors'
 import { PaladinsIcon } from '../images/PaladinsIcon'
 
 const smallMarginBottom = css({
@@ -24,6 +24,7 @@ export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
   const { t } = useTranslation()
   const turn = useSelector(getTurn)
   const paladinsStrength = useSelector(getPaladinsStrength)
+  const paladinsCounter = useSelector(getPaladinsCounter)
   const paladinsCalledToArms = useSelector(getPaladinsCalledToArms)
   const dispatch = useDispatch()
 
@@ -46,7 +47,7 @@ export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
           <p css={smallMarginBottom}>{t('paladins', PALADINS_STRENGTH_INCREASE, PALADINS_INCREASE_SPACING)}</p>
           <p css={[smallMarginBottom, textColor('RED')]}>{t('paladinsStrength', paladinsStrength)}</p>
           <p css={[noMargin, textCenter]}>
-            <PaladinsIcon />
+            <PaladinsIcon counter={paladinsCounter} />
           </p>
         </div>
       )}

@@ -11,7 +11,7 @@ import { getUndeadCount } from '../../data/undeads/selectors'
 import { gainResources } from '../../data/resources/actions'
 import { ResourceType } from '../../config/constants'
 import { killAllUndead, requireSacrifice } from '../../data/undeads/actions'
-import { resetPaladinsStrength } from '../../data/paladins/actions'
+import { resetPaladinsCounter } from '../../data/paladins/actions'
 import { getDefense } from '../../data/selectors'
 
 enum PaladinsAssaultStep {
@@ -61,14 +61,17 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
           if (Math.abs(diff) > 0) {
             dispatch(gainResources({ [ResourceType.Meat]: Math.abs(diff) }))
           }
-          dispatch(resetPaladinsStrength())
+          dispatch(resetPaladinsCounter())
         }
         switch (step) {
           case PaladinsAssaultStep.Setup:
             return (
               <Fragment>
                 {getDescription()}
-                <EventAction extra={t('paladinsAssaultPrerequisite')} onClick={goToStep(getNextStep())}>
+                <EventAction
+                  extra={t('paladinsAssaultPrerequisite', paladinsStrength)}
+                  onClick={goToStep(getNextStep())}
+                >
                   {t('paladinsAssaultAction1')}
                 </EventAction>
               </Fragment>
