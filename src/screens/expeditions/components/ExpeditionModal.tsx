@@ -6,7 +6,7 @@ import { Modal } from '../../../components/ui/Modal'
 import { ExpeditionType } from '../../../config/constants'
 import { cyanSquareButton, greenSquareButton } from '../../../styles/buttons'
 import { useTranslation } from '../../../lang/useTranslation'
-import { h2Title } from '../../../styles/base'
+import { greenBox, h2Title, textColor } from '../../../styles/base'
 import {
   beginExpedition,
   closeExpedition,
@@ -17,6 +17,7 @@ import {
 import { getExpeditionStep, getOpenedExpedition } from '../../../data/expeditions/selectors'
 import { Image } from '../../../components/images/Image'
 import greenArrowUrl from '../../../assets/images/onboarding/next-step-arrow.png'
+import treasureUrl from '../../../assets/images/expeditions/treasure.png'
 
 const expeditionButton = [
   ...cyanSquareButton,
@@ -38,6 +39,18 @@ const fleeButtonText = css({
   flex: '1 1 auto',
 })
 
+const treasureContainer = css({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'stretch',
+  margin: '0.4rem 0',
+  textAlign: 'center',
+})
+
+const treasureImage = css({
+  alignSelf: 'center',
+})
+
 export type ExpeditionModalProps<TStep> = {
   type: ExpeditionType
   title: ReactNode
@@ -51,6 +64,7 @@ export type ExpeditionModalProps<TStep> = {
       renderContinueButton: (step: TStep, onClick?: () => void) => ReactNode
     },
   ) => ReactNode
+  renderTreasure: () => ReactNode
 }
 
 export const ExpeditionModal = <TStep extends number = number>({
@@ -58,6 +72,7 @@ export const ExpeditionModal = <TStep extends number = number>({
   title,
   renderOverview,
   renderStep,
+  renderTreasure,
 }: ExpeditionModalProps<TStep>) => {
   const { t } = useTranslation()
   const step = useSelector(getExpeditionStep(type))
@@ -72,6 +87,12 @@ export const ExpeditionModal = <TStep extends number = number>({
       return (
         <Fragment>
           {renderOverview()}
+          <div css={treasureContainer}>
+            <Image css={treasureImage} src={treasureUrl} size="14rem" />
+            <div css={greenBox}>
+              <span css={textColor('CYAN')}>{t('expeditionTreasure')}</span> {renderTreasure()}
+            </div>
+          </div>
           <button type="button" css={expeditionButton} onClick={handleBeginExpedition}>
             {t('beginExpedition')}
           </button>

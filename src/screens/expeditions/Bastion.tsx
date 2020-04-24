@@ -46,6 +46,7 @@ export const Bastion = () => {
       type={ExpeditionType.Bastion}
       title={t('bastionTitle')}
       renderOverview={() => t('bastionOverview')}
+      renderTreasure={() => <ResourceIcon type={ResourceType.Materials} />}
       renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderContinueButton }) => {
         switch (step) {
           case BastionStep.Setup: {

@@ -12,6 +12,7 @@ import { getUndeadCount } from '../../data/undeads/selectors'
 import { gainResources } from '../../data/resources/actions'
 import { ResourceType } from '../../config/constants'
 import { killAllUndead, requireSacrifice } from '../../data/undeads/actions'
+import { resetPaladinsStrength } from '../../data/paladins/actions'
 
 enum PaladinsAssaultStep {
   Setup,
@@ -56,7 +57,12 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
     <Fragment>
       <h2 css={h2Title}>{t('paladinsAssaultTitle')}</h2>
       {renderStep<PaladinsAssaultStep>((step, { goToStep, renderAcknowledgeButton }) => {
-        const handleGainMeat = () => dispatch(gainResources({ [ResourceType.Meat]: Math.abs(diff) }))
+        const handleEndAssault = () => {
+          if (Math.abs(diff) > 0) {
+            dispatch(gainResources({ [ResourceType.Meat]: Math.abs(diff) }))
+          }
+          dispatch(resetPaladinsStrength())
+        }
         switch (step) {
           case PaladinsAssaultStep.Setup:
             return (
@@ -71,14 +77,14 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
             return (
               <Fragment>
                 {t('paladinsAssaultVictory', Math.abs(diff))}
-                {renderAcknowledgeButton(diff !== 0 ? handleGainMeat : undefined)}
+                {renderAcknowledgeButton(handleEndAssault)}
               </Fragment>
             )
           }
           case PaladinsAssaultStep.Defeat: {
             const handleDefeat = () => {
-              handleGainMeat()
               dispatch(requireSacrifice(Math.abs(diff)))
+              handleEndAssault()
             }
             return (
               <Fragment>

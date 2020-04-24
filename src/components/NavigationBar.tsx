@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { Link } from 'react-router-dom'
+import { MouseEventHandler, useEffect, useState } from 'react'
+import { Link, useHistory, useRouteMatch } from 'react-router-dom'
 import { BUILD, EXPEDITIONS, OSSUARY, CATACOMBS } from '../config/routes'
 import buttonBackgroundUrl from '../assets/images/footer/button.png'
 import buildIconUrl from '../assets/images/footer/build.png'
@@ -45,19 +46,46 @@ const buildIcon = css({
   transform: 'rotateZ(30deg)',
 })
 
-export const NavigationBar = () => (
-  <div css={footerContainer}>
-    <Link to={BUILD} css={footerButton}>
-      <span css={[footerButtonIcon, buildIcon, backgroundImage(buildIconUrl)]} />
-    </Link>
-    <Link to={EXPEDITIONS} css={footerButton}>
-      <span css={[footerButtonIcon, backgroundImage(expeditionsIconUrl)]} />
-    </Link>
-    <Link to={CATACOMBS} css={footerButton}>
-      <span css={[footerButtonIcon, backgroundImage(spellsIconUrl)]} />
-    </Link>
-    <Link to={OSSUARY} css={footerButton}>
-      <span css={[footerButtonIcon, backgroundImage(researchIconUrl)]} />
-    </Link>
-  </div>
-)
+export const NavigationBar = () => {
+  const [stackSize, setStackSize] = useState(0)
+  const match = useRouteMatch(BUILD)
+  const history = useHistory()
+
+  useEffect(
+    () =>
+      history.listen((location, action) => {
+        if (action === 'PUSH') {
+          setStackSize(stackSize + 1)
+        }
+        if (action === 'POP') {
+          setStackSize(Math.max(stackSize - 1, 0))
+        }
+      }),
+    [history, stackSize],
+  )
+
+  const isOnBuildPage = match?.isExact || false
+  const handleHackNavigation: MouseEventHandler = event => {
+    if (!isOnBuildPage && stackSize > 0) {
+      event.preventDefault()
+      history.goBack()
+    }
+  }
+
+  return (
+    <div css={footerContainer}>
+      <Link to={BUILD} replace css={footerButton} onClick={handleHackNavigation}>
+        <span css={[footerButtonIcon, buildIcon, backgroundImage(buildIconUrl)]} />
+      </Link>
+      <Link to={EXPEDITIONS} replace={!isOnBuildPage} css={footerButton}>
+        <span css={[footerButtonIcon, backgroundImage(expeditionsIconUrl)]} />
+      </Link>
+      <Link to={CATACOMBS} replace={!isOnBuildPage} css={footerButton}>
+        <span css={[footerButtonIcon, backgroundImage(spellsIconUrl)]} />
+      </Link>
+      <Link to={OSSUARY} replace={!isOnBuildPage} css={footerButton}>
+        <span css={[footerButtonIcon, backgroundImage(researchIconUrl)]} />
+      </Link>
+    </div>
+  )
+}

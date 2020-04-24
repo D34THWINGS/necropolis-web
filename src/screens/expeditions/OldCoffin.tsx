@@ -13,6 +13,10 @@ import { createUndead } from '../../data/undeads/helpers'
 import { getUndeadArmyMuscles } from '../../data/undeads/selectors'
 import { gainResources } from '../../data/resources/actions'
 import { addUndead } from '../../data/undeads/actions'
+import { expeditionStepDescription } from './helpers/expeditionStyles'
+import oldCoffinImageUrl from '../../assets/images/expeditions/oldCoffin/old-coffin.jpg'
+import oldCoffin2ImageUrl from '../../assets/images/expeditions/oldCoffin/old-coffin-2.jpg'
+import { ExpeditionImage } from './components/ExpeditionImage'
 
 const OLD_COFFIN_MATERIALS_REWARD = 5
 const OLD_COFFIN_STRENGTH_REQUIRED = 1
@@ -32,12 +36,14 @@ export const OldCoffin = () => {
       type={ExpeditionType.OldCoffin}
       title={t('oldCoffinTitle')}
       renderOverview={() => t('oldCoffinOverview')}
+      renderTreasure={() => t('oldCoffinReward')}
       renderStep={(step, { goToStep, renderFleeButton, renderEndButton }) => {
         switch (step) {
           case OldCoffinStep.Setup:
             return (
               <Fragment>
-                {t('oldCoffinStep1')}
+                <ExpeditionImage src={oldCoffinImageUrl} />
+                <div css={expeditionStepDescription}>{t('oldCoffinStep1')}</div>
                 <ExpeditionAction
                   disabled={muscles < OLD_COFFIN_STRENGTH_REQUIRED}
                   onClick={goToStep(OldCoffinStep.Reward)}
@@ -62,9 +68,9 @@ export const OldCoffin = () => {
 
             return (
               <Fragment>
-                {t('oldCoffinRewardPart1')}
+                <ExpeditionImage src={oldCoffin2ImageUrl} />
+                <div css={expeditionStepDescription}>{t('oldCoffinStep2', OLD_COFFIN_MATERIALS_REWARD)}</div>
                 <UndeadBox undead={brikoler} />
-                {t('oldCoffinRewardPart2', OLD_COFFIN_MATERIALS_REWARD)}
                 {renderEndButton(handleCollectReward)}
               </Fragment>
             )

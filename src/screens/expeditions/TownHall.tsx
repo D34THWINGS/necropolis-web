@@ -10,9 +10,10 @@ import { ResourceIcon } from '../../components/images/ResourceIcon'
 import { getSouls } from '../../data/resources/selectors'
 import { gainResources, spendResources } from '../../data/resources/actions'
 import { getHasBloodPrince, getUndeadCount } from '../../data/undeads/selectors'
-import { addUndead } from '../../data/undeads/actions'
+import { addUndead, requireSacrifice } from '../../data/undeads/actions'
 import { createUndead } from '../../data/undeads/helpers'
 import { cancelReinforcements } from '../../data/expeditions/actions'
+import { UndeadBox } from '../../components/undeadOverlay/UndeadBox'
 
 const TOWN_HALL_FIRE_UNDEAD_COST = 1
 const TOWN_HALL_MATERIALS_REWARD = 6
@@ -39,6 +40,7 @@ export const TownHall = () => {
       type={ExpeditionType.TownHall}
       title={t('townHallTitle')}
       renderOverview={() => t('townHallOverview')}
+      renderTreasure={() => t('townHallRewardOverview')}
       renderStep={(step, { goToStep, renderFleeButton, renderContinueButton, renderEndButton }) => {
         switch (step as TownHallStep) {
           case TownHallStep.Entrance: {
@@ -75,25 +77,29 @@ export const TownHall = () => {
                 {renderContinueButton(TownHallStep.Fire)}
               </Fragment>
             )
-          case TownHallStep.Fire:
+          case TownHallStep.Fire: {
+            const handleLooseUndeadInFire = (action: () => void) => () => {
+              dispatch(requireSacrifice(TOWN_HALL_FIRE_UNDEAD_COST))
+              action()
+            }
             return (
               <Fragment>
                 {t('townHallStep3')}
                 <ExpeditionAction
                   disabled={undeadCount < TOWN_HALL_FIRE_UNDEAD_COST}
-                  onClick={goToStep(TownHallStep.KillRunners)}
+                  onClick={handleLooseUndeadInFire(goToStep(TownHallStep.KillRunners))}
                 >
                   {t('townHallAction2')}
                 </ExpeditionAction>
                 <ExpeditionAction
                   disabled={undeadCount < TOWN_HALL_FIRE_UNDEAD_COST}
-                  onClick={goToStep(TownHallStep.Loot)}
+                  onClick={handleLooseUndeadInFire(goToStep(TownHallStep.Loot))}
                 >
                   {t('townHallAction3')}
                 </ExpeditionAction>
                 <ExpeditionAction
                   disabled={undeadCount < TOWN_HALL_FIRE_UNDEAD_COST}
-                  onClick={goToStep(TownHallStep.Jail)}
+                  onClick={handleLooseUndeadInFire(goToStep(TownHallStep.Jail))}
                 >
                   {t('townHallAction4')}
                 </ExpeditionAction>
@@ -101,6 +107,7 @@ export const TownHall = () => {
                 {renderFleeButton()}
               </Fragment>
             )
+          }
           case TownHallStep.KillRunners: {
             const handleKillRunners = () => dispatch(cancelReinforcements())
             return (
@@ -120,10 +127,12 @@ export const TownHall = () => {
             )
           }
           case TownHallStep.Jail: {
-            const handleFreeBloodPrince = () => dispatch(addUndead(createUndead(UndeadType.BloodPrince, true)))
+            const bloodPrince = createUndead(UndeadType.BloodPrince, true)
+            const handleFreeBloodPrince = () => dispatch(addUndead(bloodPrince))
             return (
               <Fragment>
                 {t('townHallStep6', hasBloodPrince)}
+                {!hasBloodPrince && <UndeadBox undead={bloodPrince} />}
                 {renderEndButton(hasBloodPrince ? undefined : handleFreeBloodPrince)}
               </Fragment>
             )

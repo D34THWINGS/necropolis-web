@@ -3,7 +3,7 @@ import { css, jsx } from '@emotion/core'
 import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Panel } from '../../components/ui/Panel'
-import { colors } from '../../config/theme'
+import { colors, shadows } from '../../config/theme'
 import { useTranslation } from '../../lang/useTranslation'
 import buildOutlinedIconUrl from '../../assets/images/icons/build-outlined.png'
 import chainsBackgroundUrl from '../../assets/images/chains.png'
@@ -12,16 +12,13 @@ import { cyanRoundButton } from '../../styles/buttons'
 const buildingHeader = css({
   display: 'flex',
   justifyContent: 'space-between',
+  fontSize: '1.2rem',
+  textShadow: shadows.TEXT_SOLID,
 })
 
 const buildingName = css({
   margin: 0,
-  fontSize: '1.2rem',
   color: colors.CYAN,
-})
-
-const buildingLevel = css({
-  fontSize: '1.2rem',
 })
 
 const buildingPanel = css({
@@ -80,7 +77,7 @@ export const Building = ({ name, description, level, maxLevel, route }: Building
     <Panel css={buildingPanel}>
       <div css={buildingHeader}>
         <h2 css={buildingName}>{name}</h2>
-        <span css={buildingLevel}>{t('buildingLevel', level)}</span>
+        <span>{t('buildingLevel', level)}</span>
       </div>
       <p css={buildingDescription}>{description}</p>
       {level === 0 && <div css={buildingLocked} />}

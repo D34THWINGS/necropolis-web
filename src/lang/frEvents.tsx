@@ -66,7 +66,7 @@ export const frEvents = {
   paladinsAssaultDefeat: (undeads: number, meat: number) => (
     <Fragment>
       Des Paladins ont ouvert une brèche dans vos défenses et taillent leur chemin dans la Nécropole. Vos citoyens
-      arrivent toutefois à les stopper, mais en y payant le prix du sang. Vous perdez
+      arrivent toutefois à les stopper, mais en y payant le prix du sang. Vous perdez{' '}
       <span css={textColor('PURPLE')}>
         {undeads}&nbsp; Mort-vivant{plural(undeads, 's')}
       </span>{' '}

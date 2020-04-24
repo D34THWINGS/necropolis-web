@@ -18,6 +18,7 @@ export const frExpeditions = {
   expeditionPrerequisites: 'Prérequis\u00A0:',
   expeditionCost: 'Coût\u00A0:',
   expeditionContinue: 'Continuer',
+  expeditionTreasure: 'Trésors\u00A0:',
 
   oldCoffinTitle: 'Vieux cercueil',
   oldCoffinOverview: (
@@ -31,15 +32,11 @@ export const frExpeditions = {
     // eslint-disable-next-line max-len
     "Vous trouvez facilement le cercueil. La vigne qui a poussé dessus ainsi que l'humidité ont pourri le bois des planches.",
   oldCoffinOpen: 'Ouvrir le cercueil',
-  oldCoffinRewardPart1: (
+  oldCoffinStep2: (materialsReward: number) => (
     <Fragment>
       Un être décharné sort du cercueil, le fameux <span css={textColor('PURPLE')}>Jan Brik&apos;Holeur</span> connu
-      pour avoir été un homme à tout faire.
-    </Fragment>
-  ),
-  oldCoffinRewardPart2: (materialsReward: number) => (
-    <Fragment>
-      En guise de remerciement, il part couper le gigantesque arbre au milieu du cimetière et vous rapporte{' '}
+      pour avoir été un homme à tout faire. En guise de remerciement, il part couper le gigantesque arbre au milieu du
+      cimetière et vous rapporte{' '}
       <span css={[alignItemsCenter, textColor('GREEN')]}>
         {materialsReward}&nbsp;
         <ResourceIcon type={ResourceType.Materials} />

@@ -47,6 +47,12 @@ export const MiseryMarket = () => {
       type={ExpeditionType.MiseryMarket}
       title={t('miseryMarketTitle')}
       renderOverview={() => t('miseryMarketOverview')}
+      renderTreasure={() => (
+        <Fragment>
+          <ResourceIcon type={ResourceType.Meat} marginRight="0.4rem" />
+          <ResourceIcon type={ResourceType.Materials} />
+        </Fragment>
+      )}
       renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderContinueButton }) => {
         switch (step) {
           case MiseryMarketStep.Doors: {

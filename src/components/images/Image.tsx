@@ -15,6 +15,12 @@ export const Image = ({ className, marginLeft, marginRight, size = '1.5rem', src
     className={className}
     src={src}
     alt=""
-    css={css({ width: size, marginLeft, marginRight, display: block ? 'block' : 'inline-block' })}
+    css={css({
+      width: size,
+      marginLeft,
+      marginRight,
+      display: block ? 'block' : 'inline-block',
+      verticalAlign: 'middle',
+    })}
   />
 )

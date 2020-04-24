@@ -1,7 +1,8 @@
 /** @jsx jsx */
 import { css, jsx, keyframes } from '@emotion/core'
-import { Redirect, Route, Switch } from 'react-router'
-import { Fragment } from 'react'
+import { useSelector } from 'react-redux'
+import { Redirect, Route, Switch, useHistory, useRouteMatch } from 'react-router'
+import { Fragment, useEffect } from 'react'
 import { BATTLEMENTS, BUILD, CATACOMBS, CHARNEL_HOUSE, EXPEDITIONS, HOME, OSSUARY, SOUL_WELL } from '../config/routes'
 import mapBgUrl from '../assets/images/map.jpg'
 import charnelHouseBgUrl from '../assets/images/charnel-house-bg.jpg'
@@ -19,6 +20,7 @@ import { UndeadUpkeep } from '../components/undeadOverlay/UndeadUpkeep'
 import { contentCover } from '../styles/base'
 import { EventModal } from '../screens/events/EventModal'
 import { UndeadSacrifice } from '../components/undeadOverlay/UndeadSacrifice'
+import { getOpenedExpedition } from '../data/expeditions/selectors'
 
 const gameContent = css({
   display: 'flex',
@@ -56,35 +58,47 @@ const buildingsBackground = (backgroundUrl: string) => [
   }),
 ]
 
-export const GameContent = () => (
-  <Fragment>
-    <Switch>
-      <Route path={BUILD} />
-      <Route path={EXPEDITIONS} render={() => <div css={buildingsBackground(mapBgUrl)} />} />
-      <Route render={() => <div css={buildingsBackground(charnelHouseBgUrl)} />} />
-    </Switch>
-    <div css={gameContent}>
+export const GameContent = () => {
+  const expeditionsMatch = useRouteMatch(EXPEDITIONS)
+  const openedExpedition = useSelector(getOpenedExpedition)
+  const history = useHistory()
+
+  useEffect(() => {
+    if (openedExpedition !== null && !expeditionsMatch) {
+      history.replace(EXPEDITIONS)
+    }
+  }, [openedExpedition, history, expeditionsMatch])
+
+  return (
+    <Fragment>
       <Switch>
-        <Route path={EXPEDITIONS} />
-        <Header />
+        <Route path={BUILD} />
+        <Route path={EXPEDITIONS} render={() => <div css={buildingsBackground(mapBgUrl)} />} />
+        <Route render={() => <div css={buildingsBackground(charnelHouseBgUrl)} />} />
       </Switch>
-      <div css={middleSection}>
+      <div css={gameContent}>
         <Switch>
-          <Route path={BUILD} component={Build} />
-          <Route path={EXPEDITIONS} component={Expeditions} />
-          <Route path={CATACOMBS} component={Catacombs} />
-          <Route path={OSSUARY} component={Ossuary} />
-          <Route path={SOUL_WELL} component={SoulWell} />
-          <Route path={BATTLEMENTS} component={Battlements} />
-          <Route path={CHARNEL_HOUSE} component={CharnelHouse} />
-          <Redirect from={HOME} to={BUILD} />
+          <Route path={EXPEDITIONS} />
+          <Header />
         </Switch>
+        <div css={middleSection}>
+          <Switch>
+            <Route path={BUILD} component={Build} />
+            <Route path={EXPEDITIONS} component={Expeditions} />
+            <Route path={CATACOMBS} component={Catacombs} />
+            <Route path={OSSUARY} component={Ossuary} />
+            <Route path={SOUL_WELL} component={SoulWell} />
+            <Route path={BATTLEMENTS} component={Battlements} />
+            <Route path={CHARNEL_HOUSE} component={CharnelHouse} />
+            <Redirect from={HOME} to={BUILD} />
+          </Switch>
+        </div>
+        <NavigationBar />
+        <UndeadUpkeep />
+        <EventModal />
+        <UndeadOverlay />
+        <UndeadSacrifice />
       </div>
-      <NavigationBar />
-      <UndeadUpkeep />
-      <EventModal />
-      <UndeadOverlay />
-      <UndeadSacrifice />
-    </div>
-  </Fragment>
-)
+    </Fragment>
+  )
+}

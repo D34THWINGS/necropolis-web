@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { useSelector } from 'react-redux'
+import darken from 'polished/lib/color/darken'
 import settingsImageUrl from '../../assets/images/header/settings.png'
 import spellImageUrl from '../../assets/images/header/spells.png'
 import { buttonBase } from '../../styles/buttons'
@@ -36,14 +37,14 @@ const headerResourceCounter = (backgroundColor: string) =>
     justifyContent: 'flex-end',
     position: 'relative',
     margin: '0.7rem 0.8rem 0.7rem 1.8rem',
-    border: '2px solid rgba(0, 0, 0, 0.3)',
+    border: `2px solid ${darken(0.3, backgroundColor)}`,
     borderRadius: '26px',
     padding: '0.2rem 0.5rem 0.2rem 0',
     width: '4rem',
     flex: '0 0 auto',
     backgroundColor,
     boxSizing: 'border-box',
-    boxShadow: 'inset 0px -12px 0px rgba(0, 0, 0, 0.16)',
+    boxShadow: `inset 0px -8px 0px ${darken(0.12, backgroundColor)}`,
     textAlign: 'right',
     fontSize: '1.3rem',
     lineHeight: '1',
@@ -67,6 +68,8 @@ const headerButtons = css({
 const headerSpacer = css({
   flexGrow: 1,
 })
+
+const spellsButton = [buttonBase, css({ zIndex: 1 })]
 
 export const Header = () => {
   const { isOpen: isSettingsModalOpen, close: closeSettings, open: openSettings } = useModalState()
@@ -103,7 +106,7 @@ export const Header = () => {
           <Image src={settingsImageUrl} size="3rem" />
         </button>
         <SettingsModal isOpen={isSettingsModalOpen} onClose={closeSettings} />
-        <button type="button" css={buttonBase} disabled={!hasSpells} onClick={openSpells}>
+        <button type="button" css={spellsButton} disabled={!hasSpells} onClick={openSpells}>
           <Image src={spellImageUrl} size="4rem" />
         </button>
         <SpellsModal isOpen={isSpellsModalOpen} onClose={closeSpells} />
