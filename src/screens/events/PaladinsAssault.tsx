@@ -7,12 +7,12 @@ import { h2Title } from '../../styles/base'
 import { EventModalContentProps } from './helpers/eventModalContentProps'
 import { EventAction } from './components/EventAction'
 import { getPaladinsStrength } from '../../data/paladins/selectors'
-import { getDefenseBonus } from '../../data/buildings/selectors'
 import { getUndeadCount } from '../../data/undeads/selectors'
 import { gainResources } from '../../data/resources/actions'
 import { ResourceType } from '../../config/constants'
 import { killAllUndead, requireSacrifice } from '../../data/undeads/actions'
 import { resetPaladinsStrength } from '../../data/paladins/actions'
+import { getDefense } from '../../data/selectors'
 
 enum PaladinsAssaultStep {
   Setup,
@@ -27,7 +27,7 @@ const PALADINS_ASSAULT_MEDIUM = 6
 export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
   const { t } = useTranslation()
   const paladinsStrength = useSelector(getPaladinsStrength)
-  const defenseBonus = useSelector(getDefenseBonus)
+  const defenseBonus = useSelector(getDefense)
   const undeadCount = useSelector(getUndeadCount)
   const dispatch = useDispatch()
 

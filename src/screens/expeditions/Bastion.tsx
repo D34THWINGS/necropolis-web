@@ -9,7 +9,7 @@ import { ExpeditionAction } from './components/ExpeditionAction'
 import { textColor } from '../../styles/base'
 import { ResourceIcon } from '../../components/images/ResourceIcon'
 import { getBones, getSouls } from '../../data/resources/selectors'
-import { getUndeadArmyLethality } from '../../data/undeads/selectors'
+import { getLethality } from '../../data/selectors'
 import { gainResources, spendResources } from '../../data/resources/actions'
 import { TalentIcon } from '../../components/images/TalentIcon'
 import { getHasCancelledReinforcements } from '../../data/expeditions/selectors'
@@ -37,7 +37,7 @@ export const Bastion = () => {
   const { t } = useTranslation()
   const souls = useSelector(getSouls)
   const bones = useSelector(getBones)
-  const lethality = useSelector(getUndeadArmyLethality)
+  const lethality = useSelector(getLethality)
   const hasCancelledReinforcements = useSelector(getHasCancelledReinforcements)
   const dispatch = useDispatch()
 

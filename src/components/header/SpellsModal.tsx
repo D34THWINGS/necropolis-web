@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Modal, ModalColor } from '../ui/Modal'
 import { useTranslation } from '../../lang/useTranslation'
 import { blueBox, h2Title } from '../../styles/base'
@@ -11,17 +11,20 @@ import { ResourceIcon } from '../images/ResourceIcon'
 import soulStormBackgroundUrl from '../../assets/images/spells/soul-storm.png'
 import theKeyBackgroundUrl from '../../assets/images/spells/the-key.png'
 import {
+  CASTABLE_SPELLS,
   ResourceType,
   SOUL_STORM_DEFENSE_BONUS,
   SOUL_STORM_LETHALITY_BONUS,
   Spell,
   SPELLS_SOUL_COSTS,
 } from '../../config/constants'
+import { spendResources } from '../../data/resources/actions'
 
 const spellBox = (backgroundUrl: string) => [
   blueBox,
   css({
     marginTop: '0.3rem',
+    minHeight: '6rem',
     backgroundImage: `url(${backgroundUrl})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -67,6 +70,7 @@ export type SpellsModalProps = {
 export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
   const { t } = useTranslation()
   const spells = useSelector(getSpells)
+  const dispatch = useDispatch()
 
   const getSpellDescription = (spell: Spell) => {
     switch (spell) {
@@ -79,6 +83,10 @@ export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
     }
   }
 
+  const handleCastSpell = (spell: Spell) => () => {
+    dispatch(spendResources({ [ResourceType.Souls]: SPELLS_SOUL_COSTS[spell] }))
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} color={ModalColor.BLUE}>
       <h2 css={h2Title}>{t('spells')}</h2>
@@ -87,10 +95,12 @@ export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
           <h3 css={spellName}>{t('spellName', spell)}</h3>
           <div css={spellDetails}>
             <div css={spellDescription}>{getSpellDescription(spell)}</div>
-            <button type="button" css={spellCastButton}>
-              <ResourceIcon type={ResourceType.Souls} marginRight="0.3rem" />
-              {SPELLS_SOUL_COSTS[spell]}
-            </button>
+            {CASTABLE_SPELLS.includes(spell) && (
+              <button type="button" css={spellCastButton} onClick={handleCastSpell(spell)}>
+                <ResourceIcon type={ResourceType.Souls} marginRight="0.3rem" />
+                {SPELLS_SOUL_COSTS[spell]}
+              </button>
+            )}
           </div>
         </div>
       ))}

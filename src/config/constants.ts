@@ -74,6 +74,7 @@ export enum Spell {
 }
 
 export const DISCOVERABLE_SPELLS = [Spell.TheKey]
+export const CASTABLE_SPELLS = [Spell.SoulStorm]
 
 export const SPELLS_SOUL_COSTS = {
   [Spell.SoulStorm]: 3,

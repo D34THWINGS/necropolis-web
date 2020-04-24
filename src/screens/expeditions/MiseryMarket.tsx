@@ -6,7 +6,7 @@ import { ExpeditionModal } from './components/ExpeditionModal'
 import { ExpeditionType, ResourceType, Spell, SPELLS_SOUL_COSTS, UndeadTalent } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
-import { getUndeadArmyLethality, getUndeadArmyMuscles, getUndeadCount } from '../../data/undeads/selectors'
+import { getUndeadArmyMuscles, getUndeadCount } from '../../data/undeads/selectors'
 import { textColor } from '../../styles/base'
 import { TalentIcon } from '../../components/images/TalentIcon'
 import { getHasTheKey } from '../../data/spells/selectors'
@@ -14,6 +14,7 @@ import { ResourceIcon } from '../../components/images/ResourceIcon'
 import { gainResources, spendResources } from '../../data/resources/actions'
 import { getSouls } from '../../data/resources/selectors'
 import { requireSacrifice } from '../../data/undeads/actions'
+import { getLethality } from '../../data/selectors'
 
 const MISERY_MARKET_CATAPULT_COST = 1
 const MISERY_MARKET_STEP1_STRENGTH_REQUIRED = 4
@@ -37,7 +38,7 @@ export const MiseryMarket = () => {
   const { t } = useTranslation()
   const undeadCount = useSelector(getUndeadCount)
   const muscles = useSelector(getUndeadArmyMuscles)
-  const lethality = useSelector(getUndeadArmyLethality)
+  const lethality = useSelector(getLethality)
   const hasTheKey = useSelector(getHasTheKey)
   const souls = useSelector(getSouls)
   const dispatch = useDispatch()

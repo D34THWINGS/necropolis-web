@@ -19,6 +19,7 @@ import { addSpell, discoverSpell } from './spells/actions'
 import { getDiscoverableSpells } from './spells/selectors'
 import { endExpedition, fleeExpedition } from './expeditions/actions'
 import { endEventEpic, eventsEpic } from './events/epics'
+import { soulStormEpic } from './spells/epics'
 
 const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = action$ =>
   action$.pipe(
@@ -82,4 +83,5 @@ export const rootEpic = combineEpics(
   endEventEpic,
   discoverSpellEpic,
   fleeExpeditionEpic,
+  soulStormEpic,
 )

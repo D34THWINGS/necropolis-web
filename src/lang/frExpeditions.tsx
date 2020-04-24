@@ -99,17 +99,16 @@ export const frExpeditions = {
     </Fragment>
   ),
   townHallStep2: 'De la porte, il n’en reste que des miettes.',
-  townHallStep3:
-    // eslint-disable-next-line max-len
-    'Votre intrusion a alerté le bâtiment. Les Paladins décident d’y mettre le feu, et fuient une fois de plus, mais cette fois-ci vers le Bastion. Vous perdez dans les flammes.',
+  townHallStep3: (cost: number) => (
+    <Fragment>
+      Votre intrusion a alerté le bâtiment. Les Paladins décident d’y mettre le feu, et fuient une fois de plus, mais
+      cette fois-ci vers le Bastion. Vous perdez <span css={textColor('PURPLE')}>{cost} Mort-vivant</span> dans les
+      flammes.
+    </Fragment>
+  ),
   townHallAction2: 'Les poursuivre',
   townHallAction3: 'Piller autant que vous le pouvez',
   townHallAction4: 'Fouiller les geôles',
-  townHallGoInFlames: (cost: number) => (
-    <Fragment>
-      Vous perdez <span css={textColor('PURPLE')}>{cost} Mort-vivant</span> de votre choix dans les flammes.
-    </Fragment>
-  ),
   townHallStep4:
     // eslint-disable-next-line max-len
     'Vous réussissez à tuer plusieurs fuyards, ce qui devrait vous alléger la tâche au Bastion. Par ailleurs, vous trouvez sur l’un des cadavres le plan de leur forteresse et plus particulièrement d’un passage secret.',

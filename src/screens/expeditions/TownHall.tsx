@@ -84,7 +84,7 @@ export const TownHall = () => {
             }
             return (
               <Fragment>
-                {t('townHallStep3')}
+                {t('townHallStep3', TOWN_HALL_FIRE_UNDEAD_COST)}
                 <ExpeditionAction
                   disabled={undeadCount < TOWN_HALL_FIRE_UNDEAD_COST}
                   onClick={handleLooseUndeadInFire(goToStep(TownHallStep.KillRunners))}
@@ -103,7 +103,6 @@ export const TownHall = () => {
                 >
                   {t('townHallAction4')}
                 </ExpeditionAction>
-                {t('townHallGoInFlames', TOWN_HALL_FIRE_UNDEAD_COST)}
                 {renderFleeButton()}
               </Fragment>
             )
