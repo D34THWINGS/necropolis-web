@@ -245,6 +245,9 @@ export const fr = {
     </Fragment>
   ),
 
+  gameLost: 'La Faucheuse a enfin récolté votre âme désespérée !',
+  gameRetry: 'Recommencer',
+
   ...frOnboarding,
   ...frExpeditions,
   ...frEvents,

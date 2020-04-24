@@ -9,6 +9,8 @@ import { GameContent } from './GameContent'
 import { getIsOnboardingActive } from '../data/onboarding/selectors'
 import { Intro } from '../screens/onboarding/Intro'
 import { CheatsModal } from '../components/CheatsModal'
+import { getUndeadCount } from '../data/undeads/selectors'
+import { GameLost } from '../screens/gameEnd/GameLost'
 
 const appContainer = css({
   display: 'flex',
@@ -32,12 +34,24 @@ const gameContainer = css({
 
 export const App = () => {
   const isOnboardingActive = useSelector(getIsOnboardingActive)
+  const undeadCount = useSelector(getUndeadCount)
+
+  const getContent = () => {
+    if (isOnboardingActive) {
+      return <Intro />
+    }
+    if (undeadCount === 0) {
+      return <GameLost />
+    }
+    return <GameContent />
+  }
+
   return (
     <React.Fragment>
       <ResetCSS />
       <Fonts />
       <div css={appContainer}>
-        <div css={gameContainer}>{isOnboardingActive ? <Intro /> : <GameContent />}</div>
+        <div css={gameContainer}>{getContent()}</div>
       </div>
       <CheatsModal />
     </React.Fragment>
