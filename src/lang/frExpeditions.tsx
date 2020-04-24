@@ -123,16 +123,16 @@ export const frExpeditions = {
       avant que l’Hôtel de ville ne soit emporté dans le brasier.
     </Fragment>
   ),
-  townHallStep6: (hasBloodPrince: boolean) =>
-    hasBloodPrince ? (
-      'Vous ne trouvez rien d’intéressant dans les geôles.'
-    ) : (
+  townHallStep6: (isBloodPrinceInJail: boolean) =>
+    isBloodPrinceInJail ? (
       <Fragment>
         Vous libérez le <span css={[alignItemsCenter, textColor('PURPLE')]}>Prince de Sang-Séché</span>. Ce dernier
         s’explique :<br />
         “Les Paladins m’ont mis en prison car ils doutaient de ma loyauté. L’un a proposé de prendre ma baguette et de
         me tuer, mais un changement dans le script me sauva la mise. Je vous remercie de m’avoir libéré.”
       </Fragment>
+    ) : (
+      'Vous ne trouvez rien d’intéressant dans les geôles.'
     ),
 
   bastionTitle: 'Bastion',

@@ -10,7 +10,7 @@ import { gainResources, spendResources } from './resources/actions'
 import { getRaisableUndeadTypes, getUpkeep } from './undeads/selectors'
 import { getBuildingsProduction, getCatacombs, getOssuary } from './buildings/selectors'
 import { getBuildingUpgradeCost, getOssuaryBonesCost, getRaiseUndeadSoulCost } from './buildings/helpers'
-import { addUndead, banUndead, raiseUndead } from './undeads/actions'
+import { addUndead, killUndead, raiseUndead } from './undeads/actions'
 import { ResourceType, TurnPhase } from '../config/constants'
 import { getCurrentPhase } from './turn/selectors'
 import { getMeat } from './resources/selectors'
@@ -30,7 +30,7 @@ const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = action$ =>
 
 const upkeepEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   state$.pipe(
-    throttle(() => action$.pipe(filter(isActionOf([nextPhase, banUndead]))), { leading: false, trailing: true }),
+    throttle(() => action$.pipe(filter(isActionOf([nextPhase, killUndead]))), { leading: false, trailing: true }),
     filter(state => getCurrentPhase(state) === TurnPhase.Upkeep && getMeat(state) >= getUpkeep(state)),
     flatMap(state => of(spendResources({ [ResourceType.Meat]: getUpkeep(state) }), nextPhase())),
   )

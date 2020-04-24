@@ -9,7 +9,7 @@ import { textColor } from '../../styles/base'
 import { ResourceIcon } from '../../components/images/ResourceIcon'
 import { getSouls } from '../../data/resources/selectors'
 import { gainResources, spendResources } from '../../data/resources/actions'
-import { getHasBloodPrince, getUndeadCount } from '../../data/undeads/selectors'
+import { getIsBloodPrinceInJail, getUndeadCount } from '../../data/undeads/selectors'
 import { addUndead, requireSacrifice } from '../../data/undeads/actions'
 import { createUndead } from '../../data/undeads/helpers'
 import { cancelReinforcements } from '../../data/expeditions/actions'
@@ -30,7 +30,7 @@ enum TownHallStep {
 export const TownHall = () => {
   const { t } = useTranslation()
   const hasTheKey = useSelector(getHasTheKey)
-  const hasBloodPrince = useSelector(getHasBloodPrince)
+  const isBloodPrinceInJail = useSelector(getIsBloodPrinceInJail)
   const souls = useSelector(getSouls)
   const undeadCount = useSelector(getUndeadCount)
   const dispatch = useDispatch()
@@ -131,9 +131,9 @@ export const TownHall = () => {
             const handleFreeBloodPrince = () => dispatch(addUndead(bloodPrince))
             return (
               <Fragment>
-                {t('townHallStep6', hasBloodPrince)}
-                {!hasBloodPrince && <UndeadBox undead={bloodPrince} />}
-                {renderEndButton(hasBloodPrince ? undefined : handleFreeBloodPrince)}
+                {t('townHallStep6', isBloodPrinceInJail)}
+                {isBloodPrinceInJail && <UndeadBox undead={bloodPrince} />}
+                {renderEndButton(isBloodPrinceInJail ? handleFreeBloodPrince : undefined)}
               </Fragment>
             )
           }

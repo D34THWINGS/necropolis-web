@@ -11,7 +11,7 @@ import { useTranslation } from '../../lang/useTranslation'
 import { getUndeads, getUpkeep } from '../../data/undeads/selectors'
 import { contentCover, h2Title } from '../../styles/base'
 import { ResourceIcon } from '../images/ResourceIcon'
-import { ResourceType } from '../../config/constants'
+import { ResourceType, UndeadType } from '../../config/constants'
 import { UndeadBox } from './UndeadBox'
 import { banUndead } from '../../data/undeads/actions'
 
@@ -84,7 +84,7 @@ export const UndeadOverlay = () => {
   const meatCost = useSelector(getUpkeep)
   const undeads = useSelector(getUndeads)
 
-  const handleBan = (id: number) => () => dispatch(banUndead(id))
+  const handleBan = (type: UndeadType) => () => dispatch(banUndead(type))
 
   return (
     <Fragment>
@@ -98,7 +98,7 @@ export const UndeadOverlay = () => {
             <ResourceIcon type={ResourceType.Meat} marginLeft="0.5rem" />
           </p>
           {undeads.map(undead => (
-            <UndeadBox key={undead.id} undead={undead} onBan={handleBan(undead.id)} />
+            <UndeadBox key={undead.type} undead={undead} onBan={handleBan(undead.type)} />
           ))}
         </div>
         <button type="button" css={undeadOverlayToggle} onClick={toggle}>

@@ -1,15 +1,14 @@
 import { createAction } from 'typesafe-actions'
 import { Undead } from './helpers'
+import { UndeadType } from '../../config/constants'
 
-export const banUndead = createAction('undeads/BAN', (id: number) => ({
-  id,
-}))<{ id: number }>()
+export const banUndead = createAction('undeads/BAN', (type: UndeadType) => ({ type }))()
+
+export const killUndead = createAction('undeads/KILL', (type: UndeadType) => ({ type }))()
 
 export const raiseUndead = createAction('undeads/RAISE')()
 
-export const addUndead = createAction('undeads/ADD', (undead: Undead) => ({
-  undead,
-}))<{ undead: Undead }>()
+export const addUndead = createAction('undeads/ADD', (undead: Undead) => ({ undead }))()
 
 export const killAllUndead = createAction('undeads/KILL_ALL')()
 

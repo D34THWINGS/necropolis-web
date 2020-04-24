@@ -1,7 +1,6 @@
 import { UndeadTalent, UndeadType } from '../../config/constants'
 
 export type Undead = {
-  id: number
   type: UndeadType
   talents: [UndeadTalent, number][]
   raised: boolean
@@ -27,7 +26,6 @@ const getBaseTalents = (type: UndeadType): Undead['talents'] => {
 }
 
 export const createUndead = (type: UndeadType, raised = false): Undead => ({
-  id: Date.now(),
   type,
   talents: getBaseTalents(type),
   raised,

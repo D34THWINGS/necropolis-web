@@ -7,9 +7,9 @@ import { getMeat } from '../../data/resources/selectors'
 import { h2Title } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { UndeadBox } from './UndeadBox'
-import { banUndead } from '../../data/undeads/actions'
+import { killUndead } from '../../data/undeads/actions'
 import { getCurrentPhase } from '../../data/turn/selectors'
-import { TurnPhase } from '../../config/constants'
+import { TurnPhase, UndeadType } from '../../config/constants'
 
 export const UndeadUpkeep = () => {
   const { t } = useTranslation()
@@ -19,14 +19,14 @@ export const UndeadUpkeep = () => {
   const phase = useSelector(getCurrentPhase)
   const dispatch = useDispatch()
 
-  const handleBan = (id: number) => () => dispatch(banUndead(id))
+  const handleBan = (type: UndeadType) => () => dispatch(killUndead(type))
 
   return (
     <Modal isOpen={upkeep > meat && phase === TurnPhase.Upkeep} color={ModalColor.PURPLE}>
       <h2 css={h2Title}>{t('upkeepTitle')}</h2>
       <p>{t('upkeepInsufficient', upkeep, meat)}</p>
       {undeads.map(undead => (
-        <UndeadBox key={undead.id} undead={undead} onBan={handleBan(undead.id)} />
+        <UndeadBox key={undead.type} undead={undead} onBan={handleBan(undead.type)} />
       ))}
     </Modal>
   )

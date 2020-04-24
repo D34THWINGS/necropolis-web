@@ -8,13 +8,27 @@ export const getUndeadCount = (state: RootState) => getUndeads(state).length
 
 export const getUpkeep = getUndeadCount
 
-export const getRaisedUndeadCount = (state: RootState) =>
-  getUndeads(state).reduce((sum, undead) => (undead.raised ? sum + 1 : sum), 0)
+export const getUndeadTypes = (state: RootState): UndeadType[] => getUndeads(state).map(undead => undead.type)
 
-export const getUndeadTypes = (state: RootState) => getUndeads(state).map(undead => undead.type)
+export const getKilledUndeads = (state: RootState) => state.undeads.killed
+
+export const getBannedUndeads = (state: RootState) => state.undeads.banned
+
+export const getRaisedUndeadCount = (state: RootState) =>
+  RAISABLE_UNDEADS.filter(
+    type =>
+      getUndeadTypes(state).includes(type) ||
+      getKilledUndeads(state).includes(type) ||
+      getBannedUndeads(state).includes(type),
+  ).length
 
 export const getRaisableUndeadTypes = (state: RootState) =>
-  RAISABLE_UNDEADS.filter(type => !getUndeadTypes(state).includes(type))
+  RAISABLE_UNDEADS.filter(
+    type =>
+      !getUndeadTypes(state).includes(type) &&
+      !getKilledUndeads(state).includes(type) &&
+      !getBannedUndeads(state).includes(type),
+  )
 
 const getUndeadTalent = (undead: Undead, searchedTalent: UndeadTalent) =>
   (undead.talents.find(([talent]) => talent === searchedTalent) || [])[1] || 0
@@ -26,7 +40,7 @@ export const getUndeadArmyMuscles = getUndeadArmyTalentTotal(UndeadTalent.Muscle
 
 export const getUndeadArmyLethality = getUndeadArmyTalentTotal(UndeadTalent.Lethality)
 
-export const getHasBloodPrince = (state: RootState) =>
-  getUndeads(state).some(undead => undead.type === UndeadType.BloodPrince)
+export const getIsBloodPrinceInJail = (state: RootState) =>
+  !getUndeadTypes(state).includes(UndeadType.BloodPrince) && !getKilledUndeads(state).includes(UndeadType.BloodPrince)
 
 export const getRequiredSacrifices = (state: RootState) => state.undeads.requiredSacrifices
