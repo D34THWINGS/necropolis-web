@@ -8,6 +8,7 @@ import {
   SOUL_WELL_SOUL_PRODUCTION,
 } from '../../config/constants'
 import { ResourcesState } from '../resources/reducer'
+import { getBuildingMaxLevel } from './helpers'
 
 export const getBuildings = (state: RootState) => state.buildings
 
@@ -38,3 +39,6 @@ export const getBuildingsProduction = (state: RootState): ResourcesState => {
     materials: 0,
   }
 }
+
+export const getIsBuildingsFullyUpgraded = (state: RootState) =>
+  Object.entries(getBuildings(state)).every(([type, { level }]) => getBuildingMaxLevel(type as BuildingType) === level)

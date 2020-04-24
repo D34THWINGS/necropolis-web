@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { useDispatch } from 'react-redux'
-import { redSquareButton } from '../../../styles/buttons'
+import { darkRedSquareButton } from '../../../styles/buttons'
 import { useTranslation } from '../../../lang/useTranslation'
 import { endEvent } from '../../../data/events/actions'
 
 const eventAcknowledgeButton = [
-  ...redSquareButton,
+  ...darkRedSquareButton,
   css({
     marginTop: '0.4rem',
   }),

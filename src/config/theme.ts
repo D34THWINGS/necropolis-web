@@ -6,12 +6,14 @@ export const colors = {
   DARK_GREEN: '#144D49',
   CYAN: '#80f4d2',
   RED: '#fb5d46',
+  DARK_RED: '#3D0F0F',
   PURPLE: '#9a58fd',
   DARK_PURPLE: '#61458C',
   LIGHT_BLUE: '#80DDF4',
   BLUE: '#12c1f4',
   DARK_BLUE: '#2F839B',
   LIME: '#2bfd02',
+  FOREST: '#2F9B47',
   BROWN: '#b8724b',
 }
 

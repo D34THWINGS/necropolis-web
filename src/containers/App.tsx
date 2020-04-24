@@ -11,6 +11,8 @@ import { Intro } from '../screens/onboarding/Intro'
 import { CheatsModal } from '../components/CheatsModal'
 import { getUndeadCount } from '../data/undeads/selectors'
 import { GameLost } from '../screens/gameEnd/GameLost'
+import { GameWon } from '../screens/gameEnd/GameWon'
+import { getIsBuildingsFullyUpgraded } from '../data/buildings/selectors'
 
 const appContainer = css({
   display: 'flex',
@@ -35,10 +37,14 @@ const gameContainer = css({
 export const App = () => {
   const isOnboardingActive = useSelector(getIsOnboardingActive)
   const undeadCount = useSelector(getUndeadCount)
+  const isBuildingsFullyUpgraded = useSelector(getIsBuildingsFullyUpgraded)
 
   const getContent = () => {
     if (isOnboardingActive) {
       return <Intro />
+    }
+    if (isBuildingsFullyUpgraded) {
+      return <GameWon />
     }
     if (undeadCount === 0) {
       return <GameLost />

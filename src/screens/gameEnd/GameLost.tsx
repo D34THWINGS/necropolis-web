@@ -6,33 +6,12 @@ import gameLostImageUrl from '../../assets/images/endScreens/defeat.png'
 import { Image } from '../../components/images/Image'
 import { useTranslation } from '../../lang/useTranslation'
 import { darkBlueSquareButton } from '../../styles/buttons'
-import { colors, shadows } from '../../config/theme'
 import { resetGame } from '../../store/resetableStore'
+import { gameEndContainer, gameEndText } from './helpers/gameEndStyles'
 
-const gameLostContainer = css({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '100%',
-  backgroundImage: `url(${gameLostBgUrl})`,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-})
+const gameLostContainer = gameEndContainer(gameLostBgUrl)
 
-const gameLostText = css({
-  marginTop: '-6rem',
-  marginBottom: '2rem',
-  borderRadius: '20px',
-  padding: '0.4rem',
-  maxWidth: '18rem',
-  backgroundColor: 'rgba(27, 79, 101, 0.75);',
-  fontSize: '1.3rem',
-  color: colors.WHITE,
-  textShadow: shadows.TEXT_FLAT,
-  textAlign: 'center',
-})
+const gameLostText = gameEndText('-6rem', 'rgba(27, 79, 101, 0.75);')
 
 const gameLostButton = [
   ...darkBlueSquareButton,

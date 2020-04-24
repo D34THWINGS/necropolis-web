@@ -247,6 +247,9 @@ export const fr = {
 
   gameLost: 'La Faucheuse a enfin récolté votre âme désespérée !',
   gameRetry: 'Recommencer',
+  gameWon:
+    // eslint-disable-next-line max-len
+    'Vous l’avez fait, atteindre la prospérité\u00A0! Il ne vous reste plus qu’à profiter de la vie jusqu’à la fin des temps...',
 
   ...frOnboarding,
   ...frExpeditions,
