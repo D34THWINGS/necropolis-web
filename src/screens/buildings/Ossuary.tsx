@@ -3,7 +3,8 @@ import { jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
 import researchIconUrl from '../../assets/images/icons/research.png'
-import { buildingSpecialActionButton, buildingActionLocked } from './helpers/buildingsStyles'
+import lockIconUrl from '../../assets/images/icons/lock.png'
+import { buildingSpecialActionButton } from './helpers/buildingsStyles'
 import {
   BuildingType,
   OSSUARY_BONES_COST,
@@ -56,8 +57,8 @@ export const Ossuary = () => {
           css={buildingSpecialActionButton}
           onClick={handleDiscoverSpell}
         >
-          {level === 0 && <div css={buildingActionLocked} />}
-          <Image src={researchIconUrl} size="3rem" />
+          {level === 0 && <Image src={lockIconUrl} size="3rem" />}
+          {level > 0 && <Image src={researchIconUrl} size="3rem" />}
         </button>
       )}
       onUpgrade={handleUpgrade}

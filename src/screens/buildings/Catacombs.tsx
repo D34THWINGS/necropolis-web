@@ -3,7 +3,8 @@ import { jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
 import reanimateIconUrl from '../../assets/images/icons/reanimate.png'
-import { buildingSpecialActionButton, buildingActionLocked } from './helpers/buildingsStyles'
+import lockIconUrl from '../../assets/images/icons/lock.png'
+import { buildingSpecialActionButton } from './helpers/buildingsStyles'
 import { BuildingType } from '../../config/constants'
 import { getSouls } from '../../data/resources/selectors'
 import { getMaxUndeadRaising, getRaiseUndeadSoulCost } from '../../data/buildings/helpers'
@@ -40,8 +41,8 @@ export const Catacombs = () => {
           css={buildingSpecialActionButton}
           onClick={handleRaiseUndead}
         >
-          {level === 0 && <div css={buildingActionLocked} />}
-          <Image src={reanimateIconUrl} size="3rem" />
+          {level === 0 && <Image src={lockIconUrl} size="3rem" />}
+          {level > 0 && <Image src={reanimateIconUrl} size="3rem" />}
         </button>
       )}
     />

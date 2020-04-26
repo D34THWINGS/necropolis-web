@@ -3,7 +3,7 @@ import { shadows } from '../../../config/theme'
 import { contentCover, greenBox, textColor } from '../../../styles/base'
 import upgradeArrowUrl from '../../../assets/images/icons/cyan-arrow.png'
 import { cyanSquareButton } from '../../../styles/buttons'
-import actionLockIconUrl from '../../../assets/images/icons/action-lock.png'
+import actionLockIconUrl from '../../../assets/images/icons/lock.png'
 
 export const buildingWrapper = css({
   display: 'flex',
@@ -67,16 +67,6 @@ export const buildingSpecialActionButton = [
     alignSelf: 'center',
     position: 'relative',
     padding: '0.3rem',
-    width: 'auto',
-  }),
-]
-
-export const buildingActionLocked = [
-  contentCover,
-  css({
-    backgroundImage: `url(${actionLockIconUrl})`,
-    backgroundSize: 'contain',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
+    width: '6rem',
   }),
 ]
