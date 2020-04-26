@@ -13,8 +13,7 @@ import { EventAcknowledgeButton } from './components/EventAcknowledgeButton'
 import { Collapsing } from './Collapsing'
 import { Plunder } from './Plunder'
 import { Offering } from './Offering'
-
-const EmptyEvent = () => null
+import { StateOfEmergency } from './StateOfEmergency'
 
 const eventsMap: Record<EventType, ComponentType<EventModalContentProps>> = {
   [EventType.CallToArms]: CallToArms,
@@ -22,7 +21,7 @@ const eventsMap: Record<EventType, ComponentType<EventModalContentProps>> = {
   [EventType.Collapsing]: Collapsing,
   [EventType.Offering]: Offering,
   [EventType.Plunder]: Plunder,
-  [EventType.StateOfEmergency]: EmptyEvent,
+  [EventType.StateOfEmergency]: StateOfEmergency,
 }
 
 export const EventModal = () => {

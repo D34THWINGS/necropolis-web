@@ -11,8 +11,10 @@ import {
 } from '../config/constants'
 import { getBattlementsDefenseBonus } from './buildings/helpers'
 import { getBattlements, getConstructedBuildings } from './buildings/selectors'
-import { getHasArtifact, getPastEvents } from './events/selectors'
+import { getHasArtifact, getIsEventPast, getPastEvents } from './events/selectors'
 import { getTurn } from './turn/selectors'
+import { getCarnage } from './expeditions/selectors'
+import { getPaladinsShouldAttack } from './paladins/selectors'
 
 export const getLethality = (state: RootState) =>
   getUndeadArmyLethality(state) + (getIsSoulStormActive(state) ? SOUL_STORM_LETHALITY_BONUS : 0)
@@ -37,3 +39,13 @@ export const getRandomEventPool = createSelector(
     return eventPool.filter(event => !pastEvents.includes(event))
   },
 )
+
+export const getQuestEvent = (state: RootState) => {
+  if (getCarnage(state) && !getIsEventPast(EventType.StateOfEmergency)(state)) {
+    return EventType.StateOfEmergency
+  }
+  if (getPaladinsShouldAttack(state)) {
+    return EventType.PaladinsAssault
+  }
+  return null
+}

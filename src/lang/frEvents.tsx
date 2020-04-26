@@ -184,4 +184,13 @@ export const frEvents = {
     }
   },
   offeringActionSubtitle: <span css={textColor('CYAN')}>Action</span>,
+
+  stateOfEmergencyTitle: "L'État d'Urgence",
+  stateOfEmergencyDescription: (
+    <Fragment>
+      Suite au carnage orchestré par vos soins, les Paladins ont décrété l’état d’urgence. Doublant le budget de la
+      défense, ils ont investi dans de nouveaux équipements tels que des lances à eau et des bombes à gaz, et ont hâté
+      les préparatifs pour leur prochain assaut.
+    </Fragment>
+  ),
 }

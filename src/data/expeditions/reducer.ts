@@ -8,6 +8,7 @@ import {
   fleeExpedition,
   openExpedition,
   setExpeditionStep,
+  triggerCarnage,
 } from './actions'
 
 export type ActiveExpedition = {
@@ -19,6 +20,7 @@ export const expeditions = createReducer({
   done: [] as ExpeditionType[],
   active: [] as ActiveExpedition[],
   opened: null as ExpeditionType | null,
+  carnage: false,
   cancelledReinforcements: false,
 })
   .handleAction(openExpedition, (state, { payload: { type } }) => ({
@@ -41,3 +43,4 @@ export const expeditions = createReducer({
     active: state.active.filter(expedition => expedition.type !== type),
   }))
   .handleAction(cancelReinforcements, state => ({ ...state, cancelledReinforcements: true }))
+  .handleAction(triggerCarnage, state => ({ ...state, carnage: true }))

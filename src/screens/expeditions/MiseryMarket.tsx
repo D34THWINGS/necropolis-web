@@ -15,6 +15,7 @@ import { gainResources, spendResources } from '../../data/resources/actions'
 import { getSouls } from '../../data/resources/selectors'
 import { requireSacrifice } from '../../data/undeads/actions'
 import { getLethality } from '../../data/selectors'
+import { triggerCarnage } from '../../data/expeditions/actions'
 
 const MISERY_MARKET_CATAPULT_COST = 1
 const MISERY_MARKET_STEP1_STRENGTH_REQUIRED = 4
@@ -163,7 +164,7 @@ export const MiseryMarket = () => {
               </Fragment>
             )
           case MiseryMarketStep.Carnage: {
-            const handleCollectFinalReward = () =>
+            const handleCollectFinalReward = () => {
               dispatch(
                 gainResources({
                   [ResourceType.Meat]: MISERY_MARKET_MEAT_REWARD,
@@ -171,6 +172,8 @@ export const MiseryMarket = () => {
                   [ResourceType.Materials]: MISERY_MARKET_MATERIAL_REWARD,
                 }),
               )
+              dispatch(triggerCarnage())
+            }
             return (
               <Fragment>
                 {t(
