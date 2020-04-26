@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EventModalContentProps } from './helpers/eventModalContentProps'
-import { h2Title } from '../../styles/base'
+import { h2Title, textCenter } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { EventAction } from './components/EventAction'
 import {
@@ -16,6 +16,9 @@ import {
 import { getMaterials } from '../../data/resources/selectors'
 import { gainResources, spendResources } from '../../data/resources/actions'
 import { getLethality } from '../../data/selectors'
+import { PaladinsIcon } from '../../components/images/PaladinsIcon'
+import { getPaladinsCounter } from '../../data/paladins/selectors'
+import { increasePaladinsCounter } from '../../data/paladins/actions'
 
 enum PlunderStep {
   Setup,
@@ -25,6 +28,7 @@ enum PlunderStep {
 
 export const Plunder = ({ renderStep }: EventModalContentProps) => {
   const { t } = useTranslation()
+  const paladinsCounter = useSelector(getPaladinsCounter)
   const lethality = useSelector(getLethality)
   const materials = useSelector(getMaterials)
   const dispatch = useDispatch()
@@ -49,14 +53,19 @@ export const Plunder = ({ renderStep }: EventModalContentProps) => {
               </Fragment>
             )
           case PlunderStep.Battle: {
-            const handleFight = () =>
+            const handleFight = () => {
               dispatch(
                 gainResources({ [ResourceType.Meat]: PLUNDER_REWARD_MEAT, [ResourceType.Bones]: PLUNDER_REWARD_BONES }),
               )
+              dispatch(increasePaladinsCounter())
+            }
 
             return (
               <Fragment>
                 {t('plunderStep2', PLUNDER_REWARD_MEAT, PLUNDER_REWARD_BONES)}
+                <p css={textCenter}>
+                  <PaladinsIcon counter={paladinsCounter + 1} />
+                </p>
                 {renderAcknowledgeButton(handleFight)}
               </Fragment>
             )
@@ -65,12 +74,22 @@ export const Plunder = ({ renderStep }: EventModalContentProps) => {
             const materialsCost = Math.min(PLUNDER_LEAVE_MATERIAL_COST, materials)
             const meatCost = PLUNDER_LEAVE_MATERIAL_COST - materialsCost
 
-            const handleLeave = () =>
-              dispatch(spendResources({ [ResourceType.Materials]: materialsCost, [ResourceType.Meat]: meatCost }))
+            const handleLeave = () => {
+              dispatch(
+                spendResources({
+                  [ResourceType.Materials]: materialsCost,
+                  [ResourceType.Meat]: meatCost,
+                }),
+              )
+              dispatch(increasePaladinsCounter())
+            }
 
             return (
               <Fragment>
                 {t('plunderStep3', materialsCost, meatCost)}
+                <p css={textCenter}>
+                  <PaladinsIcon counter={paladinsCounter + 1} />
+                </p>
                 {renderAcknowledgeButton(handleLeave)}
               </Fragment>
             )

@@ -6,9 +6,7 @@ import { Modal, useModalState } from './ui/Modal'
 import { h2Title } from '../styles/base'
 import { greenSquareButton } from '../styles/buttons'
 import { gainResources } from '../data/resources/actions'
-import { BuildingType, ResourceType } from '../config/constants'
-import { upgradeBuilding } from '../data/buildings/actions'
-import { getBuildingMaxLevel } from '../data/buildings/helpers'
+import { ResourceType } from '../config/constants'
 
 declare global {
   interface Window {
@@ -36,20 +34,11 @@ export const CheatsModal = () => {
       }),
     )
 
-  const handleBuildingsMaxLevel = () => {
-    Object.values(BuildingType).forEach(buildingType =>
-      dispatch(upgradeBuilding(buildingType, getBuildingMaxLevel(buildingType))),
-    )
-  }
-
   return (
     <Modal isOpen={isOpen} onClose={close}>
       <h2 css={h2Title}>Cheats</h2>
       <button type="button" css={cheatButton} onClick={handleAddResources}>
         Add resources
-      </button>
-      <button type="button" css={cheatButton} onClick={handleBuildingsMaxLevel}>
-        Buildings max level
       </button>
     </Modal>
   )

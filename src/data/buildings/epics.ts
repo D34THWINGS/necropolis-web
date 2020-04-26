@@ -9,13 +9,15 @@ import { spendResources } from '../resources/actions'
 import { ResourceType } from '../../config/constants'
 import { getBuildingUpgradeCost } from './helpers'
 import { nextPhase } from '../turn/actions'
+import { getBuildingLevel } from './selectors'
 
-export const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = action$ =>
+export const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(upgradeBuilding)),
-    flatMap(({ payload: { type, level } }) =>
-      of(spendResources({ [ResourceType.Materials]: getBuildingUpgradeCost(type, level) }), nextPhase()),
-    ),
+    flatMap(({ payload: { type } }) => {
+      const level = getBuildingLevel(type)(state$.value)
+      return of(spendResources({ [ResourceType.Materials]: getBuildingUpgradeCost(type, level) }), nextPhase())
+    }),
   )
 
 export const repairBuildingEpic: Epic<RootAction, RootAction, RootState> = action$ =>

@@ -49,3 +49,9 @@ export const getIsBuildingCollapsed = (type: BuildingType) => (state: RootState)
 
 export const getConstructedBuildings = (state: RootState) =>
   Object.values(BuildingType).filter(type => getBuilding(type)(state).level > 0)
+
+export const getUpgradableBuildings = createSelector(getBuildings, buildings =>
+  Object.values(BuildingType).filter(
+    type => buildings[type].level > 0 && buildings[type].level < getBuildingMaxLevel(type),
+  ),
+)

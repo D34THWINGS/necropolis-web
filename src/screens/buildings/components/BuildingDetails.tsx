@@ -36,7 +36,7 @@ export const BuildingDetails = ({
   const dispatch = useDispatch()
 
   const handleUpgrade = () => {
-    dispatch(upgradeBuilding(type, level + 1))
+    dispatch(upgradeBuilding(type))
     if (onUpgrade) {
       onUpgrade(level + 1)
     }

@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core'
 import { Fragment, ReactNode } from 'react'
 import { textColor } from '../styles/base'
 import { ResourceIcon } from '../components/images/ResourceIcon'
-import { ResourceType, UndeadTalent } from '../config/constants'
+import { BuildingType, ResourceType, UndeadTalent } from '../config/constants'
 import { plural } from './i18nHelpers'
 import { TalentIcon } from '../components/images/TalentIcon'
 
@@ -158,4 +158,30 @@ export const frEvents = {
       .
     </Fragment>
   ),
+
+  offeringTitle: "L'Offrande",
+  offeringDescription: (
+    <Fragment>
+      L’idée d’être maintenant immortel vous empli d’ennui. Pour tuer le temps, vous décidez de rendre une petite visite
+      à votre propre tombeau. Vous passez un long moment à admiriez les offrandes, mais parmi toutes ces breloques, une
+      retient particulièrement votre attention : un parchemin magique.
+    </Fragment>
+  ),
+  offeringAction: (type: BuildingType) => {
+    switch (type) {
+      case BuildingType.CharnelHouse:
+        return 'Améliorer le Charnier'
+      case BuildingType.Ossuary:
+        return "Améliorer l'Ossuaire"
+      case BuildingType.Catacombs:
+        return 'Améliorer les Catacombes'
+      case BuildingType.Battlements:
+        return 'Améliorer les Remparts'
+      case BuildingType.SoulWell:
+        return 'Améliorer le Puits des Âmes'
+      default:
+        throw new Error('Unknown building')
+    }
+  },
+  offeringActionSubtitle: <span css={textColor('CYAN')}>Action</span>,
 }

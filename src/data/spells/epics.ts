@@ -1,6 +1,6 @@
 import { isActionOf } from 'typesafe-actions'
 import { Epic } from 'redux-observable'
-import { filter, mapTo, throttle } from 'rxjs/operators'
+import { filter, mapTo } from 'rxjs/operators'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
 import { nextPhase } from '../turn/actions'
@@ -10,11 +10,8 @@ import { getIsSoulStormActive } from './selectors'
 import { toggleSoulStorm } from './actions'
 
 export const soulStormEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  state$.pipe(
-    throttle(() => action$.pipe(filter(isActionOf([nextPhase, setEventStep, setExpeditionStep]))), {
-      leading: false,
-      trailing: true,
-    }),
-    filter(getIsSoulStormActive),
+  action$.pipe(
+    filter(isActionOf([nextPhase, setEventStep, setExpeditionStep])),
+    filter(() => getIsSoulStormActive(state$.value)),
     mapTo(toggleSoulStorm(false)),
   )

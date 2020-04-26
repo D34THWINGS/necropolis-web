@@ -1,7 +1,7 @@
 import { combineEpics, Epic } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
 import { of } from 'rxjs'
-import { filter, flatMap, mapTo, throttle } from 'rxjs/operators'
+import { filter, flatMap, mapTo } from 'rxjs/operators'
 import { RootAction } from './actions'
 import { RootState } from '../store/mainReducer'
 import { nextPhase } from './turn/actions'
@@ -22,27 +22,29 @@ import { soulStormEpic } from './spells/epics'
 import { repairBuildingEpic, upgradeBuildingEpic } from './buildings/epics'
 
 const upkeepEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  state$.pipe(
-    throttle(() => action$.pipe(filter(isActionOf([nextPhase, killUndead]))), { leading: false, trailing: true }),
-    filter(state => getCurrentPhase(state) === TurnPhase.Upkeep && getMeat(state) >= getUpkeep(state)),
-    flatMap(state => of(spendResources({ [ResourceType.Meat]: getUpkeep(state) }), nextPhase())),
+  action$.pipe(
+    filter(isActionOf([nextPhase, killUndead])),
+    filter(
+      () => getCurrentPhase(state$.value) === TurnPhase.Upkeep && getMeat(state$.value) >= getUpkeep(state$.value),
+    ),
+    flatMap(() => of(spendResources({ [ResourceType.Meat]: getUpkeep(state$.value) }), nextPhase())),
   )
 
 const productionEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  state$.pipe(
-    throttle(() => action$.pipe(filter(isActionOf(nextPhase))), { leading: false, trailing: true }),
-    filter(state => getCurrentPhase(state) === TurnPhase.Production),
-    flatMap(state => of(gainResources(getBuildingsProduction(state)), nextPhase())),
+  action$.pipe(
+    filter(isActionOf(nextPhase)),
+    filter(() => getCurrentPhase(state$.value) === TurnPhase.Production),
+    flatMap(() => of(gainResources(getBuildingsProduction(state$.value)), nextPhase())),
   )
 
 const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  state$.pipe(
-    throttle(() => action$.pipe(filter(isActionOf(raiseUndead))), { leading: false, trailing: true }),
-    flatMap(state => {
-      const types = getRaisableUndeadTypes(state)
+  action$.pipe(
+    filter(isActionOf(raiseUndead)),
+    flatMap(() => {
+      const types = getRaisableUndeadTypes(state$.value)
       const undead = createUndead(types[Math.round(Math.random() * (types.length - 1))], true)
       return of(
-        spendResources({ [ResourceType.Souls]: getRaiseUndeadSoulCost(getCatacombs(state).level) }),
+        spendResources({ [ResourceType.Souls]: getRaiseUndeadSoulCost(getCatacombs(state$.value).level) }),
         addUndead(undead),
         nextPhase(),
       )
@@ -50,13 +52,13 @@ const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state
   )
 
 const discoverSpellEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  state$.pipe(
-    throttle(() => action$.pipe(filter(isActionOf(discoverSpell))), { leading: false, trailing: true }),
-    flatMap(state => {
-      const discoverableSpells = getDiscoverableSpells(state)
+  action$.pipe(
+    filter(isActionOf(discoverSpell)),
+    flatMap(() => {
+      const discoverableSpells = getDiscoverableSpells(state$.value)
       const discoveredSpell = discoverableSpells[Math.round(Math.random() * (discoverableSpells.length - 1))]
       return of(
-        spendResources({ [ResourceType.Bones]: getOssuaryBonesCost(getOssuary(state).level) }),
+        spendResources({ [ResourceType.Bones]: getOssuaryBonesCost(getOssuary(state$.value).level) }),
         addSpell(discoveredSpell),
         nextPhase(),
       )

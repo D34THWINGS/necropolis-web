@@ -1,5 +1,5 @@
 import { createReducer } from 'typesafe-actions'
-import { collapseBuilding, repairBuilding, upgradeBuilding } from './actions'
+import { collapseBuilding, freeUpgradeBuilding, repairBuilding, upgradeBuilding } from './actions'
 import { BuildingType } from '../../config/constants'
 import { deepSet } from '../helpers'
 
@@ -29,6 +29,8 @@ export const buildings = createReducer<BuildingsState>({
     collapsed: false,
   },
 })
-  .handleAction(upgradeBuilding, (state, { payload: { type, level } }) => deepSet(state)(type)('level')()(level))
+  .handleAction([upgradeBuilding, freeUpgradeBuilding], (state, { payload: { type } }) =>
+    deepSet(state)(type)('level')()(state[type].level + 1),
+  )
   .handleAction(collapseBuilding, (state, { payload: { type } }) => deepSet(state)(type)('collapsed')()(true))
   .handleAction(repairBuilding, (state, { payload: { type } }) => deepSet(state)(type)('collapsed')()(false))

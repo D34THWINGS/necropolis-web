@@ -1,6 +1,6 @@
 import { isActionOf } from 'typesafe-actions'
 import { of } from 'rxjs'
-import { filter, flatMap, mapTo, throttle } from 'rxjs/operators'
+import { filter, flatMap, mapTo } from 'rxjs/operators'
 import { Epic } from 'redux-observable'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
@@ -17,10 +17,11 @@ import { endEvent, startEvent } from './actions'
 import { getRandomEventPool } from '../selectors'
 
 export const eventsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  state$.pipe(
-    throttle(() => action$.pipe(filter(isActionOf(nextPhase))), { leading: false, trailing: true }),
-    filter(state => getCurrentPhase(state) === TurnPhase.Event),
-    flatMap(state => {
+  action$.pipe(
+    filter(isActionOf(nextPhase)),
+    filter(() => getCurrentPhase(state$.value) === TurnPhase.Event),
+    flatMap(() => {
+      const state = state$.value
       const actions: RootAction[] = []
       const turn = getTurn(state)
       if (turn === PALADINS_CALL_TO_ARMS_TURN) {
