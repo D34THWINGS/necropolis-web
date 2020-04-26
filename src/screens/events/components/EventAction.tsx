@@ -23,10 +23,11 @@ export type EventActionProps = {
   children?: ReactNode
   extra?: ReactNode
   onClick?: () => void
+  disabled?: boolean
 }
 
-export const EventAction = ({ onClick, extra, children }: EventActionProps) => (
-  <button type="button" css={eventActionButton} onClick={onClick}>
+export const EventAction = ({ onClick, disabled, extra, children }: EventActionProps) => (
+  <button type="button" disabled={disabled} css={eventActionButton} onClick={onClick}>
     <Image src={actionArrowUrl} block marginRight="0.4rem" />
     <span css={actionText}>{children}</span>
     {extra}

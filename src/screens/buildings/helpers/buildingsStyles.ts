@@ -1,9 +1,8 @@
 import { css } from '@emotion/core'
 import { shadows } from '../../../config/theme'
-import { contentCover, greenBox, textColor } from '../../../styles/base'
+import { greenBox, textColor } from '../../../styles/base'
 import upgradeArrowUrl from '../../../assets/images/icons/cyan-arrow.png'
 import { cyanSquareButton } from '../../../styles/buttons'
-import actionLockIconUrl from '../../../assets/images/icons/lock.png'
 
 export const buildingWrapper = css({
   display: 'flex',

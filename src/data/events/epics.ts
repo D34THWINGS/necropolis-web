@@ -6,13 +6,7 @@ import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
 import { nextPhase } from '../turn/actions'
 import { getCurrentPhase, getTurn } from '../turn/selectors'
-import {
-  EVENTS_TURN_SPACING,
-  EventType,
-  PALADINS_CALL_TO_ARMS_TURN,
-  RANDOM_EVENTS,
-  TurnPhase,
-} from '../../config/constants'
+import { EVENTS_TURN_SPACING, EventType, PALADINS_CALL_TO_ARMS_TURN, TurnPhase } from '../../config/constants'
 import {
   getPaladinsCalledToArms,
   getPaladinsShouldAttack,
@@ -20,6 +14,7 @@ import {
 } from '../paladins/selectors'
 import { increasePaladinsStrength } from '../paladins/actions'
 import { endEvent, startEvent } from './actions'
+import { getRandomEventPool } from '../selectors'
 
 export const eventsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   state$.pipe(
@@ -33,7 +28,8 @@ export const eventsEpic: Epic<RootAction, RootAction, RootState> = (action$, sta
       } else if (getPaladinsShouldAttack(state)) {
         actions.push(startEvent(EventType.PaladinsAssault))
       } else if (turn % EVENTS_TURN_SPACING === 0) {
-        const event = RANDOM_EVENTS[Math.round(Math.random() * (RANDOM_EVENTS.length - 1))]
+        const possibleEvents = getRandomEventPool(state)
+        const event = possibleEvents[Math.round(Math.random() * (possibleEvents.length - 1))]
         actions.push(startEvent(event))
       } else {
         actions.push(nextPhase())

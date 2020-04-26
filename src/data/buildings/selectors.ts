@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { RootState } from '../../store/mainReducer'
 import { getTurn } from '../turn/selectors'
 import {
@@ -26,12 +27,11 @@ export const getCharnelHouse = getBuilding(BuildingType.CharnelHouse)
 
 export const getCatacombs = getBuilding(BuildingType.Catacombs)
 
-export const getBuildingsProduction = (state: RootState): ResourcesState => {
-  const turn = getTurn(state)
-  const charnelHouse = getCharnelHouse(state)
-  const soulWell = getSoulWell(state)
-
-  return {
+export const getBuildingsProduction = createSelector(
+  getTurn,
+  getCharnelHouse,
+  getSoulWell,
+  (turn, charnelHouse, soulWell): ResourcesState => ({
     meat: charnelHouse.collapsed ? 0 : CHARNEL_HOUSE_MEAT_PRODUCTION[charnelHouse.level],
     bones:
       turn % CHARNEL_HOUSE_PRODUCTION_TURNS[charnelHouse.level] === 0 && !charnelHouse.collapsed
@@ -39,8 +39,8 @@ export const getBuildingsProduction = (state: RootState): ResourcesState => {
         : 0,
     souls: soulWell.collapsed ? 0 : SOUL_WELL_SOUL_PRODUCTION[soulWell.level],
     materials: 0,
-  }
-}
+  }),
+)
 
 export const getIsBuildingsFullyUpgraded = (state: RootState) =>
   Object.values(BuildingType).every(type => getBuildingMaxLevel(type) === getBuilding(type)(state).level)

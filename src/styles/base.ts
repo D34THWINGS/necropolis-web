@@ -30,8 +30,6 @@ const coloredBox = (backgroundColor: string, borderDarken = 0.2) =>
 
 export const greenBox = coloredBox(colors.GREEN)
 
-export const cyanBox = coloredBox(colors.CYAN, 0.6)
-
 export const purpleBox = coloredBox(colors.DARK_PURPLE, 0.3)
 
 export const blueBox = coloredBox(colors.BLUE, 0.35)

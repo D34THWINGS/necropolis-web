@@ -65,9 +65,6 @@ export const getRaiseUndeadSoulCost = (level: number) => CATACOMBS_SOUL_COST[lev
 
 export const getMaxUndeadRaising = (level: number) => CATACOMBS_MAX_UNDEAD[level]
 
-export const getCatacombsUpgradeMaxRaising = (level: number) =>
-  getMaxUndeadRaising(level + 1) - getMaxUndeadRaising(level)
-
 export const getCharnelHouseMeatProduction = (level: number) => CHARNEL_HOUSE_MEAT_PRODUCTION[level]
 
 export const getCharnelHouseBonesProduction = (level: number) => CHARNEL_HOUSE_BONES_PRODUCTION[level]

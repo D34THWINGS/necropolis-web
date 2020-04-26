@@ -3,8 +3,9 @@ import { jsx } from '@emotion/core'
 import { Fragment, ReactNode } from 'react'
 import { textColor } from '../styles/base'
 import { ResourceIcon } from '../components/images/ResourceIcon'
-import { ResourceType } from '../config/constants'
+import { ResourceType, UndeadTalent } from '../config/constants'
 import { plural } from './i18nHelpers'
+import { TalentIcon } from '../components/images/TalentIcon'
 
 export const frEvents = {
   eventAcknowledge: 'Ok',
@@ -105,6 +106,56 @@ export const frEvents = {
     <Fragment>
       Vous découvrez parmi les décombres une rune ancienne dont émane une puissante magie impie. Confère{' '}
       <span css={textColor('LIME')}>+{defense}&nbsp;Défense</span>.
+    </Fragment>
+  ),
+
+  plunderTitle: 'Le Pillage',
+  plunderStep1:
+    // eslint-disable-next-line max-len
+    'Des sortes de rats armés jusqu’aux dents se sont faufilés à travers les égouts de la Nécropole et se livrent au pillage.',
+  plunderAction1: 'Combattre',
+  plunderAction1Prerequisite: (lethality: number) => (
+    <Fragment>
+      <span css={textColor('CYAN')}>Prérequis&nbsp;:</span>&nbsp;
+      <span css={textColor('PURPLE')}>
+        {lethality}&nbsp;
+        <TalentIcon type={UndeadTalent.Lethality} />
+      </span>
+    </Fragment>
+  ),
+  plunderAction2: 'Les laisser faire',
+  plunderStep2: (meat: number, bones: number) => (
+    <Fragment>
+      Vous obtenez
+      <span css={textColor('RED')}>
+        {meat}&nbsp;
+        <ResourceIcon type={ResourceType.Meat} />
+      </span>{' '}
+      et{' '}
+      <span css={textColor('BROWN')}>
+        {bones}&nbsp;
+        <ResourceIcon type={ResourceType.Bones} />
+      </span>{' '}
+      sur leurs dépouilles.
+    </Fragment>
+  ),
+  plunderStep3: (materials: number, meat: number) => (
+    <Fragment>
+      Vous perdez{' '}
+      {materials === 0 ? null : (
+        <span css={textColor('GREEN')}>
+          {materials}&nbsp;
+          <ResourceIcon type={ResourceType.Materials} />
+        </span>
+      )}
+      {materials > 0 && meat > 0 ? ' et ' : null}
+      {meat === 0 ? null : (
+        <span css={textColor('RED')}>
+          {meat}&nbsp;
+          <ResourceIcon type={ResourceType.Meat} />
+        </span>
+      )}
+      .
     </Fragment>
   ),
 }

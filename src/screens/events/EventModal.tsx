@@ -11,6 +11,7 @@ import { EventModalContentProps, EventModalContentRenderOptions } from './helper
 import { setEventStep } from '../../data/events/actions'
 import { EventAcknowledgeButton } from './components/EventAcknowledgeButton'
 import { Collapsing } from './Collapsing'
+import { Plunder } from './Plunder'
 
 const EmptyEvent = () => null
 
@@ -19,7 +20,7 @@ const eventsMap: Record<EventType, ComponentType<EventModalContentProps>> = {
   [EventType.PaladinsAssault]: PaladinsAssault,
   [EventType.Collapsing]: Collapsing,
   [EventType.Offering]: EmptyEvent,
-  [EventType.Plunder]: EmptyEvent,
+  [EventType.Plunder]: Plunder,
   [EventType.StateOfEmergency]: EmptyEvent,
 }
 

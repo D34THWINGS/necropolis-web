@@ -7,6 +7,7 @@ type DeepSetter<TObj, TBase> = {
     : () => Setter<TObj[TKey], TBase>
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const recursiveSet = <TObj>(obj: TObj, path: string[], value: any): TObj => {
   if (path.length > 1) {
     return {
@@ -23,10 +24,12 @@ const recursiveSet = <TObj>(obj: TObj, path: string[], value: any): TObj => {
 export const deepSet = <TObj>(obj: TObj): DeepSetter<TObj, TObj> => {
   const makeSetter = (path: string[]) => (key?: string) => {
     if (typeof key === 'undefined') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (value: any) => recursiveSet(obj, path, value)
     }
 
     return makeSetter([...path, key])
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return makeSetter([]) as any
 }
