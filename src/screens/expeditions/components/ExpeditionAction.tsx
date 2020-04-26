@@ -3,7 +3,7 @@ import { css, jsx } from '@emotion/core'
 import { MouseEventHandler, ReactNode } from 'react'
 import { cyanSquareButton } from '../../../styles/buttons'
 import { Image } from '../../../components/images/Image'
-import actionArrowUrl from '../../../assets/images/upgrade-arrow.png'
+import actionArrowUrl from '../../../assets/images/icons/cyan-arrow.png'
 import { useTranslation } from '../../../lang/useTranslation'
 import { alignItemsCenter, textColor } from '../../../styles/base'
 

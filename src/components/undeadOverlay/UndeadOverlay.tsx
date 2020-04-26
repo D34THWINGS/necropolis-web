@@ -28,6 +28,7 @@ const undeadOverlayContainer = (isOpen: boolean) =>
     background: modalColorsMap[ModalColor.PURPLE][0],
     transition: `transform ${transitions.SLOW}, left ${transitions.SLOW}`,
     transform: `translate(${isOpen ? '-50%' : '-100%'}, -50%)`,
+    zIndex: 2,
   })
 
 const undeadOverlayInner = css({
@@ -74,6 +75,7 @@ const undeadOverlayShadow = (isOpen: boolean) => [
     cursor: 'pointer',
     pointerEvents: isOpen ? 'initial' : 'none',
     transition: `opacity ${transitions.SLOW}`,
+    zIndex: 2,
   }),
 ]
 

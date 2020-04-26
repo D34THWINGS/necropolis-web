@@ -43,7 +43,7 @@ const modalInner = (backgroundColor: string) =>
   css({
     padding: '1rem',
     overflowY: 'auto',
-    maxHeight: '50vh',
+    maxHeight: '55vh',
     borderRadius: '10px',
     boxShadow: 'inset 0px 10px 0px rgba(0, 0, 0, 0.35), 0px 1px 1px rgba(255, 255, 255, 0.5)',
     backgroundColor,

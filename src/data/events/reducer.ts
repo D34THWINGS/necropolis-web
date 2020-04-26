@@ -1,10 +1,17 @@
 import { createReducer } from 'typesafe-actions'
 import { EventType } from '../../config/constants'
-import { endEvent, setEventStep, startEvent } from './actions'
+import { endEvent, gainArtifact, setEventStep, startEvent } from './actions'
 
-export const events = createReducer({
-  pastEvents: [] as EventType[],
-  currentEvent: null as null | { type: EventType; step: number },
+type EventsState = {
+  pastEvents: EventType[]
+  currentEvent: { type: EventType; step: number } | null
+  hasArtifact: boolean
+}
+
+export const events = createReducer<EventsState>({
+  pastEvents: [],
+  currentEvent: null,
+  hasArtifact: false,
 })
   .handleAction(startEvent, (state, { payload: { event } }) => ({ ...state, currentEvent: { type: event, step: 0 } }))
   .handleAction(endEvent, state =>
@@ -16,11 +23,14 @@ export const events = createReducer({
         }
       : state,
   )
-  .handleAction(setEventStep, (state, { payload: { step } }) =>
-    state.currentEvent
-      ? {
-          ...state,
-          currentEvent: { ...state.currentEvent, step },
-        }
-      : state,
+  .handleAction(
+    setEventStep,
+    (state, { payload: { step } }): EventsState =>
+      state.currentEvent
+        ? {
+            ...state,
+            currentEvent: { ...state.currentEvent, step },
+          }
+        : state,
   )
+  .handleAction(gainArtifact, state => ({ ...state, hasArtifact: true }))

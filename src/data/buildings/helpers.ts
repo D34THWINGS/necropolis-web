@@ -58,8 +58,8 @@ export const getBuildingMaxLevel = (type: BuildingType) => {
 
 export const getBattlementsDefenseBonus = (level: number) => BATTLEMENTS_DEFENSE_BONUS[level]
 
-export const getBattlementsUpgradeDefenseBonus = (currentLevel: number) =>
-  getBattlementsDefenseBonus(currentLevel + 1) - getBattlementsDefenseBonus(currentLevel)
+export const getBattlementsUpgradeDefenseBonus = (level: number) =>
+  getBattlementsDefenseBonus(level) - getBattlementsDefenseBonus(level - 1)
 
 export const getRaiseUndeadSoulCost = (level: number) => CATACOMBS_SOUL_COST[level]
 

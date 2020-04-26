@@ -1,7 +1,7 @@
 import { css } from '@emotion/core'
 import { shadows } from '../../../config/theme'
-import { contentCover, cyanBox, textColor } from '../../../styles/base'
-import upgradeArrowUrl from '../../../assets/images/upgrade-arrow.png'
+import { contentCover, greenBox, textColor } from '../../../styles/base'
+import upgradeArrowUrl from '../../../assets/images/icons/cyan-arrow.png'
 import { cyanSquareButton } from '../../../styles/buttons'
 import actionLockIconUrl from '../../../assets/images/icons/action-lock.png'
 
@@ -21,13 +21,13 @@ export const buildingTitle = [
 
 export const buildingLevel = css({ margin: 0, textAlign: 'center', fontSize: '1.2rem', textShadow: shadows.TEXT_SOLID })
 
-export const buildingUpgradeContainer = css({
+export const buildingActionContainer = css({
   display: 'flex',
   marginTop: '1rem',
 })
 
-export const buildingUpgradeFrame = [
-  cyanBox,
+export const buildingActionFrame = [
+  greenBox,
   css({
     display: 'flex',
     alignItems: 'center',
@@ -36,7 +36,7 @@ export const buildingUpgradeFrame = [
   }),
 ]
 
-export const buildingUpgradeArrow = css({
+export const buildingActionArrow = css({
   display: 'flex',
   alignItems: 'center',
   marginRight: '0.5rem',
@@ -51,7 +51,7 @@ export const buildingUpgradeArrow = css({
   fontSize: '0.8rem',
 })
 
-export const buildingUpgradeButton = [
+export const buildingActionButton = [
   cyanSquareButton,
   css({
     marginLeft: '0.2rem',
@@ -61,7 +61,7 @@ export const buildingUpgradeButton = [
   }),
 ]
 
-export const buildingActionButton = [
+export const buildingSpecialActionButton = [
   ...cyanSquareButton,
   css({
     alignSelf: 'center',

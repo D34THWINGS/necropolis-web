@@ -6,7 +6,7 @@ import { Panel } from '../../components/ui/Panel'
 import { colors, shadows } from '../../config/theme'
 import { useTranslation } from '../../lang/useTranslation'
 import buildOutlinedIconUrl from '../../assets/images/icons/build-outlined.png'
-import chainsBackgroundUrl from '../../assets/images/chains.png'
+import chainsBackgroundUrl from '../../assets/images/buildings/chains.png'
 import { cyanRoundButton } from '../../styles/buttons'
 
 const buildingHeader = css({
@@ -61,6 +61,7 @@ const buildingLocked = css({
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
+  filter: 'contrast(1.3) brightness(0.8)',
 })
 
 export type BuildingProps = {
@@ -77,7 +78,7 @@ export const Building = ({ name, description, level, maxLevel, route }: Building
     <Panel css={buildingPanel}>
       <div css={buildingHeader}>
         <h2 css={buildingName}>{name}</h2>
-        <span>{t('buildingLevel', level)}</span>
+        <span>{t('buildingLevel', Math.max(level, 1))}</span>
       </div>
       <p css={buildingDescription}>{description}</p>
       {level === 0 && <div css={buildingLocked} />}

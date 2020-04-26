@@ -8,8 +8,8 @@ import { getSpells } from '../../data/spells/selectors'
 import { colors, shadows } from '../../config/theme'
 import { blueSquareButton } from '../../styles/buttons'
 import { ResourceIcon } from '../images/ResourceIcon'
-import soulStormBackgroundUrl from '../../assets/images/spells/soul-storm.png'
-import theKeyBackgroundUrl from '../../assets/images/spells/the-key.png'
+import soulStormBackgroundUrl from '../../assets/images/spells/soul-storm.jpg'
+import theKeyBackgroundUrl from '../../assets/images/spells/the-key.jpg'
 import {
   CASTABLE_SPELLS,
   ResourceType,
@@ -88,7 +88,7 @@ export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} color={ModalColor.BLUE}>
+    <Modal isOpen={isOpen} onClose={onClose} color={ModalColor.BLUE} priority={1}>
       <h2 css={h2Title}>{t('spells')}</h2>
       {spells.map(spell => (
         <div key={spell} css={spellBox(spellsBackgroundMap[spell])}>

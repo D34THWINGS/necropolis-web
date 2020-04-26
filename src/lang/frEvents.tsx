@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import { Fragment, ReactNode } from 'react'
 import { textColor } from '../styles/base'
 import { ResourceIcon } from '../components/images/ResourceIcon'
 import { ResourceType } from '../config/constants'
@@ -82,6 +82,29 @@ export const frEvents = {
       Des Paladins ont ouvert une brèche dans vos défenses et trucident tout ce qui bouge. Ils trouvent rapidement votre
       cachette, la salle du tombeau. C’est ici que vous avez perdu la vie, et ironiquement, c’est ici que vous allez
       finalement la reperdre, définitivement.
+    </Fragment>
+  ),
+
+  collapsingTitle: "L'Éffondrement",
+  collapsingStep1: (buildingName: ReactNode) => (
+    <Fragment>
+      Les fondations de la Nécropole se font si vieilles que le toit de{' '}
+      <span css={textColor('CYAN')}>{buildingName}</span> s&apos;est écroulé. La salle est maintenant inaccessible.
+    </Fragment>
+  ),
+  collapsingAction1: 'Déblayer',
+  collapsingAction1Cost: <span css={textColor('CYAN')}>Action</span>,
+  collapsingAction2: (
+    <Fragment>
+      Laisser la salle sous les éboulis
+      <br />
+      <span css={textColor('CYAN')}>Elle reste inaccessible tant qu’elle ne sera pas déblayée.</span>
+    </Fragment>
+  ),
+  collapsingStep2: (defense: number) => (
+    <Fragment>
+      Vous découvrez parmi les décombres une rune ancienne dont émane une puissante magie impie. Confère{' '}
+      <span css={textColor('LIME')}>+{defense}&nbsp;Défense</span>.
     </Fragment>
   ),
 }

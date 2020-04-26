@@ -1,13 +1,13 @@
 /** @jsx jsx */
 import { css, jsx, keyframes } from '@emotion/core'
 import { useSelector } from 'react-redux'
-import { Redirect, Route, Switch, useHistory, useRouteMatch } from 'react-router'
+import { Route, Switch, useHistory, useRouteMatch } from 'react-router'
 import { Fragment, useEffect } from 'react'
-import { BATTLEMENTS, BUILD, CATACOMBS, CHARNEL_HOUSE, EXPEDITIONS, HOME, OSSUARY, SOUL_WELL } from '../config/routes'
-import mapBgUrl from '../assets/images/map.jpg'
-import charnelHouseBgUrl from '../assets/images/charnel-house-bg.jpg'
+import { BATTLEMENTS, MAIN_HUB, CATACOMBS, CHARNEL_HOUSE, EXPEDITIONS, OSSUARY, SOUL_WELL } from '../config/routes'
+import mapBgUrl from '../assets/images/expeditions/map.jpg'
+import charnelHouseBgUrl from '../assets/images/buildings/charnel-house-bg.jpg'
 import { Header } from '../components/header/Header'
-import { Build } from '../screens/build/Build'
+import { MainHub } from '../screens/mainHub/MainHub'
 import { Expeditions } from '../screens/expeditions/Expeditions'
 import { Catacombs } from '../screens/buildings/Catacombs'
 import { Ossuary } from '../screens/buildings/Ossuary'
@@ -72,7 +72,7 @@ export const GameContent = () => {
   return (
     <Fragment>
       <Switch>
-        <Route path={BUILD} />
+        <Route path={MAIN_HUB} exact />
         <Route path={EXPEDITIONS} render={() => <div css={buildingsBackground(mapBgUrl)} />} />
         <Route render={() => <div css={buildingsBackground(charnelHouseBgUrl)} />} />
       </Switch>
@@ -83,14 +83,13 @@ export const GameContent = () => {
         </Switch>
         <div css={middleSection}>
           <Switch>
-            <Route path={BUILD} component={Build} />
-            <Route path={EXPEDITIONS} component={Expeditions} />
-            <Route path={CATACOMBS} component={Catacombs} />
-            <Route path={OSSUARY} component={Ossuary} />
-            <Route path={SOUL_WELL} component={SoulWell} />
-            <Route path={BATTLEMENTS} component={Battlements} />
-            <Route path={CHARNEL_HOUSE} component={CharnelHouse} />
-            <Redirect from={HOME} to={BUILD} />
+            <Route path={MAIN_HUB} exact component={MainHub} />
+            <Route path={EXPEDITIONS} exact component={Expeditions} />
+            <Route path={CATACOMBS} exact component={Catacombs} />
+            <Route path={OSSUARY} exact component={Ossuary} />
+            <Route path={SOUL_WELL} exact component={SoulWell} />
+            <Route path={BATTLEMENTS} exact component={Battlements} />
+            <Route path={CHARNEL_HOUSE} exact component={CharnelHouse} />
           </Switch>
         </div>
         <NavigationBar />

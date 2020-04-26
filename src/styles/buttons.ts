@@ -76,7 +76,7 @@ export const cyanSquareButton = squareButton(colors.CYAN, 0.2, 0.3)
 
 export const blueSquareButton = squareButton(colors.LIGHT_BLUE, 0.2, 0.25)
 
-export const darkBlueSquareButton = squareButton(colors.DARK_BLUE, 0.3, 0.3)
+export const darkBlueSquareButton = squareButton(colors.DARK_BLUE, 0.3, 0.1)
 
 export const greenSquareButton = squareButton(colors.DARK_GREEN, 0.1, 0.05)
 

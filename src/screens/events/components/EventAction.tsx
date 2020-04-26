@@ -2,7 +2,7 @@
 import { css, jsx } from '@emotion/core'
 import { ReactNode } from 'react'
 import { Image } from '../../../components/images/Image'
-import actionArrowUrl from '../../../assets/images/event-arrow.png'
+import actionArrowUrl from '../../../assets/images/icons/red-arrow.png'
 import { redSquareButton } from '../../../styles/buttons'
 
 const eventActionButton = [

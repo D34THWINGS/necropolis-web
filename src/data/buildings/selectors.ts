@@ -12,7 +12,9 @@ import { getBuildingMaxLevel } from './helpers'
 
 export const getBuildings = (state: RootState) => state.buildings
 
-export const getBuilding = (name: BuildingType) => (state: RootState) => getBuildings(state)[name]
+export const getBuilding = (type: BuildingType) => (state: RootState) => getBuildings(state)[type]
+
+export const getBuildingLevel = (type: BuildingType) => (state: RootState) => getBuildings(state)[type].level
 
 export const getOssuary = getBuilding(BuildingType.Ossuary)
 
@@ -30,15 +32,20 @@ export const getBuildingsProduction = (state: RootState): ResourcesState => {
   const soulWell = getSoulWell(state)
 
   return {
-    meat: CHARNEL_HOUSE_MEAT_PRODUCTION[charnelHouse.level],
+    meat: charnelHouse.collapsed ? 0 : CHARNEL_HOUSE_MEAT_PRODUCTION[charnelHouse.level],
     bones:
-      turn % CHARNEL_HOUSE_PRODUCTION_TURNS[charnelHouse.level] === 0
+      turn % CHARNEL_HOUSE_PRODUCTION_TURNS[charnelHouse.level] === 0 && !charnelHouse.collapsed
         ? CHARNEL_HOUSE_BONES_PRODUCTION[charnelHouse.level]
         : 0,
-    souls: SOUL_WELL_SOUL_PRODUCTION[soulWell.level],
+    souls: soulWell.collapsed ? 0 : SOUL_WELL_SOUL_PRODUCTION[soulWell.level],
     materials: 0,
   }
 }
 
 export const getIsBuildingsFullyUpgraded = (state: RootState) =>
-  Object.entries(getBuildings(state)).every(([type, { level }]) => getBuildingMaxLevel(type as BuildingType) === level)
+  Object.values(BuildingType).every(type => getBuildingMaxLevel(type) === getBuilding(type)(state).level)
+
+export const getIsBuildingCollapsed = (type: BuildingType) => (state: RootState) => getBuilding(type)(state).collapsed
+
+export const getConstructedBuildings = (state: RootState) =>
+  Object.values(BuildingType).filter(type => getBuilding(type)(state).level > 0)

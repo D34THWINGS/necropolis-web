@@ -2,7 +2,7 @@
 import { css, jsx } from '@emotion/core'
 import { MouseEventHandler, useEffect, useState } from 'react'
 import { Link, useHistory, useRouteMatch } from 'react-router-dom'
-import { BUILD, EXPEDITIONS, OSSUARY, CATACOMBS } from '../config/routes'
+import { MAIN_HUB, EXPEDITIONS, OSSUARY, CATACOMBS } from '../config/routes'
 import buttonBackgroundUrl from '../assets/images/footer/button.png'
 import buildIconUrl from '../assets/images/footer/build.png'
 import expeditionsIconUrl from '../assets/images/footer/expeditions.png'
@@ -48,7 +48,7 @@ const buildIcon = css({
 
 export const NavigationBar = () => {
   const [stackSize, setStackSize] = useState(0)
-  const match = useRouteMatch(BUILD)
+  const match = useRouteMatch(MAIN_HUB)
   const history = useHistory()
 
   useEffect(
@@ -74,7 +74,7 @@ export const NavigationBar = () => {
 
   return (
     <div css={footerContainer}>
-      <Link to={BUILD} replace css={footerButton} onClick={handleHackNavigation}>
+      <Link to={MAIN_HUB} replace css={footerButton} onClick={handleHackNavigation}>
         <span css={[footerButtonIcon, buildIcon, backgroundImage(buildIconUrl)]} />
       </Link>
       <Link to={EXPEDITIONS} replace={!isOnBuildPage} css={footerButton}>

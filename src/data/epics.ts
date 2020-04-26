@@ -4,12 +4,11 @@ import { of } from 'rxjs'
 import { filter, flatMap, mapTo, throttle } from 'rxjs/operators'
 import { RootAction } from './actions'
 import { RootState } from '../store/mainReducer'
-import { upgradeBuilding } from './buildings/actions'
 import { nextPhase } from './turn/actions'
 import { gainResources, spendResources } from './resources/actions'
 import { getRaisableUndeadTypes, getUpkeep } from './undeads/selectors'
 import { getBuildingsProduction, getCatacombs, getOssuary } from './buildings/selectors'
-import { getBuildingUpgradeCost, getOssuaryBonesCost, getRaiseUndeadSoulCost } from './buildings/helpers'
+import { getOssuaryBonesCost, getRaiseUndeadSoulCost } from './buildings/helpers'
 import { addUndead, killUndead, raiseUndead } from './undeads/actions'
 import { ResourceType, TurnPhase } from '../config/constants'
 import { getCurrentPhase } from './turn/selectors'
@@ -20,14 +19,7 @@ import { getDiscoverableSpells } from './spells/selectors'
 import { endExpedition, fleeExpedition } from './expeditions/actions'
 import { endEventEpic, eventsEpic } from './events/epics'
 import { soulStormEpic } from './spells/epics'
-
-const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = action$ =>
-  action$.pipe(
-    filter(isActionOf(upgradeBuilding)),
-    flatMap(({ payload: { type, level } }) =>
-      of(spendResources({ [ResourceType.Materials]: getBuildingUpgradeCost(type, level) }), nextPhase()),
-    ),
-  )
+import { repairBuildingEpic, upgradeBuildingEpic } from './buildings/epics'
 
 const upkeepEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   state$.pipe(
@@ -76,6 +68,7 @@ const fleeExpeditionEpic: Epic<RootAction, RootAction, RootState> = $action =>
 
 export const rootEpic = combineEpics(
   upgradeBuildingEpic,
+  repairBuildingEpic,
   upkeepEpic,
   productionEpic,
   raiseUndeadEpic,

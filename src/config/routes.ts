@@ -1,5 +1,4 @@
-export const HOME = '/'
-export const BUILD = '/build'
+export const MAIN_HUB = '/'
 export const EXPEDITIONS = '/expeditions'
 export const CATACOMBS = '/catacombs'
 export const OSSUARY = '/ossuary'

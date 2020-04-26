@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import { plural } from './i18nHelpers'
 import { noBreak, textColor } from '../styles/base'
-import { Spell, UndeadTalent, UndeadType } from '../config/constants'
+import { BuildingType, Spell, UndeadTalent, UndeadType } from '../config/constants'
 import { TalentIcon } from '../components/images/TalentIcon'
 import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
@@ -12,12 +12,20 @@ import { frEvents } from './frEvents'
 export const fr = {
   resetGame: 'Recommencer la partie',
 
+  buildingNotConstructed: 'Non construit',
   buildingLevel: (level: number) => `niv. ${level}`,
+  repairBuilding: (
+    <Fragment>
+      Déblayer le bâtiment
+      <br />
+      <span css={textColor('CYAN')}>Action</span>
+    </Fragment>
+  ),
 
-  charnelHouse: 'Charnier',
+  [BuildingType.CharnelHouse]: 'Charnier',
   charnelHouseDescription: (meat: number, bones: number, turns: number) => (
     <Fragment>
-      - Produit{' '}
+      Produit{' '}
       <span css={textColor('RED')}>
         {meat} chair{plural(meat, 's')}
       </span>{' '}
@@ -25,7 +33,7 @@ export const fr = {
       <br />
       {bones === 0 ? null : (
         <Fragment>
-          - Produit{' '}
+          Produit{' '}
           <span css={textColor('BROWN')}>
             {bones} ossement{plural(bones, 's')}
           </span>{' '}
@@ -53,14 +61,14 @@ export const fr = {
     </Fragment>
   ),
 
-  catacomb: 'Catacombes',
+  [BuildingType.Catacombs]: 'Catacombes',
   catacombDescription: (current: number, max: number, price: number) => (
     <Fragment>
-      - Action: <span css={textColor('PURPLE')}>Réanimer un mort-vivant</span> au prix de{' '}
+      Action: <span css={textColor('PURPLE')}>Réanimer un mort-vivant</span> au prix de{' '}
       <span css={textColor('CYAN')}>
         {price} âme{plural(price, 's')}
       </span>
-      .<br />-{' '}
+      .<br />
       <span css={textColor('PURPLE')}>
         Morts-vivants réanimés : {current}/{max}
       </span>
@@ -81,11 +89,12 @@ export const fr = {
     </Fragment>
   ),
 
-  soulWell: 'Puit des âmes',
+  [BuildingType.SoulWell]: 'Puit des âmes',
   soulWellDescription: (production: number) => (
     <Fragment>
-      - Action: <span css={textColor('BLUE')}>Lancer un sort</span>.
-      <br />- Produit{' '}
+      Action: <span css={textColor('BLUE')}>Lancer un sort</span>.
+      <br />
+      Produit{' '}
       <span css={textColor('BLUE')}>
         {production} âme{plural(production, 's')}
       </span>{' '}
@@ -116,12 +125,13 @@ export const fr = {
     </Fragment>
   ),
 
-  ossuary: 'Ossuaire',
+  [BuildingType.Ossuary]: 'Ossuaire',
   ossuaryDescription: (cost: number) => (
     <Fragment>
-      - Action : <span css={textColor('BROWN')}>Découvrir un Sort</span> au prix de {cost} Ossements.
-      <br />- Les <span css={textColor('BROWN')}>ossements</span> s&apos;obtiennent dans des excursions et des
-      évènements particuliers.
+      Action : <span css={textColor('BROWN')}>Découvrir un Sort</span> au prix de {cost} Ossements.
+      <br />
+      Les <span css={textColor('BROWN')}>ossements</span> s&apos;obtiennent dans des excursions et des évènements
+      particuliers.
     </Fragment>
   ),
   ossuaryUnlock: (
@@ -143,15 +153,22 @@ export const fr = {
     </Fragment>
   ),
 
-  battlements: 'Remparts',
+  [BuildingType.Battlements]: 'Remparts',
   battlementDescription: (defenseBonus: number) => (
     <Fragment>
-      - Confère <span css={textColor('LIME')}>+{defenseBonus} Défense</span> contre les attaques de paladins.
+      Confère <span css={textColor('LIME')}>+{defenseBonus} Défense</span> contre les attaques de paladins.
     </Fragment>
   ),
   battlementUpgrade: (defenseBonus: number) => (
     <Fragment>
       Confère <span css={textColor('LIME')}>+{defenseBonus} Défense</span> contre les attaques de paladins.
+    </Fragment>
+  ),
+
+  artifact: 'Rune ancienne',
+  artifactDescription: (defense: number) => (
+    <Fragment>
+      Confère <span css={textColor('LIME')}>+{defense}&nbsp;Défense</span> contre les assauts de paladins.
     </Fragment>
   ),
 

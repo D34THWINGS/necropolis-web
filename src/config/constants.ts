@@ -103,3 +103,5 @@ export enum EventType {
 }
 
 export const RANDOM_EVENTS = [EventType.Collapsing, EventType.Plunder, EventType.Offering]
+
+export const ARTIFACT_DEFENSE_BONUS = 2
