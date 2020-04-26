@@ -7,11 +7,11 @@ import { nextPhase } from '../turn/actions'
 import { setEventStep } from '../events/actions'
 import { setExpeditionStep } from '../expeditions/actions'
 import { getIsSoulStormActive } from './selectors'
-import { toggleSoulStorm } from './actions'
+import { disableSoulStorm } from './actions'
 
 export const soulStormEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf([nextPhase, setEventStep, setExpeditionStep])),
     filter(() => getIsSoulStormActive(state$.value)),
-    mapTo(toggleSoulStorm(false)),
+    mapTo(disableSoulStorm(false)),
   )

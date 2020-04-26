@@ -1,7 +1,9 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
+import { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import darken from 'polished/lib/color/darken'
+import { useRouteMatch } from 'react-router'
 import settingsImageUrl from '../../assets/images/header/settings.png'
 import spellImageUrl from '../../assets/images/header/spells.png'
 import { buttonBase } from '../../styles/buttons'
@@ -16,11 +18,14 @@ import { ResourceType } from '../../config/constants'
 import { SpellsModal } from './SpellsModal'
 import { Image } from '../images/Image'
 import { getHasSpells } from '../../data/spells/selectors'
+import { EXPEDITIONS } from '../../config/routes'
 
 const headerContainer = css({
   display: 'flex',
+  flexDirection: 'row-reverse',
   alignItems: 'center',
   padding: '0 0.5rem',
+  minHeight: '8rem',
 })
 
 const headerCountersWrapper = css({
@@ -72,6 +77,7 @@ const headerSpacer = css({
 const spellsButton = [buttonBase, css({ zIndex: 1 })]
 
 export const Header = () => {
+  const isOnExpeditions = !!useRouteMatch(EXPEDITIONS)
   const { isOpen: isSettingsModalOpen, close: closeSettings, open: openSettings } = useModalState()
   const { isOpen: isSpellsModalOpen, close: closeSpells, open: openSpells } = useModalState()
   const resources = useSelector(getResources)
@@ -80,27 +86,6 @@ export const Header = () => {
 
   return (
     <div css={headerContainer}>
-      <TurnCounter currentTurn={turn} />
-      <div css={headerCountersWrapper}>
-        <div css={headerResourceCounter('#94C58C')}>
-          <ResourceIcon css={headerResourceIcon} type={ResourceType.Materials} />
-          <span>{resources.materials}</span>
-        </div>
-        <div css={headerResourceCounter('#C58C8F')}>
-          <ResourceIcon css={headerResourceIcon} type={ResourceType.Meat} />
-          <span>{resources.meat}</span>
-        </div>
-        <span css={headerSpacer} />
-        <div css={headerResourceCounter('#83B9D6')}>
-          <ResourceIcon css={headerResourceIcon} type={ResourceType.Souls} />
-          <span>{resources.souls}</span>
-        </div>
-        <div css={headerResourceCounter('#CDC59C')}>
-          <ResourceIcon css={headerResourceIcon} type={ResourceType.Bones} />
-          <span>{resources.bones}</span>
-        </div>
-        <span css={headerSpacer} />
-      </div>
       <div css={headerButtons}>
         <button type="button" css={buttonBase} onClick={openSettings}>
           <Image src={settingsImageUrl} size="3rem" />
@@ -111,6 +96,31 @@ export const Header = () => {
         </button>
         <SpellsModal isOpen={isSpellsModalOpen} onClose={closeSpells} />
       </div>
+      {!isOnExpeditions && (
+        <Fragment>
+          <div css={headerCountersWrapper}>
+            <div css={headerResourceCounter('#94C58C')}>
+              <ResourceIcon css={headerResourceIcon} type={ResourceType.Materials} />
+              <span>{resources.materials}</span>
+            </div>
+            <div css={headerResourceCounter('#C58C8F')}>
+              <ResourceIcon css={headerResourceIcon} type={ResourceType.Meat} />
+              <span>{resources.meat}</span>
+            </div>
+            <span css={headerSpacer} />
+            <div css={headerResourceCounter('#83B9D6')}>
+              <ResourceIcon css={headerResourceIcon} type={ResourceType.Souls} />
+              <span>{resources.souls}</span>
+            </div>
+            <div css={headerResourceCounter('#CDC59C')}>
+              <ResourceIcon css={headerResourceIcon} type={ResourceType.Bones} />
+              <span>{resources.bones}</span>
+            </div>
+            <span css={headerSpacer} />
+          </div>
+          <TurnCounter currentTurn={turn} />
+        </Fragment>
+      )}
     </div>
   )
 }

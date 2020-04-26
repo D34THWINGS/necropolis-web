@@ -19,6 +19,7 @@ import {
   SPELLS_SOUL_COSTS,
 } from '../../config/constants'
 import { spendResources } from '../../data/resources/actions'
+import { castSpell } from '../../data/spells/actions'
 
 const spellBox = (backgroundUrl: string) => [
   blueBox,
@@ -84,6 +85,7 @@ export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
   }
 
   const handleCastSpell = (spell: Spell) => () => {
+    dispatch(castSpell(spell))
     dispatch(spendResources({ [ResourceType.Souls]: SPELLS_SOUL_COSTS[spell] }))
   }
 

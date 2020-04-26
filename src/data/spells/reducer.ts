@@ -1,6 +1,6 @@
 import { createReducer } from 'typesafe-actions'
 import { Spell } from '../../config/constants'
-import { addSpell, toggleSoulStorm } from './actions'
+import { addSpell, castSpell, disableSoulStorm } from './actions'
 
 export const spells = createReducer({
   list: [] as Spell[],
@@ -10,7 +10,10 @@ export const spells = createReducer({
     ...state,
     list: [...state.list, spell],
   }))
-  .handleAction(toggleSoulStorm, (state, { payload: { active } }) => ({
+  .handleAction(disableSoulStorm, (state, { payload: { active } }) => ({
     ...state,
     soulStormActive: active,
   }))
+  .handleAction(castSpell, (state, { payload: { spell } }) =>
+    spell === Spell.SoulStorm ? { ...state, soulStormActive: true } : state,
+  )

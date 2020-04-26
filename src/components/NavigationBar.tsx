@@ -48,7 +48,7 @@ const buildIcon = css({
 
 export const NavigationBar = () => {
   const [stackSize, setStackSize] = useState(0)
-  const match = useRouteMatch(MAIN_HUB)
+  const match = useRouteMatch({ path: MAIN_HUB, exact: true })
   const history = useHistory()
 
   useEffect(

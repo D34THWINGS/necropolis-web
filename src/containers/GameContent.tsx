@@ -77,10 +77,7 @@ export const GameContent = () => {
         <Route render={() => <div css={buildingsBackground(charnelHouseBgUrl)} />} />
       </Switch>
       <div css={gameContent}>
-        <Switch>
-          <Route path={EXPEDITIONS} />
-          <Header />
-        </Switch>
+        <Header />
         <div css={middleSection}>
           <Switch>
             <Route path={MAIN_HUB} exact component={MainHub} />
