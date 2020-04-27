@@ -30,7 +30,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "parcel": "nightly",
-    "prettier": "^2.0.1",
+    "prettier": "^2.0.5",
     "typescript": "^3.8.3",
     "workbox-cli": "^5.1.3"
   },
