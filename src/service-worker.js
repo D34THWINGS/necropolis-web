@@ -2,6 +2,4 @@
 
 import { precacheAndRoute } from 'workbox-precaching'
 
-if (Object.hasOwnProperty.call(self, '__WB_MANIFEST')) {
-  precacheAndRoute(self.__WB_MANIFEST)
-}
+precacheAndRoute(self.__WB_MANIFEST)
