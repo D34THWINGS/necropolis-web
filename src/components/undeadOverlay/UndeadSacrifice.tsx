@@ -18,7 +18,7 @@ export const UndeadSacrifice = () => {
   const handleBan = (type: UndeadType) => () => dispatch(killUndead(type))
 
   return (
-    <Modal isOpen={requiredSacrifices > 0} color={ModalColor.PURPLE} priority={1}>
+    <Modal isOpen={requiredSacrifices > 0} color={ModalColor.PURPLE} priority={2}>
       <h2 css={h2Title}>{t('sacrificeRequiredTitle')}</h2>
       <p>{t('sacrificeRequiredDescription', requiredSacrifices)}</p>
       {undeads.map(undead => (

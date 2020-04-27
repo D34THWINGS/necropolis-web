@@ -1,3 +1,4 @@
+import { History } from 'history'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import { persistStore, persistReducer } from 'redux-persist'
@@ -12,6 +13,10 @@ declare global {
     // eslint-disable-next-line no-undef
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose
   }
+
+  interface Dependencies {
+    history: History
+  }
 }
 
 const persistConfig = {
@@ -19,10 +24,12 @@ const persistConfig = {
   storage,
 }
 
-export const createAppStore = () => {
+export const createAppStore = (history: History) => {
   const persistedReducer = persistReducer(persistConfig, resetReducer(mainReducer))
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-  const epicMiddleware = createEpicMiddleware<RootAction, RootAction, RootState>()
+  const epicMiddleware = createEpicMiddleware<RootAction, RootAction, RootState, Dependencies>({
+    dependencies: { history },
+  })
   const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(epicMiddleware)))
   const persistor = persistStore(store)
 

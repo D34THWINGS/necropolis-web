@@ -14,11 +14,25 @@ export const buildingWrapper = css({
 })
 
 export const buildingTitle = [
-  css({ margin: 0, textAlign: 'center', fontSize: '1.2rem', textShadow: shadows.TEXT_SOLID }),
+  css({
+    margin: 0,
+    textAlign: 'center',
+    fontSize: '1.2rem',
+    textShadow: shadows.TEXT_SOLID,
+    fontFamily: '"Greywall"',
+    fontWeight: 'normal',
+  }),
   textColor('CYAN'),
 ]
 
-export const buildingLevel = css({ margin: 0, textAlign: 'center', fontSize: '1.2rem', textShadow: shadows.TEXT_SOLID })
+export const buildingLevel = css({
+  margin: 0,
+  textAlign: 'center',
+  fontSize: '1.2rem',
+  textShadow: shadows.TEXT_SOLID,
+  fontFamily: '"Greywall"',
+  fontWeight: 'normal',
+})
 
 export const buildingActionContainer = css({
   display: 'flex',

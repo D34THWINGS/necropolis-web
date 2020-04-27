@@ -1,9 +1,8 @@
 import { Reducer } from 'redux'
-import { createAction, isActionOf } from 'typesafe-actions'
+import { isActionOf } from 'typesafe-actions'
 import { RootState } from './mainReducer'
 import { RootAction } from '../data/actions'
-
-export const resetGame = createAction('settings/RESET_GAME')()
+import { resetGame } from '../data/settings/actions'
 
 export const resetReducer = (reducer: Reducer<RootState, RootAction>) => (
   state: RootState | undefined,

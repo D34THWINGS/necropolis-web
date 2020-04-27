@@ -14,6 +14,8 @@ const buildingHeader = css({
   justifyContent: 'space-between',
   fontSize: '1.2rem',
   textShadow: shadows.TEXT_SOLID,
+  fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+  fontWeight: 'normal',
 })
 
 const buildingName = css({

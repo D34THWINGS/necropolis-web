@@ -5,9 +5,9 @@ import gameWonBgUrl from '../../assets/images/endScreens/victory-bg.jpg'
 import gameWonImageUrl from '../../assets/images/endScreens/victory.png'
 import { Image } from '../../components/images/Image'
 import { useTranslation } from '../../lang/useTranslation'
-import { resetGame } from '../../store/resetableStore'
 import { gameEndContainer, gameEndText } from './helpers/gameEndStyles'
 import { forestSquareButton } from '../../styles/buttons'
+import { resetGame } from '../../data/settings/actions'
 
 const gameWonContainer = gameEndContainer(gameWonBgUrl)
 

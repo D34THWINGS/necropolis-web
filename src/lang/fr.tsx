@@ -13,7 +13,7 @@ export const fr = {
   resetGame: 'Recommencer la partie',
 
   buildingNotConstructed: 'Non construit',
-  buildingLevel: (level: number) => `niv. ${level}`,
+  buildingLevel: (level: number) => `Niv. ${level}`,
   repairBuilding: (
     <Fragment>
       Déblayer le bâtiment
@@ -173,6 +173,7 @@ export const fr = {
   ),
 
   settings: 'Paramètres',
+  fullscreen: 'Plein écran',
 
   undeadOverlayTitle: 'Morts-vivants',
   undeadUpkeep: (meatCost: number) => `Consomation par tour : ${meatCost}`,

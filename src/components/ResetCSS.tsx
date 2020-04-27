@@ -11,6 +11,9 @@ const reset = css({
     boxSizing: 'inherit',
     fontFamily: 'inherit',
     fontSize: 'inherit',
+    fontWeight: 'inherit',
+    WebkitFontSmoothing: 'antialiased',
+    MozOsxFontSmoothing: 'grayscale',
   },
 
   'a, button': {
@@ -21,12 +24,9 @@ const reset = css({
     margin: 0,
     padding: 0,
     lineHeight: 1.5,
-    fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+    fontFamily: '"Azo Sans", Arial, Helvetica, sans-serif',
     fontStyle: 'normal',
-    fontWeight: 'normal',
     fontSize: '1rem',
-    WebkitFontSmoothing: 'antialiased',
-    MozOsxFontSmoothing: 'grayscale',
     overflow: 'hidden',
   },
 })

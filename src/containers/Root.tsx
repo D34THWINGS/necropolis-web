@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 import { PersistGate } from 'redux-persist/integration/react'
 import { createAppStore } from '../store/createAppStore'
 import { App } from './App'
 import { TranslationProvider } from '../lang/useTranslation'
 
 export const Root = () => {
-  const { store, persistor } = React.useMemo(() => createAppStore(), [])
+  const history = useMemo(() => createBrowserHistory(), [])
+  const { store, persistor } = React.useMemo(() => createAppStore(history), [history])
 
   return (
-    <BrowserRouter>
+    <Router history={history}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <TranslationProvider>
@@ -18,6 +20,6 @@ export const Root = () => {
           </TranslationProvider>
         </PersistGate>
       </Provider>
-    </BrowserRouter>
+    </Router>
   )
 }

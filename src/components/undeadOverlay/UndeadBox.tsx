@@ -27,7 +27,9 @@ const undeadName = css({
   margin: 0,
   textAlign: 'center',
   color: colors.PURPLE,
-  textShadow: shadows.TEXT,
+  textShadow: shadows.TEXT_SOLID,
+  fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+  fontWeight: 'normal',
 
   '&::after': {
     display: 'block',
@@ -35,7 +37,7 @@ const undeadName = css({
     marginBottom: '0.3rem',
     height: '3px',
     background: colors.PURPLE,
-    boxShadow: shadows.TEXT,
+    boxShadow: shadows.TEXT_SOLID,
   },
 })
 

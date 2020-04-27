@@ -11,7 +11,7 @@ const expeditionActionButton = [
   ...cyanSquareButton,
   css({
     marginTop: '0.4rem',
-    fontSize: '0.8rem',
+    fontSize: '0.9rem',
   }),
 ]
 

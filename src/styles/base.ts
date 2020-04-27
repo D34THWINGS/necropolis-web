@@ -39,6 +39,8 @@ export const h2Title = css({
   fontSize: '1.8rem',
   textAlign: 'center',
   textShadow: shadows.TEXT_SOLID,
+  fontFamily: '"Greywall"',
+  fontWeight: 'normal',
 })
 
 export const noMargin = css({

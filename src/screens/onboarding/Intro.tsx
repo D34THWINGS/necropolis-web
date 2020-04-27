@@ -26,6 +26,8 @@ const introContainer = (backgroundUrl: string) =>
     textShadow: shadows.TEXT,
     textAlign: 'center',
     fontSize: '1.5rem',
+    fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+    fontWeight: 'normal',
   })
 
 const nextStepButton = [

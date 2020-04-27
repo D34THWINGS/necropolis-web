@@ -11,7 +11,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
-    "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-typescript": "^7.9.0",
     "@emotion/babel-preset-css-prop": "^10.0.27",
@@ -25,11 +24,10 @@
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "babel-plugin-emotion": "^10.0.29",
-    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "eslint": "^6.8.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
-    "parcel": "nightly",
+    "parcel": "^2.0.0-nightly.234",
     "prettier": "^2.0.1",
     "typescript": "^3.8.3",
     "workbox-cli": "^5.1.3"

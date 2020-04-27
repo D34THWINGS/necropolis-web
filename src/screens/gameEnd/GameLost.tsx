@@ -6,7 +6,7 @@ import gameLostImageUrl from '../../assets/images/endScreens/defeat.png'
 import { Image } from '../../components/images/Image'
 import { useTranslation } from '../../lang/useTranslation'
 import { darkBlueSquareButton } from '../../styles/buttons'
-import { resetGame } from '../../store/resetableStore'
+import { resetGame } from '../../data/settings/actions'
 import { gameEndContainer, gameEndText } from './helpers/gameEndStyles'
 
 const gameLostContainer = gameEndContainer(gameLostBgUrl)

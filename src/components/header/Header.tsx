@@ -26,6 +26,8 @@ const headerContainer = css({
   alignItems: 'center',
   padding: '0 0.5rem',
   minHeight: '8rem',
+  fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+  fontWeight: 'normal',
 })
 
 const headerCountersWrapper = css({
@@ -74,6 +76,8 @@ const headerSpacer = css({
   flexGrow: 1,
 })
 
+const settingsButton = [buttonBase, css({ zIndex: 2 })]
+
 const spellsButton = [buttonBase, css({ zIndex: 1 })]
 
 export const Header = () => {
@@ -87,7 +91,7 @@ export const Header = () => {
   return (
     <div css={headerContainer}>
       <div css={headerButtons}>
-        <button type="button" css={buttonBase} onClick={openSettings}>
+        <button type="button" css={settingsButton} onClick={openSettings}>
           <Image src={settingsImageUrl} size="3rem" />
         </button>
         <SettingsModal isOpen={isSettingsModalOpen} onClose={closeSettings} />

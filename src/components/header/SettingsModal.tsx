@@ -5,7 +5,7 @@ import { Modal } from '../ui/Modal'
 import { useTranslation } from '../../lang/useTranslation'
 import { h2Title } from '../../styles/base'
 import { greenSquareButton } from '../../styles/buttons'
-import { resetGame } from '../../store/resetableStore'
+import { resetGame } from '../../data/settings/actions'
 
 export type SettingsModalProps = {
   isOpen: boolean
