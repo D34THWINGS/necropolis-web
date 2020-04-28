@@ -4,7 +4,7 @@
   "license": "ISC",
   "scripts": {
     "dev": "parcel ./src/index.html",
-    "build": "rm -rf dist && parcel build ./src/index.html && workbox injectManifest workbox-config.js && cp src/assets/icons/android-icon-*.png dist/",
+    "build": "rm -rf dist && parcel build ./src/index.html && imagemin dist/* --out-dir=dist --plugin=mozjpeg --plugin=pngquant && workbox injectManifest workbox-config.js && cp src/assets/icons/android-icon-*.png dist/",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
     "lint:cache": "yarn lint --cache",
     "typecheck": "tsc"
@@ -29,6 +29,9 @@
     "eslint": "^6.8.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
+    "imagemin-cli": "^5.1.0",
+    "imagemin-mozjpeg": "^8.0.0",
+    "imagemin-pngquant": "^8.0.0",
     "parcel": "^2.0.0-nightly.234",
     "prettier": "^2.0.1",
     "typescript": "^3.8.3",
