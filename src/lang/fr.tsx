@@ -3,11 +3,12 @@ import { jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import { plural } from './i18nHelpers'
 import { noBreak, textColor } from '../styles/base'
-import { BuildingType, Spell, UndeadTalent, UndeadType } from '../config/constants'
+import { BuildingType, ResourceType, Spell, UndeadTalent, UndeadType } from '../config/constants'
 import { TalentIcon } from '../components/images/TalentIcon'
 import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
 import { frEvents } from './frEvents'
+import { ResourceIcon } from '../components/images/ResourceIcon'
 
 export const fr = {
   resetGame: 'Recommencer la partie',
@@ -223,7 +224,8 @@ export const fr = {
     <Fragment>
       Votre armée consomme trop de{' '}
       <span css={textColor('RED')}>
-        chair ({upkeep}/{meat})
+        <ResourceIcon type={ResourceType.Meat} />
+        &nbsp;({upkeep}/{meat})
       </span>
       . Des sacrifices sont nécessaires pour continuer.
     </Fragment>

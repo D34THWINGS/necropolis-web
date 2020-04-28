@@ -59,3 +59,7 @@ export const alignItemsCenter = css({
   display: 'inline-flex',
   alignItems: 'center',
 })
+
+export const smallMarginTop = css({
+  marginTop: '0.4rem',
+})

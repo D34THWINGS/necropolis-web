@@ -1,23 +1,18 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { Fragment, ReactNode } from 'react'
+import { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from '../../../components/ui/Modal'
 import { ExpeditionType } from '../../../config/constants'
 import { cyanSquareButton, greenSquareButton } from '../../../styles/buttons'
 import { useTranslation } from '../../../lang/useTranslation'
 import { greenBox, h2Title, textColor } from '../../../styles/base'
-import {
-  beginExpedition,
-  closeExpedition,
-  endExpedition,
-  fleeExpedition,
-  setExpeditionStep,
-} from '../../../data/expeditions/actions'
+import { beginExpedition, closeExpedition, endExpedition, setExpeditionStep } from '../../../data/expeditions/actions'
 import { getExpeditionStep, getOpenedExpedition } from '../../../data/expeditions/selectors'
 import { Image } from '../../../components/images/Image'
 import greenArrowUrl from '../../../assets/images/onboarding/next-step-arrow.png'
 import treasureUrl from '../../../assets/images/expeditions/treasure.png'
+import { ExpeditionFlee } from './ExpeditionFlee'
 
 const expeditionButton = [
   ...cyanSquareButton,
@@ -75,9 +70,16 @@ export const ExpeditionModal = <TStep extends number = number>({
   renderTreasure,
 }: ExpeditionModalProps<TStep>) => {
   const { t } = useTranslation()
+  const [isFleeing, setIsFleeing] = useState(false)
   const step = useSelector(getExpeditionStep(type))
   const openedExpedition = useSelector(getOpenedExpedition)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (!openedExpedition && isFleeing) {
+      setIsFleeing(false)
+    }
+  }, [openedExpedition])
 
   const handleBeginExpedition = () => dispatch(beginExpedition(type))
   const handleCloseOverview = () => dispatch(closeExpedition())
@@ -100,13 +102,17 @@ export const ExpeditionModal = <TStep extends number = number>({
       )
     }
 
+    if (isFleeing) {
+      return <ExpeditionFlee />
+    }
+
     const goToStep = (newStep: TStep) => () => dispatch(setExpeditionStep(type, newStep))
     return (
       <Fragment>
         {renderStep(step as TStep, {
           goToStep,
           renderFleeButton: () => {
-            const handleFleeExpedition = () => dispatch(fleeExpedition())
+            const handleFleeExpedition = () => setIsFleeing(true)
             return (
               <button type="button" css={fleeExpeditionButton} onClick={handleFleeExpedition}>
                 <Image src={greenArrowUrl} block marginRight="0.4rem" />

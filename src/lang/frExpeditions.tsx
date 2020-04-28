@@ -15,6 +15,8 @@ export const frExpeditions = {
       <span css={textColor('CYAN')}>Vous conservez les trésors obtenus</span>
     </Fragment>
   ),
+  fleeExpeditionDescription: 'Les Paladins ont eu vent de votre instant de faiblesse.',
+  fleeExpeditionButton: 'Partir',
   expeditionPrerequisites: 'Prérequis\u00A0:',
   expeditionCost: 'Coût\u00A0:',
   expeditionContinue: 'Continuer',

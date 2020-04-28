@@ -1,7 +1,7 @@
 import { combineEpics, Epic } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
 import { of } from 'rxjs'
-import { filter, flatMap, mapTo, skip, tap } from 'rxjs/operators'
+import { filter, flatMap, skip, tap } from 'rxjs/operators'
 import { RootAction } from './actions'
 import { RootState } from '../store/mainReducer'
 import { nextPhase } from './turn/actions'
@@ -14,12 +14,12 @@ import { ResourceType, TurnPhase } from '../config/constants'
 import { getCurrentPhase } from './turn/selectors'
 import { getMeat } from './resources/selectors'
 import { createUndead } from './undeads/helpers'
-import { endExpedition, fleeExpedition } from './expeditions/actions'
 import { endEventEpic, eventsEpic } from './events/epics'
 import { discoverSpellEpic, soulStormEpic } from './spells/epics'
 import { repairBuildingEpic, upgradeBuildingEpic } from './buildings/epics'
 import { MAIN_HUB } from '../config/routes'
 import { resetGame } from './settings/actions'
+import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
 
 const upkeepEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
@@ -51,9 +51,6 @@ const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state
     }),
   )
 
-const fleeExpeditionEpic: Epic<RootAction, RootAction, RootState> = action$ =>
-  action$.pipe(filter(isActionOf([fleeExpedition, endExpedition])), mapTo(nextPhase()))
-
 const resetGameEpic: Epic<RootAction, RootAction, RootState, Dependencies> = (action$, _, { history }) =>
   action$.pipe(
     filter(isActionOf(resetGame)),
@@ -70,6 +67,7 @@ export const rootEpic = combineEpics(
   eventsEpic,
   endEventEpic,
   discoverSpellEpic,
+  endExpeditionEpic,
   fleeExpeditionEpic,
   soulStormEpic,
   resetGameEpic,
