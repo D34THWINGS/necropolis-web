@@ -67,6 +67,7 @@ export enum TurnPhase {
 export const TURN_PHASES_ORDER = [TurnPhase.Production, TurnPhase.Event, TurnPhase.Action, TurnPhase.Upkeep]
 
 export const RAISABLE_UNDEADS = [UndeadType.Skeleton, UndeadType.LaMotte, UndeadType.BloodPrince]
+export const LA_MOTTE_DEFENSE_BONUS = 1
 
 export enum Spell {
   SoulStorm = 'soulStorm',

@@ -2,7 +2,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { css, jsx } from '@emotion/core'
-import backgroundImageUrl from '../assets/images/background.jpg'
 import { ResetCSS } from '../components/ResetCSS'
 import { Fonts } from '../components/Fonts'
 import { GameContent } from './GameContent'
@@ -13,16 +12,14 @@ import { getUndeadCount } from '../data/undeads/selectors'
 import { GameLost } from '../screens/gameEnd/GameLost'
 import { GameWon } from '../screens/gameEnd/GameWon'
 import { getIsBuildingsFullyUpgraded } from '../data/buildings/selectors'
+import { colors } from '../config/theme'
 
 const appContainer = css({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: '100vh',
-  backgroundImage: `url(${backgroundImageUrl})`,
-  backgroundPosition: 'center',
-  backgroundSize: 'cover',
-  backgroundRepeat: 'no-repeat',
+  backgroundColor: colors.GREY,
 })
 
 const gameContainer = css({

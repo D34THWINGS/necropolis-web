@@ -1,7 +1,7 @@
 import { createReducer } from 'typesafe-actions'
 import { createUndead } from './helpers'
-import { UndeadType } from '../../config/constants'
-import { addUndead, killUndead, killAllUndead, requireSacrifice, banUndead } from './actions'
+import { UndeadTalent, UndeadType } from '../../config/constants'
+import { addUndead, killUndead, killAllUndead, requireSacrifice, banUndead, upgradeValet } from './actions'
 
 export const undeads = createReducer({
   list: [createUndead(UndeadType.Valet)],
@@ -32,3 +32,21 @@ export const undeads = createReducer({
     ...state,
     requiredSacrifices: state.requiredSacrifices + count,
   }))
+  .handleAction(upgradeValet, state => {
+    const valetIndex = state.list.findIndex(undead => undead.type === UndeadType.Valet)
+    if (valetIndex < 0) {
+      return state
+    }
+    const possibleTalents = Object.values(UndeadTalent)
+    const randomTalent = possibleTalents[Math.round(Math.random() * (possibleTalents.length - 1))]
+    const talentsMap = new Map(state.list[valetIndex].talents)
+    talentsMap.set(randomTalent, (talentsMap.get(randomTalent) || 0) + 1)
+    return {
+      ...state,
+      list: [
+        ...state.list.slice(0, valetIndex),
+        { ...state.list[valetIndex], talents: Array.from(talentsMap.entries()) },
+        ...state.list.slice(valetIndex + 1),
+      ],
+    }
+  })

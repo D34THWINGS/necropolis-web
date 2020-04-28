@@ -15,7 +15,7 @@ import { repairBuildingEpic, upgradeBuildingEpic, upgradeBuildingRewardsEpic } f
 import { MAIN_HUB } from '../config/routes'
 import { resetGame } from './settings/actions'
 import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
-import { raiseUndeadEpic, upkeepEpic } from './undeads/epics'
+import { raiseUndeadEpic, upkeepEpic, valetEpic } from './undeads/epics'
 
 const productionEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
@@ -36,6 +36,7 @@ export const rootEpic = combineEpics(
   upgradeBuildingRewardsEpic,
   repairBuildingEpic,
   upkeepEpic,
+  valetEpic,
   productionEpic,
   raiseUndeadEpic,
   eventsEpic,

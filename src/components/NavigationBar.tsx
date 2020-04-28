@@ -15,7 +15,10 @@ const footerContainer = css({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
+  position: 'absolute',
+  bottom: 0,
   padding: '1rem 1rem 0',
+  width: '100%',
 })
 
 const footerButton = [

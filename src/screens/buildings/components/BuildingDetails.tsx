@@ -11,6 +11,8 @@ import { getBuildingMaxLevel, getBuildingUpgradeCost } from '../../../data/build
 import { getBuildingLevel, getIsBuildingCollapsed } from '../../../data/buildings/selectors'
 import { useTranslation } from '../../../lang/useTranslation'
 import { getMaterials } from '../../../data/resources/selectors'
+import { ScreenWrapper } from '../../../components/ui/ScreenWrapper'
+import charnelHouseBgUrl from '../../../assets/images/buildings/charnel-house-bg.jpg'
 
 type BuildingDetailsProps = {
   type: BuildingType
@@ -37,7 +39,7 @@ export const BuildingDetails = ({
   const handleRepair = () => dispatch(repairBuilding(type))
 
   return (
-    <div css={buildingWrapper}>
+    <ScreenWrapper css={buildingWrapper} backgroundUrl={charnelHouseBgUrl}>
       {renderSpecialAction && renderSpecialAction(level, isCollapsed)}
       <Panel>
         <h2 css={buildingTitle}>{t(type)}</h2>
@@ -55,6 +57,6 @@ export const BuildingDetails = ({
           />
         )}
       </Panel>
-    </div>
+    </ScreenWrapper>
   )
 }

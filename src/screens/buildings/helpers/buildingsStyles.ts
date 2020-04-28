@@ -9,8 +9,6 @@ export const buildingWrapper = css({
   flexDirection: 'column',
   alignItems: 'stretch',
   justifyContent: 'flex-end',
-  padding: '0 1rem',
-  height: '100%',
 })
 
 export const buildingTitle = [

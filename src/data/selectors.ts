@@ -1,13 +1,15 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../store/mainReducer'
-import { getUndeadArmyLethality } from './undeads/selectors'
+import { getUndeadArmyLethality, getUndeadTypes } from './undeads/selectors'
 import { getIsSoulStormActive } from './spells/selectors'
 import {
   ARTIFACT_DEFENSE_BONUS,
   EventType,
+  LA_MOTTE_DEFENSE_BONUS,
   PLUNDER_ACTIVATION_TURN,
   SOUL_STORM_DEFENSE_BONUS,
   SOUL_STORM_LETHALITY_BONUS,
+  UndeadType,
 } from '../config/constants'
 import { getBattlementsDefenseBonus } from './buildings/helpers'
 import { getBattlements, getConstructedBuildings } from './buildings/selectors'
@@ -22,7 +24,8 @@ export const getLethality = (state: RootState) =>
 export const getDefense = (state: RootState) =>
   getBattlementsDefenseBonus(getBattlements(state).level) +
   (getIsSoulStormActive(state) ? SOUL_STORM_DEFENSE_BONUS : 0) +
-  (getHasArtifact(state) ? ARTIFACT_DEFENSE_BONUS : 0)
+  (getHasArtifact(state) ? ARTIFACT_DEFENSE_BONUS : 0) +
+  (getUndeadTypes(state).includes(UndeadType.LaMotte) ? LA_MOTTE_DEFENSE_BONUS : 0)
 
 export const getRandomEventPool = createSelector(
   getTurn,

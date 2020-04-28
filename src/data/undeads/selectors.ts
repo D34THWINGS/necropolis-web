@@ -7,7 +7,8 @@ export const getUndeads = (state: RootState) => state.undeads.list
 
 export const getUndeadCount = (state: RootState) => getUndeads(state).length
 
-export const getUpkeep = getUndeadCount
+export const getUpkeep = (state: RootState) =>
+  getUndeads(state).filter(undead => undead.type !== UndeadType.Skeleton).length
 
 export const getUndeadTypes = createSelector(getUndeads, (undeads): UndeadType[] => undeads.map(undead => undead.type))
 

@@ -28,7 +28,7 @@ export const fr = {
     <Fragment>
       Produit{' '}
       <span css={textColor('RED')}>
-        {meat} chair{plural(meat, 's')}
+        {meat} <ResourceIcon type={ResourceType.Meat} />
       </span>{' '}
       par tour.
       <br />
@@ -36,7 +36,7 @@ export const fr = {
         <Fragment>
           Produit{' '}
           <span css={textColor('BROWN')}>
-            {bones} ossement{plural(bones, 's')}
+            {bones} <ResourceIcon type={ResourceType.Bones} />
           </span>{' '}
           tous les <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}
         </Fragment>
@@ -47,7 +47,7 @@ export const fr = {
     <Fragment>
       Produit{' '}
       <span css={textColor('RED')}>
-        {meat} chair{plural(meat, 's')}
+        {meat} <ResourceIcon type={ResourceType.Meat} />
       </span>{' '}
       par tour.
     </Fragment>
@@ -56,7 +56,7 @@ export const fr = {
     <Fragment>
       Produit{' '}
       <span css={textColor('BROWN')}>
-        {bones} ossement{plural(bones, 's')}
+        {bones} <ResourceIcon type={ResourceType.Bones} />
       </span>{' '}
       tous les <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}
     </Fragment>
@@ -67,7 +67,7 @@ export const fr = {
     <Fragment>
       Action: <span css={textColor('PURPLE')}>Réanimer un mort-vivant</span> au prix de{' '}
       <span css={textColor('CYAN')}>
-        {price} âme{plural(price, 's')}
+        {price} <ResourceIcon type={ResourceType.Souls} />
       </span>
       .<br />
       <span css={textColor('PURPLE')}>
@@ -97,7 +97,7 @@ export const fr = {
       <br />
       Produit{' '}
       <span css={textColor('BLUE')}>
-        {production} âme{plural(production, 's')}
+        {production} <ResourceIcon type={ResourceType.Souls} />
       </span>{' '}
       par tour.
     </Fragment>
@@ -106,7 +106,7 @@ export const fr = {
     <Fragment>
       Produit{' '}
       <span css={textColor('BLUE')}>
-        {souls} âme{plural(souls, 's')}
+        {souls} <ResourceIcon type={ResourceType.Souls} />
       </span>{' '}
       par tour.
     </Fragment>
@@ -120,7 +120,7 @@ export const fr = {
     <Fragment>
       Augmente la production de{' '}
       <span css={textColor('BLUE')}>
-        {souls} âme{plural(souls, 's')}
+        {souls} <ResourceIcon type={ResourceType.Souls} />
       </span>{' '}
       par tour.
     </Fragment>
@@ -129,9 +129,10 @@ export const fr = {
   [BuildingType.Ossuary]: 'Ossuaire',
   ossuaryDescription: (cost: number) => (
     <Fragment>
-      Action : <span css={textColor('BROWN')}>Découvrir un Sort</span> au prix de {cost} Ossements.
+      Action : <span css={textColor('BROWN')}>Découvrir un Sort</span> au prix de{' '}
+      <span css={textColor('BROWN')}>{cost}</span> <ResourceIcon type={ResourceType.Bones} />.
       <br />
-      Les <span css={textColor('BROWN')}>ossements</span> s&apos;obtiennent dans des excursions et des évènements
+      Les <ResourceIcon type={ResourceType.Bones} /> s&apos;obtiennent dans des excursions et des évènements
       particuliers.
     </Fragment>
   ),
@@ -144,11 +145,11 @@ export const fr = {
     <Fragment>
       Découvre{' '}
       <span css={textColor('RED')}>
-        {meat} chair{plural(meat, 's')}
+        {meat} <ResourceIcon type={ResourceType.Meat} />
       </span>{' '}
       et{' '}
       <span css={textColor('BROWN')}>
-        {bones} ossement{plural(meat, 's')}
+        {bones} <ResourceIcon type={ResourceType.Bones} />
       </span>
       .
     </Fragment>
@@ -196,6 +197,19 @@ export const fr = {
   },
   undeadTalents: 'Talents :',
   undeadAbility: 'Capacité :',
+  valetAbility: 'obtient +1 dans 1 Talent aléatoire à chaque fois qu’une Excursion est finie.',
+  brikolerAbility: 'aucune.',
+  laMotteAbility: (defense: number) => (
+    <Fragment>
+      confère <span css={textColor('LIME')}>+{defense}&nbsp;Défense</span> contre les Assauts des Paladins.
+    </Fragment>
+  ),
+  skeletonAbility: (
+    <Fragment>
+      ne consomme pas de <ResourceIcon type={ResourceType.Meat} />.
+    </Fragment>
+  ),
+  bloodPrinceAbility: 'inconnue.',
   reanimatedUndeadTitle: 'Réanimation',
   reanimatedUndeadOk: 'Ok',
 

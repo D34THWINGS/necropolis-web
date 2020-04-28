@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { OldCoffin } from './OldCoffin'
 import { ExpeditionMarker } from './components/ExpeditionMarker'
@@ -7,6 +7,8 @@ import { getHasAchievedExpedition } from '../../data/expeditions/selectors'
 import { MiseryMarket } from './MiseryMarket'
 import { TownHall } from './TownHall'
 import { Bastion } from './Bastion'
+import { ScreenWrapper } from '../../components/ui/ScreenWrapper'
+import mapBgUrl from '../../assets/images/expeditions/map.jpg'
 
 export const Expeditions = () => {
   const oldCoffinDone = useSelector(getHasAchievedExpedition(ExpeditionType.OldCoffin))
@@ -15,7 +17,7 @@ export const Expeditions = () => {
   const bastionDone = useSelector(getHasAchievedExpedition(ExpeditionType.Bastion))
 
   return (
-    <Fragment>
+    <ScreenWrapper backgroundUrl={mapBgUrl}>
       <ExpeditionMarker type={ExpeditionType.OldCoffin} x={6} y={1} shown={!oldCoffinDone} />
       <OldCoffin />
       <ExpeditionMarker type={ExpeditionType.MiseryMarket} x={5} y={12} shown={!miseryMarketDone && oldCoffinDone} />
@@ -24,6 +26,6 @@ export const Expeditions = () => {
       <TownHall />
       <ExpeditionMarker type={ExpeditionType.Bastion} x={-3} y={5} shown={!bastionDone && townHallDone} />
       <Bastion />
-    </Fragment>
+    </ScreenWrapper>
   )
 }

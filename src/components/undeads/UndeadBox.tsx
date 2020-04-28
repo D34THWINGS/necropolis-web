@@ -9,6 +9,7 @@ import { useTranslation } from '../../lang/useTranslation'
 import { colors, shadows } from '../../config/theme'
 import { Undead } from '../../data/undeads/helpers'
 import { purpleRoundButton } from '../../styles/buttons'
+import { LA_MOTTE_DEFENSE_BONUS, UndeadType } from '../../config/constants'
 
 const undeadBox = (canBeBanned: boolean) => [
   purpleBox,
@@ -73,6 +74,23 @@ export type UndeadBoxProps = {
 export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
   const { t } = useTranslation()
 
+  const getAbility = () => {
+    switch (undead.type) {
+      case UndeadType.Valet:
+        return t('valetAbility')
+      case UndeadType.Brikoler:
+        return t('brikolerAbility')
+      case UndeadType.LaMotte:
+        return t('laMotteAbility', LA_MOTTE_DEFENSE_BONUS)
+      case UndeadType.Skeleton:
+        return t('skeletonAbility')
+      case UndeadType.BloodPrince:
+        return t('bloodPrinceAbility')
+      default:
+        return ''
+    }
+  }
+
   return (
     <div css={undeadBox(!!onBan)}>
       <h4 css={undeadName}>{t('undeadName', undead.type)}</h4>
@@ -86,7 +104,9 @@ export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
               &nbsp;{value}
             </span>
           ))}
-          <div css={textColor('CYAN')}>{t('undeadAbility')}</div>
+          <div>
+            <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {getAbility()}
+          </div>
         </div>
       </div>
       {onBan && (

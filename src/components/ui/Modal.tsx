@@ -3,7 +3,7 @@ import { jsx, ClassNames, css, SerializedStyles } from '@emotion/core'
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import ReactModal from 'react-modal'
 import { blueRoundButton, cyanRoundButton, purpleRoundButton, redRoundButton } from '../../styles/buttons'
-import { colors, shadows } from '../../config/theme'
+import { breakpoints, colors, shadows } from '../../config/theme'
 import closeIconUrl from '../../assets/images/icons/close.png'
 import { fadeIn, fadeOut, wobble } from '../../styles/animations'
 
@@ -44,12 +44,16 @@ const modalInner = (backgroundColor: string) =>
   css({
     padding: '1rem',
     overflowY: 'auto',
-    maxHeight: '55vh',
+    maxHeight: '70vh',
     borderRadius: '10px',
     boxShadow: 'inset 0px 10px 0px rgba(0, 0, 0, 0.35), 0px 1px 1px rgba(255, 255, 255, 0.5)',
     backgroundColor,
     color: colors.WHITE,
     textShadow: shadows.TEXT_FLAT,
+
+    [breakpoints.SM]: {
+      maxHeight: '55vh',
+    },
   })
 
 export const useModalState = (initialState = false) => {
@@ -106,7 +110,7 @@ export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children, pri
           })}
           overlayClassName={scopedCss({
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-end',
             justifyContent: 'center',
             position: 'fixed',
             top: 0,
@@ -118,6 +122,10 @@ export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children, pri
             animationName: isOpen ? fadeIn : fadeOut,
             animationDuration: '200ms',
             animationTimingFunction: 'ease-in-out',
+
+            [breakpoints.SM]: {
+              alignItems: 'center',
+            },
           })}
           isOpen={isOpen}
           onRequestClose={onClose}

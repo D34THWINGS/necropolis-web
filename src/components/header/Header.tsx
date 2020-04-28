@@ -1,13 +1,12 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import darken from 'polished/lib/color/darken'
 import { useRouteMatch } from 'react-router'
 import settingsImageUrl from '../../assets/images/header/settings.png'
 import spellImageUrl from '../../assets/images/header/spells.png'
 import { buttonBase } from '../../styles/buttons'
-import { colors, shadows } from '../../config/theme'
+import { breakpoints, colors, shadows, transitions } from '../../config/theme'
 import { TurnCounter } from './TurnCounter'
 import { SettingsModal } from './SettingsModal'
 import { useModalState } from '../ui/Modal'
@@ -24,8 +23,11 @@ const headerContainer = css({
   display: 'flex',
   flexDirection: 'row-reverse',
   alignItems: 'center',
+  position: 'absolute',
+  top: '0.4rem',
   padding: '0 0.5rem',
-  minHeight: '8rem',
+  width: '100%',
+  height: '8rem',
   fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
   fontWeight: 'normal',
 })
@@ -43,11 +45,11 @@ const headerResourceCounter = (backgroundColor: string) =>
     alignItems: 'center',
     justifyContent: 'flex-end',
     position: 'relative',
-    margin: '0.7rem 0.8rem 0.7rem 1.8rem',
+    margin: '0.7rem 0.3rem 0.7rem 1.3rem',
     border: `2px solid ${darken(0.3, backgroundColor)}`,
     borderRadius: '26px',
     padding: '0.2rem 0.5rem 0.2rem 0',
-    width: '4rem',
+    width: '3rem',
     flex: '0 0 auto',
     backgroundColor,
     boxSizing: 'border-box',
@@ -57,13 +59,22 @@ const headerResourceCounter = (backgroundColor: string) =>
     lineHeight: '1',
     color: colors.WHITE,
     textShadow: shadows.TEXT,
+
+    [breakpoints.SM]: {
+      margin: '0.7rem 0.8rem 0.7rem 1.8rem',
+      width: '4rem',
+    },
   })
 
 const headerResourceIcon = css({
   position: 'absolute',
   left: 0,
-  width: '3rem',
+  width: '2.5rem',
   transform: 'translateX(-50%)',
+
+  [breakpoints.SM]: {
+    width: '3rem',
+  },
 })
 
 const headerButtons = css({
@@ -75,6 +86,13 @@ const headerButtons = css({
 const headerSpacer = css({
   flexGrow: 1,
 })
+
+const headerHideAble = (hidden: boolean) =>
+  css({
+    display: 'flex',
+    transform: `translateY(${hidden ? '-110%' : '0'})`,
+    transition: `transform ${transitions.SLOW}`,
+  })
 
 const settingsButton = [buttonBase, css({ zIndex: 2 })]
 
@@ -100,31 +118,29 @@ export const Header = () => {
         </button>
         <SpellsModal isOpen={isSpellsModalOpen} onClose={closeSpells} />
       </div>
-      {!isOnExpeditions && (
-        <Fragment>
-          <div css={headerCountersWrapper}>
-            <div css={headerResourceCounter('#94C58C')}>
-              <ResourceIcon css={headerResourceIcon} type={ResourceType.Materials} />
-              <span>{resources.materials}</span>
-            </div>
-            <div css={headerResourceCounter('#C58C8F')}>
-              <ResourceIcon css={headerResourceIcon} type={ResourceType.Meat} />
-              <span>{resources.meat}</span>
-            </div>
-            <span css={headerSpacer} />
-            <div css={headerResourceCounter('#83B9D6')}>
-              <ResourceIcon css={headerResourceIcon} type={ResourceType.Souls} />
-              <span>{resources.souls}</span>
-            </div>
-            <div css={headerResourceCounter('#CDC59C')}>
-              <ResourceIcon css={headerResourceIcon} type={ResourceType.Bones} />
-              <span>{resources.bones}</span>
-            </div>
-            <span css={headerSpacer} />
+      <div css={headerHideAble(isOnExpeditions)}>
+        <TurnCounter currentTurn={turn} />
+        <div css={headerCountersWrapper}>
+          <div css={headerResourceCounter('#94C58C')}>
+            <ResourceIcon css={headerResourceIcon} type={ResourceType.Materials} />
+            <span>{resources.materials}</span>
           </div>
-          <TurnCounter currentTurn={turn} />
-        </Fragment>
-      )}
+          <div css={headerResourceCounter('#C58C8F')}>
+            <ResourceIcon css={headerResourceIcon} type={ResourceType.Meat} />
+            <span>{resources.meat}</span>
+          </div>
+          <span css={headerSpacer} />
+          <div css={headerResourceCounter('#83B9D6')}>
+            <ResourceIcon css={headerResourceIcon} type={ResourceType.Souls} />
+            <span>{resources.souls}</span>
+          </div>
+          <div css={headerResourceCounter('#CDC59C')}>
+            <ResourceIcon css={headerResourceIcon} type={ResourceType.Bones} />
+            <span>{resources.bones}</span>
+          </div>
+          <span css={headerSpacer} />
+        </div>
+      </div>
     </div>
   )
 }

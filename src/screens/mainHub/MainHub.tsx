@@ -20,11 +20,16 @@ import {
 import { getRaisedUndeadCount } from '../../data/undeads/selectors'
 import { getHasArtifact } from '../../data/events/selectors'
 import { Panel } from '../../components/ui/Panel'
-import { colors, shadows } from '../../config/theme'
+import { breakpoints, colors, shadows } from '../../config/theme'
 import runeImageUrl from '../../assets/images/items/rune.png'
+import { ScreenWrapper } from '../../components/ui/ScreenWrapper'
+import backgroundImageUrl from '../../assets/images/background.jpg'
 
-const buildWrapper = css({
-  padding: '0 1rem',
+const mainHubWrapper = css({
+  [breakpoints.SM]: {
+    paddingLeft: '2rem',
+    paddingRight: '2rem',
+  },
 })
 
 const artifactPanel = css({
@@ -64,7 +69,7 @@ export const MainHub = () => {
   const hasArtifact = useSelector(getHasArtifact)
 
   return (
-    <div css={buildWrapper}>
+    <ScreenWrapper css={mainHubWrapper} backgroundUrl={backgroundImageUrl}>
       <Building
         name={t(BuildingType.CharnelHouse)}
         level={buildings.charnelHouse.level}
@@ -118,6 +123,6 @@ export const MainHub = () => {
           </div>
         </Panel>
       )}
-    </div>
+    </ScreenWrapper>
   )
 }

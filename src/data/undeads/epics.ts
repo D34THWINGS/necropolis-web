@@ -4,16 +4,17 @@ import { filter, flatMap } from 'rxjs/operators'
 import { Epic } from 'redux-observable'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
-import { addUndead, killUndead, raiseUndead } from './actions'
-import { getRaisableUndeadTypes, getUpkeep } from './selectors'
+import { addUndead, killUndead, raiseUndead, upgradeValet } from './actions'
+import { getRaisableUndeadTypes, getUndeadTypes, getUpkeep } from './selectors'
 import { createUndead } from './helpers'
 import { spendResources } from '../resources/actions'
-import { ResourceType, TurnPhase } from '../../config/constants'
+import { ResourceType, TurnPhase, UndeadType } from '../../config/constants'
 import { getRaiseUndeadSoulCost } from '../buildings/helpers'
 import { getCatacombs } from '../buildings/selectors'
 import { nextPhase } from '../turn/actions'
 import { getCurrentPhase } from '../turn/selectors'
 import { getMeat } from '../resources/selectors'
+import { endExpedition } from '../expeditions/actions'
 
 export const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
@@ -41,4 +42,13 @@ export const upkeepEpic: Epic<RootAction, RootAction, RootState> = (action$, sta
       () => getCurrentPhase(state$.value) === TurnPhase.Upkeep && getMeat(state$.value) >= getUpkeep(state$.value),
     ),
     flatMap(() => of(spendResources({ [ResourceType.Meat]: getUpkeep(state$.value) }), nextPhase())),
+  )
+
+export const valetEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+  action$.pipe(
+    filter(isActionOf(endExpedition)),
+    flatMap(() => {
+      const hasValet = getUndeadTypes(state$.value).includes(UndeadType.Valet)
+      return hasValet ? of(upgradeValet()) : EMPTY
+    }),
   )

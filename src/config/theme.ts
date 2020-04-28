@@ -14,7 +14,7 @@ export const colors = {
   DARK_BLUE: '#2F839B',
   LIME: '#2bfd02',
   FOREST: '#2F9B47',
-  BROWN: '#b8724b',
+  BROWN: '#BA9F8A',
 }
 
 // eslint-disable-next-line max-len
@@ -30,4 +30,8 @@ export const shadows = {
 
 export const transitions = {
   SLOW: '300ms ease-in-out',
+}
+
+export const breakpoints = {
+  SM: '@media screen and (min-width: 380px)',
 }

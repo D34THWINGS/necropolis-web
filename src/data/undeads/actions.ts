@@ -13,3 +13,5 @@ export const addUndead = createAction('undeads/ADD', (undead: Undead) => ({ unde
 export const killAllUndead = createAction('undeads/KILL_ALL')()
 
 export const requireSacrifice = createAction('undeads/REQUIRE_SACRIFICE', (count: number) => ({ count }))()
+
+export const upgradeValet = createAction('undeads/UPGRADE_VALET')()
