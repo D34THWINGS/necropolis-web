@@ -23,6 +23,7 @@ export const gameEndText = (marginTop: string, backgroundColor: string) =>
     maxWidth: '18rem',
     backgroundColor,
     fontSize: '1.3rem',
+    fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
     color: colors.WHITE,
     textShadow: shadows.TEXT_FLAT,
     textAlign: 'center',

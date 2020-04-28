@@ -8,12 +8,13 @@ import { getHasTheKey } from '../../data/spells/selectors'
 import { textColor } from '../../styles/base'
 import { ResourceIcon } from '../../components/images/ResourceIcon'
 import { getSouls } from '../../data/resources/selectors'
-import { gainResources, spendResources } from '../../data/resources/actions'
+import { gainResources } from '../../data/resources/actions'
 import { getIsBloodPrinceInJail, getUndeadCount } from '../../data/undeads/selectors'
 import { addUndead, requireSacrifice } from '../../data/undeads/actions'
 import { createUndead } from '../../data/undeads/helpers'
 import { cancelReinforcements } from '../../data/expeditions/actions'
-import { UndeadBox } from '../../components/undeadOverlay/UndeadBox'
+import { UndeadBox } from '../../components/undeads/UndeadBox'
+import { castSpell } from '../../data/spells/actions'
 
 const TOWN_HALL_FIRE_UNDEAD_COST = 1
 const TOWN_HALL_MATERIALS_REWARD = 6
@@ -45,7 +46,7 @@ export const TownHall = () => {
         switch (step as TownHallStep) {
           case TownHallStep.Entrance: {
             const handleCastTheKey = () => {
-              dispatch(spendResources({ [ResourceType.Souls]: SPELLS_SOUL_COSTS[Spell.TheKey] }))
+              dispatch(castSpell(Spell.TheKey))
               goToStep(TownHallStep.BrokenDoor)()
             }
             return (

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { ReactNode, Fragment } from 'react'
+import { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import frameUrl from '../../../assets/images/expeditions/expedition-frame.png'
 import activeFrameUrl from '../../../assets/images/expeditions/expedition-frame-active.png'
@@ -15,9 +15,10 @@ import { resetButton } from '../../../styles/buttons'
 import { openExpedition } from '../../../data/expeditions/actions'
 import { getIsExpeditionActive } from '../../../data/expeditions/selectors'
 
-const markerWrapper = (x: number, y: number) => [
+const markerWrapper = (x: number, y: number, shown: boolean) => [
   resetButton,
   css({
+    display: shown ? 'block' : 'none',
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -47,11 +48,11 @@ export type ExpeditionMarkerProps = {
   type: ExpeditionType
   x: number
   y: number
+  shown: boolean
   active?: boolean
-  children?: ReactNode
 }
 
-export const ExpeditionMarker = ({ type, x, y, children }: ExpeditionMarkerProps) => {
+export const ExpeditionMarker = ({ type, x, y, shown }: ExpeditionMarkerProps) => {
   const dispatch = useDispatch()
   const active = useSelector(getIsExpeditionActive(type))
 
@@ -59,11 +60,10 @@ export const ExpeditionMarker = ({ type, x, y, children }: ExpeditionMarkerProps
 
   return (
     <Fragment>
-      <button type="button" css={markerWrapper(x, y)} onClick={handleClick}>
+      <button type="button" css={markerWrapper(x, y, shown)} onClick={handleClick}>
         <Image src={expeditionIconMap[type]} size="5rem" block />
         <div css={markerFrame(active)} />
       </button>
-      {children}
     </Fragment>
   )
 }

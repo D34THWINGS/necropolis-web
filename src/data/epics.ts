@@ -1,34 +1,21 @@
 import { combineEpics, Epic } from 'redux-observable'
 import { isActionOf } from 'typesafe-actions'
-import { of } from 'rxjs'
-import { filter, flatMap, skip, tap } from 'rxjs/operators'
+import { EMPTY, of } from 'rxjs'
+import { filter, flatMap, mergeMapTo, tap } from 'rxjs/operators'
 import { RootAction } from './actions'
 import { RootState } from '../store/mainReducer'
 import { nextPhase } from './turn/actions'
-import { gainResources, spendResources } from './resources/actions'
-import { getRaisableUndeadTypes, getUpkeep } from './undeads/selectors'
-import { getBuildingsProduction, getCatacombs } from './buildings/selectors'
-import { getRaiseUndeadSoulCost } from './buildings/helpers'
-import { addUndead, killUndead, raiseUndead } from './undeads/actions'
-import { ResourceType, TurnPhase } from '../config/constants'
+import { gainResources } from './resources/actions'
+import { getBuildingsProduction } from './buildings/selectors'
+import { TurnPhase } from '../config/constants'
 import { getCurrentPhase } from './turn/selectors'
-import { getMeat } from './resources/selectors'
-import { createUndead } from './undeads/helpers'
 import { endEventEpic, eventsEpic } from './events/epics'
 import { discoverSpellEpic, soulStormEpic } from './spells/epics'
-import { repairBuildingEpic, upgradeBuildingEpic } from './buildings/epics'
+import { repairBuildingEpic, upgradeBuildingEpic, upgradeBuildingRewardsEpic } from './buildings/epics'
 import { MAIN_HUB } from '../config/routes'
 import { resetGame } from './settings/actions'
 import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
-
-const upkeepEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  action$.pipe(
-    filter(isActionOf([nextPhase, killUndead])),
-    filter(
-      () => getCurrentPhase(state$.value) === TurnPhase.Upkeep && getMeat(state$.value) >= getUpkeep(state$.value),
-    ),
-    flatMap(() => of(spendResources({ [ResourceType.Meat]: getUpkeep(state$.value) }), nextPhase())),
-  )
+import { raiseUndeadEpic, upkeepEpic } from './undeads/epics'
 
 const productionEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
@@ -37,29 +24,16 @@ const productionEpic: Epic<RootAction, RootAction, RootState> = (action$, state$
     flatMap(() => of(gainResources(getBuildingsProduction(state$.value)), nextPhase())),
   )
 
-const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  action$.pipe(
-    filter(isActionOf(raiseUndead)),
-    flatMap(() => {
-      const types = getRaisableUndeadTypes(state$.value)
-      const undead = createUndead(types[Math.round(Math.random() * (types.length - 1))], true)
-      return of(
-        spendResources({ [ResourceType.Souls]: getRaiseUndeadSoulCost(getCatacombs(state$.value).level) }),
-        addUndead(undead),
-        nextPhase(),
-      )
-    }),
-  )
-
 const resetGameEpic: Epic<RootAction, RootAction, RootState, Dependencies> = (action$, _, { history }) =>
   action$.pipe(
     filter(isActionOf(resetGame)),
     tap(() => history.push(MAIN_HUB)),
-    skip(Infinity),
+    mergeMapTo(EMPTY),
   )
 
 export const rootEpic = combineEpics(
   upgradeBuildingEpic,
+  upgradeBuildingRewardsEpic,
   repairBuildingEpic,
   upkeepEpic,
   productionEpic,

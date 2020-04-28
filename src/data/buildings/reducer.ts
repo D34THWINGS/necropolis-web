@@ -2,6 +2,7 @@ import { createReducer } from 'typesafe-actions'
 import { collapseBuilding, freeUpgradeBuilding, repairBuilding, upgradeBuilding } from './actions'
 import { BuildingType } from '../../config/constants'
 import { deepSet } from '../helpers'
+import { getBuildingMaxLevel } from './helpers'
 
 type Building = { level: number; collapsed: boolean }
 
@@ -30,7 +31,7 @@ export const buildings = createReducer<BuildingsState>({
   },
 })
   .handleAction([upgradeBuilding, freeUpgradeBuilding], (state, { payload: { type } }) =>
-    deepSet(state)(type)('level')()(state[type].level + 1),
+    deepSet(state)(type)('level')()(Math.min(state[type].level + 1, getBuildingMaxLevel(type))),
   )
   .handleAction(collapseBuilding, (state, { payload: { type } }) => deepSet(state)(type)('collapsed')()(true))
   .handleAction(repairBuilding, (state, { payload: { type } }) => deepSet(state)(type)('collapsed')()(false))

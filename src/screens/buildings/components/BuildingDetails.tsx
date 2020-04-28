@@ -17,7 +17,6 @@ type BuildingDetailsProps = {
   renderDescription: (level: number) => ReactNode
   renderUpgradeDescription: (level: number) => ReactNode
   renderSpecialAction?: (level: number, isCollapsed: boolean) => ReactNode
-  onUpgrade?: (level: number) => void
 }
 
 export const BuildingDetails = ({
@@ -25,7 +24,6 @@ export const BuildingDetails = ({
   renderSpecialAction,
   renderDescription,
   renderUpgradeDescription,
-  onUpgrade,
 }: BuildingDetailsProps) => {
   const { t } = useTranslation()
   const level = useSelector(getBuildingLevel(type))
@@ -35,12 +33,7 @@ export const BuildingDetails = ({
   const materials = useSelector(getMaterials)
   const dispatch = useDispatch()
 
-  const handleUpgrade = () => {
-    dispatch(upgradeBuilding(type))
-    if (onUpgrade) {
-      onUpgrade(level + 1)
-    }
-  }
+  const handleUpgrade = () => dispatch(upgradeBuilding(type))
   const handleRepair = () => dispatch(repairBuilding(type))
 
   return (

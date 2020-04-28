@@ -11,11 +11,12 @@ import { textColor } from '../../styles/base'
 import { TalentIcon } from '../../components/images/TalentIcon'
 import { getHasTheKey } from '../../data/spells/selectors'
 import { ResourceIcon } from '../../components/images/ResourceIcon'
-import { gainResources, spendResources } from '../../data/resources/actions'
+import { gainResources } from '../../data/resources/actions'
 import { getSouls } from '../../data/resources/selectors'
 import { requireSacrifice } from '../../data/undeads/actions'
 import { getLethality } from '../../data/selectors'
 import { triggerCarnage } from '../../data/expeditions/actions'
+import { castSpell } from '../../data/spells/actions'
 
 const MISERY_MARKET_CATAPULT_COST = 1
 const MISERY_MARKET_STEP1_STRENGTH_REQUIRED = 4
@@ -59,7 +60,7 @@ export const MiseryMarket = () => {
         switch (step) {
           case MiseryMarketStep.Doors: {
             const handleCastTheKey = () => {
-              dispatch(spendResources({ [ResourceType.Souls]: SPELLS_SOUL_COSTS[Spell.TheKey] }))
+              dispatch(castSpell(Spell.TheKey))
               goToStep(MiseryMarketStep.Guards)()
             }
             const handleCatapultUndead = () => {

@@ -24,7 +24,7 @@ export const CharnelHouse = () => {
         )
       }
       renderUpgradeDescription={level =>
-        level === 0
+        level === 1
           ? t('charnelHouseUnlock', getCharnelHouseMeatProduction(level))
           : t('charnelHouseUpgrade', getCharnelHouseBonesProduction(level), getCharnelHouseProductionTurns(level))
       }

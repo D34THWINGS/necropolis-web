@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { css, jsx, keyframes } from '@emotion/core'
+import { css, jsx } from '@emotion/core'
 import { useSelector } from 'react-redux'
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router'
 import { Fragment, useEffect } from 'react'
@@ -15,12 +15,15 @@ import { SoulWell } from '../screens/buildings/SoulWell'
 import { Battlements } from '../screens/buildings/Battlements'
 import { CharnelHouse } from '../screens/buildings/CharnelHouse'
 import { NavigationBar } from '../components/NavigationBar'
-import { UndeadOverlay } from '../components/undeadOverlay/UndeadOverlay'
-import { UndeadUpkeep } from '../components/undeadOverlay/UndeadUpkeep'
+import { UndeadOverlay } from '../components/undeads/UndeadOverlay'
+import { UndeadUpkeep } from '../components/undeads/UndeadUpkeep'
 import { contentCover } from '../styles/base'
 import { EventModal } from '../screens/events/EventModal'
-import { UndeadSacrifice } from '../components/undeadOverlay/UndeadSacrifice'
+import { UndeadSacrifice } from '../components/undeads/UndeadSacrifice'
 import { getOpenedExpedition } from '../data/expeditions/selectors'
+import { fadeIn } from '../styles/animations'
+import { DiscoverSpellModal } from '../components/spells/DiscoverSpellModal'
+import { ReanimatedUndeadModal } from '../screens/buildings/components/ReanimatedUndeadModal'
 
 const gameContent = css({
   display: 'flex',
@@ -33,16 +36,6 @@ const gameContent = css({
 const middleSection = css({
   flex: 1,
   overflowY: 'auto',
-})
-
-const fadeIn = keyframes({
-  from: {
-    opacity: 0,
-  },
-
-  to: {
-    opacity: 1,
-  },
 })
 
 const buildingsBackground = (backgroundUrl: string) => [
@@ -94,6 +87,8 @@ export const GameContent = () => {
         <EventModal />
         <UndeadOverlay />
         <UndeadSacrifice />
+        <DiscoverSpellModal />
+        <ReanimatedUndeadModal />
       </div>
     </Fragment>
   )

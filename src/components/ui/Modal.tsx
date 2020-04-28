@@ -1,10 +1,11 @@
 /** @jsx jsx */
 import { jsx, ClassNames, css, SerializedStyles } from '@emotion/core'
-import { ReactNode, useMemo, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import ReactModal from 'react-modal'
 import { blueRoundButton, cyanRoundButton, purpleRoundButton, redRoundButton } from '../../styles/buttons'
 import { colors, shadows } from '../../config/theme'
 import closeIconUrl from '../../assets/images/icons/close.png'
+import { fadeIn, fadeOut, wobble } from '../../styles/animations'
 
 export enum ModalColor {
   GREEN,
@@ -72,43 +73,65 @@ export type ModalProps = {
   priority?: number
 }
 
-export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children, priority }: ModalProps) => (
-  <ClassNames>
-    {({ css: scopedCss }) => (
-      <ReactModal
-        className={scopedCss({
-          position: 'relative',
-          outline: 0,
-          border: '2px solid rgba(0, 0, 0, 0.5)',
-          borderRadius: '15px',
-          padding: '10px',
-          width: '22rem',
-          boxShadow: 'inset 0px 1px 1px rgba(255, 255, 255, 0.5)',
-          background: modalColorsMap[color][0],
-        })}
-        overlayClassName={scopedCss({
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          zIndex: priority,
-        })}
-        isOpen={isOpen}
-        onRequestClose={onClose}
-        ariaHideApp={false}
-      >
-        <div css={modalInner(modalColorsMap[color][1])}>{children}</div>
-        {onClose && (
-          <button css={[...modalCloseButtonMap[color], closeButton]} onClick={onClose} type="button">
-            <img css={closeIcon} src={closeIconUrl} alt="" />
-          </button>
-        )}
-      </ReactModal>
-    )}
-  </ClassNames>
-)
+export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children, priority }: ModalProps) => {
+  const lastContent = useRef(children)
+
+  useEffect(() => {
+    if (isOpen) {
+      lastContent.current = children
+    }
+  }, [isOpen, children])
+
+  return (
+    <ClassNames>
+      {({ css: scopedCss }) => (
+        <ReactModal
+          className={scopedCss({
+            position: 'relative',
+            outline: 0,
+            border: '2px solid rgba(0, 0, 0, 0.5)',
+            borderRadius: '15px',
+            padding: '10px',
+            width: '22rem',
+            boxShadow: 'inset 0px 1px 1px rgba(255, 255, 255, 0.5)',
+            background: modalColorsMap[color][0],
+            ...(onClose
+              ? undefined
+              : {
+                  animationName: wobble,
+                  animationDelay: '50ms',
+                  animationDuration: '200ms',
+                  animationTimingFunction: 'ease-in-out',
+                }),
+          })}
+          overlayClassName={scopedCss({
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: priority,
+            animationName: isOpen ? fadeIn : fadeOut,
+            animationDuration: '200ms',
+            animationTimingFunction: 'ease-in-out',
+          })}
+          isOpen={isOpen}
+          onRequestClose={onClose}
+          ariaHideApp={false}
+          closeTimeoutMS={200}
+        >
+          <div css={modalInner(modalColorsMap[color][1])}>{isOpen ? children : lastContent.current}</div>
+          {onClose && (
+            <button css={[...modalCloseButtonMap[color], closeButton]} onClick={onClose} type="button">
+              <img css={closeIcon} src={closeIconUrl} alt="" />
+            </button>
+          )}
+        </ReactModal>
+      )}
+    </ClassNames>
+  )
+}

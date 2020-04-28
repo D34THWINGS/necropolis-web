@@ -16,26 +16,14 @@ export const Expeditions = () => {
 
   return (
     <Fragment>
-      {!oldCoffinDone && (
-        <ExpeditionMarker type={ExpeditionType.OldCoffin} x={6} y={1}>
-          <OldCoffin />
-        </ExpeditionMarker>
-      )}
-      {!miseryMarketDone && oldCoffinDone && (
-        <ExpeditionMarker type={ExpeditionType.MiseryMarket} x={5} y={12}>
-          <MiseryMarket />
-        </ExpeditionMarker>
-      )}
-      {!townHallDone && miseryMarketDone && (
-        <ExpeditionMarker type={ExpeditionType.TownHall} x={-5} y={-12}>
-          <TownHall />
-        </ExpeditionMarker>
-      )}
-      {!bastionDone && townHallDone && (
-        <ExpeditionMarker type={ExpeditionType.Bastion} x={-3} y={5}>
-          <Bastion />
-        </ExpeditionMarker>
-      )}
+      <ExpeditionMarker type={ExpeditionType.OldCoffin} x={6} y={1} shown={!oldCoffinDone} />
+      <OldCoffin />
+      <ExpeditionMarker type={ExpeditionType.MiseryMarket} x={5} y={12} shown={!miseryMarketDone && oldCoffinDone} />
+      <MiseryMarket />
+      <ExpeditionMarker type={ExpeditionType.TownHall} x={-5} y={-12} shown={!townHallDone && miseryMarketDone} />
+      <TownHall />
+      <ExpeditionMarker type={ExpeditionType.Bastion} x={-3} y={5} shown={!bastionDone && townHallDone} />
+      <Bastion />
     </Fragment>
   )
 }

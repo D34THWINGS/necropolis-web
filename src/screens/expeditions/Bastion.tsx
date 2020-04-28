@@ -13,6 +13,7 @@ import { getLethality } from '../../data/selectors'
 import { gainResources, spendResources } from '../../data/resources/actions'
 import { TalentIcon } from '../../components/images/TalentIcon'
 import { getHasCancelledReinforcements } from '../../data/expeditions/selectors'
+import { castSpell } from '../../data/spells/actions'
 
 enum BastionStep {
   Setup,
@@ -51,7 +52,7 @@ export const Bastion = () => {
         switch (step) {
           case BastionStep.Setup: {
             const handleCastTheKey = () => {
-              dispatch(spendResources({ [ResourceType.Souls]: SPELLS_SOUL_COSTS[Spell.TheKey] }))
+              dispatch(castSpell(Spell.TheKey))
               goToStep(BastionStep.DoorOpens)()
             }
             return (

@@ -22,7 +22,7 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} priority={2}>
       <h2 css={h2Title}>{t('settings')}</h2>
       <button type="button" css={greenSquareButton} onClick={handleResetGame}>
         {t('resetGame')}

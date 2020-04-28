@@ -196,6 +196,8 @@ export const fr = {
   },
   undeadTalents: 'Talents :',
   undeadAbility: 'Capacité :',
+  reanimatedUndeadTitle: 'Réanimation',
+  reanimatedUndeadOk: 'Ok',
 
   turns: 'Tours de jeu',
   turnsEventSpacing: (turnSpacing: number) => (
@@ -252,7 +254,10 @@ export const fr = {
       jusqu&apos;à la fin du tour.
     </Fragment>
   ),
-  theKeyDescription: "Brise l'évènement en cours.",
+  theKeyDescription: 'Ouvre tout type de porte.',
+
+  discoverSpellTitle: 'Découverte',
+  discoverSpellOk: 'Ok',
 
   sacrificeRequiredTitle: 'Choix des pertes',
   sacrificeRequiredDescription: (undeads: number) => (

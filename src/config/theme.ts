@@ -1,7 +1,7 @@
 export const colors = {
   WHITE: '#ffffff',
   BLACK: '#000000',
-  GREY: '#18211a',
+  GREY: '#3d3d3d',
   GREEN: '#41837c',
   DARK_GREEN: '#144D49',
   CYAN: '#80f4d2',
@@ -18,7 +18,7 @@ export const colors = {
 }
 
 // eslint-disable-next-line max-len
-const TEXT_FLAT = `0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}`
+const TEXT_FLAT = `0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}`
 const ELEVATED = '0 3px 2px rgba(0, 0, 0, 0.8)'
 
 export const shadows = {

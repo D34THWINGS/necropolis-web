@@ -1,20 +1,12 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import { useDispatch } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
-import { BuildingType, Spell } from '../../config/constants'
+import { BuildingType } from '../../config/constants'
 import { getSoulWellSoulProduction } from '../../data/buildings/helpers'
-import { addSpell } from '../../data/spells/actions'
 import { BuildingDetails } from './components/BuildingDetails'
 
 export const SoulWell = () => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const handleUpgrade = (level: number) => {
-    if (level === 2) {
-      dispatch(addSpell(Spell.SoulStorm))
-    }
-  }
 
   return (
     <BuildingDetails
@@ -30,7 +22,6 @@ export const SoulWell = () => {
             return t('soulWellUpgrade', getSoulWellSoulProduction(level))
         }
       }}
-      onUpgrade={handleUpgrade}
     />
   )
 }

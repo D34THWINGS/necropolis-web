@@ -85,3 +85,5 @@ export const redSquareButton = squareButton(colors.RED, 0.2, 0.2)
 export const darkRedSquareButton = squareButton(colors.DARK_RED, 0.1, 0.03)
 
 export const forestSquareButton = squareButton(colors.FOREST, 0.3, 0.1)
+
+export const darkPurpleSquareButton = squareButton(colors.DARK_PURPLE, 0.3, 0.1)
