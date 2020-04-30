@@ -96,8 +96,8 @@ export const UndeadOverlay = () => {
         <div css={undeadOverlayInner}>
           <h2 css={h2Title}>{t('undeadOverlayTitle')}</h2>
           <p css={undeadOverlayUpkeep}>
-            {t('undeadUpkeep', meatCost)}
-            <ResourceIcon type={ResourceType.Meat} marginLeft="0.5rem" />
+            {t('undeadUpkeep')}
+            <ResourceIcon type={ResourceType.Meat} text={meatCost} />
           </p>
           {undeads.map(undead => (
             <UndeadBox key={undead.type} undead={undead} onBan={handleBan(undead.type)} />

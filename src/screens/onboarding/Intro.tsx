@@ -1,6 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
+import TransitionGroup from 'react-transition-group/TransitionGroup'
+import Transition from 'react-transition-group/Transition'
 import { colors, shadows } from '../../config/theme'
 import coffinClosedUrl from '../../assets/images/onboarding/coffin-closed.jpg'
 import coffinOpenedUrl from '../../assets/images/onboarding/coffin-opened.jpg'
@@ -10,25 +12,21 @@ import { greenSquareButton } from '../../styles/buttons'
 import { Image } from '../../components/images/Image'
 import { nextOnboardingStep } from '../../data/onboarding/actions'
 import { useTranslation } from '../../lang/useTranslation'
+import { contentCover } from '../../styles/base'
+import { fadeInJS, fadeOutJS, jsAnimationDuration } from '../../styles/jsAnimations'
 
-const introContainer = (backgroundUrl: string) =>
-  css({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '3rem',
-    height: '100%',
-    backgroundColor: colors.BLACK,
-    backgroundImage: `url(${backgroundUrl})`,
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    color: colors.WHITE,
-    textShadow: shadows.TEXT,
-    textAlign: 'center',
-    fontSize: '1.5rem',
-    fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
-    fontWeight: 'normal',
-  })
+const introContainer = css({
+  position: 'relative',
+  padding: '3rem',
+  height: '100%',
+  backgroundColor: colors.BLACK,
+  color: colors.WHITE,
+  textShadow: shadows.TEXT,
+  textAlign: 'center',
+  fontSize: '1.5rem',
+  fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+  fontWeight: 'normal',
+})
 
 const nextStepButton = [
   ...greenSquareButton,
@@ -45,6 +43,23 @@ const nextStepButton = [
   }),
 ]
 
+const introText = css({
+  position: 'relative',
+})
+
+const introImageContainer = (backgroundUrl: string) => [
+  contentCover,
+  css({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '3rem',
+    backgroundImage: `url(${backgroundUrl})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+  }),
+]
+
 export const Intro = () => {
   const { t } = useTranslation()
   const step = useSelector(getOnboardingStep)
@@ -53,11 +68,15 @@ export const Intro = () => {
   const handleNextStep = () => dispatch(nextOnboardingStep())
 
   return (
-    <div css={introContainer(step < 5 ? coffinClosedUrl : coffinOpenedUrl)}>
-      <p>{t('introText', step)}</p>
-      <button type="button" css={nextStepButton} onClick={handleNextStep}>
-        <Image src={nextStepArrowUrl} marginRight="0.4rem" /> Suite
-      </button>
-    </div>
+    <TransitionGroup css={introContainer}>
+      <Transition key={step} timeout={jsAnimationDuration} onEnter={fadeInJS} onExit={fadeOutJS}>
+        <div css={introImageContainer(step < 5 ? coffinClosedUrl : coffinOpenedUrl)}>
+          <p css={introText}>{t('introText', step)}</p>
+          <button type="button" css={nextStepButton} onClick={handleNextStep}>
+            <Image src={nextStepArrowUrl} marginRight="0.4rem" /> Suite
+          </button>
+        </div>
+      </Transition>
+    </TransitionGroup>
   )
 }

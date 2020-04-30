@@ -53,12 +53,7 @@ export const frEvents = {
       Une trompette sonne leur retraite, c’est la victoire ! Vous voilà tranquille pour un moment.{' '}
       {meat > 0 && (
         <Fragment>
-          Vous récoltez{' '}
-          <span css={textColor('RED')}>
-            {meat}&nbsp;
-            <ResourceIcon type={ResourceType.Meat} />
-          </span>{' '}
-          sur les dépouilles des assaillants.
+          Vous récoltez <ResourceIcon type={ResourceType.Meat} text={meat} /> sur les dépouilles des assaillants.
         </Fragment>
       )}
     </Fragment>
@@ -70,12 +65,8 @@ export const frEvents = {
       <span css={textColor('PURPLE')}>
         {undeads}&nbsp; Mort-vivant{plural(undeads, 's')}
       </span>{' '}
-      de votre choix. Enfin, vous récoltez{' '}
-      <span css={textColor('RED')}>
-        {meat}&nbsp;
-        <ResourceIcon type={ResourceType.Meat} />
-      </span>{' '}
-      sur les dépouilles des assaillants.
+      de votre choix. Enfin, vous récoltez <ResourceIcon type={ResourceType.Meat} text={meat} /> sur les dépouilles des
+      assaillants.
     </Fragment>
   ),
   paladinsAssaultTotalDefeat: (
@@ -117,45 +108,21 @@ export const frEvents = {
   plunderAction1Prerequisite: (lethality: number) => (
     <Fragment>
       <span css={textColor('CYAN')}>Prérequis&nbsp;:</span>&nbsp;
-      <span css={textColor('PURPLE')}>
-        {lethality}&nbsp;
-        <TalentIcon type={UndeadTalent.Lethality} />
-      </span>
+      <TalentIcon type={UndeadTalent.Lethality} text={lethality} />
     </Fragment>
   ),
   plunderAction2: 'Les laisser faire',
   plunderStep2: (meat: number, bones: number) => (
     <Fragment>
-      Vous obtenez
-      <span css={textColor('RED')}>
-        {meat}&nbsp;
-        <ResourceIcon type={ResourceType.Meat} />
-      </span>{' '}
-      et{' '}
-      <span css={textColor('BROWN')}>
-        {bones}&nbsp;
-        <ResourceIcon type={ResourceType.Bones} />
-      </span>{' '}
-      sur leurs dépouilles.
+      Vous obtenez <ResourceIcon type={ResourceType.Meat} text={meat} /> et{' '}
+      <ResourceIcon type={ResourceType.Bones} text={bones} /> sur leurs dépouilles.
     </Fragment>
   ),
   plunderStep3: (materials: number, meat: number) => (
     <Fragment>
-      Vous perdez{' '}
-      {materials === 0 ? null : (
-        <span css={textColor('GREEN')}>
-          {materials}&nbsp;
-          <ResourceIcon type={ResourceType.Materials} />
-        </span>
-      )}
+      Vous perdez {materials === 0 ? null : <ResourceIcon type={ResourceType.Materials} text={materials} />}
       {materials > 0 && meat > 0 ? ' et ' : null}
-      {meat === 0 ? null : (
-        <span css={textColor('RED')}>
-          {meat}&nbsp;
-          <ResourceIcon type={ResourceType.Meat} />
-        </span>
-      )}
-      .
+      {meat === 0 ? null : <ResourceIcon type={ResourceType.Meat} text={meat} />}.
     </Fragment>
   ),
 

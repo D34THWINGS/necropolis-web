@@ -39,10 +39,12 @@ export const upgradeBuildingRewardsEpic: Epic<RootAction, RootAction, RootState>
       }
 
       if (type === BuildingType.Ossuary && level >= 2) {
-        gainResources({
-          [ResourceType.Meat]: OSSUARY_UPGRADE_BONUS_MEAT[level],
-          [ResourceType.Bones]: OSSUARY_UPGRADE_BONUS_BONES[level],
-        })
+        actions.push(
+          gainResources({
+            [ResourceType.Meat]: OSSUARY_UPGRADE_BONUS_MEAT[level],
+            [ResourceType.Bones]: OSSUARY_UPGRADE_BONUS_BONES[level],
+          }),
+        )
       }
 
       return of(...actions)

@@ -2,8 +2,7 @@
 import { css, jsx } from '@emotion/core'
 import { useSelector } from 'react-redux'
 import { Route, Switch, useHistory, useLocation, useRouteMatch } from 'react-router'
-import { Fragment, useEffect, useRef } from 'react'
-import anime from 'animejs'
+import { Fragment, useEffect } from 'react'
 import SwitchTransition from 'react-transition-group/SwitchTransition'
 import Transition from 'react-transition-group/Transition'
 import { BATTLEMENTS, MAIN_HUB, CATACOMBS, CHARNEL_HOUSE, EXPEDITIONS, OSSUARY, SOUL_WELL } from '../config/routes'
@@ -23,6 +22,7 @@ import { UndeadSacrifice } from '../components/undeads/UndeadSacrifice'
 import { getOpenedExpedition } from '../data/expeditions/selectors'
 import { DiscoverSpellModal } from '../components/spells/DiscoverSpellModal'
 import { ReanimatedUndeadModal } from '../screens/buildings/components/ReanimatedUndeadModal'
+import { fadeInJS, fadeOutJS, jsAnimationDuration } from '../styles/jsAnimations'
 
 const gameContent = css({
   position: 'relative',
@@ -34,32 +34,11 @@ const middleSection = css({
   height: '100%',
 })
 
-const easing = 'easeInOutCirc'
-
-const slideIn = (node: HTMLElement) =>
-  anime({
-    targets: node,
-    duration: 250,
-    translateX: ['-100%', '0%'],
-    easing,
-  })
-
-const reverseSlideIn = (node: HTMLElement) =>
-  anime({
-    targets: node,
-    duration: 250,
-    translateX: ['100%', '0%'],
-    easing,
-  })
-
-const routesOrder = [MAIN_HUB, EXPEDITIONS, CATACOMBS, OSSUARY]
-
 export const GameContent = () => {
   const expeditionsMatch = useRouteMatch(EXPEDITIONS)
   const openedExpedition = useSelector(getOpenedExpedition)
   const history = useHistory()
   const location = useLocation()
-  const oldLocationRef = useRef(location.pathname)
 
   useEffect(() => {
     if (openedExpedition !== null && !expeditionsMatch) {
@@ -67,16 +46,11 @@ export const GameContent = () => {
     }
   }, [openedExpedition, history, expeditionsMatch])
 
-  const reverse = routesOrder.indexOf(oldLocationRef.current) < routesOrder.indexOf(location.pathname)
-  useEffect(() => {
-    oldLocationRef.current = location.pathname
-  }, [location.pathname])
-
   return (
     <Fragment>
       <div css={gameContent}>
         <SwitchTransition css={middleSection} mode="in-out">
-          <Transition key={location.pathname} timeout={250} onEnter={reverse ? reverseSlideIn : slideIn}>
+          <Transition key={location.pathname} timeout={jsAnimationDuration} onEnter={fadeInJS} onExit={fadeOutJS}>
             <Switch location={location}>
               <Route path={MAIN_HUB} exact component={MainHub} />
               <Route path={EXPEDITIONS} exact component={Expeditions} />

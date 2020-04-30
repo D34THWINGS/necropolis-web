@@ -34,7 +34,7 @@ const roundButton = (backgroundColor: string, light: number, shade: number) => [
     backgroundColor,
     border: '2px solid rgba(0, 0, 0, 0.75)',
     boxSizing: 'border-box',
-    boxShadow: `inset 0px 8px 4px ${lighten(light, backgroundColor)}, inset 0px -8px 4px ${darken(
+    boxShadow: `inset 0px 5px 3px ${lighten(light, backgroundColor)}, inset 0px -5px 3px ${darken(
       shade,
       backgroundColor,
     )}`,
@@ -51,7 +51,8 @@ export const purpleRoundButton = roundButton(colors.PURPLE, 0.2, 0.25)
 export const redRoundButton = roundButton(colors.RED, 0.2, 0.2)
 
 const squareButton = (backgroundColor: string, light: number, shade: number) => [
-  ...buttonBase,
+  resetButton,
+  buttonDisabled,
   css({
     display: 'flex',
     alignItems: 'center',
@@ -61,7 +62,7 @@ const squareButton = (backgroundColor: string, light: number, shade: number) => 
     backgroundColor,
     border: '2px solid rgba(0, 0, 0, 0.75)',
     boxSizing: 'border-box',
-    boxShadow: `inset 0px 10px 10px ${lighten(light, backgroundColor)}, inset 0px -10px 3px ${darken(
+    boxShadow: `inset 0px 5px 3px ${lighten(light, backgroundColor)}, inset 0px -5px 3px ${darken(
       shade,
       backgroundColor,
     )}`,
@@ -69,6 +70,13 @@ const squareButton = (backgroundColor: string, light: number, shade: number) => 
     color: colors.WHITE,
     fontSize: '1.2rem',
     textShadow: shadows.TEXT_FLAT,
+
+    ':active': {
+      boxShadow: `inset 0 1px rgba(0, 0, 0, 0.75), inset 0px -4px 3px ${lighten(
+        light,
+        backgroundColor,
+      )}, inset 0px 6px 3px ${darken(shade, backgroundColor)}`,
+    },
   }),
 ]
 

@@ -26,39 +26,25 @@ export const fr = {
   [BuildingType.CharnelHouse]: 'Charnier',
   charnelHouseDescription: (meat: number, bones: number, turns: number) => (
     <Fragment>
-      Produit{' '}
-      <span css={textColor('RED')}>
-        {meat} <ResourceIcon type={ResourceType.Meat} />
-      </span>{' '}
-      par tour.
+      Produit <ResourceIcon type={ResourceType.Meat} text={meat} /> par tour.
       <br />
       {bones === 0 ? null : (
         <Fragment>
-          Produit{' '}
-          <span css={textColor('BROWN')}>
-            {bones} <ResourceIcon type={ResourceType.Bones} />
-          </span>{' '}
-          tous les <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}
+          Produit <ResourceIcon type={ResourceType.Bones} text={bones} /> tous les{' '}
+          <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}
         </Fragment>
       )}
     </Fragment>
   ),
   charnelHouseUnlock: (meat: number) => (
     <Fragment>
-      Produit{' '}
-      <span css={textColor('RED')}>
-        {meat} <ResourceIcon type={ResourceType.Meat} />
-      </span>{' '}
-      par tour.
+      Produit <ResourceIcon type={ResourceType.Meat} text={meat} /> par tour.
     </Fragment>
   ),
   charnelHouseUpgrade: (bones: number, turns: number) => (
     <Fragment>
-      Produit{' '}
-      <span css={textColor('BROWN')}>
-        {bones} <ResourceIcon type={ResourceType.Bones} />
-      </span>{' '}
-      tous les <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}
+      Produit {bones} <ResourceIcon type={ResourceType.Bones} text={bones} /> tous les{' '}
+      <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}
     </Fragment>
   ),
 
@@ -66,9 +52,7 @@ export const fr = {
   catacombDescription: (current: number, max: number, price: number) => (
     <Fragment>
       Action: <span css={textColor('PURPLE')}>Réanimer un mort-vivant</span> au prix de{' '}
-      <span css={textColor('CYAN')}>
-        {price} <ResourceIcon type={ResourceType.Souls} />
-      </span>
+      <ResourceIcon type={ResourceType.Souls} text={price} />
       .<br />
       <span css={textColor('PURPLE')}>
         Morts-vivants réanimés : {current}/{max}
@@ -95,20 +79,12 @@ export const fr = {
     <Fragment>
       Action: <span css={textColor('BLUE')}>Lancer un sort</span>.
       <br />
-      Produit{' '}
-      <span css={textColor('BLUE')}>
-        {production} <ResourceIcon type={ResourceType.Souls} />
-      </span>{' '}
-      par tour.
+      Produit <ResourceIcon type={ResourceType.Souls} text={production} /> par tour.
     </Fragment>
   ),
   soulWellUnlock: (souls: number) => (
     <Fragment>
-      Produit{' '}
-      <span css={textColor('BLUE')}>
-        {souls} <ResourceIcon type={ResourceType.Souls} />
-      </span>{' '}
-      par tour.
+      Produit <ResourceIcon type={ResourceType.Souls} text={souls} /> par tour.
     </Fragment>
   ),
   soulWellUpgradeStorm: (
@@ -118,11 +94,7 @@ export const fr = {
   ),
   soulWellUpgrade: (souls: number) => (
     <Fragment>
-      Augmente la production de{' '}
-      <span css={textColor('BLUE')}>
-        {souls} <ResourceIcon type={ResourceType.Souls} />
-      </span>{' '}
-      par tour.
+      Augmente la production de <ResourceIcon type={ResourceType.Souls} text={souls} /> par tour.
     </Fragment>
   ),
 
@@ -130,7 +102,7 @@ export const fr = {
   ossuaryDescription: (cost: number) => (
     <Fragment>
       Action : <span css={textColor('BROWN')}>Découvrir un Sort</span> au prix de{' '}
-      <span css={textColor('BROWN')}>{cost}</span> <ResourceIcon type={ResourceType.Bones} />.
+      <ResourceIcon type={ResourceType.Bones} text={cost} />.
       <br />
       Les <ResourceIcon type={ResourceType.Bones} /> s&apos;obtiennent dans des excursions et des évènements
       particuliers.
@@ -143,15 +115,8 @@ export const fr = {
   ),
   ossuaryUpgrade: (meat: number, bones: number) => (
     <Fragment>
-      Découvre{' '}
-      <span css={textColor('RED')}>
-        {meat} <ResourceIcon type={ResourceType.Meat} />
-      </span>{' '}
-      et{' '}
-      <span css={textColor('BROWN')}>
-        {bones} <ResourceIcon type={ResourceType.Bones} />
-      </span>
-      .
+      Découvre <ResourceIcon type={ResourceType.Meat} text={meat} /> et{' '}
+      <ResourceIcon type={ResourceType.Bones} text={bones} />.
     </Fragment>
   ),
 
@@ -178,7 +143,7 @@ export const fr = {
   fullscreen: 'Plein écran',
 
   undeadOverlayTitle: 'Morts-vivants',
-  undeadUpkeep: (meatCost: number) => `Consomation par tour : ${meatCost}`,
+  undeadUpkeep: 'Consomation par tour :\u00A0',
   undeadName: (type: UndeadType) => {
     switch (type) {
       case UndeadType.Valet:

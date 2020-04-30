@@ -50,6 +50,7 @@ const undeadDescription = css({
 const undeadTalent = css({
   display: 'inline-flex',
   alignItems: 'center',
+  margin: '0 0.2rem',
 })
 
 const undeadBanButton = [
@@ -100,13 +101,11 @@ export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
           <div css={textColor('CYAN')}>{t('undeadTalents')}</div>
           {undead.talents.map(([talent, value]) => (
             <span key={talent} css={undeadTalent}>
-              <TalentIcon type={talent} size="1rem" marginLeft="0.5rem" />
-              &nbsp;{value}
+              <TalentIcon type={talent} size="1.2rem" text={value} />
             </span>
           ))}
-          <div>
-            <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {getAbility()}
-          </div>
+          <br />
+          <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {getAbility()}
         </div>
       </div>
       {onBan && (

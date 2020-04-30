@@ -38,12 +38,7 @@ export const frExpeditions = {
     <Fragment>
       Un être décharné sort du cercueil, le fameux <span css={textColor('PURPLE')}>Jan Brik&apos;Holeur</span> connu
       pour avoir été un homme à tout faire. En guise de remerciement, il part couper le gigantesque arbre au milieu du
-      cimetière et vous rapporte{' '}
-      <span css={[alignItemsCenter, textColor('GREEN')]}>
-        {materialsReward}&nbsp;
-        <ResourceIcon type={ResourceType.Materials} />
-      </span>
-      , comme ça.
+      cimetière et vous rapporte <ResourceIcon type={ResourceType.Materials} text={materialsReward} />, comme ça.
     </Fragment>
   ),
 
@@ -68,10 +63,8 @@ export const frExpeditions = {
     <Fragment>
       Alors que vos ennemis commencent à faiblir, la plupart décident de s’enfuir vers le centre-ville. Les survivants
       ainsi que quelques Paladins ont barricadés la zone. Au passage, vous récupérez{' '}
-      <span css={textColor('RED')}>{meat}</span>&nbsp;
-      <ResourceIcon type={ResourceType.Meat} size="1rem" /> dans le champs de viscères et{' '}
-      <span css={textColor('GREEN')}>{materials}</span>&nbsp;
-      <ResourceIcon type={ResourceType.Materials} size="1rem" /> en pillant les alentours.
+      <ResourceIcon type={ResourceType.Meat} size="1rem" text={meat} /> dans le champs de viscères et{' '}
+      <ResourceIcon type={ResourceType.Materials} size="1rem" text={materials} /> en pillant les alentours.
     </Fragment>
   ),
   miseryMarketStep4:
@@ -82,10 +75,9 @@ export const frExpeditions = {
       À vos pieds gisent d’innombrables cadavres. Tous ces hommes sont morts, cruellement arrachés à leurs pauvres
       familles. Ils ne faisaient que suivre les ordres. Mais vous vous dites que justement, ils faisaient partie de la
       Chaîne, de l’ordre établi. Quant à leurs maîtres, ils se sont réfugiés dans l’Hôtel de Ville. Vous mettez à sac le
-      Bourg et récupérez <span css={textColor('RED')}>{meat}</span>&nbsp;
-      <ResourceIcon type={ResourceType.Meat} size="1rem" />, <span css={textColor('BROWN')}>{bones}</span>&nbsp;
-      <ResourceIcon type={ResourceType.Bones} size="1rem" /> et <span css={textColor('GREEN')}>{materials}</span>&nbsp;
-      <ResourceIcon type={ResourceType.Materials} size="1rem" />.
+      Bourg et récupérez <ResourceIcon type={ResourceType.Meat} size="1rem" text={meat} />,{' '}
+      <ResourceIcon type={ResourceType.Bones} size="1rem" text={bones} /> et{' '}
+      <ResourceIcon type={ResourceType.Materials} size="1rem" text={materials} />.
     </Fragment>
   ),
 
@@ -116,12 +108,8 @@ export const frExpeditions = {
     'Vous réussissez à tuer plusieurs fuyards, ce qui devrait vous alléger la tâche au Bastion. Par ailleurs, vous trouvez sur l’un des cadavres le plan de leur forteresse et plus particulièrement d’un passage secret.',
   townHallStep5: (materials: number) => (
     <Fragment>
-      Vous avez le temps de récupérer{' '}
-      <span css={[alignItemsCenter, textColor('GREEN')]}>
-        {materials}&nbsp;
-        <ResourceIcon type={ResourceType.Materials} />
-      </span>{' '}
-      avant que l’Hôtel de ville ne soit emporté dans le brasier.
+      Vous avez le temps de récupérer <ResourceIcon type={ResourceType.Materials} text={materials} /> avant que l’Hôtel
+      de ville ne soit emporté dans le brasier.
     </Fragment>
   ),
   townHallStep6: (isBloodPrinceInJail: boolean) =>
@@ -129,8 +117,10 @@ export const frExpeditions = {
       <Fragment>
         Vous libérez le <span css={[alignItemsCenter, textColor('PURPLE')]}>Prince de Sang-Séché</span>. Ce dernier
         s’explique :<br />
-        “Les Paladins m’ont mis en prison car ils doutaient de ma loyauté. L’un a proposé de prendre ma baguette et de
-        me tuer, mais un changement dans le script me sauva la mise. Je vous remercie de m’avoir libéré.”
+        <i>
+          “Les Paladins m’ont mis en prison car ils doutaient de ma loyauté. L’un a proposé de prendre ma baguette et de
+          me tuer, mais un changement dans le script me sauva la mise. Je vous remercie de m’avoir libéré.”
+        </i>
       </Fragment>
     ) : (
       'Vous ne trouvez rien d’intéressant dans les geôles.'
@@ -154,17 +144,8 @@ export const frExpeditions = {
   bastionAction3: 'Les nourrir',
   bastionStep4: (meat: number, bones: number) => (
     <Fragment>
-      Vous récupérez{' '}
-      <span css={[alignItemsCenter, textColor('RED')]}>
-        {meat}&nbsp;
-        <ResourceIcon type={ResourceType.Meat} />
-      </span>{' '}
-      et{' '}
-      <span css={[alignItemsCenter, textColor('BROWN')]}>
-        {bones}&nbsp;
-        <ResourceIcon type={ResourceType.Bones} />
-      </span>{' '}
-      sur le “comité d’accueil”, puis continuez votre chemin.
+      Vous récupérez <ResourceIcon type={ResourceType.Meat} text={meat} /> et{' '}
+      <ResourceIcon type={ResourceType.Bones} text={bones} /> sur le “comité d’accueil”, puis continuez votre chemin.
     </Fragment>
   ),
   bastionStep5: 'Le comité d’accueil apprécie votre généreux pourboire.',
@@ -190,11 +171,7 @@ export const frExpeditions = {
   bastionStep8: (materials: number) => (
     <Fragment>
       Aucun n’a survécu, c’en est fini d’eux. En fouillant leur palace, vous trouvez la salle du trésor, et à
-      l’intérieur{' '}
-      <span css={[alignItemsCenter, textColor('GREEN')]}>
-        {materials}&nbsp;
-        <ResourceIcon type={ResourceType.Materials} />
-      </span>
+      l’intérieur <ResourceIcon type={ResourceType.Materials} text={materials} />
     </Fragment>
   ),
 }
