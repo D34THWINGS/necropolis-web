@@ -4,7 +4,7 @@ export const colors = {
   GREY: '#3d3d3d',
   GREEN: '#41837c',
   DARK_GREEN: '#144D49',
-  CYAN: '#4ac2a7',
+  CYAN: '#80f4d2',
   RED: '#fb5d46',
   DARK_RED: '#3D0F0F',
   PURPLE: '#9a58fd',
@@ -29,10 +29,27 @@ export const shadows = {
   ELEVATED,
 }
 
+const SLOW_DURATION = 350
+const FAST_DURATION = 200
+const EASING = 'ease-in-out'
+
 export const transitions = {
-  SLOW: '300ms ease-in-out',
+  SLOW_DURATION,
+  SLOW_EASING: EASING,
+  SLOW: `${SLOW_DURATION}ms ${EASING}`,
+  FAST_DURATION,
+  FAST_EASING: EASING,
+  FAST: `${FAST_DURATION}ms ${EASING}`,
 }
 
 export const breakpoints = {
   SM: '@media screen and (min-width: 380px)',
+}
+
+export const layers = {
+  SPELLS_MODAL: 1,
+  UNDEAD_OVERLAY: 2,
+  TALENTS: 3,
+  SACRIFICE: 4,
+  SETTINGS: 5,
 }

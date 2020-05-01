@@ -2,8 +2,8 @@
 import { css, jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
-import Transition from 'react-transition-group/Transition'
-import { colors, shadows } from '../../config/theme'
+import CSSTransition from 'react-transition-group/CSSTransition'
+import { colors, shadows, transitions } from '../../config/theme'
 import coffinClosedUrl from '../../assets/images/onboarding/coffin-closed.jpg'
 import coffinOpenedUrl from '../../assets/images/onboarding/coffin-opened.jpg'
 import nextStepArrowUrl from '../../assets/images/onboarding/next-step-arrow.png'
@@ -13,7 +13,6 @@ import { Image } from '../../components/images/Image'
 import { nextOnboardingStep } from '../../data/onboarding/actions'
 import { useTranslation } from '../../lang/useTranslation'
 import { contentCover } from '../../styles/base'
-import { fadeInJS, fadeOutJS, jsAnimationDuration } from '../../styles/jsAnimations'
 
 const introContainer = css({
   position: 'relative',
@@ -47,7 +46,7 @@ const introText = css({
   position: 'relative',
 })
 
-const introImageContainer = (backgroundUrl: string) => [
+const introImageContainer = (backgroundUrl: string, zIndex: number) => [
   contentCover,
   css({
     display: 'flex',
@@ -57,6 +56,16 @@ const introImageContainer = (backgroundUrl: string) => [
     backgroundImage: `url(${backgroundUrl})`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
+    zIndex,
+
+    '&.enter': {
+      opacity: 0,
+    },
+
+    '&.enter-active': {
+      opacity: 1,
+      transition: `opacity ${transitions.SLOW}`,
+    },
   }),
 ]
 
@@ -69,14 +78,14 @@ export const Intro = () => {
 
   return (
     <TransitionGroup css={introContainer}>
-      <Transition key={step} timeout={jsAnimationDuration} onEnter={fadeInJS} onExit={fadeOutJS}>
-        <div css={introImageContainer(step < 5 ? coffinClosedUrl : coffinOpenedUrl)}>
+      <CSSTransition key={step} timeout={transitions.SLOW_DURATION}>
+        <div css={introImageContainer(step < 5 ? coffinClosedUrl : coffinOpenedUrl, step)}>
           <p css={introText}>{t('introText', step)}</p>
           <button type="button" css={nextStepButton} onClick={handleNextStep}>
             <Image src={nextStepArrowUrl} marginRight="0.4rem" /> Suite
           </button>
         </div>
-      </Transition>
+      </CSSTransition>
     </TransitionGroup>
   )
 }

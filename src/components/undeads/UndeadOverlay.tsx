@@ -2,7 +2,7 @@
 import { css, jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { colors, shadows, transitions } from '../../config/theme'
+import { colors, layers, shadows, transitions } from '../../config/theme'
 import { ModalColor, modalColorsMap, useModalState } from '../ui/Modal'
 import overlayOpenUrl from '../../assets/images/overlay-open.png'
 import overlayCloseUrl from '../../assets/images/overlay-close.png'
@@ -28,7 +28,7 @@ const undeadOverlayContainer = (isOpen: boolean) =>
     background: modalColorsMap[ModalColor.PURPLE][0],
     transition: `transform ${transitions.SLOW}, left ${transitions.SLOW}`,
     transform: `translate(${isOpen ? '-50%' : '-100%'}, -50%)`,
-    zIndex: 2,
+    zIndex: layers.UNDEAD_OVERLAY,
   })
 
 const undeadOverlayInner = css({
@@ -75,7 +75,7 @@ const undeadOverlayShadow = (isOpen: boolean) => [
     cursor: 'pointer',
     pointerEvents: isOpen ? 'initial' : 'none',
     transition: `opacity ${transitions.SLOW}`,
-    zIndex: 2,
+    zIndex: layers.UNDEAD_OVERLAY,
   }),
 ]
 

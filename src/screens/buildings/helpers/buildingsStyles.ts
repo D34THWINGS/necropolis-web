@@ -34,7 +34,7 @@ export const buildingLevel = css({
 
 export const buildingActionContainer = css({
   display: 'flex',
-  marginTop: '1rem',
+  marginTop: '0.4rem',
 })
 
 export const buildingActionFrame = [
@@ -44,13 +44,14 @@ export const buildingActionFrame = [
     alignItems: 'center',
     flex: 1,
     minHeight: '4rem',
+    fontSize: '0.9rem',
   }),
 ]
 
 export const buildingActionArrow = css({
   display: 'flex',
   alignItems: 'center',
-  marginRight: '0.5rem',
+  marginRight: '0.4rem',
   paddingLeft: '0.3rem',
   flex: '0 0 auto',
   width: '3.2rem',
@@ -69,15 +70,5 @@ export const buildingActionButton = [
     padding: '0 0.5rem',
     width: 'auto',
     minWidth: '5rem',
-  }),
-]
-
-export const buildingSpecialActionButton = [
-  ...cyanSquareButton,
-  css({
-    alignSelf: 'center',
-    position: 'relative',
-    padding: '0.3rem',
-    width: '6rem',
   }),
 ]

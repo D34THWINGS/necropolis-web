@@ -6,7 +6,7 @@ import { useRouteMatch } from 'react-router'
 import settingsImageUrl from '../../assets/images/header/settings.png'
 import spellImageUrl from '../../assets/images/header/spells.png'
 import { buttonBase } from '../../styles/buttons'
-import { breakpoints, colors, shadows, transitions } from '../../config/theme'
+import { breakpoints, colors, layers, shadows, transitions } from '../../config/theme'
 import { TurnCounter } from './TurnCounter'
 import { SettingsModal } from './SettingsModal'
 import { useModalState } from '../ui/Modal'
@@ -81,6 +81,9 @@ const headerButtons = css({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  alignSelf: 'stretch',
+  justifyContent: 'space-between',
+  paddingTop: '0.4rem',
 })
 
 const headerSpacer = css({
@@ -94,9 +97,9 @@ const headerHideAble = (hidden: boolean) =>
     transition: `transform ${transitions.SLOW}`,
   })
 
-const settingsButton = [buttonBase, css({ zIndex: 2 })]
+const settingsButton = [buttonBase, css({ zIndex: layers.SETTINGS })]
 
-const spellsButton = [buttonBase, css({ zIndex: 1 })]
+const spellsButton = [buttonBase, css({ zIndex: layers.SPELLS_MODAL })]
 
 export const Header = () => {
   const isOnExpeditions = !!useRouteMatch(EXPEDITIONS)

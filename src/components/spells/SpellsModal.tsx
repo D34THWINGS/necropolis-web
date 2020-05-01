@@ -11,6 +11,7 @@ import { CASTABLE_SPELLS, ResourceType, Spell, SPELLS_SOUL_COSTS } from '../../c
 import { castSpell } from '../../data/spells/actions'
 import { SpellBox } from './SpellBox'
 import { getSouls } from '../../data/resources/selectors'
+import { layers } from '../../config/theme'
 
 const spellCastButton = [
   ...blueSquareButton,
@@ -36,7 +37,7 @@ export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} color={ModalColor.BLUE} priority={1}>
+    <Modal isOpen={isOpen} onClose={onClose} color={ModalColor.BLUE} priority={layers.SPELLS_MODAL}>
       <h2 css={h2Title}>{t('spells')}</h2>
       {spells.map(spell => (
         <SpellBox key={spell} spell={spell}>

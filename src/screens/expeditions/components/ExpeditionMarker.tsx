@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import { Fragment, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import frameUrl from '../../../assets/images/expeditions/expedition-frame.png'
 import activeFrameUrl from '../../../assets/images/expeditions/expedition-frame-active.png'
@@ -14,8 +14,10 @@ import { contentCover } from '../../../styles/base'
 import { resetButton } from '../../../styles/buttons'
 import { openExpedition } from '../../../data/expeditions/actions'
 import { getIsExpeditionActive } from '../../../data/expeditions/selectors'
+import { fadeIn } from '../../../styles/animations'
+import { transitions } from '../../../config/theme'
 
-const markerWrapper = (x: number, y: number, shown: boolean) => [
+const markerWrapper = (x: number, y: number, shown: boolean, animate: boolean) => [
   resetButton,
   css({
     display: shown ? 'block' : 'none',
@@ -24,6 +26,13 @@ const markerWrapper = (x: number, y: number, shown: boolean) => [
     left: '50%',
     padding: '1.5rem',
     transform: `translate(calc(-50% + ${x}rem), calc(-50% + ${y}rem))`,
+    ...(animate
+      ? {
+          animation: `${fadeIn} ${transitions.SLOW}`,
+          animationDelay: '350ms',
+          animationFillMode: 'both',
+        }
+      : undefined),
   }),
 ]
 
@@ -55,12 +64,13 @@ export type ExpeditionMarkerProps = {
 export const ExpeditionMarker = ({ type, x, y, shown }: ExpeditionMarkerProps) => {
   const dispatch = useDispatch()
   const active = useSelector(getIsExpeditionActive(type))
+  const shouldAnimateRef = useRef(!shown)
 
   const handleClick = () => dispatch(openExpedition(type))
 
   return (
     <Fragment>
-      <button type="button" css={markerWrapper(x, y, shown)} onClick={handleClick}>
+      <button type="button" css={markerWrapper(x, y, shown, shouldAnimateRef.current)} onClick={handleClick}>
         <Image src={expeditionIconMap[type]} size="5rem" block />
         <div css={markerFrame(active)} />
       </button>

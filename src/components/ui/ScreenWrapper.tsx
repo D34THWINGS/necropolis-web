@@ -1,11 +1,10 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core'
 import { ReactNode } from 'react'
-import { breakpoints } from '../../config/theme'
+import { breakpoints, transitions } from '../../config/theme'
 
 const wrapper = (backgroundUrl?: string) =>
   css({
-    position: 'absolute',
     padding: '8rem 0 5rem',
     width: '100%',
     height: '100%',
@@ -13,6 +12,22 @@ const wrapper = (backgroundUrl?: string) =>
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
+
+    '&.enter': {
+      position: 'absolute',
+      opacity: 0,
+    },
+
+    '&.enter-active': {
+      position: 'absolute',
+      opacity: 1,
+      transition: `opacity ${transitions.SLOW_DURATION}ms cubic-bezier(0.22, 0.61, 0.36, 1)`,
+    },
+
+    '&.exit-active': {
+      opacity: 0,
+      transition: `opacity ${transitions.SLOW_DURATION}ms cubic-bezier(0.55, 0.06, 0.68, 0.19)`,
+    },
 
     [breakpoints.SM]: {
       padding: '8rem 0 7rem',

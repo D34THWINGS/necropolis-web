@@ -11,7 +11,7 @@ import { ResourceIcon } from '../../components/images/ResourceIcon'
 import { getBones, getSouls } from '../../data/resources/selectors'
 import { getLethality } from '../../data/selectors'
 import { gainResources, spendResources } from '../../data/resources/actions'
-import { TalentIcon } from '../../components/images/TalentIcon'
+import { TalentIcon } from '../../components/talents/TalentIcon'
 import { getHasCancelledReinforcements } from '../../data/expeditions/selectors'
 import { castSpell } from '../../data/spells/actions'
 

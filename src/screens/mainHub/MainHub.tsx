@@ -13,8 +13,6 @@ import {
   getCharnelHouseMeatProduction,
   getCharnelHouseProductionTurns,
   getMaxUndeadRaising,
-  getOssuaryBonesCost,
-  getRaiseUndeadSoulCost,
   getSoulWellSoulProduction,
 } from '../../data/buildings/helpers'
 import { getRaisedUndeadCount } from '../../data/undeads/selectors'
@@ -93,19 +91,14 @@ export const MainHub = () => {
         name={t(BuildingType.Catacombs)}
         level={buildings.catacombs.level}
         maxLevel={getBuildingMaxLevel(BuildingType.Catacombs)}
-        description={t(
-          'catacombDescription',
-          raisedUndead,
-          getMaxUndeadRaising(buildings.catacombs.level || 1),
-          getRaiseUndeadSoulCost(buildings.catacombs.level || 1),
-        )}
+        description={t('catacombDescription', raisedUndead, getMaxUndeadRaising(buildings.catacombs.level || 1))}
         route={CATACOMBS}
       />
       <Building
         name={t(BuildingType.Ossuary)}
         level={buildings.ossuary.level}
         maxLevel={getBuildingMaxLevel(BuildingType.Ossuary)}
-        description={t('ossuaryDescription', getOssuaryBonesCost(buildings.ossuary.level || 1))}
+        description={t('ossuaryDescription')}
         route={OSSUARY}
       />
       <Building

@@ -2,9 +2,9 @@
 import { css, jsx } from '@emotion/core'
 import { useSelector } from 'react-redux'
 import { Route, Switch, useHistory, useLocation, useRouteMatch } from 'react-router'
-import { Fragment, useEffect } from 'react'
-import SwitchTransition from 'react-transition-group/SwitchTransition'
-import Transition from 'react-transition-group/Transition'
+import { useEffect } from 'react'
+import TransitionGroup from 'react-transition-group/TransitionGroup'
+import CSSTransition from 'react-transition-group/CSSTransition'
 import { BATTLEMENTS, MAIN_HUB, CATACOMBS, CHARNEL_HOUSE, EXPEDITIONS, OSSUARY, SOUL_WELL } from '../config/routes'
 import { Header } from '../components/header/Header'
 import { MainHub } from '../screens/mainHub/MainHub'
@@ -22,7 +22,8 @@ import { UndeadSacrifice } from '../components/undeads/UndeadSacrifice'
 import { getOpenedExpedition } from '../data/expeditions/selectors'
 import { DiscoverSpellModal } from '../components/spells/DiscoverSpellModal'
 import { ReanimatedUndeadModal } from '../screens/buildings/components/ReanimatedUndeadModal'
-import { fadeInJS, fadeOutJS, jsAnimationDuration } from '../styles/jsAnimations'
+import { TalentsModalProvider } from '../components/talents/TalentsModalProvider'
+import { transitions } from '../config/theme'
 
 const gameContent = css({
   position: 'relative',
@@ -47,10 +48,10 @@ export const GameContent = () => {
   }, [openedExpedition, history, expeditionsMatch])
 
   return (
-    <Fragment>
+    <TalentsModalProvider>
       <div css={gameContent}>
-        <SwitchTransition css={middleSection} mode="in-out">
-          <Transition key={location.pathname} timeout={jsAnimationDuration} onEnter={fadeInJS} onExit={fadeOutJS}>
+        <TransitionGroup css={middleSection}>
+          <CSSTransition key={location.pathname} timeout={transitions.SLOW_DURATION}>
             <Switch location={location}>
               <Route path={MAIN_HUB} exact component={MainHub} />
               <Route path={EXPEDITIONS} exact component={Expeditions} />
@@ -60,17 +61,17 @@ export const GameContent = () => {
               <Route path={BATTLEMENTS} exact component={Battlements} />
               <Route path={CHARNEL_HOUSE} exact component={CharnelHouse} />
             </Switch>
-          </Transition>
-        </SwitchTransition>
+          </CSSTransition>
+        </TransitionGroup>
         <Header />
         <NavigationBar />
-        <UndeadUpkeep />
-        <EventModal />
-        <UndeadOverlay />
-        <UndeadSacrifice />
-        <DiscoverSpellModal />
-        <ReanimatedUndeadModal />
       </div>
-    </Fragment>
+      <UndeadUpkeep />
+      <EventModal />
+      <UndeadOverlay />
+      <UndeadSacrifice />
+      <DiscoverSpellModal />
+      <ReanimatedUndeadModal />
+    </TalentsModalProvider>
   )
 }

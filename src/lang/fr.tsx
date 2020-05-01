@@ -4,7 +4,7 @@ import { Fragment } from 'react'
 import { plural } from './i18nHelpers'
 import { noBreak, textColor } from '../styles/base'
 import { BuildingType, ResourceType, Spell, UndeadTalent, UndeadType } from '../config/constants'
-import { TalentIcon } from '../components/images/TalentIcon'
+import { TalentIcon } from '../components/talents/TalentIcon'
 import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
 import { frEvents } from './frEvents'
@@ -15,6 +15,7 @@ export const fr = {
 
   buildingNotConstructed: 'Non construit',
   buildingLevel: (level: number) => `Niv. ${level}`,
+  cost: <span css={textColor('CYAN')}>Coût&nbsp;:</span>,
   repairBuilding: (
     <Fragment>
       Déblayer le bâtiment
@@ -31,7 +32,7 @@ export const fr = {
       {bones === 0 ? null : (
         <Fragment>
           Produit <ResourceIcon type={ResourceType.Bones} text={bones} /> tous les{' '}
-          <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}
+          <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}.
         </Fragment>
       )}
     </Fragment>
@@ -43,21 +44,15 @@ export const fr = {
   ),
   charnelHouseUpgrade: (bones: number, turns: number) => (
     <Fragment>
-      Produit {bones} <ResourceIcon type={ResourceType.Bones} text={bones} /> tous les{' '}
-      <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}
+      Produit <ResourceIcon type={ResourceType.Bones} text={bones} /> tous les{' '}
+      <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}.
     </Fragment>
   ),
 
   [BuildingType.Catacombs]: 'Catacombes',
-  catacombDescription: (current: number, max: number, price: number) => (
+  catacombDescription: (current: number, max: number) => (
     <Fragment>
-      Action: <span css={textColor('PURPLE')}>Réanimer un mort-vivant</span> au prix de{' '}
-      <ResourceIcon type={ResourceType.Souls} text={price} />
-      .<br />
-      <span css={textColor('PURPLE')}>
-        Morts-vivants réanimés : {current}/{max}
-      </span>
-      .
+      <span css={textColor('PURPLE')}>Réanimer un mort-vivant</span> ({current}/{max} réanimés).
     </Fragment>
   ),
   catacombUnlock: (
@@ -99,15 +94,7 @@ export const fr = {
   ),
 
   [BuildingType.Ossuary]: 'Ossuaire',
-  ossuaryDescription: (cost: number) => (
-    <Fragment>
-      Action : <span css={textColor('BROWN')}>Découvrir un Sort</span> au prix de{' '}
-      <ResourceIcon type={ResourceType.Bones} text={cost} />.
-      <br />
-      Les <ResourceIcon type={ResourceType.Bones} /> s&apos;obtiennent dans des excursions et des évènements
-      particuliers.
-    </Fragment>
-  ),
+  ossuaryDescription: <span css={textColor('BLUE')}>Découvrir un Sort</span>,
   ossuaryUnlock: (
     <Fragment>
       Débloque l&apos;action &quot;<span css={textColor('BROWN')}>Découvrir un sort</span>&quot;
@@ -177,6 +164,19 @@ export const fr = {
   bloodPrinceAbility: 'inconnue.',
   reanimatedUndeadTitle: 'Réanimation',
   reanimatedUndeadOk: 'Ok',
+
+  talentsTitle: 'Talents',
+  talentsDescription: 'Les talents sont des caractéristiques nécessaires aux excursions et à certains événements.',
+  [UndeadTalent.Muscles]: (
+    <Fragment>
+      <span css={textColor('CYAN')}>Musculation&nbsp;:</span>&nbsp;Casser ou soulever des choses
+    </Fragment>
+  ),
+  [UndeadTalent.Lethality]: (
+    <Fragment>
+      <span css={textColor('CYAN')}>Létalité&nbsp;:</span>&nbsp;Tuer des ennemis. Inefficace contre les paladins.
+    </Fragment>
+  ),
 
   turns: 'Tours de jeu',
   turnsEventSpacing: (turnSpacing: number) => (

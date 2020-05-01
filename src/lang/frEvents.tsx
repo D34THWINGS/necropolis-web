@@ -5,7 +5,7 @@ import { textColor } from '../styles/base'
 import { ResourceIcon } from '../components/images/ResourceIcon'
 import { BuildingType, ResourceType, UndeadTalent } from '../config/constants'
 import { plural } from './i18nHelpers'
-import { TalentIcon } from '../components/images/TalentIcon'
+import { TalentIcon } from '../components/talents/TalentIcon'
 
 export const frEvents = {
   eventAcknowledge: 'Ok',

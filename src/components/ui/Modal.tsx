@@ -3,7 +3,7 @@ import { jsx, ClassNames, css, SerializedStyles } from '@emotion/core'
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import ReactModal from 'react-modal'
 import { blueRoundButton, cyanRoundButton, purpleRoundButton, redRoundButton } from '../../styles/buttons'
-import { breakpoints, colors, shadows } from '../../config/theme'
+import { breakpoints, colors, shadows, transitions } from '../../config/theme'
 import closeIconUrl from '../../assets/images/icons/close.png'
 import { fadeIn, fadeOut, wobble } from '../../styles/animations'
 
@@ -119,9 +119,7 @@ export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children, pri
             left: 0,
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             zIndex: priority,
-            animationName: isOpen ? fadeIn : fadeOut,
-            animationDuration: '200ms',
-            animationTimingFunction: 'ease-in-out',
+            animation: `${isOpen ? fadeIn : fadeOut} ${transitions.SLOW_DURATION}ms ${transitions.SLOW_EASING}`,
 
             [breakpoints.SM]: {
               alignItems: 'center',

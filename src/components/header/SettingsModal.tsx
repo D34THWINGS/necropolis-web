@@ -6,6 +6,7 @@ import { useTranslation } from '../../lang/useTranslation'
 import { h2Title } from '../../styles/base'
 import { greenSquareButton } from '../../styles/buttons'
 import { resetGame } from '../../data/settings/actions'
+import { layers } from '../../config/theme'
 
 export type SettingsModalProps = {
   isOpen: boolean
@@ -22,7 +23,7 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} priority={2}>
+    <Modal isOpen={isOpen} onClose={onClose} priority={layers.SETTINGS}>
       <h2 css={h2Title}>{t('settings')}</h2>
       <button type="button" css={greenSquareButton} onClick={handleResetGame}>
         {t('resetGame')}

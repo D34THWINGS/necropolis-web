@@ -18,7 +18,7 @@ const iconMap: Record<ResourceType, string> = {
 }
 
 const colorMap: Record<ResourceType, keyof typeof colors> = {
-  [ResourceType.Materials]: 'GREEN',
+  [ResourceType.Materials]: 'FOREST',
   [ResourceType.Bones]: 'BROWN',
   [ResourceType.Meat]: 'RED',
   [ResourceType.Souls]: 'BLUE',

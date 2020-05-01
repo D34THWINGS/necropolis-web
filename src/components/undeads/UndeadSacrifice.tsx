@@ -8,6 +8,7 @@ import { useTranslation } from '../../lang/useTranslation'
 import { UndeadBox } from './UndeadBox'
 import { killUndead } from '../../data/undeads/actions'
 import { UndeadType } from '../../config/constants'
+import { layers } from '../../config/theme'
 
 export const UndeadSacrifice = () => {
   const { t } = useTranslation()
@@ -18,7 +19,7 @@ export const UndeadSacrifice = () => {
   const handleBan = (type: UndeadType) => () => dispatch(killUndead(type))
 
   return (
-    <Modal isOpen={requiredSacrifices > 0} color={ModalColor.PURPLE} priority={2}>
+    <Modal isOpen={requiredSacrifices > 0} color={ModalColor.PURPLE} priority={layers.SACRIFICE}>
       <h2 css={h2Title}>{t('sacrificeRequiredTitle')}</h2>
       <p>{t('sacrificeRequiredDescription', requiredSacrifices)}</p>
       {undeads.map(undead => (

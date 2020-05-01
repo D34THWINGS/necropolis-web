@@ -4,7 +4,7 @@ import { Image } from '../images/Image'
 import undeadIconUrl from '../../assets/images/undead.png'
 import closeIconUrl from '../../assets/images/icons/close.png'
 import { purpleBox, textColor } from '../../styles/base'
-import { TalentIcon } from '../images/TalentIcon'
+import { TalentIcon } from '../talents/TalentIcon'
 import { useTranslation } from '../../lang/useTranslation'
 import { colors, shadows } from '../../config/theme'
 import { Undead } from '../../data/undeads/helpers'
@@ -48,8 +48,6 @@ const undeadDescription = css({
 })
 
 const undeadTalent = css({
-  display: 'inline-flex',
-  alignItems: 'center',
   margin: '0 0.2rem',
 })
 
@@ -100,9 +98,7 @@ export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
         <div>
           <div css={textColor('CYAN')}>{t('undeadTalents')}</div>
           {undead.talents.map(([talent, value]) => (
-            <span key={talent} css={undeadTalent}>
-              <TalentIcon type={talent} size="1.2rem" text={value} />
-            </span>
+            <TalentIcon css={undeadTalent} key={talent} type={talent} size="1.2rem" text={value} />
           ))}
           <br />
           <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {getAbility()}
