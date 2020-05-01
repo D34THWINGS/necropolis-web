@@ -43,7 +43,7 @@ export const transitions = {
 }
 
 export const breakpoints = {
-  SM: '@media screen and (min-width: 380px)',
+  SM: '@media screen and (min-width: 400px)',
 }
 
 export const layers = {

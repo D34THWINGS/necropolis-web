@@ -27,7 +27,7 @@ const gameContainer = css({
   width: '100vw',
   maxWidth: '27.5rem',
   height: '100vh',
-  maxHeight: '50rem',
+  maxHeight: '55rem',
   overflow: 'hidden',
 })
 

@@ -37,3 +37,21 @@ export const wobble = keyframes({
     transform: 'scale(1, 1)',
   },
 })
+
+export const glow = keyframes({
+  '0%': {
+    opacity: 0,
+  },
+
+  '40%': {
+    opacity: 1,
+  },
+
+  '60%': {
+    opacity: 1,
+  },
+
+  '100%': {
+    opacity: 0,
+  },
+})

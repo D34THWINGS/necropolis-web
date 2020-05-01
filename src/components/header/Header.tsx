@@ -36,7 +36,10 @@ const headerCountersWrapper = css({
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'center',
-  marginLeft: '0.5rem',
+
+  [breakpoints.SM]: {
+    marginLeft: '0.5rem',
+  },
 })
 
 const headerResourceCounter = (backgroundColor: string) =>
@@ -83,7 +86,14 @@ const headerButtons = css({
   alignItems: 'center',
   alignSelf: 'stretch',
   justifyContent: 'space-between',
-  paddingTop: '0.4rem',
+  padding: '0.4rem 0',
+  flex: '0 0 auto',
+  width: '3.5rem',
+
+  [breakpoints.SM]: {
+    padding: '0.4rem 0 0',
+    width: '4rem',
+  },
 })
 
 const headerSpacer = css({
@@ -113,11 +123,11 @@ export const Header = () => {
     <div css={headerContainer}>
       <div css={headerButtons}>
         <button type="button" css={settingsButton} onClick={openSettings}>
-          <Image src={settingsImageUrl} size="3rem" />
+          <Image src={settingsImageUrl} size="80%" />
         </button>
         <SettingsModal isOpen={isSettingsModalOpen} onClose={closeSettings} />
         <button type="button" css={spellsButton} disabled={!hasSpells} onClick={openSpells}>
-          <Image src={spellImageUrl} size="4rem" />
+          <Image src={spellImageUrl} size="100%" />
         </button>
         <SpellsModal isOpen={isSpellsModalOpen} onClose={closeSpells} />
       </div>
