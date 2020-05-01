@@ -131,6 +131,7 @@ export const fr = {
 
   undeadOverlayTitle: 'Morts-vivants',
   undeadUpkeep: 'Consomation par tour :\u00A0',
+  talentsTotal: 'Total talents\u00A0:\u00A0',
   undeadName: (type: UndeadType) => {
     switch (type) {
       case UndeadType.Valet:
@@ -199,6 +200,7 @@ export const fr = {
     </Fragment>
   ),
   paladinsStrength: (strength: number) => `Force actuelle : ${strength}`,
+  currentDefense: (defense: number) => `Defense actuelle : ${defense}`,
 
   upkeepTitle: 'Ravitaillement',
   upkeepInsufficient: (upkeep: number, meat: number) => (

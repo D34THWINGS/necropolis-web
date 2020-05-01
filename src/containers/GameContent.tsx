@@ -21,7 +21,6 @@ import { EventModal } from '../screens/events/EventModal'
 import { UndeadSacrifice } from '../components/undeads/UndeadSacrifice'
 import { getOpenedExpedition } from '../data/expeditions/selectors'
 import { DiscoverSpellModal } from '../components/spells/DiscoverSpellModal'
-import { ReanimatedUndeadModal } from '../screens/buildings/components/ReanimatedUndeadModal'
 import { TalentsModalProvider } from '../components/talents/TalentsModalProvider'
 import { transitions } from '../config/theme'
 
@@ -71,7 +70,6 @@ export const GameContent = () => {
       <UndeadOverlay />
       <UndeadSacrifice />
       <DiscoverSpellModal />
-      <ReanimatedUndeadModal />
     </TalentsModalProvider>
   )
 }

@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 import { useDispatch } from 'react-redux'
-import { Modal } from '../ui/Modal'
+import { Modal } from '../ui/Modal/Modal'
 import { useTranslation } from '../../lang/useTranslation'
 import { h2Title } from '../../styles/base'
 import { greenSquareButton } from '../../styles/buttons'

@@ -2,7 +2,7 @@
 import { css, jsx } from '@emotion/core'
 import { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Modal } from '../../../components/ui/Modal'
+import { Modal } from '../../../components/ui/Modal/Modal'
 import { ExpeditionType } from '../../../config/constants'
 import { cyanSquareButton, greenSquareButton } from '../../../styles/buttons'
 import { useTranslation } from '../../../lang/useTranslation'
@@ -152,7 +152,7 @@ export const ExpeditionModal = <TStep extends number = number>({
   }
 
   return (
-    <Modal isOpen={openedExpedition === type} onClose={step === undefined ? handleCloseOverview : undefined}>
+    <Modal isOpen={openedExpedition === type} onClose={step === undefined ? handleCloseOverview : undefined} noWobble>
       <h2 css={h2Title}>{title}</h2>
       {openedExpedition === type && getContent()}
     </Modal>

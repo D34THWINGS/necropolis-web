@@ -2,14 +2,15 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { jsx } from '@emotion/core'
-import { Modal, useModalState } from './ui/Modal'
+import { Modal, useModalState } from './ui/Modal/Modal'
 import { h2Title, smallMarginTop } from '../styles/base'
 import { greenSquareButton } from '../styles/buttons'
 import { gainResources } from '../data/resources/actions'
-import { BuildingType, ResourceType } from '../config/constants'
+import { BuildingType, ResourceType, UndeadType } from '../config/constants'
 import { freeUpgradeBuilding } from '../data/buildings/actions'
 import { discoverSpell } from '../data/spells/actions'
 import { raiseUndead } from '../data/undeads/actions'
+import { createUndead } from '../data/undeads/helpers'
 
 declare global {
   interface Window {
@@ -48,7 +49,7 @@ export const CheatsModal = () => {
       }),
     )
     dispatch(discoverSpell())
-    dispatch(raiseUndead())
+    dispatch(raiseUndead(createUndead(UndeadType.BloodPrince)))
   }
 
   return (

@@ -25,6 +25,11 @@ const getBaseTalents = (type: UndeadType): Undead['talents'] => {
   }
 }
 
+export const getUndeadTalentValue = (undead: Undead, talent: UndeadTalent) => {
+  const talentsMap = new Map(undead.talents)
+  return talentsMap.get(talent) || 0
+}
+
 export const createUndead = (type: UndeadType, raised = false): Undead => ({
   type,
   talents: getBaseTalents(type),

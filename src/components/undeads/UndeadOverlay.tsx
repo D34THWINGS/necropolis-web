@@ -2,45 +2,47 @@
 import { css, jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { colors, layers, shadows, transitions } from '../../config/theme'
-import { ModalColor, modalColorsMap, useModalState } from '../ui/Modal'
+import { breakpoints, layers, transitions } from '../../config/theme'
+import { useModalState } from '../ui/Modal/Modal'
+import { ModalColor, modalInner, modalOverlay, modalPanel } from '../ui/Modal/modalStyles'
 import overlayOpenUrl from '../../assets/images/overlay-open.png'
 import overlayCloseUrl from '../../assets/images/overlay-close.png'
 import { resetButton } from '../../styles/buttons'
 import { useTranslation } from '../../lang/useTranslation'
 import { getUndeads, getUpkeep } from '../../data/undeads/selectors'
-import { contentCover, h2Title } from '../../styles/base'
+import { h2Title, purpleBox, textColor } from '../../styles/base'
 import { ResourceIcon } from '../images/ResourceIcon'
-import { ResourceType, UndeadType } from '../../config/constants'
+import { ResourceType, UndeadTalent, UndeadType } from '../../config/constants'
 import { UndeadBox } from './UndeadBox'
 import { banUndead } from '../../data/undeads/actions'
+import { Image } from '../images/Image'
+import { TalentButton } from '../talents/TalentButton'
+import { getUndeadTalentValue } from '../../data/undeads/helpers'
 
-const undeadOverlayContainer = (isOpen: boolean) =>
+const undeadOverlayContainer = (isOpen: boolean) => [
+  modalPanel(ModalColor.PURPLE),
   css({
     position: 'absolute',
     top: '50%',
     left: isOpen ? '50%' : 0,
-    border: '2px solid rgba(0, 0, 0, 0.5)',
-    borderRadius: '15px',
-    padding: '10px',
-    width: '20rem',
-    boxShadow: 'inset 0px 1px 1px rgba(255, 255, 255, 0.5)',
-    background: modalColorsMap[ModalColor.PURPLE][0],
+    margin: 0,
+    width: 'calc(100% - 4rem)',
     transition: `transform ${transitions.SLOW}, left ${transitions.SLOW}`,
     transform: `translate(${isOpen ? '-50%' : '-100%'}, -50%)`,
     zIndex: layers.UNDEAD_OVERLAY,
-  })
 
-const undeadOverlayInner = css({
-  padding: '1rem',
-  borderRadius: '10px',
-  boxShadow: 'inset 0px 10px 0px rgba(0, 0, 0, 0.35), 0px 1px 1px rgba(255, 255, 255, 0.5)',
-  overflowY: 'auto',
-  maxHeight: '50vh',
-  backgroundColor: modalColorsMap[ModalColor.PURPLE][1],
-  color: colors.WHITE,
-  textShadow: shadows.TEXT_FLAT,
-})
+    [breakpoints.SM]: {
+      margin: 0,
+    },
+  }),
+]
+
+const undeadOverlayInner = [
+  modalInner(ModalColor.PURPLE),
+  css({
+    maxHeight: '50vh',
+  }),
+]
 
 const undeadOverlayToggle = [
   resetButton,
@@ -48,33 +50,23 @@ const undeadOverlayToggle = [
     position: 'absolute',
     top: '50%',
     right: 0,
+    padding: '0.4rem 0.4rem 0.4rem 0',
     transform: 'translate(100%, -50%)',
   }),
 ]
 
-const undeadOverlayToggleIcon = css({
-  width: '2rem',
-})
-
-const undeadOverlayUpkeep = css({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  margin: '0.5rem 0',
-  textAlign: 'center',
-  color: colors.RED,
-})
+const overviewBox = [
+  purpleBox,
+  css({
+    margin: '0.5rem 0 1rem',
+  }),
+]
 
 const undeadOverlayShadow = (isOpen: boolean) => [
-  resetButton,
-  contentCover,
+  modalOverlay(isOpen),
   css({
-    display: 'block',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    opacity: isOpen ? 1 : 0,
     cursor: 'pointer',
     pointerEvents: isOpen ? 'initial' : 'none',
-    transition: `opacity ${transitions.SLOW}`,
     zIndex: layers.UNDEAD_OVERLAY,
   }),
 ]
@@ -95,16 +87,25 @@ export const UndeadOverlay = () => {
       <div css={undeadOverlayContainer(isOpen)}>
         <div css={undeadOverlayInner}>
           <h2 css={h2Title}>{t('undeadOverlayTitle')}</h2>
-          <p css={undeadOverlayUpkeep}>
-            {t('undeadUpkeep')}
+          <div css={overviewBox}>
+            <span css={textColor('RED')}>{t('undeadUpkeep')}</span>
             <ResourceIcon type={ResourceType.Meat} text={meatCost} />
-          </p>
+            <br />
+            <span css={textColor('CYAN')}>{t('talentsTotal')}</span>
+            {Object.values(UndeadTalent).map(talent => (
+              <TalentButton
+                key={talent}
+                type={talent}
+                text={undeads.reduce((sum, undead) => sum + getUndeadTalentValue(undead, talent), 0)}
+              />
+            ))}
+          </div>
           {undeads.map(undead => (
             <UndeadBox key={undead.type} undead={undead} onBan={handleBan(undead.type)} />
           ))}
         </div>
         <button type="button" css={undeadOverlayToggle} onClick={toggle}>
-          <img src={isOpen ? overlayCloseUrl : overlayOpenUrl} alt="" css={undeadOverlayToggleIcon} />
+          <Image src={isOpen ? overlayCloseUrl : overlayOpenUrl} size="2rem" />
         </button>
       </div>
     </Fragment>

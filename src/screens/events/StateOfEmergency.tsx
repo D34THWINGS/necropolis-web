@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import { Fragment, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { h2Title, textCenter, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
@@ -13,6 +13,8 @@ export const StateOfEmergency = ({ renderStep }: EventModalContentProps) => {
   const { t } = useTranslation()
   const paladinsStrength = useSelector(getPaladinsStrength)
   const dispatch = useDispatch()
+  // We need to use a ref here to prevent strength to be updated when event is acknowledged
+  const paladinsStrengthRef = useRef(paladinsStrength)
 
   const handleAcknowledge = () => {
     dispatch(increasePaladinsStrength())
@@ -26,7 +28,7 @@ export const StateOfEmergency = ({ renderStep }: EventModalContentProps) => {
       <p css={textCenter}>
         <PaladinsIcon counter={3} />
       </p>
-      <span css={textColor('RED')}>{t('paladinsStrength', paladinsStrength + 1)}</span>
+      <span css={textColor('RED')}>{t('paladinsStrength', paladinsStrengthRef.current + 1)}</span>
       {renderStep((_, { renderAcknowledgeButton }) => renderAcknowledgeButton(handleAcknowledge))}
     </Fragment>
   )

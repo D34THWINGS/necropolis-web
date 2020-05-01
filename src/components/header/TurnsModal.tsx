@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
-import { Modal } from '../ui/Modal'
+import { Modal } from '../ui/Modal/Modal'
 import { greenBox, h2Title, noMargin, textCenter, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { EVENTS_TURN_SPACING, PALADINS_INCREASE_SPACING, PALADINS_STRENGTH_INCREASE } from '../../config/constants'
@@ -10,6 +10,7 @@ import { nextPhase } from '../../data/turn/actions'
 import { getTurn } from '../../data/turn/selectors'
 import { getPaladinsCalledToArms, getPaladinsCounter, getPaladinsStrength } from '../../data/paladins/selectors'
 import { PaladinsIcon } from '../images/PaladinsIcon'
+import { getDefense } from '../../data/selectors'
 
 const smallMarginBottom = css({
   margin: '0 0 0.5rem',
@@ -26,6 +27,7 @@ export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
   const paladinsStrength = useSelector(getPaladinsStrength)
   const paladinsCounter = useSelector(getPaladinsCounter)
   const paladinsCalledToArms = useSelector(getPaladinsCalledToArms)
+  const defense = useSelector(getDefense)
   const dispatch = useDispatch()
 
   const nextEventIn = EVENTS_TURN_SPACING - (turn % EVENTS_TURN_SPACING)
@@ -45,7 +47,11 @@ export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
       {paladinsCalledToArms && (
         <div css={[greenBox, smallMarginBottom]}>
           <p css={smallMarginBottom}>{t('paladins', PALADINS_STRENGTH_INCREASE, PALADINS_INCREASE_SPACING)}</p>
-          <p css={[smallMarginBottom, textColor('RED')]}>{t('paladinsStrength', paladinsStrength)}</p>
+          <p>
+            <span css={[smallMarginBottom, textColor('RED')]}>{t('paladinsStrength', paladinsStrength)}</span>
+            <br />
+            <span css={[smallMarginBottom, textColor('LIME')]}>{t('currentDefense', defense)}</span>
+          </p>
           <p css={[noMargin, textCenter]}>
             <PaladinsIcon counter={paladinsCounter} />
           </p>

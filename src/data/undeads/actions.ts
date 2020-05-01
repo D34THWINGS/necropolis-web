@@ -6,7 +6,7 @@ export const banUndead = createAction('undeads/BAN', (type: UndeadType) => ({ ty
 
 export const killUndead = createAction('undeads/KILL', (type: UndeadType) => ({ type }))()
 
-export const raiseUndead = createAction('undeads/RAISE')()
+export const raiseUndead = createAction('undeads/RAISE', (undead: Undead) => ({ undead }))()
 
 export const addUndead = createAction('undeads/ADD', (undead: Undead) => ({ undead }))()
 

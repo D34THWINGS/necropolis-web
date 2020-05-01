@@ -29,6 +29,10 @@ const reset = css({
     fontSize: '1rem',
     overflow: 'hidden',
   },
+
+  'html, body, #react-root': {
+    height: '100%',
+  },
 })
 
 export const ResetCSS = () => <Global styles={reset} />

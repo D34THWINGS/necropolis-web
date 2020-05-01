@@ -4,12 +4,12 @@ import { Image } from '../images/Image'
 import undeadIconUrl from '../../assets/images/undead.png'
 import closeIconUrl from '../../assets/images/icons/close.png'
 import { purpleBox, textColor } from '../../styles/base'
-import { TalentIcon } from '../talents/TalentIcon'
 import { useTranslation } from '../../lang/useTranslation'
 import { colors, shadows } from '../../config/theme'
 import { Undead } from '../../data/undeads/helpers'
 import { purpleRoundButton } from '../../styles/buttons'
 import { LA_MOTTE_DEFENSE_BONUS, UndeadType } from '../../config/constants'
+import { TalentButton } from '../talents/TalentButton'
 
 const undeadBox = (canBeBanned: boolean) => [
   purpleBox,
@@ -45,10 +45,6 @@ const undeadName = css({
 const undeadDescription = css({
   display: 'flex',
   alignItems: 'flex-start',
-})
-
-const undeadTalent = css({
-  margin: '0 0.2rem',
 })
 
 const undeadBanButton = [
@@ -98,7 +94,7 @@ export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
         <div>
           <div css={textColor('CYAN')}>{t('undeadTalents')}</div>
           {undead.talents.map(([talent, value]) => (
-            <TalentIcon css={undeadTalent} key={talent} type={talent} size="1.2rem" text={value} />
+            <TalentButton key={talent} type={talent} text={value} />
           ))}
           <br />
           <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {getAbility()}

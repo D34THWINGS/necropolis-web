@@ -1,6 +1,6 @@
 import React, { ReactNode, useMemo } from 'react'
 import { talentsModalControlsContext } from './useTalentsModalControls'
-import { useModalState } from '../ui/Modal'
+import { useModalState } from '../ui/Modal/Modal'
 import { TalentsModal } from './TalentsModal'
 
 export type TalentsModalProviderProps = {

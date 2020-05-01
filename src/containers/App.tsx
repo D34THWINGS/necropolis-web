@@ -18,16 +18,16 @@ const appContainer = css({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  height: '100vh',
+  height: '100%',
   backgroundColor: colors.GREY,
 })
 
 const gameContainer = css({
   position: 'relative',
-  width: '100vw',
-  maxWidth: '27.5rem',
-  height: '100vh',
-  maxHeight: '55rem',
+  width: '100%',
+  maxWidth: '30rem',
+  height: '100%',
+  maxHeight: '60rem',
   overflow: 'hidden',
 })
 

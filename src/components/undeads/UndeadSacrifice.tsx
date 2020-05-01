@@ -1,7 +1,8 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
-import { Modal, ModalColor } from '../ui/Modal'
+import { Modal } from '../ui/Modal/Modal'
+import { ModalColor } from '../ui/Modal/modalStyles'
 import { getRequiredSacrifices, getUndeads } from '../../data/undeads/selectors'
 import { h2Title } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'

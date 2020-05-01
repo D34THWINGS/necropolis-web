@@ -9,7 +9,7 @@ import { buttonBase } from '../../styles/buttons'
 import { breakpoints, colors, layers, shadows, transitions } from '../../config/theme'
 import { TurnCounter } from './TurnCounter'
 import { SettingsModal } from './SettingsModal'
-import { useModalState } from '../ui/Modal'
+import { useModalState } from '../ui/Modal/Modal'
 import { getResources } from '../../data/resources/selectors'
 import { getTurn } from '../../data/turn/selectors'
 import { ResourceIcon } from '../images/ResourceIcon'
@@ -36,10 +36,6 @@ const headerCountersWrapper = css({
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'center',
-
-  [breakpoints.SM]: {
-    marginLeft: '0.5rem',
-  },
 })
 
 const headerResourceCounter = (backgroundColor: string) =>

@@ -30,28 +30,22 @@ const introContainer = css({
 const nextStepButton = [
   ...greenSquareButton,
   css({
-    position: 'absolute',
-    bottom: '8rem',
-    left: '50%',
     width: 'auto',
-    transform: 'translateX(-50%)',
-
-    ':not(:disabled):active': {
-      transform: 'translate(-50%, 0.1rem)',
-    },
+    marginBottom: '5rem',
   }),
 ]
 
 const introText = css({
-  position: 'relative',
+  minHeight: '20rem',
 })
 
 const introImageContainer = (backgroundUrl: string, zIndex: number) => [
   contentCover,
   css({
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     padding: '3rem',
     backgroundImage: `url(${backgroundUrl})`,
     backgroundPosition: 'center',

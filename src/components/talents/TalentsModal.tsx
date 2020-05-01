@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { Modal, ModalColor, ModalProps } from '../ui/Modal'
+import { Modal, ModalProps } from '../ui/Modal/Modal'
+import { ModalColor } from '../ui/Modal/modalStyles'
 import { useTranslation } from '../../lang/useTranslation'
 import { greenBox, h2Title } from '../../styles/base'
 import { UndeadTalent } from '../../config/constants'

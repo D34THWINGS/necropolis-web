@@ -6,7 +6,7 @@ import skullImageUrl from '../../assets/images/header/skull.png'
 import skullEyesGlowImageUrl from '../../assets/images/header/skull-eyes-glow.png'
 import skullGlowImageUrl from '../../assets/images/header/skull-glow.png'
 import { breakpoints, colors, shadows, transitions } from '../../config/theme'
-import { useModalState } from '../ui/Modal'
+import { useModalState } from '../ui/Modal/Modal'
 import { resetButton } from '../../styles/buttons'
 import { TurnsModal } from './TurnsModal'
 import { getPaladinsCounter } from '../../data/paladins/selectors'
@@ -22,8 +22,7 @@ const turnCounter = [
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-    paddingTop: '0.9rem',
-    paddingLeft: '0.3rem',
+    paddingTop: '0.4rem',
     flex: '0 0 auto',
     width: '6rem',
     height: '8rem',
@@ -32,9 +31,11 @@ const turnCounter = [
     textShadow: shadows.TEXT,
 
     [breakpoints.SM]: {
-      width: '8rem',
-      height: '10rem',
-      margin: '-1rem',
+      margin: '-0.4rem 0 -0.8rem',
+      paddingTop: '0.9rem',
+      paddingLeft: '0.3rem',
+      width: '7.5rem',
+      height: '9.5rem',
     },
   }),
 ]
