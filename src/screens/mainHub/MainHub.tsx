@@ -8,7 +8,6 @@ import { getBuildings } from '../../data/buildings/selectors'
 import { ARTIFACT_DEFENSE_BONUS, BuildingType } from '../../config/constants'
 import {
   getBattlementsDefenseBonus,
-  getBuildingMaxLevel,
   getCharnelHouseBonesProduction,
   getCharnelHouseMeatProduction,
   getCharnelHouseProductionTurns,
@@ -71,7 +70,6 @@ export const MainHub = () => {
       <Building
         name={t(BuildingType.CharnelHouse)}
         level={buildings.charnelHouse.level}
-        maxLevel={getBuildingMaxLevel(BuildingType.CharnelHouse)}
         description={t(
           'charnelHouseDescription',
           getCharnelHouseMeatProduction(buildings.charnelHouse.level || 1),
@@ -83,28 +81,24 @@ export const MainHub = () => {
       <Building
         name={t(BuildingType.SoulWell)}
         level={buildings.soulWell.level}
-        maxLevel={getBuildingMaxLevel(BuildingType.SoulWell)}
         description={t('soulWellDescription', getSoulWellSoulProduction(buildings.soulWell.level || 1))}
         route={SOUL_WELL}
       />
       <Building
         name={t(BuildingType.Catacombs)}
         level={buildings.catacombs.level}
-        maxLevel={getBuildingMaxLevel(BuildingType.Catacombs)}
         description={t('catacombDescription', raisedUndead, getMaxUndeadRaising(buildings.catacombs.level || 1))}
         route={CATACOMBS}
       />
       <Building
         name={t(BuildingType.Ossuary)}
         level={buildings.ossuary.level}
-        maxLevel={getBuildingMaxLevel(BuildingType.Ossuary)}
         description={t('ossuaryDescription')}
         route={OSSUARY}
       />
       <Building
         name={t(BuildingType.Battlements)}
         level={buildings.battlements.level}
-        maxLevel={getBuildingMaxLevel(BuildingType.Battlements)}
         description={t('battlementDescription', getBattlementsDefenseBonus(buildings.battlements.level || 1))}
         route={BATTLEMENTS}
       />
