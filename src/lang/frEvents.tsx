@@ -16,27 +16,27 @@ export const frEvents = {
       Vous apprenez qu’une clique de seigneurs auto-proclamés et surnommés les Paladins préparent un assaut contre la
       Nécropole. Ils ont l’intention de balayer la menace que vous représentez pour eux. Au fil du temps, ils
       deviendront de mieux en mieux préparés, mais n’attaqueront que lorsqu’ils en verront l’opportunité, c’est-à-dire
-      lorsque l’icone ci-dessous montrera <span css={textColor('RED')}>{maxCounter}&nbsp;Paladins</span>.
+      lorsque l’icône ci-dessous montrera <span css={textColor('RED')}>{maxCounter}&nbsp;Paladins</span>.
     </Fragment>
   ),
 
   paladinsAssaultTitle: 'Assaut des paladins',
   paladinsAssaultWeak: (
     <Fragment>
-      Une troupe d’hommes en armure rouges étincelantes s’amassent devant vos portes. Leurs bannières arborent une
-      chaîne en guise de blason, symbole de ce qu’ils défendent&nbsp;: l’ordre établi. Et vous, vous n’en faites
-      décidément pas partie. Leurs intentions sont on ne peut plus claires&nbsp;: vous balayer de la carte !
+      Une troupe d’hommes en armure rouges étincelantes s’amasse devant vos portes. Leurs bannières arborent une chaîne
+      en guise de blason, symbole de ce qu’ils défendent&nbsp;: l’ordre établi. Et vous, vous n’en faites décidément pas
+      partie. Leurs intentions sont claires&nbsp;: vous balayer de la carte !
     </Fragment>
   ),
   paladinsAssaultMedium: (
     <Fragment>
-      Une imposante troupe d’hommes en armure rouges étincelantes s’amassent devant vos portes. Certains tiennent de
-      longues échelles avec des crochets au bout. L’air empeste la haine, le sang, et la mort.
+      Une imposante troupe d’hommes en armure rouges étincelantes s’amasse devant vos portes. Certains tiennent de
+      longues échelles avec des crochets au bout. L’air empeste la haine, le sang et la mort.
     </Fragment>
   ),
   paladinsAssaultStrong: (
     <Fragment>
-      Une menaçante armée d’hommes en armure rouges étincelantes s’amassent devant vos portes. Ils ont fabriqué pour
+      Une menaçante armée d’hommes en armure rouges étincelantes s’amasse devant vos portes. Ils ont fabriqué pour
       l’occasion des tours de siège ainsi que des trébuchets. L’instant se fige, tandis que la Faucheuse vous observe.
       Elle est venue pour la récolte.
     </Fragment>
@@ -53,7 +53,7 @@ export const frEvents = {
       Une trompette sonne leur retraite, c’est la victoire ! Vous voilà tranquille pour un moment.{' '}
       {meat > 0 && (
         <Fragment>
-          Vous récoltez <ResourceIcon type={ResourceType.Meat} text={meat} /> sur les dépouilles des assaillants.
+          Vous récoltez <ResourceIcon type={ResourceType.Meat} text={meat} /> sur leurs dépouilles.
         </Fragment>
       )}
     </Fragment>
@@ -65,15 +65,14 @@ export const frEvents = {
       <span css={textColor('PURPLE')}>
         {undeads}&nbsp; Mort-vivant{plural(undeads, 's')}
       </span>{' '}
-      de votre choix. Enfin, vous récoltez <ResourceIcon type={ResourceType.Meat} text={meat} /> sur les dépouilles des
-      assaillants.
+      de votre choix. Enfin, vous récoltez <ResourceIcon type={ResourceType.Meat} text={meat} /> sur leurs dépouilles.
     </Fragment>
   ),
   paladinsAssaultTotalDefeat: (
     <Fragment>
       Des Paladins ont ouvert une brèche dans vos défenses et trucident tout ce qui bouge. Ils trouvent rapidement votre
-      cachette, la salle du tombeau. C’est ici que vous avez perdu la vie, et ironiquement, c’est ici que vous allez
-      finalement la reperdre, définitivement.
+      cachette, la salle du tombeau. C’est ici que vous avez perdu la vie et ironiquement, c’est ici que vous allez
+      finalement la reperdre.
     </Fragment>
   ),
 
@@ -118,20 +117,18 @@ export const frEvents = {
       <ResourceIcon type={ResourceType.Bones} text={bones} /> sur leurs dépouilles.
     </Fragment>
   ),
-  plunderStep3: (materials: number, meat: number) => (
+  plunderStep3: (meat: number) => (
     <Fragment>
-      Vous perdez {materials === 0 ? null : <ResourceIcon type={ResourceType.Materials} text={materials} />}
-      {materials > 0 && meat > 0 ? ' et ' : null}
-      {meat === 0 ? null : <ResourceIcon type={ResourceType.Meat} text={meat} />}.
+      Vous perdez <ResourceIcon type={ResourceType.Meat} text={meat} />.
     </Fragment>
   ),
 
   offeringTitle: "L'Offrande",
   offeringDescription: (
     <Fragment>
-      L’idée d’être maintenant immortel vous empli d’ennui. Pour tuer le temps, vous décidez de rendre une petite visite
-      à votre propre tombeau. Vous passez un long moment à admiriez les offrandes, mais parmi toutes ces breloques, une
-      retient particulièrement votre attention : un parchemin magique.
+      L’idée d’être immortel vous empli d’ennui. Pour tuer le temps, vous décidez de rendre une visite à votre tombeau.
+      Vous passez un long moment à admirer les offrandes, mais parmi toutes ces breloques, une retient particulièrement
+      votre attention : un parchemin d’architecture magique.
     </Fragment>
   ),
   offeringAction: (type: BuildingType) => {

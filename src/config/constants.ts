@@ -104,9 +104,5 @@ export enum EventType {
 }
 
 export const PLUNDER_ACTIVATION_TURN = 9
-export const PLUNDER_FIGHT_LETHALITY = 4
-export const PLUNDER_REWARD_MEAT = 1
-export const PLUNDER_REWARD_BONES = 3
-export const PLUNDER_LEAVE_MATERIAL_COST = 5
 
 export const ARTIFACT_DEFENSE_BONUS = 2

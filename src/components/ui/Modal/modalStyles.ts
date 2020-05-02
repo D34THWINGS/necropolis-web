@@ -19,7 +19,8 @@ export const modalColorsMap: Record<ModalColor, [string, string]> = {
 export const modalOverlay = (isOpen: boolean, priority?: number) =>
   css({
     display: 'flex',
-    alignItems: 'flex-start',
+    flexDirection: 'column',
+    alignItems: 'center',
     justifyContent: 'center',
     position: 'fixed',
     top: 0,
@@ -31,20 +32,32 @@ export const modalOverlay = (isOpen: boolean, priority?: number) =>
     animation: `${isOpen ? fadeIn : fadeOut} ${transitions.SLOW_DURATION}ms ${transitions.SLOW_EASING}`,
     animationFillMode: 'both',
 
-    [breakpoints.SM]: {
-      alignItems: 'center',
+    ':before': {
+      content: '""',
+      flex: '0 0 auto',
+      height: '10rem',
+    },
+
+    ':after': {
+      content: '""',
+      flex: '0 1 auto',
+      height: '10rem',
     },
   })
 
 export const modalPanel = (color: ModalColor, shouldWobble?: boolean) =>
   css({
+    display: 'flex',
+    flexDirection: 'column',
     position: 'relative',
     outline: 0,
     border: '2px solid rgba(0, 0, 0, 0.5)',
     borderRadius: '15px',
-    margin: '10rem 0.5rem 0.5rem',
+    margin: '0 0.5rem',
     padding: '0.6rem',
+    minWidth: '18rem',
     maxWidth: '28rem',
+    maxHeight: 'calc(100% - 11rem)',
     boxShadow: 'inset 0px 1px 1px rgba(255, 255, 255, 0.5)',
     background: modalColorsMap[color][0],
     ...(shouldWobble
@@ -81,7 +94,8 @@ export const modalPanel = (color: ModalColor, shouldWobble?: boolean) =>
     },
 
     [breakpoints.SM]: {
-      margin: '1rem',
+      margin: '0 1rem',
+      minWidth: '22rem',
     },
   })
 
@@ -90,16 +104,11 @@ export const modalInner = (color: ModalColor) =>
     position: 'relative',
     padding: '1rem',
     overflowY: 'auto',
-    maxHeight: '70vh',
     borderRadius: '10px',
     boxShadow: '0px 1px 1px rgba(255, 255, 255, 0.5)',
     backgroundColor: modalColorsMap[color][1],
     color: colors.WHITE,
     textShadow: shadows.TEXT_FLAT,
-
-    [breakpoints.SM]: {
-      maxHeight: '55vh',
-    },
   })
 
 export const modalCloseButton = css({

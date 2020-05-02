@@ -6,7 +6,6 @@ import { ExpeditionModal } from './components/ExpeditionModal'
 import { ExpeditionType, ResourceType, Spell, SPELLS_SOUL_COSTS, UndeadTalent } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
-import { textColor } from '../../styles/base'
 import { ResourceIcon } from '../../components/images/ResourceIcon'
 import { getBones, getSouls } from '../../data/resources/selectors'
 import { getLethality } from '../../data/selectors'
@@ -60,12 +59,7 @@ export const Bastion = () => {
                 {t('bastionStep1')}
                 <ExpeditionAction
                   disabled={souls < SPELLS_SOUL_COSTS[Spell.TheKey]}
-                  cost={
-                    <Fragment>
-                      <span css={textColor('LIGHT_BLUE')}>{SPELLS_SOUL_COSTS[Spell.TheKey]}</span>&nbsp;
-                      <ResourceIcon type={ResourceType.Souls} size="1rem" />
-                    </Fragment>
-                  }
+                  cost={<ResourceIcon type={ResourceType.Souls} text={SPELLS_SOUL_COSTS[Spell.TheKey]} size="1rem" />}
                   onClick={handleCastTheKey}
                 >
                   {t('bastionAction1')}
@@ -92,10 +86,7 @@ export const Bastion = () => {
                 <ExpeditionAction
                   disabled={lethality < BASTION_KILL_DOGS_LETHALITY_COST}
                   prerequisites={
-                    <Fragment>
-                      <span css={textColor('PURPLE')}>{BASTION_KILL_DOGS_LETHALITY_COST}</span>&nbsp;
-                      <TalentIcon type={UndeadTalent.Lethality} size="1rem" />
-                    </Fragment>
+                    <TalentIcon type={UndeadTalent.Lethality} text={BASTION_KILL_DOGS_LETHALITY_COST} size="1rem" />
                   }
                   onClick={goToStep(BastionStep.DeadDogs)}
                 >
@@ -103,12 +94,7 @@ export const Bastion = () => {
                 </ExpeditionAction>
                 <ExpeditionAction
                   disabled={bones < BASTION_FEED_DOGS_BONES_COST}
-                  cost={
-                    <Fragment>
-                      <span css={textColor('BROWN')}>{BASTION_FEED_DOGS_BONES_COST}</span>&nbsp;
-                      <ResourceIcon type={ResourceType.Bones} size="1rem" />
-                    </Fragment>
-                  }
+                  cost={<ResourceIcon type={ResourceType.Bones} text={BASTION_FEED_DOGS_BONES_COST} size="1rem" />}
                   onClick={handleFeedDogs}
                 >
                   {t('bastionAction3')}
@@ -138,10 +124,7 @@ export const Bastion = () => {
                 <ExpeditionAction
                   disabled={lethality < BASTION_KILL_PALADINS_LETHALITY_COST}
                   prerequisites={
-                    <Fragment>
-                      <span css={textColor('PURPLE')}>{BASTION_KILL_PALADINS_LETHALITY_COST}</span>&nbsp;
-                      <TalentIcon type={UndeadTalent.Lethality} size="1rem" />
-                    </Fragment>
+                    <TalentIcon type={UndeadTalent.Lethality} text={BASTION_KILL_PALADINS_LETHALITY_COST} size="1rem" />
                   }
                   onClick={goToStep(BastionStep.Perish)}
                 >
@@ -157,10 +140,11 @@ export const Bastion = () => {
                 <ExpeditionAction
                   disabled={lethality < BASTION_KILL_WEAKENED_PALADINS_LETHALITY_COST}
                   prerequisites={
-                    <Fragment>
-                      <span css={textColor('PURPLE')}>{BASTION_KILL_WEAKENED_PALADINS_LETHALITY_COST}</span>&nbsp;
-                      <TalentIcon type={UndeadTalent.Lethality} size="1rem" />
-                    </Fragment>
+                    <TalentIcon
+                      type={UndeadTalent.Lethality}
+                      text={BASTION_KILL_WEAKENED_PALADINS_LETHALITY_COST}
+                      size="1rem"
+                    />
                   }
                   onClick={goToStep(BastionStep.Perish)}
                 >

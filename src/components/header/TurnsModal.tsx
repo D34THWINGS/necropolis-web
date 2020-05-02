@@ -2,7 +2,7 @@
 import { css, jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from '../ui/Modal/Modal'
-import { greenBox, h2Title, noMargin, textCenter, textColor } from '../../styles/base'
+import { greenBox, h2Title, noMargin, smallMarginTop, textCenter, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { EVENTS_TURN_SPACING, PALADINS_INCREASE_SPACING, PALADINS_STRENGTH_INCREASE } from '../../config/constants'
 import { greenSquareButton } from '../../styles/buttons'
@@ -14,6 +14,12 @@ import { getDefense } from '../../data/selectors'
 
 const smallMarginBottom = css({
   margin: '0 0 0.5rem',
+})
+
+const strengthDefenseText = css({
+  display: 'flex',
+  justifyContent: 'space-between',
+  margin: '0.4rem 0',
 })
 
 export type TurnsModalProps = {
@@ -39,25 +45,24 @@ export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <h2 css={[h2Title, smallMarginBottom]}>{t('turns')}</h2>
-      <div css={[greenBox, smallMarginBottom]}>
+      <h2 css={h2Title}>{t('turns')}</h2>
+      <div css={[greenBox, smallMarginTop]}>
         <p css={smallMarginBottom}>{t('turnsEventSpacing', EVENTS_TURN_SPACING)}</p>
         <p css={noMargin}>{t('turnsNextEvent', nextEventIn)}</p>
       </div>
       {paladinsCalledToArms && (
-        <div css={[greenBox, smallMarginBottom]}>
+        <div css={[greenBox, smallMarginTop]}>
           <p css={smallMarginBottom}>{t('paladins', PALADINS_STRENGTH_INCREASE, PALADINS_INCREASE_SPACING)}</p>
-          <p>
-            <span css={[smallMarginBottom, textColor('RED')]}>{t('paladinsStrength', paladinsStrength)}</span>
-            <br />
-            <span css={[smallMarginBottom, textColor('LIME')]}>{t('currentDefense', defense)}</span>
+          <p css={strengthDefenseText}>
+            <span css={textColor('RED')}>{t('paladinsStrength', paladinsStrength)}</span>
+            <span css={textColor('LIME')}>{t('currentDefense', defense)}</span>
           </p>
           <p css={[noMargin, textCenter]}>
             <PaladinsIcon counter={paladinsCounter} />
           </p>
         </div>
       )}
-      <button type="button" css={greenSquareButton} onClick={handleSkipTurn}>
+      <button type="button" css={[...greenSquareButton, smallMarginTop]} onClick={handleSkipTurn}>
         {t('skipTurn')}
       </button>
     </Modal>

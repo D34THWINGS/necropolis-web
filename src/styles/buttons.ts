@@ -42,7 +42,7 @@ const roundButton = (backgroundColor: string, light: number, shade: number) => [
   }),
 ]
 
-export const cyanRoundButton = roundButton(colors.CYAN, 0.2, 0.3)
+export const cyanRoundButton = roundButton(colors.DARK_CYAN, 0.2, 0.3)
 
 export const blueRoundButton = roundButton(colors.LIGHT_BLUE, 0.2, 0.25)
 
@@ -80,7 +80,7 @@ const squareButton = (backgroundColor: string, light: number, shade: number) => 
   }),
 ]
 
-export const cyanSquareButton = squareButton(colors.CYAN, 0.2, 0.3)
+export const cyanSquareButton = squareButton(colors.DARK_CYAN, 0.2, 0.3)
 
 export const blueSquareButton = squareButton(colors.LIGHT_BLUE, 0.2, 0.25)
 

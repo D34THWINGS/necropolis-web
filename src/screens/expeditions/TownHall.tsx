@@ -1,11 +1,17 @@
 import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ExpeditionModal } from './components/ExpeditionModal'
-import { ExpeditionType, ResourceType, Spell, SPELLS_SOUL_COSTS, UndeadType } from '../../config/constants'
+import {
+  ExpeditionType,
+  ResourceType,
+  Spell,
+  SPELLS_SOUL_COSTS,
+  UndeadTalent,
+  UndeadType,
+} from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
 import { getHasTheKey } from '../../data/spells/selectors'
-import { textColor } from '../../styles/base'
 import { ResourceIcon } from '../../components/images/ResourceIcon'
 import { getSouls } from '../../data/resources/selectors'
 import { gainResources } from '../../data/resources/actions'
@@ -15,9 +21,11 @@ import { createUndead } from '../../data/undeads/helpers'
 import { cancelReinforcements } from '../../data/expeditions/actions'
 import { UndeadBox } from '../../components/undeads/UndeadBox'
 import { castSpell } from '../../data/spells/actions'
+import { TalentIcon } from '../../components/talents/TalentIcon'
 
 const TOWN_HALL_FIRE_UNDEAD_COST = 1
 const TOWN_HALL_MATERIALS_REWARD = 6
+const TOWN_HALL_LETHALITY_REQUIRED = 5
 
 enum TownHallStep {
   Entrance,
@@ -56,12 +64,7 @@ export const TownHall = () => {
                 {hasTheKey && (
                   <ExpeditionAction
                     disabled={souls < SPELLS_SOUL_COSTS[Spell.TheKey]}
-                    cost={
-                      <Fragment>
-                        <span css={textColor('LIGHT_BLUE')}>{SPELLS_SOUL_COSTS[Spell.TheKey]}</span>&nbsp;
-                        <ResourceIcon type={ResourceType.Souls} size="1rem" />
-                      </Fragment>
-                    }
+                    cost={<ResourceIcon type={ResourceType.Souls} text={SPELLS_SOUL_COSTS[Spell.TheKey]} size="1rem" />}
                     onClick={handleCastTheKey}
                   >
                     {t('townHallAction1')}
@@ -87,6 +90,9 @@ export const TownHall = () => {
               <Fragment>
                 {t('townHallStep3', TOWN_HALL_FIRE_UNDEAD_COST)}
                 <ExpeditionAction
+                  prerequisites={
+                    <TalentIcon type={UndeadTalent.Lethality} text={TOWN_HALL_LETHALITY_REQUIRED} size="1rem" />
+                  }
                   disabled={undeadCount < TOWN_HALL_FIRE_UNDEAD_COST}
                   onClick={handleLooseUndeadInFire(goToStep(TownHallStep.KillRunners))}
                 >

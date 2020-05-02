@@ -6,19 +6,18 @@ import { EventModalContentProps } from './helpers/eventModalContentProps'
 import { h2Title, textCenter } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { EventAction } from './components/EventAction'
-import {
-  PLUNDER_FIGHT_LETHALITY,
-  PLUNDER_LEAVE_MATERIAL_COST,
-  PLUNDER_REWARD_BONES,
-  PLUNDER_REWARD_MEAT,
-  ResourceType,
-} from '../../config/constants'
+import { ResourceType } from '../../config/constants'
 import { getMaterials } from '../../data/resources/selectors'
 import { gainResources, spendResources } from '../../data/resources/actions'
 import { getLethality } from '../../data/selectors'
 import { PaladinsIcon } from '../../components/images/PaladinsIcon'
 import { getPaladinsCounter } from '../../data/paladins/selectors'
 import { increasePaladinsCounter } from '../../data/paladins/actions'
+
+const PLUNDER_FIGHT_LETHALITY = 4
+const PLUNDER_REWARD_MEAT = 1
+const PLUNDER_REWARD_BONES = 3
+const PLUNDER_LEAVE_MEAT_COST = 5
 
 enum PlunderStep {
   Setup,
@@ -71,22 +70,16 @@ export const Plunder = ({ renderStep }: EventModalContentProps) => {
             )
           }
           case PlunderStep.Leave: {
-            const materialsCost = Math.min(PLUNDER_LEAVE_MATERIAL_COST, materials)
-            const meatCost = PLUNDER_LEAVE_MATERIAL_COST - materialsCost
+            const meatCost = Math.min(PLUNDER_LEAVE_MEAT_COST, materials)
 
             const handleLeave = () => {
-              dispatch(
-                spendResources({
-                  [ResourceType.Materials]: materialsCost,
-                  [ResourceType.Meat]: meatCost,
-                }),
-              )
+              dispatch(spendResources({ [ResourceType.Meat]: meatCost }))
               dispatch(increasePaladinsCounter())
             }
 
             return (
               <Fragment>
-                {t('plunderStep3', materialsCost, meatCost)}
+                {t('plunderStep3', meatCost)}
                 <p css={textCenter}>
                   <PaladinsIcon counter={paladinsCounter + 1} />
                 </p>

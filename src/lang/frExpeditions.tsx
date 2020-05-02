@@ -25,8 +25,8 @@ export const frExpeditions = {
   oldCoffinTitle: 'Vieux cercueil',
   oldCoffinOverview: (
     <Fragment>
-      Parmi les tombes du cimetière se tient un vieux cercueil qui n&apos;a pas connu l&apos;enterrement. Il semblerait
-      contenir des signes de vie.
+      Parmi les tombes du cimetière repose un vieux cercueil qui n&apos;a jamais connu l&apos;enterrement. Il vous
+      semble avoir remué.
     </Fragment>
   ),
   oldCoffinReward: <span css={textColor('PURPLE')}>Mort-vivant</span>,
@@ -45,24 +45,28 @@ export const frExpeditions = {
   miseryMarketTitle: 'Marché de la Misère',
   miseryMarketOverview:
     // eslint-disable-next-line max-len
-    'Bourg Misère, l’unique cité humaine, déborde de vie, et le marché est son coeur battant où tout s’y vend et s’y dit. Bruyant, puant, mais enrichissant.',
+    'Bourg Misère déborde de vie et le marché est son coeur battant. Bruyant, puant, mais enrichissant.',
   miseryMarketStep1: 'Devant vous se dressent les portes de Bourg Misère. Vous n’êtes pas les bienvenues ici.',
   miseryMarketAction1: 'Catapulter un Mort-Vivant derrière les murs afin qu’il ouvre les portes',
   miseryMarketAction1Cost: (cost: number) => `${cost}\u00A0Mort-vivant`,
-  miseryMarketAction2: 'Enfoncer la porte principale',
+  miseryMarketAction1Feedback:
+    // eslint-disable-next-line max-len
+    'Vous construisez une catapulte en vitesse et envoyez sans regret l’un de vos serviteurs vers une mission suicide. Peu importe ce qui lui est arrivé, le pont est maintenant abaissé.',
+  miseryMarketAction2: 'Enfoncer les portes',
+  miseryMarketAction2Feedback: 'Les portes vous sont maintenant ouvertes.',
   miseryMarketAction3: (
     <Fragment>
       Lancer <span css={textColor('LIGHT_BLUE')}>La Clé</span> sur la porte principale
     </Fragment>
   ),
+  miseryMarketAction3Feedback: 'Des portes ne restent que des miettes.',
   miseryMarketStep2:
     // eslint-disable-next-line max-len
-    'Avant même que vous ne franchissiez la porte, la Garde de Bourg Misère s’est amassée devant vous, formant comme un épais barrage de chair vous bloquant le passage.',
+    'La Garde de Bourg Misère s’est amassée devant vous, formant comme un épais barrage de chair vous bloquant le passage.',
   miseryMarketAction4: 'Combattre',
   miseryMarketStep3: (meat: number, materials: number) => (
     <Fragment>
-      Alors que vos ennemis commencent à faiblir, la plupart décident de s’enfuir vers le centre-ville. Les survivants
-      ainsi que quelques Paladins ont barricadés la zone. Au passage, vous récupérez{' '}
+      la plupart battent en retraite vers le centre-ville. Au passage, vous récupérez{' '}
       <ResourceIcon type={ResourceType.Meat} size="1rem" text={meat} /> dans le champs de viscères et{' '}
       <ResourceIcon type={ResourceType.Materials} size="1rem" text={materials} /> en pillant les alentours.
     </Fragment>
@@ -86,7 +90,7 @@ export const frExpeditions = {
     // eslint-disable-next-line max-len
     'Haut lieu du pouvoir des Paladins craints et respectés. C’est ici qu’ils édictent les lois, rendent la justice et enferment leurs prisonniers.',
   townHallRewardOverview: 'variable',
-  townHallStep1: 'Entrer dedans ne sera pas évident.',
+  townHallStep1: 'Une large porte couverte de chaînes vous empêche d’entrer.',
   townHallAction1: (
     <Fragment>
       Lancer <span css={textColor('LIGHT_BLUE')}>La Clé</span> sur la porte
@@ -95,7 +99,7 @@ export const frExpeditions = {
   townHallStep2: 'De la porte, il n’en reste que des miettes.',
   townHallStep3: (cost: number) => (
     <Fragment>
-      Votre intrusion a alerté le bâtiment. Les Paladins décident d’y mettre le feu, et fuient une fois de plus, mais
+      Votre intrusion a alerté le bâtiment. Les Paladins décident d’y mettre le feu et fuient une fois de plus, mais
       cette fois-ci vers le Bastion. Vous perdez <span css={textColor('PURPLE')}>{cost} Mort-vivant</span> dans les
       flammes.
     </Fragment>
@@ -103,9 +107,12 @@ export const frExpeditions = {
   townHallAction2: 'Les poursuivre',
   townHallAction3: 'Piller autant que vous le pouvez',
   townHallAction4: 'Fouiller les geôles',
-  townHallStep4:
-    // eslint-disable-next-line max-len
-    'Vous réussissez à tuer plusieurs fuyards, ce qui devrait vous alléger la tâche au Bastion. Par ailleurs, vous trouvez sur l’un des cadavres le plan de leur forteresse et plus particulièrement d’un passage secret.',
+  townHallStep4: (
+    <Fragment>
+      Vous réussissez à tuer plusieurs fuyards, ce qui devrait vous alléger la tâche au Bastion. Par ailleurs, vous
+      trouvez sur l’un des cadavres le plan d’un passage secret dans le Bastion.
+    </Fragment>
+  ),
   townHallStep5: (materials: number) => (
     <Fragment>
       Vous avez le temps de récupérer <ResourceIcon type={ResourceType.Materials} text={materials} /> avant que l’Hôtel

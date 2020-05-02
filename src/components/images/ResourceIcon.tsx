@@ -21,7 +21,7 @@ const colorMap: Record<ResourceType, keyof typeof colors> = {
   [ResourceType.Materials]: 'FOREST',
   [ResourceType.Bones]: 'BROWN',
   [ResourceType.Meat]: 'RED',
-  [ResourceType.Souls]: 'BLUE',
+  [ResourceType.Souls]: 'LIGHT_BLUE',
 }
 
 export type ResourceIconProps = Omit<IconProps, 'src'> & {

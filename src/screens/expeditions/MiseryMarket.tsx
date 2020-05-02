@@ -30,6 +30,9 @@ const MISERY_MARKET_MATERIAL_REWARD = 6
 
 enum MiseryMarketStep {
   Doors,
+  Catapulted,
+  DoorsBroken,
+  DoorsAnnihilated,
   Guards,
   GuardsFlee,
   LastStand,
@@ -61,11 +64,11 @@ export const MiseryMarket = () => {
           case MiseryMarketStep.Doors: {
             const handleCastTheKey = () => {
               dispatch(castSpell(Spell.TheKey))
-              goToStep(MiseryMarketStep.Guards)()
+              goToStep(MiseryMarketStep.DoorsAnnihilated)()
             }
             const handleCatapultUndead = () => {
               dispatch(requireSacrifice(MISERY_MARKET_CATAPULT_COST))
-              goToStep(MiseryMarketStep.Guards)()
+              goToStep(MiseryMarketStep.Catapulted)()
             }
             return (
               <Fragment>
@@ -82,24 +85,16 @@ export const MiseryMarket = () => {
                 <ExpeditionAction
                   disabled={muscles < MISERY_MARKET_STEP1_STRENGTH_REQUIRED}
                   prerequisites={
-                    <Fragment>
-                      <span css={textColor('RED')}>{MISERY_MARKET_STEP1_STRENGTH_REQUIRED}</span>&nbsp;
-                      <TalentIcon type={UndeadTalent.Muscles} size="1rem" />
-                    </Fragment>
+                    <TalentIcon type={UndeadTalent.Muscles} text={MISERY_MARKET_STEP1_STRENGTH_REQUIRED} size="1rem" />
                   }
-                  onClick={goToStep(MiseryMarketStep.Guards)}
+                  onClick={goToStep(MiseryMarketStep.DoorsBroken)}
                 >
                   {t('miseryMarketAction2')}
                 </ExpeditionAction>
                 {hasTheKey && (
                   <ExpeditionAction
                     disabled={souls < SPELLS_SOUL_COSTS[Spell.TheKey]}
-                    cost={
-                      <Fragment>
-                        <span css={textColor('LIGHT_BLUE')}>{SPELLS_SOUL_COSTS[Spell.TheKey]}</span>&nbsp;
-                        <ResourceIcon type={ResourceType.Souls} size="1rem" />
-                      </Fragment>
-                    }
+                    cost={<ResourceIcon type={ResourceType.Souls} text={SPELLS_SOUL_COSTS[Spell.TheKey]} size="1rem" />}
                     onClick={handleCastTheKey}
                   >
                     {t('miseryMarketAction3')}
@@ -109,6 +104,27 @@ export const MiseryMarket = () => {
               </Fragment>
             )
           }
+          case MiseryMarketStep.Catapulted:
+            return (
+              <Fragment>
+                {t('miseryMarketAction1Feedback')}
+                {renderContinueButton(MiseryMarketStep.Guards)}
+              </Fragment>
+            )
+          case MiseryMarketStep.DoorsBroken:
+            return (
+              <Fragment>
+                {t('miseryMarketAction2Feedback')}
+                {renderContinueButton(MiseryMarketStep.Guards)}
+              </Fragment>
+            )
+          case MiseryMarketStep.DoorsAnnihilated:
+            return (
+              <Fragment>
+                {t('miseryMarketAction3Feedback')}
+                {renderContinueButton(MiseryMarketStep.Guards)}
+              </Fragment>
+            )
           case MiseryMarketStep.Guards:
             return (
               <Fragment>
@@ -116,10 +132,11 @@ export const MiseryMarket = () => {
                 <ExpeditionAction
                   disabled={lethality < MISERY_MARKET_STEP2_LETHALITY_REQUIRED}
                   prerequisites={
-                    <Fragment>
-                      <span css={textColor('PURPLE')}>{MISERY_MARKET_STEP2_LETHALITY_REQUIRED}</span>&nbsp;
-                      <TalentIcon type={UndeadTalent.Lethality} size="1rem" />
-                    </Fragment>
+                    <TalentIcon
+                      type={UndeadTalent.Lethality}
+                      text={MISERY_MARKET_STEP2_LETHALITY_REQUIRED}
+                      size="1rem"
+                    />
                   }
                   onClick={goToStep(MiseryMarketStep.GuardsFlee)}
                 >
@@ -152,10 +169,11 @@ export const MiseryMarket = () => {
                 <ExpeditionAction
                   disabled={lethality < MISERY_MARKET_STEP3_LETHALITY_REQUIRED}
                   prerequisites={
-                    <Fragment>
-                      <span css={textColor('PURPLE')}>{MISERY_MARKET_STEP3_LETHALITY_REQUIRED}</span>&nbsp;
-                      <TalentIcon type={UndeadTalent.Lethality} size="1rem" />
-                    </Fragment>
+                    <TalentIcon
+                      type={UndeadTalent.Lethality}
+                      text={MISERY_MARKET_STEP3_LETHALITY_REQUIRED}
+                      size="1rem"
+                    />
                   }
                   onClick={goToStep(MiseryMarketStep.Carnage)}
                 >

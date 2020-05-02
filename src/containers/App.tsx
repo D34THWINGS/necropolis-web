@@ -1,7 +1,9 @@
 /** @jsx jsx */
-import React from 'react'
-import { useSelector } from 'react-redux'
 import { css, jsx } from '@emotion/core'
+import { Fragment } from 'react'
+import { useSelector } from 'react-redux'
+import TransitionGroup from 'react-transition-group/TransitionGroup'
+import CSSTransition from 'react-transition-group/CSSTransition'
 import { ResetCSS } from '../components/ResetCSS'
 import { Fonts } from '../components/Fonts'
 import { GameContent } from './GameContent'
@@ -12,7 +14,7 @@ import { getUndeadCount } from '../data/undeads/selectors'
 import { GameLost } from '../screens/gameEnd/GameLost'
 import { GameWon } from '../screens/gameEnd/GameWon'
 import { getIsBuildingsFullyUpgraded } from '../data/buildings/selectors'
-import { colors } from '../config/theme'
+import { colors, transitions } from '../config/theme'
 
 const appContainer = css({
   display: 'flex',
@@ -38,25 +40,41 @@ export const App = () => {
 
   const getContent = () => {
     if (isOnboardingActive) {
-      return <Intro />
+      return (
+        <CSSTransition key="intro" timeout={transitions.SLOW_DURATION}>
+          <Intro />
+        </CSSTransition>
+      )
     }
     if (isBuildingsFullyUpgraded) {
-      return <GameWon />
+      return (
+        <CSSTransition key="won" timeout={transitions.SLOW_DURATION}>
+          <GameWon />
+        </CSSTransition>
+      )
     }
     if (undeadCount === 0) {
-      return <GameLost />
+      return (
+        <CSSTransition key="lost" timeout={transitions.SLOW_DURATION}>
+          <GameLost />
+        </CSSTransition>
+      )
     }
-    return <GameContent />
+    return (
+      <CSSTransition key="game" timeout={transitions.SLOW_DURATION}>
+        <GameContent />
+      </CSSTransition>
+    )
   }
 
   return (
-    <React.Fragment>
+    <Fragment>
       <ResetCSS />
       <Fonts />
       <div css={appContainer}>
-        <div css={gameContainer}>{getContent()}</div>
+        <TransitionGroup css={gameContainer}>{getContent()}</TransitionGroup>
       </div>
       <CheatsModal />
-    </React.Fragment>
+    </Fragment>
   )
 }

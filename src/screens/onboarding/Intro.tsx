@@ -3,7 +3,7 @@ import { css, jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'
-import { colors, shadows, transitions } from '../../config/theme'
+import { breakpoints, colors, shadows, transitions } from '../../config/theme'
 import coffinClosedUrl from '../../assets/images/onboarding/coffin-closed.jpg'
 import coffinOpenedUrl from '../../assets/images/onboarding/coffin-opened.jpg'
 import nextStepArrowUrl from '../../assets/images/onboarding/next-step-arrow.png'
@@ -16,7 +16,6 @@ import { contentCover } from '../../styles/base'
 
 const introContainer = css({
   position: 'relative',
-  padding: '3rem',
   height: '100%',
   backgroundColor: colors.BLACK,
   color: colors.WHITE,
@@ -36,7 +35,7 @@ const nextStepButton = [
 ]
 
 const introText = css({
-  minHeight: '20rem',
+  minHeight: '50vh',
 })
 
 const introImageContainer = (backgroundUrl: string, zIndex: number) => [
@@ -46,7 +45,7 @@ const introImageContainer = (backgroundUrl: string, zIndex: number) => [
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: '3rem',
+    padding: '2rem',
     backgroundImage: `url(${backgroundUrl})`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
@@ -59,6 +58,10 @@ const introImageContainer = (backgroundUrl: string, zIndex: number) => [
     '&.enter-active': {
       opacity: 1,
       transition: `opacity ${transitions.SLOW}`,
+    },
+
+    [breakpoints.SM]: {
+      padding: '3rem',
     },
   }),
 ]

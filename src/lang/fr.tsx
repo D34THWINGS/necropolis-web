@@ -122,7 +122,7 @@ export const fr = {
   artifact: 'Rune ancienne',
   artifactDescription: (defense: number) => (
     <Fragment>
-      Confère <span css={textColor('LIME')}>+{defense}&nbsp;Défense</span> contre les assauts de paladins.
+      Confère <span css={textColor('LIME')}>+{defense}&nbsp;Défense</span>.
     </Fragment>
   ),
 
@@ -150,11 +150,11 @@ export const fr = {
   },
   undeadTalents: 'Talents :',
   undeadAbility: 'Capacité :',
-  valetAbility: 'obtient +1 dans 1 Talent aléatoire à chaque fois qu’une Excursion est finie.',
+  valetAbility: "obtient +1 dans 1 Talent aléatoire à chaque fin d'Excursion.",
   brikolerAbility: 'aucune.',
   laMotteAbility: (defense: number) => (
     <Fragment>
-      confère <span css={textColor('LIME')}>+{defense}&nbsp;Défense</span> contre les Assauts des Paladins.
+      confère <span css={textColor('LIME')}>+{defense}&nbsp;Défense</span>.
     </Fragment>
   ),
   skeletonAbility: (
@@ -199,8 +199,8 @@ export const fr = {
       <span css={textColor('CYAN')}>{turns}</span> tours.
     </Fragment>
   ),
-  paladinsStrength: (strength: number) => `Force actuelle : ${strength}`,
-  currentDefense: (defense: number) => `Defense actuelle : ${defense}`,
+  paladinsStrength: (strength: number) => `Force\u00A0: ${strength}`,
+  currentDefense: (defense: number) => `Defense\u00A0: ${defense}`,
 
   upkeepTitle: 'Ravitaillement',
   upkeepInsufficient: (upkeep: number, meat: number) => (
@@ -228,11 +228,7 @@ export const fr = {
   soulStormDescription: (defenseBonus: number, lethalityBonus: number) => (
     <Fragment>
       Confère <span css={textColor('LIME')}>+{defenseBonus}&nbsp;défense</span> et{' '}
-      <span css={[noBreak, textColor('PURPLE')]}>
-        +{lethalityBonus}&nbsp;
-        <TalentIcon type={UndeadTalent.Lethality} size="1.2rem" />
-      </span>{' '}
-      jusqu&apos;à la fin du tour.
+      <TalentIcon type={UndeadTalent.Lethality} size="1.2rem" text={`+${lethalityBonus}`} /> pour le combat en cours.
     </Fragment>
   ),
   theKeyDescription: 'Ouvre tout type de porte.',

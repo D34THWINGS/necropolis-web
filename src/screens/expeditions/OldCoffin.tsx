@@ -7,7 +7,6 @@ import { ExpeditionType, ResourceType, UndeadTalent, UndeadType } from '../../co
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
 import { TalentIcon } from '../../components/talents/TalentIcon'
-import { textColor } from '../../styles/base'
 import { UndeadBox } from '../../components/undeads/UndeadBox'
 import { createUndead } from '../../data/undeads/helpers'
 import { getUndeadArmyMuscles } from '../../data/undeads/selectors'
@@ -48,10 +47,7 @@ export const OldCoffin = () => {
                   disabled={muscles < OLD_COFFIN_STRENGTH_REQUIRED}
                   onClick={goToStep(OldCoffinStep.Reward)}
                   prerequisites={
-                    <Fragment>
-                      <span css={textColor('RED')}>{OLD_COFFIN_STRENGTH_REQUIRED}</span>&nbsp;
-                      <TalentIcon type={UndeadTalent.Muscles} size="1rem" />
-                    </Fragment>
+                    <TalentIcon type={UndeadTalent.Muscles} size="1rem" text={OLD_COFFIN_STRENGTH_REQUIRED} />
                   }
                 >
                   {t('oldCoffinOpen')}
