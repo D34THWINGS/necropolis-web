@@ -4,15 +4,13 @@ import { filter, flatMap } from 'rxjs/operators'
 import { Epic } from 'redux-observable'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
-import { addUndead, killUndead, raiseUndead, upgradeValet } from './actions'
-import { getUndeadTypes, getUpkeep } from './selectors'
+import { addUndead, raiseUndead, upgradeValet } from './actions'
+import { getUndeadTypes } from './selectors'
 import { spendResources } from '../resources/actions'
-import { ResourceType, TurnPhase, UndeadType } from '../../config/constants'
+import { ResourceType, UndeadType } from '../../config/constants'
 import { getRaiseUndeadSoulCost } from '../buildings/helpers'
 import { getCatacombs } from '../buildings/selectors'
 import { nextPhase } from '../turn/actions'
-import { getCurrentPhase } from '../turn/selectors'
-import { getMeat } from '../resources/selectors'
 import { endExpedition } from '../expeditions/actions'
 
 export const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
@@ -25,15 +23,6 @@ export const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$
         nextPhase(),
       ),
     ),
-  )
-
-export const upkeepEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  action$.pipe(
-    filter(isActionOf([nextPhase, killUndead])),
-    filter(
-      () => getCurrentPhase(state$.value) === TurnPhase.Upkeep && getMeat(state$.value) >= getUpkeep(state$.value),
-    ),
-    flatMap(() => of(spendResources({ [ResourceType.Meat]: getUpkeep(state$.value) }), nextPhase())),
   )
 
 export const valetEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>

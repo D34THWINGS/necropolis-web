@@ -23,6 +23,7 @@ import { getOpenedExpedition } from '../data/expeditions/selectors'
 import { DiscoverSpellModal } from '../components/spells/DiscoverSpellModal'
 import { TalentsModalProvider } from '../components/talents/TalentsModalProvider'
 import { transitions } from '../config/theme'
+import { PhaseOverlay } from '../components/PhaseOverlay'
 
 const gameContent = css({
   position: 'relative',
@@ -62,6 +63,7 @@ export const GameContent = () => {
             </Switch>
           </CSSTransition>
         </TransitionGroup>
+        <PhaseOverlay />
         <Header />
         <NavigationBar />
       </div>

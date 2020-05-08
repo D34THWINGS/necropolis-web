@@ -12,6 +12,16 @@ import { ResourceIcon } from '../components/images/ResourceIcon'
 
 export const fr = {
   resetGame: 'Recommencer la partie',
+  nextPhase: 'Phase suivante',
+  productionPhaseTitle: 'Phase de production',
+  productionPhaseDescription: 'Production issue de vos bâtiments\u00A0:',
+  productionPhaseNoProduction: 'Vos bâtiments ne produisent aucune resources',
+  upkeepPhaseTitle: "Phase d'entretien",
+  upkeepPhaseDescription: (meat: number) => (
+    <Fragment>
+      Votre armée consomme <ResourceIcon type={ResourceType.Meat} text={-meat} />.
+    </Fragment>
+  ),
 
   buildingNotConstructed: 'Non construit',
   buildingLevel: (level: number) => `Niv. ${level}`,
