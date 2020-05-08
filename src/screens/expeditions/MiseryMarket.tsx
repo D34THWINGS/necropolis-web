@@ -17,6 +17,9 @@ import { requireSacrifice } from '../../data/undeads/actions'
 import { getLethality } from '../../data/selectors'
 import { triggerCarnage } from '../../data/expeditions/actions'
 import { castSpell } from '../../data/spells/actions'
+import miseryMarketImageUrl from '../../assets/images/expeditions/miseryMarket/misery-market.jpg'
+import { ExpeditionImage } from './components/ExpeditionImage'
+import { expeditionStepDescription } from './helpers/expeditionStyles'
 
 const MISERY_MARKET_CATAPULT_COST = 1
 const MISERY_MARKET_STEP1_STRENGTH_REQUIRED = 4
@@ -72,7 +75,8 @@ export const MiseryMarket = () => {
             }
             return (
               <Fragment>
-                {t('miseryMarketStep1')}
+                <ExpeditionImage src={miseryMarketImageUrl} />
+                <div css={expeditionStepDescription}>{t('miseryMarketStep1')}</div>
                 <ExpeditionAction
                   disabled={undeadCount < MISERY_MARKET_CATAPULT_COST}
                   cost={

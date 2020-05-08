@@ -1,7 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { Image } from '../images/Image'
-import undeadIconUrl from '../../assets/images/undead.png'
+import brikolerIconUrl from '../../assets/images/undeads/brikoler.png'
+import undeadIconUrl from '../../assets/images/undeads/undead.png'
 import closeIconUrl from '../../assets/images/icons/close.png'
 import { purpleBox, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
@@ -10,6 +11,14 @@ import { Undead } from '../../data/undeads/helpers'
 import { purpleRoundButton } from '../../styles/buttons'
 import { LA_MOTTE_DEFENSE_BONUS, UndeadType } from '../../config/constants'
 import { TalentButton } from '../talents/TalentButton'
+
+const undeadIconMap: Record<UndeadType, string> = {
+  [UndeadType.Valet]: undeadIconUrl,
+  [UndeadType.Brikoler]: brikolerIconUrl,
+  [UndeadType.LaMotte]: undeadIconUrl,
+  [UndeadType.Skeleton]: undeadIconUrl,
+  [UndeadType.BloodPrince]: undeadIconUrl,
+}
 
 const undeadBox = (canBeBanned: boolean) => [
   purpleBox,
@@ -90,7 +99,7 @@ export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
     <div css={undeadBox(!!onBan)}>
       <h4 css={undeadName}>{t('undeadName', undead.type)}</h4>
       <div css={undeadDescription}>
-        <Image src={undeadIconUrl} size="4rem" marginRight="0.5rem" />
+        <Image src={undeadIconMap[undead.type]} size="4rem" marginRight="0.5rem" />
         <div>
           <div css={textColor('CYAN')}>{t('undeadTalents')}</div>
           {undead.talents.map(([talent, value]) => (
