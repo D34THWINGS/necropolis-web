@@ -20,6 +20,7 @@ import { getHasArtifact } from '../../data/events/selectors'
 import { collapseBuilding } from '../../data/buildings/actions'
 import { getTurn } from '../../data/turn/selectors'
 import { getConstructedBuildings } from '../../data/buildings/selectors'
+import { preventSelectorUpdate } from '../../data/helpers'
 
 enum CollapsingStep {
   Setup,
@@ -28,7 +29,7 @@ enum CollapsingStep {
 
 export const Collapsing = ({ renderStep }: EventModalContentProps) => {
   const { t } = useTranslation()
-  const paladinsCounter = useSelector(getPaladinsCounter)
+  const paladinsCounter = useSelector(getPaladinsCounter, preventSelectorUpdate)
   const hasArtifact = useSelector(getHasArtifact)
   const turn = useSelector(getTurn)
   const constructedBuildings = useSelector(getConstructedBuildings)

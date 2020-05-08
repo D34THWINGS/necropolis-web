@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
-import { h2Title } from '../../styles/base'
+import { h2Title, textColor } from '../../styles/base'
 import { EventModalContentProps } from './helpers/eventModalContentProps'
 import { EventAction } from './components/EventAction'
 import { getPaladinsStrength } from '../../data/paladins/selectors'
@@ -29,6 +29,7 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
   const paladinsStrength = useSelector(getPaladinsStrength)
   const defenseBonus = useSelector(getDefense)
   const undeadCount = useSelector(getUndeadCount)
+  const defense = useSelector(getDefense)
   const dispatch = useDispatch()
 
   const diff = paladinsStrength - defenseBonus
@@ -68,6 +69,8 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
             return (
               <Fragment>
                 {getDescription()}
+                <br />
+                <span css={textColor('LIME')}>{t('currentDefense', defense)}</span>
                 <EventAction
                   extra={t('paladinsAssaultPrerequisite', paladinsStrength)}
                   onClick={goToStep(getNextStep())}

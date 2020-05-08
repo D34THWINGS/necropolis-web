@@ -10,11 +10,12 @@ import { getTurn } from '../../data/turn/selectors'
 import { EventModalContentProps } from './helpers/eventModalContentProps'
 import { PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
 import { getPaladinsCounter } from '../../data/paladins/selectors'
+import { preventSelectorUpdate } from '../../data/helpers'
 
 export const CallToArms = ({ renderStep }: EventModalContentProps) => {
   const { t } = useTranslation()
   const turn = useSelector(getTurn)
-  const paladinsCounter = useSelector(getPaladinsCounter)
+  const paladinsCounter = useSelector(getPaladinsCounter, preventSelectorUpdate)
   const dispatch = useDispatch()
 
   const handleAcknowledge = () => dispatch(callToArms(turn))

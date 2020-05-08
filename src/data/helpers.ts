@@ -33,3 +33,5 @@ export const deepSet = <TObj>(obj: TObj): DeepSetter<TObj, TObj> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return makeSetter([]) as any
 }
+
+export const preventSelectorUpdate = () => true

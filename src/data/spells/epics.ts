@@ -5,7 +5,7 @@ import { filter, flatMap, map, mapTo } from 'rxjs/operators'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
 import { nextPhase } from '../turn/actions'
-import { setEventStep } from '../events/actions'
+import { endEvent } from '../events/actions'
 import { setExpeditionStep } from '../expeditions/actions'
 import { getDiscoverableSpells, getIsSoulStormActive } from './selectors'
 import { addSpell, castSpell, disableSoulStorm, discoverSpell } from './actions'
@@ -16,7 +16,7 @@ import { getOssuary } from '../buildings/selectors'
 
 export const soulStormEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
-    filter(isActionOf([nextPhase, setEventStep, setExpeditionStep])),
+    filter(isActionOf([nextPhase, endEvent, setExpeditionStep])),
     filter(() => getIsSoulStormActive(state$.value)),
     mapTo(disableSoulStorm(false)),
   )

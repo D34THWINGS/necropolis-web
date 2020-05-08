@@ -13,6 +13,7 @@ import { getLethality } from '../../data/selectors'
 import { PaladinsIcon } from '../../components/images/PaladinsIcon'
 import { getPaladinsCounter } from '../../data/paladins/selectors'
 import { increasePaladinsCounter } from '../../data/paladins/actions'
+import { preventSelectorUpdate } from '../../data/helpers'
 
 const PLUNDER_FIGHT_LETHALITY = 4
 const PLUNDER_REWARD_MEAT = 1
@@ -27,7 +28,7 @@ enum PlunderStep {
 
 export const Plunder = ({ renderStep }: EventModalContentProps) => {
   const { t } = useTranslation()
-  const paladinsCounter = useSelector(getPaladinsCounter)
+  const paladinsCounter = useSelector(getPaladinsCounter, preventSelectorUpdate)
   const lethality = useSelector(getLethality)
   const materials = useSelector(getMaterials)
   const dispatch = useDispatch()
