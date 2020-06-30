@@ -5,7 +5,7 @@ import { Building } from './Building'
 import { useTranslation } from '../../lang/useTranslation'
 import { BATTLEMENTS, CATACOMBS, CHARNEL_HOUSE, OSSUARY, SOUL_WELL } from '../../config/routes'
 import { getBuildings } from '../../data/buildings/selectors'
-import { ARTIFACT_DEFENSE_BONUS, BuildingType } from '../../config/constants'
+import { ARTIFACT_DEFENSE_BONUS, BuildingType, OnboardingStep } from '../../config/constants'
 import {
   getBattlementsDefenseBonus,
   getCharnelHouseBonesProduction,
@@ -21,6 +21,7 @@ import { breakpoints, colors, shadows } from '../../config/theme'
 import runeImageUrl from '../../assets/images/items/rune.png'
 import { ScreenWrapper } from '../../components/ui/ScreenWrapper'
 import backgroundImageUrl from '../../assets/images/background.jpg'
+import { OnboardingHighlight } from '../onboarding/components/OnboardingHighlight'
 
 const mainHubWrapper = css({
   [breakpoints.SM]: {
@@ -59,6 +60,14 @@ const artifactTitle = css({
   color: colors.CYAN,
 })
 
+const disabledBuilding = css({
+  pointerEvents: 'none',
+  cursor: 'not-allowed',
+})
+
+const charnelHouseHighlight = [OnboardingStep.HighlightCharnelHouse, OnboardingStep.HighlightProduction]
+const soulWellHighlight = [OnboardingStep.HighlightProduction, OnboardingStep.BuildSoulWell]
+
 export const MainHub = () => {
   const { t } = useTranslation()
   const buildings = useSelector(getBuildings)
@@ -67,23 +76,39 @@ export const MainHub = () => {
 
   return (
     <ScreenWrapper css={mainHubWrapper} backgroundUrl={backgroundImageUrl}>
-      <Building
-        name={t(BuildingType.CharnelHouse)}
-        level={buildings.charnelHouse.level}
-        description={t(
-          'charnelHouseDescription',
-          getCharnelHouseMeatProduction(buildings.charnelHouse.level || 1),
-          getCharnelHouseBonesProduction(buildings.charnelHouse.level || 1),
-          getCharnelHouseProductionTurns(buildings.charnelHouse.level || 1),
+      <OnboardingHighlight step={charnelHouseHighlight}>
+        {({ className, ref, onClick, step }) => (
+          <Building
+            ref={ref}
+            css={step === OnboardingStep.HighlightProduction ? disabledBuilding : undefined}
+            className={className}
+            name={t(BuildingType.CharnelHouse)}
+            level={buildings.charnelHouse.level}
+            description={t(
+              'charnelHouseDescription',
+              getCharnelHouseMeatProduction(buildings.charnelHouse.level || 1),
+              getCharnelHouseBonesProduction(buildings.charnelHouse.level || 1),
+              getCharnelHouseProductionTurns(buildings.charnelHouse.level || 1),
+            )}
+            route={CHARNEL_HOUSE}
+            onClick={onClick}
+          />
         )}
-        route={CHARNEL_HOUSE}
-      />
-      <Building
-        name={t(BuildingType.SoulWell)}
-        level={buildings.soulWell.level}
-        description={t('soulWellDescription', getSoulWellSoulProduction(buildings.soulWell.level || 1))}
-        route={SOUL_WELL}
-      />
+      </OnboardingHighlight>
+      <OnboardingHighlight step={soulWellHighlight}>
+        {({ className, ref, onClick, step }) => (
+          <Building
+            ref={ref}
+            css={step === OnboardingStep.HighlightProduction ? disabledBuilding : undefined}
+            className={className}
+            name={t(BuildingType.SoulWell)}
+            level={buildings.soulWell.level}
+            description={t('soulWellDescription', getSoulWellSoulProduction(buildings.soulWell.level || 1))}
+            route={SOUL_WELL}
+            onClick={onClick}
+          />
+        )}
+      </OnboardingHighlight>
       <Building
         name={t(BuildingType.Catacombs)}
         level={buildings.catacombs.level}

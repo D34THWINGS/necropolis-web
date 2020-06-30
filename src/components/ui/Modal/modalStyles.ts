@@ -9,6 +9,12 @@ export enum ModalColor {
   RED,
 }
 
+export enum ModalAlignment {
+  Start = 'flex-start',
+  Center = 'center',
+  End = 'flex-end',
+}
+
 export const modalColorsMap: Record<ModalColor, [string, string]> = {
   [ModalColor.GREEN]: ['#448B84', '#1B655F'],
   [ModalColor.PURPLE]: ['#664991', '#3F216B'],
@@ -16,12 +22,12 @@ export const modalColorsMap: Record<ModalColor, [string, string]> = {
   [ModalColor.RED]: ['#8C454E', '#661C25'],
 }
 
-export const modalOverlay = (isOpen: boolean, priority?: number) =>
+export const modalOverlay = (isOpen: boolean, priority?: number, align: ModalAlignment = ModalAlignment.Center) =>
   css({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: align,
     position: 'fixed',
     top: 0,
     right: 0,
@@ -59,7 +65,7 @@ export const modalPanel = (color: ModalColor, shouldWobble?: boolean) =>
     maxWidth: '28rem',
     maxHeight: 'calc(100% - 11rem)',
     boxShadow: 'inset 0px 1px 1px rgba(255, 255, 255, 0.5)',
-    background: modalColorsMap[color][0],
+    backgroundColor: modalColorsMap[color][0],
     ...(shouldWobble
       ? {
           animationName: wobble,
@@ -78,6 +84,7 @@ export const modalPanel = (color: ModalColor, shouldWobble?: boolean) =>
       width: 'calc(100% - 1.2rem)',
       height: '3rem',
       boxShadow: '0px -10px 0px rgba(0, 0, 0, 0.35)',
+      pointerEvents: 'none',
       zIndex: 1,
     },
 

@@ -8,17 +8,25 @@ import { PaladinsIcon } from '../../components/images/PaladinsIcon'
 import { callToArms } from '../../data/paladins/actions'
 import { getTurn } from '../../data/turn/selectors'
 import { EventModalContentProps } from './helpers/eventModalContentProps'
-import { PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
+import { OnboardingStep, PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
 import { getPaladinsCounter } from '../../data/paladins/selectors'
 import { preventSelectorUpdate } from '../../data/helpers'
+import { getOnboardingStep } from '../../data/onboarding/selectors'
+import { nextOnboardingStep } from '../../data/onboarding/actions'
 
 export const CallToArms = ({ renderStep }: EventModalContentProps) => {
   const { t } = useTranslation()
+  const onboardingStep = useSelector(getOnboardingStep)
   const turn = useSelector(getTurn)
   const paladinsCounter = useSelector(getPaladinsCounter, preventSelectorUpdate)
   const dispatch = useDispatch()
 
-  const handleAcknowledge = () => dispatch(callToArms(turn))
+  const handleAcknowledge = () => {
+    dispatch(callToArms(turn))
+    if (onboardingStep === OnboardingStep.AwaitNextTurn2) {
+      dispatch(nextOnboardingStep())
+    }
+  }
 
   return (
     <Fragment>

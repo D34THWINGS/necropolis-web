@@ -4,7 +4,15 @@ import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import ReactModal from 'react-modal'
 import { blueRoundButton, cyanRoundButton, purpleRoundButton, redRoundButton } from '../../../styles/buttons'
 import closeIconUrl from '../../../assets/images/icons/close.png'
-import { modalCloseButton, modalCloseIcon, ModalColor, modalInner, modalOverlay, modalPanel } from './modalStyles'
+import {
+  ModalAlignment,
+  modalCloseButton,
+  modalCloseIcon,
+  ModalColor,
+  modalInner,
+  modalOverlay,
+  modalPanel,
+} from './modalStyles'
 
 const modalCloseButtonMap: Record<ModalColor, SerializedStyles[]> = {
   [ModalColor.GREEN]: cyanRoundButton,
@@ -27,15 +35,26 @@ export const useModalState = (initialState = false) => {
 }
 
 export type ModalProps = {
+  className?: string
   color?: ModalColor
   isOpen: boolean
   onClose?: () => void
   children: ReactNode
   priority?: number
   noWobble?: boolean
+  align?: ModalAlignment
 }
 
-export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children, priority, noWobble }: ModalProps) => {
+export const Modal = ({
+  className,
+  color = ModalColor.GREEN,
+  isOpen,
+  onClose,
+  children,
+  priority,
+  noWobble,
+  align,
+}: ModalProps) => {
   const lastContent = useRef(children)
 
   useEffect(() => {
@@ -49,13 +68,13 @@ export const Modal = ({ color = ModalColor.GREEN, isOpen, onClose, children, pri
       {({ css: scopedCss }) => (
         <ReactModal
           className={scopedCss(modalPanel(color, !onClose && !noWobble))}
-          overlayClassName={scopedCss(modalOverlay(isOpen, priority))}
+          overlayClassName={scopedCss(modalOverlay(isOpen, priority, align))}
           isOpen={isOpen}
           onRequestClose={onClose}
           ariaHideApp={false}
           closeTimeoutMS={200}
         >
-          <div css={modalInner(color)}>{isOpen ? children : lastContent.current}</div>
+          <div css={[className, modalInner(color)]}>{isOpen ? children : lastContent.current}</div>
           {onClose && (
             <button css={[...modalCloseButtonMap[color], modalCloseButton]} onClick={onClose} type="button">
               <img css={modalCloseIcon} src={closeIconUrl} alt="" />

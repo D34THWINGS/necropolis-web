@@ -24,6 +24,8 @@ import { DiscoverSpellModal } from '../components/spells/DiscoverSpellModal'
 import { TalentsModalProvider } from '../components/talents/TalentsModalProvider'
 import { transitions } from '../config/theme'
 import { PhaseOverlay } from '../components/PhaseOverlay'
+import { OnboardingModal } from '../screens/onboarding/components/OnboardingModal'
+import { OnboardingHighlightStyles } from '../screens/onboarding/components/OnboardingHighlight'
 
 const gameContent = css({
   position: 'relative',
@@ -72,6 +74,8 @@ export const GameContent = () => {
       <UndeadOverlay />
       <UndeadSacrifice />
       <DiscoverSpellModal />
+      <OnboardingModal />
+      <OnboardingHighlightStyles />
     </TalentsModalProvider>
   )
 }

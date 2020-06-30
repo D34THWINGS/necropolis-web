@@ -2,7 +2,7 @@
 import { css, jsx } from '@emotion/core'
 import { MouseEventHandler, useEffect, useState } from 'react'
 import { Link, useHistory, useRouteMatch } from 'react-router-dom'
-import { MAIN_HUB, EXPEDITIONS, OSSUARY, CATACOMBS } from '../config/routes'
+import { CATACOMBS, EXPEDITIONS, MAIN_HUB, OSSUARY } from '../config/routes'
 import buttonBackgroundUrl from '../assets/images/footer/button.png'
 import buildIconUrl from '../assets/images/footer/build.png'
 import expeditionsIconUrl from '../assets/images/footer/expeditions.png'
@@ -10,6 +10,8 @@ import spellsIconUrl from '../assets/images/footer/spells.png'
 import researchIconUrl from '../assets/images/footer/research.png'
 import { backgroundImage } from '../styles/base'
 import { buttonPress } from '../styles/buttons'
+import { OnboardingHighlight } from '../screens/onboarding/components/OnboardingHighlight'
+import { OnboardingStep } from '../config/constants'
 
 const footerContainer = css({
   display: 'flex',
@@ -80,9 +82,20 @@ export const NavigationBar = () => {
       <Link to={MAIN_HUB} replace css={footerButton} onClick={handleHackNavigation}>
         <span css={[footerButtonIcon, buildIcon, backgroundImage(buildIconUrl)]} />
       </Link>
-      <Link to={EXPEDITIONS} replace={!isOnBuildPage} css={footerButton}>
-        <span css={[footerButtonIcon, backgroundImage(expeditionsIconUrl)]} />
-      </Link>
+      <OnboardingHighlight step={OnboardingStep.LetsExplore}>
+        {({ ref, className, onClick }) => (
+          <Link
+            ref={ref}
+            className={className}
+            to={EXPEDITIONS}
+            replace={!isOnBuildPage}
+            css={footerButton}
+            onClick={onClick}
+          >
+            <span css={[footerButtonIcon, backgroundImage(expeditionsIconUrl)]} />
+          </Link>
+        )}
+      </OnboardingHighlight>
       <Link to={CATACOMBS} replace={!isOnBuildPage} css={footerButton}>
         <span css={[footerButtonIcon, backgroundImage(spellsIconUrl)]} />
       </Link>

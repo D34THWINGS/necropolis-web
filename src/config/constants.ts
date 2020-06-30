@@ -1,3 +1,6 @@
+export const INITIAL_MATERIALS = 7
+export const INITIAL_MEAT = 2
+
 export const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 3, 5]
 export const CHARNEL_HOUSE_BONES_PRODUCTION = [0, 0, 1, 1]
 export const CHARNEL_HOUSE_PRODUCTION_TURNS = [0, 0, 3, 3]
@@ -85,7 +88,41 @@ export const SPELLS_SOUL_COSTS = {
 export const SOUL_STORM_DEFENSE_BONUS = 3
 export const SOUL_STORM_LETHALITY_BONUS = 3
 
-export const ONBOARDING_STEPS_COUNT = 12
+export const INTRO_STEPS_COUNT = 12
+export const ONBOARDING_STEPS_COUNT = 13
+
+export enum OnboardingStep {
+  Step1,
+  Step2,
+  Step3,
+  Step4,
+  Step5,
+  Step6,
+  Step7,
+  Step8,
+  Step9,
+  Step10,
+  Step11,
+  Step12,
+  Step13,
+  GamePresentation,
+  HighlightProduction,
+  HighlightTurnCounter,
+  ActionPhaseDescription,
+  HighlightMeatCounter,
+  HighlightCharnelHouse,
+  HighlightMaterialsCounter,
+  HighlightCharnelHouseBuildButton,
+  RemindUpkeep,
+  AwaitNextTurn,
+  BuildSoulWell,
+  HighlightSoulWellBuildButton,
+  AwaitNextTurn2,
+  NoMoreMaterials,
+  LetsExplore,
+  StartSmall,
+  End,
+}
 
 export enum ExpeditionType {
   OldCoffin,

@@ -7,7 +7,7 @@ import { getCurrentPhase } from '../data/turn/selectors'
 import { greenSquareButton } from '../styles/buttons'
 import { useTranslation } from '../lang/useTranslation'
 import { nextPhase } from '../data/turn/actions'
-import { ResourceType, TurnPhase } from '../config/constants'
+import { OnboardingStep, ResourceType, TurnPhase } from '../config/constants'
 import { getBuildingsProduction } from '../data/buildings/selectors'
 import { ResourceIcon } from './images/ResourceIcon'
 import { gainResources, spendResources } from '../data/resources/actions'
@@ -16,6 +16,8 @@ import { getUpkeep } from '../data/undeads/selectors'
 import { fadeIn } from '../styles/animations'
 import { Image } from './images/Image'
 import arrowUrl from '../assets/images/onboarding/next-step-arrow.png'
+import { getOnboardingStep } from '../data/onboarding/selectors'
+import { nextOnboardingStep } from '../data/onboarding/actions'
 
 const overlay = [
   contentCover,
@@ -58,6 +60,7 @@ const nextPhaseButton = [
 
 export const PhaseOverlay = () => {
   const { t } = useTranslation()
+  const onboardingStep = useSelector(getOnboardingStep)
   const currentPhase = useSelector(getCurrentPhase)
   const production = useSelector(getBuildingsProduction)
   const upkeep = useSelector(getUpkeep)
@@ -68,6 +71,9 @@ export const PhaseOverlay = () => {
   }
 
   const handleNextPhase = () => {
+    if (currentPhase === TurnPhase.Production && onboardingStep === OnboardingStep.AwaitNextTurn) {
+      dispatch(nextOnboardingStep())
+    }
     if (currentPhase === TurnPhase.Production) {
       dispatch(gainResources(production))
     }

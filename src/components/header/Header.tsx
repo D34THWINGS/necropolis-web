@@ -12,10 +12,11 @@ import { useModalState } from '../ui/Modal/Modal'
 import { getResources } from '../../data/resources/selectors'
 import { getTurn } from '../../data/turn/selectors'
 import { ResourceIcon } from '../images/ResourceIcon'
-import { ResourceType } from '../../config/constants'
+import { OnboardingStep, ResourceType } from '../../config/constants'
 import { SpellsModal } from '../spells/SpellsModal'
 import { Image } from '../images/Image'
 import { getHasSpells } from '../../data/spells/selectors'
+import { OnboardingHighlight } from '../../screens/onboarding/components/OnboardingHighlight'
 
 const headerContainer = css({
   display: 'flex',
@@ -105,14 +106,22 @@ export const Header = () => {
     <div css={headerContainer}>
       <TurnCounter currentTurn={turn} />
       <div css={headerCountersWrapper}>
-        <div css={headerResourceCounter('#94C58C')}>
-          <ResourceIcon css={headerResourceIcon} type={ResourceType.Materials} />
-          <span>{resources.materials}</span>
-        </div>
-        <div css={headerResourceCounter('#C58C8F')}>
-          <ResourceIcon css={headerResourceIcon} type={ResourceType.Meat} />
-          <span>{resources.meat}</span>
-        </div>
+        <OnboardingHighlight step={OnboardingStep.HighlightMaterialsCounter}>
+          {({ ref, className }) => (
+            <div ref={ref} className={className} css={headerResourceCounter('#94C58C')}>
+              <ResourceIcon css={headerResourceIcon} type={ResourceType.Materials} />
+              <span>{resources.materials}</span>
+            </div>
+          )}
+        </OnboardingHighlight>
+        <OnboardingHighlight step={OnboardingStep.HighlightMeatCounter}>
+          {({ ref, className }) => (
+            <div ref={ref} className={className} css={headerResourceCounter('#C58C8F')}>
+              <ResourceIcon css={headerResourceIcon} type={ResourceType.Meat} />
+              <span>{resources.meat}</span>
+            </div>
+          )}
+        </OnboardingHighlight>
         <div css={headerResourceCounter('#83B9D6')}>
           <ResourceIcon css={headerResourceIcon} type={ResourceType.Souls} />
           <span>{resources.souls}</span>

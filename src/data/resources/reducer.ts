@@ -5,10 +5,10 @@ import { ResourceType } from '../../config/constants'
 export type ResourcesState = Record<ResourceType, number>
 
 const initialState: ResourcesState = {
-  [ResourceType.Meat]: 2,
+  [ResourceType.Meat]: 0,
   [ResourceType.Souls]: 0,
   [ResourceType.Bones]: 0,
-  [ResourceType.Materials]: 7,
+  [ResourceType.Materials]: 0,
 }
 
 export const resources = createReducer(initialState)

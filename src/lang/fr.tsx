@@ -19,7 +19,7 @@ export const fr = {
   upkeepPhaseTitle: "Phase d'entretien",
   upkeepPhaseDescription: (meat: number) => (
     <Fragment>
-      Votre armée consomme <ResourceIcon type={ResourceType.Meat} text={-meat} />.
+      Votre armée consomme <ResourceIcon type={ResourceType.Meat} text={meat} />.
     </Fragment>
   ),
 

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { ReactNode } from 'react'
+import { forwardRef, ReactNode, Ref } from 'react'
 import { Link } from 'react-router-dom'
 import { panelBorder, panelInner } from '../../components/ui/Panel'
 import { colors, shadows } from '../../config/theme'
@@ -40,19 +40,23 @@ export type BuildingProps = {
   description: ReactNode
   level: number
   route: string
+  className?: string
+  onClick?: () => void
 }
 
-export const Building = ({ name, description, level, route }: BuildingProps) => {
-  const { t } = useTranslation()
-  return (
-    <Link to={route} css={buildingPanelBorder(level > 0)}>
-      <div css={panelInner}>
-        <div css={buildingHeader}>
-          <h2 css={buildingName}>{name}</h2>
-          <span>{level === 0 ? t('buildingNotConstructed') : t('buildingLevel', level)}</span>
+export const Building = forwardRef(
+  ({ name, description, level, route, className, onClick }: BuildingProps, ref: Ref<any>) => {
+    const { t } = useTranslation()
+    return (
+      <Link ref={ref} className={className} to={route} css={buildingPanelBorder(level > 0)} onClick={onClick}>
+        <div css={panelInner}>
+          <div css={buildingHeader}>
+            <h2 css={buildingName}>{name}</h2>
+            <span>{level === 0 ? t('buildingNotConstructed') : t('buildingLevel', level)}</span>
+          </div>
+          <p css={buildingDescription}>{description}</p>
         </div>
-        <p css={buildingDescription}>{description}</p>
-      </div>
-    </Link>
-  )
-}
+      </Link>
+    )
+  },
+)

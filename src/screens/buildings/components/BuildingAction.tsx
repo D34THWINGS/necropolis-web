@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import { ReactNode } from 'react'
+import { ReactNode, RefObject } from 'react'
 import {
   buildingActionArrow,
   buildingActionButton,
@@ -8,6 +8,10 @@ import {
   buildingActionFrame,
 } from '../helpers/buildingsStyles'
 import { useTranslation } from '../../../lang/useTranslation'
+import { OnboardingHighlight } from '../../onboarding/components/OnboardingHighlight'
+import { OnboardingStep } from '../../../config/constants'
+
+const highlightSteps = [OnboardingStep.HighlightCharnelHouseBuildButton, OnboardingStep.HighlightSoulWellBuildButton]
 
 export type BuildingActionProps = {
   level?: number
@@ -26,9 +30,25 @@ export const BuildingAction = ({ level, children, action, disabled, onClick }: B
         <div>{children}</div>
       </div>
       {action && (
-        <button type="button" disabled={disabled} css={buildingActionButton} onClick={onClick}>
-          {action}
-        </button>
+        <OnboardingHighlight step={highlightSteps}>
+          {({ ref, className, onClick: nextOnboardingStep }) => (
+            <button
+              ref={ref as RefObject<HTMLButtonElement>}
+              className={className}
+              type="button"
+              disabled={disabled}
+              css={buildingActionButton}
+              onClick={() => {
+                if (nextOnboardingStep) {
+                  nextOnboardingStep()
+                }
+                onClick()
+              }}
+            >
+              {action}
+            </button>
+          )}
+        </OnboardingHighlight>
       )}
     </div>
   )

@@ -79,7 +79,7 @@ export const Intro = () => {
         <div css={introImageContainer(step < 5 ? coffinClosedUrl : coffinOpenedUrl, step)}>
           <p css={introText}>{t('introText', step)}</p>
           <button type="button" css={nextStepButton} onClick={handleNextStep}>
-            <Image src={nextStepArrowUrl} marginRight="0.4rem" /> Suite
+            <Image src={nextStepArrowUrl} marginRight="0.4rem" /> {t('onboardingNext')}
           </button>
         </div>
       </CSSTransition>

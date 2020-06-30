@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { Fragment, useRef } from 'react'
+import { forwardRef, Ref, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import frameUrl from '../../../assets/images/expeditions/expedition-frame.png'
 import activeFrameUrl from '../../../assets/images/expeditions/expedition-frame-active.png'
@@ -25,6 +25,8 @@ const markerWrapper = (x: number, y: number, shown: boolean, animate: boolean) =
     top: '50%',
     left: '50%',
     padding: '1.5rem',
+    width: '8rem',
+    height: '8rem',
     transform: `translate(calc(-50% + ${x}rem), calc(-50% + ${y}rem))`,
     ...(animate
       ? {
@@ -58,22 +60,34 @@ export type ExpeditionMarkerProps = {
   x: number
   y: number
   shown: boolean
-  active?: boolean
+  className?: string
+  onClick?: () => void
 }
 
-export const ExpeditionMarker = ({ type, x, y, shown }: ExpeditionMarkerProps) => {
-  const dispatch = useDispatch()
-  const active = useSelector(getIsExpeditionActive(type))
-  const shouldAnimateRef = useRef(!shown)
+export const ExpeditionMarker = forwardRef(
+  ({ type, x, y, shown, className, onClick }: ExpeditionMarkerProps, ref: Ref<HTMLButtonElement>) => {
+    const dispatch = useDispatch()
+    const active = useSelector(getIsExpeditionActive(type))
+    const shouldAnimateRef = useRef(!shown)
 
-  const handleClick = () => dispatch(openExpedition(type))
+    const handleClick = () => {
+      dispatch(openExpedition(type))
+      if (onClick) {
+        onClick()
+      }
+    }
 
-  return (
-    <Fragment>
-      <button type="button" css={markerWrapper(x, y, shown, shouldAnimateRef.current)} onClick={handleClick}>
+    return (
+      <button
+        ref={ref}
+        className={className}
+        type="button"
+        css={markerWrapper(x, y, shown, shouldAnimateRef.current)}
+        onClick={handleClick}
+      >
         <Image src={expeditionIconMap[type]} size="5rem" block />
         <div css={markerFrame(active)} />
       </button>
-    </Fragment>
-  )
-}
+    )
+  },
+)

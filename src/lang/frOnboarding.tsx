@@ -2,6 +2,8 @@
 import { jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import { textColor } from '../styles/base'
+import { ResourceIcon } from '../components/images/ResourceIcon'
+import { ResourceType } from '../config/constants'
 
 const introTexts = [
   'Froid.',
@@ -80,4 +82,84 @@ const introTexts = [
 
 export const frOnboarding = {
   introText: (step: number) => introTexts[step],
+  onboardingNext: 'Suite',
+  onboardingGamePresentation: <p>Chaque mois ou tour de jeu se déroule en 4 phases.</p>,
+  onboardingProductionPhase: (
+    <Fragment>
+      <h3>1) Phase de Production</h3>
+      <p>Les salles produisent des ressources.</p>
+    </Fragment>
+  ),
+  onboardingEventPhase: (
+    <Fragment>
+      <h3>2) Phase d’Évènement</h3>
+      <p>
+        Un évènement a lieu tous les 3 tours à partir du 3ème tour. Quand un évènement a lieu, je dois le résoudre afin
+        de passer à la phase suivante. Voici le compteur de tour.
+      </p>
+    </Fragment>
+  ),
+  onboardingActionPhase: (
+    <Fragment>
+      <h3>3) Phase d’Action</h3>
+      <p>
+        J’effectue une <span css={textColor('CYAN')}>Action</span>.
+      </p>
+    </Fragment>
+  ),
+  onboardingUpkeepPhase: (
+    <Fragment>
+      <h3>4) Phase de Ravitaillement</h3>
+      <p>
+        Chaque <span css={textColor('PURPLE')}>Morts-vivant</span> présent dans la Nécropole consomme{' '}
+        <ResourceIcon type={ResourceType.Meat} text={1} /> . En cas de pénurie, le ou les Morts-vivant de mon choix
+        meurent de famine.
+      </p>
+    </Fragment>
+  ),
+  onboardingFirstAction: (
+    <p>
+      Pour votre première Action, ma reine, je propose de construire le <b>Charnier</b>. Vite, avant que vous ne me
+      perdiez&nbsp;!
+    </p>
+  ),
+  onboardingMaterials: (materials: number, meat: number) => (
+    <p>
+      Pour ce faire, nous avons besoin de <ResourceIcon type={ResourceType.Materials} />. Mais nulle crainte, j’ai déjà
+      trouvé ce qu’il faut&nbsp;! (<ResourceIcon type={ResourceType.Materials} text={materials} />{' '}
+      <ResourceIcon type={ResourceType.Meat} text={meat} />)
+    </p>
+  ),
+  onboardingBuild: (
+    <p>
+      Construire est une <span css={textColor('CYAN')}>Action</span>.
+    </p>
+  ),
+  onboardingUpkeepReminder: (
+    <p>
+      Je dois garder en tête que la production de <ResourceIcon type={ResourceType.Meat} /> est soustraite à la
+      consommation des <span css={textColor('PURPLE')}>Morts-vivant</span> à la fin de chaque tour.
+    </p>
+  ),
+  onboardingBuildSoulWell: (
+    <p>
+      Pour aller plus loin, il va me falloir plus de citoyens. Je pourrais réanimer quelques dépouilles dans les
+      Catacombes, mais il me manque quelque chose... L’élément de la vie. Je dois d&apos;abord construire un Puits des
+      Âmes.
+    </p>
+  ),
+  onboardingSoulWellDescription: (
+    <p>
+      Celui-ci me permettra de récolter les <ResourceIcon type={ResourceType.Souls} /> nécessaire pour ramener à la vie
+      les dépouilles enfouies dans les Catacombes.
+    </p>
+  ),
+  onboardingNoMoreMaterials: (
+    <p>
+      Marenne, votre nouvel édifice m&apos;ébahit&nbsp;! Cependant, notre réserve de{' '}
+      <ResourceIcon type={ResourceType.Materials} /> s&apos;est tarie.
+    </p>
+  ),
+  onboardingLetsExplore: <p>Partons donc explorer les alentours. Qui sait quels trésors trouverons-nous&nbsp;?</p>,
+  onboardingStartSmall: <p>Commençons avec quelque chose de facile...</p>,
 }

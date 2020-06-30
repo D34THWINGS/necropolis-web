@@ -11,6 +11,8 @@ import { freeUpgradeBuilding } from '../data/buildings/actions'
 import { discoverSpell } from '../data/spells/actions'
 import { raiseUndead } from '../data/undeads/actions'
 import { createUndead } from '../data/undeads/helpers'
+import { resetOnboarding } from '../data/onboarding/actions'
+import { layers } from '../config/theme'
 
 declare global {
   interface Window {
@@ -52,14 +54,22 @@ export const CheatsModal = () => {
     dispatch(raiseUndead(createUndead(UndeadType.BloodPrince)))
   }
 
+  const handleResetOnboarding = () => {
+    dispatch(resetOnboarding())
+    close()
+  }
+
   return (
-    <Modal isOpen={isOpen} onClose={close}>
+    <Modal isOpen={isOpen} onClose={close} priority={layers.SETTINGS}>
       <h2 css={h2Title}>Cheats</h2>
       <button type="button" css={cheatButton} onClick={handleBasicSetup}>
         Basic setup
       </button>
       <button type="button" css={cheatButton} onClick={handleAddResources}>
         Add resources
+      </button>
+      <button type="button" css={cheatButton} onClick={handleResetOnboarding}>
+        Reset onboarding
       </button>
     </Modal>
   )

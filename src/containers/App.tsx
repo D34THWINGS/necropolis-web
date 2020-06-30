@@ -7,7 +7,7 @@ import CSSTransition from 'react-transition-group/CSSTransition'
 import { ResetCSS } from '../components/ResetCSS'
 import { Fonts } from '../components/Fonts'
 import { GameContent } from './GameContent'
-import { getIsOnboardingActive } from '../data/onboarding/selectors'
+import { getIsIntroActive } from '../data/onboarding/selectors'
 import { Intro } from '../screens/onboarding/Intro'
 import { CheatsModal } from '../components/CheatsModal'
 import { getUndeadCount } from '../data/undeads/selectors'
@@ -34,7 +34,7 @@ const gameContainer = css({
 })
 
 export const App = () => {
-  const isOnboardingActive = useSelector(getIsOnboardingActive)
+  const isOnboardingActive = useSelector(getIsIntroActive)
   const undeadCount = useSelector(getUndeadCount)
   const isBuildingsFullyUpgraded = useSelector(getIsBuildingsFullyUpgraded)
 

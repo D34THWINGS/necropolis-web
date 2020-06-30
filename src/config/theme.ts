@@ -52,5 +52,6 @@ export const layers = {
   UNDEAD_OVERLAY: 2,
   TALENTS: 3,
   SACRIFICE: 4,
-  SETTINGS: 5,
+  ONBOARDING: 5,
+  SETTINGS: 6,
 }

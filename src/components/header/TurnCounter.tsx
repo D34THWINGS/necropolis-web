@@ -11,9 +11,10 @@ import { resetButton } from '../../styles/buttons'
 import { TurnsModal } from './TurnsModal'
 import { getPaladinsCounter } from '../../data/paladins/selectors'
 import { Image } from '../images/Image'
-import { PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
+import { OnboardingStep, PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
 import { glow } from '../../styles/animations'
 import { contentCover } from '../../styles/base'
+import { OnboardingHighlight } from '../../screens/onboarding/components/OnboardingHighlight'
 
 const turnCounter = [
   resetButton,
@@ -61,14 +62,26 @@ export const TurnCounter = ({ currentTurn }: TurnCounterProps) => {
   const paladinsCounter = useSelector(getPaladinsCounter)
   return (
     <Fragment>
-      <button type="button" css={turnCounter} onClick={open}>
-        {paladinsCounter === PALADINS_ATTACK_THRESHOLD && <Image src={skullGlowImageUrl} css={eyesGlow} size="100%" />}
-        <Image src={skullImageUrl} css={contentCover} size="100%" />
-        {paladinsCounter >= PALADINS_ATTACK_THRESHOLD - 1 && (
-          <Image src={skullEyesGlowImageUrl} css={eyesGlow} size="100%" />
+      <OnboardingHighlight step={OnboardingStep.HighlightTurnCounter}>
+        {({ ref, className, step }) => (
+          <button
+            ref={ref}
+            type="button"
+            css={turnCounter}
+            className={className}
+            onClick={step === OnboardingStep.HighlightTurnCounter ? undefined : open}
+          >
+            {paladinsCounter === PALADINS_ATTACK_THRESHOLD && (
+              <Image src={skullGlowImageUrl} css={eyesGlow} size="100%" />
+            )}
+            <Image src={skullImageUrl} css={contentCover} size="100%" />
+            {paladinsCounter >= PALADINS_ATTACK_THRESHOLD - 1 && (
+              <Image src={skullEyesGlowImageUrl} css={eyesGlow} size="100%" />
+            )}
+            <span css={currentTurnText}>{currentTurn}</span>
+          </button>
         )}
-        <span css={currentTurnText}>{currentTurn}</span>
-      </button>
+      </OnboardingHighlight>
       <TurnsModal isOpen={isOpen} onClose={close} />
     </Fragment>
   )
