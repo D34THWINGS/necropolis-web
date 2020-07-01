@@ -9,9 +9,11 @@ import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
 import { frEvents } from './frEvents'
 import { ResourceIcon } from '../components/images/ResourceIcon'
+import { frMenu } from './frMenu'
 
 export const fr = {
   resetGame: 'Recommencer la partie',
+  goToMainMenu: 'Menu principal',
   nextPhase: 'Phase suivante',
   productionPhaseTitle: 'Phase de production',
   productionPhaseDescription: 'Production issue de vos bâtiments\u00A0:',
@@ -266,6 +268,7 @@ export const fr = {
   ...frOnboarding,
   ...frExpeditions,
   ...frEvents,
+  ...frMenu,
 }
 
 export type TranslationBundle = typeof fr

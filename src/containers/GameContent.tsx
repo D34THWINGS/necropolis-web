@@ -1,11 +1,20 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { useSelector } from 'react-redux'
-import { Route, Switch, useHistory, useLocation, useRouteMatch } from 'react-router'
+import { Redirect, Route, Switch, useHistory, useLocation, useRouteMatch } from 'react-router'
 import { useEffect } from 'react'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'
-import { BATTLEMENTS, MAIN_HUB, CATACOMBS, CHARNEL_HOUSE, EXPEDITIONS, OSSUARY, SOUL_WELL } from '../config/routes'
+import {
+  BATTLEMENTS,
+  MAIN_HUB,
+  CATACOMBS,
+  CHARNEL_HOUSE,
+  EXPEDITIONS,
+  OSSUARY,
+  SOUL_WELL,
+  MAIN_MENU,
+} from '../config/routes'
 import { Header } from '../components/header/Header'
 import { MainHub } from '../screens/mainHub/MainHub'
 import { Expeditions } from '../screens/expeditions/Expeditions'
@@ -26,6 +35,7 @@ import { transitions } from '../config/theme'
 import { PhaseOverlay } from '../components/PhaseOverlay'
 import { OnboardingModal } from '../screens/onboarding/components/OnboardingModal'
 import { OnboardingHighlightStyles } from '../screens/onboarding/components/OnboardingHighlight'
+import { getHasActiveGame } from '../data/settings/selectors'
 
 const gameContent = css({
   position: 'relative',
@@ -40,6 +50,7 @@ const middleSection = css({
 export const GameContent = () => {
   const expeditionsMatch = useRouteMatch(EXPEDITIONS)
   const openedExpedition = useSelector(getOpenedExpedition)
+  const hasActiveGame = useSelector(getHasActiveGame)
   const history = useHistory()
   const location = useLocation()
 
@@ -48,6 +59,10 @@ export const GameContent = () => {
       history.replace(EXPEDITIONS)
     }
   }, [openedExpedition, history, expeditionsMatch])
+
+  if (!hasActiveGame) {
+    return <Redirect to={MAIN_MENU} />
+  }
 
   return (
     <TalentsModalProvider>

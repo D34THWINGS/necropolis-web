@@ -17,7 +17,7 @@ export const TranslationProvider = ({ children }: TranslationProviderProps) => {
     (): Translator => ({
       t: (key, ...args) => {
         const translation = bundlesMap[currentLanguage][key]
-        return typeof translation === 'function' ? (translation as Function)(...args) : translation
+        return typeof translation === 'function' ? (translation as CallableFunction)(...args) : translation
       },
       lang: currentLanguage,
       setLang: lang => setCurrentLanguage(lang),

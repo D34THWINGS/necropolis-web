@@ -63,3 +63,7 @@ export const alignItemsCenter = css({
 export const smallMarginTop = css({
   marginTop: '0.4rem',
 })
+
+export const largeMarginTop = css({
+  marginTop: '2rem',
+})

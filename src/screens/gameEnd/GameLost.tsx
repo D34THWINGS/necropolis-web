@@ -1,12 +1,11 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import gameLostBgUrl from '../../assets/images/endScreens/defeat-bg.jpg'
 import gameLostImageUrl from '../../assets/images/endScreens/defeat.png'
 import { Image } from '../../components/images/Image'
 import { useTranslation } from '../../lang/useTranslation'
 import { darkBlueSquareButton } from '../../styles/buttons'
-import { resetGame } from '../../data/settings/actions'
+import { gameEnded, resetGame } from '../../data/settings/actions'
 import { gameEndButton, gameEndContainer, gameEndImage, gameEndText } from './helpers/gameEndStyles'
 
 const gameLostContainer = gameEndContainer(gameLostBgUrl)
@@ -18,6 +17,10 @@ const gameLostButton = [...darkBlueSquareButton, gameEndButton]
 export const GameLost = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(gameEnded())
+  }, [])
 
   const handleRetry = () => dispatch(resetGame())
 

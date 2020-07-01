@@ -1,0 +1,128 @@
+import React from 'react'
+import { css } from '@emotion/core'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router'
+import {
+  modalCloseButton,
+  modalCloseIcon,
+  ModalColor,
+  modalInner,
+  modalPanel,
+} from '../../components/ui/Modal/modalStyles'
+import { Image } from '../../components/images/Image'
+import { cyanRoundButton, cyanSquareButton, resetButton } from '../../styles/buttons'
+import closeIconUrl from '../../assets/images/icons/close.png'
+import characterBackgroundUrl from '../../assets/images/characters/character-bg.jpg'
+import characterArrowUrl from '../../assets/images/characters/character-arrow.png'
+import marenneUrl from '../../assets/images/characters/marenne.png'
+import { breakpoints, colors } from '../../config/theme'
+import { greenBox, h2Title, smallMarginTop } from '../../styles/base'
+import { useTranslation } from '../../lang/useTranslation'
+import { gameCreated, resetGame } from '../../data/settings/actions'
+import { MAIN_MENU } from '../../config/routes'
+
+const scenarioSelectTitle = [
+  h2Title,
+  css({
+    color: colors.WHITE,
+    marginBottom: '2rem',
+    fontSize: '2rem',
+  }),
+]
+
+const characterModal = [
+  modalPanel(ModalColor.GREEN, true),
+  css({
+    margin: 0,
+    maxHeight: '100%',
+
+    [breakpoints.SM]: {
+      margin: 0,
+    },
+  }),
+]
+
+const characterFrame = css({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'relative',
+  marginTop: '0.5rem',
+  border: `solid 3px ${colors.DARK_GREEN}`,
+  borderRadius: '15px',
+  backgroundImage: `url("${characterBackgroundUrl}")`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+})
+
+const characterArrow = [
+  resetButton,
+  css({
+    position: 'absolute',
+    top: '50%',
+  }),
+]
+
+const characterLeftArrow = [
+  ...characterArrow,
+  css({
+    left: '0.5rem',
+    transform: 'translate(-50%, -50%)',
+
+    ':not(:disabled):active': {
+      transform: 'translate(-50%, calc(-50% + 0.1rem))',
+    },
+  }),
+]
+
+const characterRightArrow = [
+  ...characterArrow,
+  css({
+    right: '0.5rem',
+    transform: 'translate(50%, -50%) rotateZ(180deg)',
+
+    ':not(:disabled):active': {
+      transform: 'translate(50%, calc(-50% + 0.1rem))  rotateZ(180deg)',
+    },
+  }),
+]
+
+export const NewGameMenu = () => {
+  const { t } = useTranslation()
+  const history = useHistory()
+  const dispatch = useDispatch()
+
+  const handleBegin = () => {
+    dispatch(gameCreated())
+    dispatch(resetGame())
+  }
+
+  const handleClose = () => history.replace(MAIN_MENU)
+
+  return (
+    <>
+      <h1 css={scenarioSelectTitle}>{t('characterChoosing')}</h1>
+      <div css={characterModal}>
+        <div css={modalInner(ModalColor.GREEN)}>
+          <h2 css={h2Title}>{t('marenne')}</h2>
+          <div css={characterFrame}>
+            <Image src={marenneUrl} size="12rem" />
+            <button type="button" css={characterLeftArrow}>
+              <Image src={characterArrowUrl} size="3rem" />
+            </button>
+            <button type="button" css={characterRightArrow}>
+              <Image src={characterArrowUrl} size="3rem" />
+            </button>
+          </div>
+          <div css={[greenBox, smallMarginTop]}>{t('marenneDescription')}</div>
+          <button type="button" css={[...cyanSquareButton, smallMarginTop]} onClick={handleBegin}>
+            {t('beginGame')}
+          </button>
+        </div>
+        <button css={[...cyanRoundButton, modalCloseButton]} type="button" onClick={handleClose}>
+          <img css={modalCloseIcon} src={closeIconUrl} alt="" />
+        </button>
+      </div>
+    </>
+  )
+}

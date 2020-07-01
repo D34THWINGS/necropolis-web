@@ -9,7 +9,7 @@ export const resetReducer = (reducer: Reducer<RootState, RootAction>) => (
   action: RootAction,
 ) => {
   if (isActionOf(resetGame, action)) {
-    return reducer({ onboarding: state?.onboarding } as RootState, action)
+    return reducer({ onboarding: state?.onboarding, settings: state?.settings } as RootState, action)
   }
   return reducer(state, action)
 }

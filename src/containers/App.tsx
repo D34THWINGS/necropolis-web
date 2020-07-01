@@ -4,6 +4,7 @@ import { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'
+import { useRouteMatch } from 'react-router'
 import { ResetCSS } from '../components/ResetCSS'
 import { Fonts } from '../components/Fonts'
 import { GameContent } from './GameContent'
@@ -15,6 +16,9 @@ import { GameLost } from '../screens/gameEnd/GameLost'
 import { GameWon } from '../screens/gameEnd/GameWon'
 import { getIsBuildingsFullyUpgraded } from '../data/buildings/selectors'
 import { colors, transitions } from '../config/theme'
+import { MAIN_MENU, NEW_GAME } from '../config/routes'
+import { MenuWrapper } from '../screens/menu/MenuWrapper'
+import { getHasActiveGame } from '../data/settings/selectors'
 
 const appContainer = css({
   display: 'flex',
@@ -34,12 +38,24 @@ const gameContainer = css({
 })
 
 export const App = () => {
+  const matchMainMenu = useRouteMatch({ path: MAIN_MENU, exact: true })
+  const matchNewGame = useRouteMatch({ path: NEW_GAME, exact: true })
+  const hasActiveGame = useSelector(getHasActiveGame)
   const isOnboardingActive = useSelector(getIsIntroActive)
   const undeadCount = useSelector(getUndeadCount)
   const isBuildingsFullyUpgraded = useSelector(getIsBuildingsFullyUpgraded)
 
+  const isOnMainMenu = !!matchMainMenu || !!matchNewGame
+
   const getContent = () => {
-    if (isOnboardingActive) {
+    if (isOnMainMenu) {
+      return (
+        <CSSTransition key="menu" timeout={transitions.SLOW_DURATION}>
+          <MenuWrapper />
+        </CSSTransition>
+      )
+    }
+    if (isOnboardingActive && hasActiveGame) {
       return (
         <CSSTransition key="intro" timeout={transitions.SLOW_DURATION}>
           <Intro />

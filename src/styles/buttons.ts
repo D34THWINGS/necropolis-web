@@ -10,6 +10,10 @@ export const resetButton = css({
   padding: 0,
   backgroundColor: 'transparent',
   cursor: 'pointer',
+
+  ':disabled': {
+    cursor: 'not-allowed',
+  },
 })
 
 export const buttonPress = css({

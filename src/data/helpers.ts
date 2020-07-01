@@ -2,7 +2,7 @@ type Setter<TValue, TReturn> = (value: TValue) => TReturn
 
 type DeepSetter<TObj, TBase> = {
   <TKey extends keyof TObj>(): Setter<TObj, TBase>
-  <TKey extends keyof TObj>(key: TKey): TObj[TKey] extends object
+  <TKey extends keyof TObj>(key: TKey): TObj[TKey] extends Record<string, unknown>
     ? DeepSetter<TObj[TKey], TBase>
     : () => Setter<TObj[TKey], TBase>
 }
