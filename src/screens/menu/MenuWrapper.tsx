@@ -12,7 +12,8 @@ const menuWrapper = css({
   flexDirection: 'column',
   alignItems: 'stretch',
   justifyContent: 'flex-end',
-  padding: '0 4rem',
+  marginTop: '-4rem',
+  height: 'calc(100% + 4rem)',
 })
 
 export const MenuWrapper = () => (

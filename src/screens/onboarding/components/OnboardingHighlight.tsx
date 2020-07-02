@@ -80,7 +80,6 @@ export const OnboardingHighlight = ({ step, children }: OnboardingHighlightProps
           const handleNextStep = () => dispatch(nextOnboardingStep())
 
           const { borderRadius, borderWidth, height, padding } = window.getComputedStyle(placeholderRef.current)
-          console.log(height)
           return (
             <Fragment>
               {children({

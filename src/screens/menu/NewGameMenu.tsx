@@ -25,8 +25,12 @@ const scenarioSelectTitle = [
   h2Title,
   css({
     color: colors.WHITE,
-    marginBottom: '2rem',
+    marginBottom: '1rem',
     fontSize: '2rem',
+
+    [breakpoints.SM]: {
+      marginBottom: '2rem',
+    },
   }),
 ]
 
@@ -34,10 +38,13 @@ const characterModal = [
   modalPanel(ModalColor.GREEN, true),
   css({
     margin: 0,
-    maxHeight: '100%',
+    maxWidth: 'calc(100% - 2rem)',
+    maxHeight: 'calc(100% - 5rem)',
+    alignSelf: 'center',
 
     [breakpoints.SM]: {
       margin: 0,
+      maxWidth: 'calc(100% - 4rem)',
     },
   }),
 ]
