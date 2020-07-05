@@ -14,6 +14,9 @@ import { PaladinsIcon } from '../../components/images/PaladinsIcon'
 import { getPaladinsCounter } from '../../data/paladins/selectors'
 import { increasePaladinsCounter } from '../../data/paladins/actions'
 import { preventSelectorUpdate } from '../../data/helpers'
+import { EventImage } from './components/EventImage'
+import plunderImageUrl from '../../assets/images/events/plunder.jpg'
+import { eventStepDescription } from './helpers/eventStyles'
 
 const PLUNDER_FIGHT_LETHALITY = 4
 const PLUNDER_REWARD_MEAT = 1
@@ -41,7 +44,8 @@ export const Plunder = ({ renderStep }: EventModalContentProps) => {
           case PlunderStep.Setup:
             return (
               <Fragment>
-                {t('plunderStep1')}
+                <EventImage src={plunderImageUrl} />
+                <div css={eventStepDescription}>{t('plunderStep1')}</div>
                 <EventAction
                   onClick={goToStep(PlunderStep.Battle)}
                   extra={t('plunderAction1Prerequisite', PLUNDER_FIGHT_LETHALITY)}

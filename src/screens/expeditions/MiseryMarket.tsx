@@ -18,6 +18,7 @@ import { getLethality } from '../../data/selectors'
 import { triggerCarnage } from '../../data/expeditions/actions'
 import { castSpell } from '../../data/spells/actions'
 import miseryMarketImageUrl from '../../assets/images/expeditions/miseryMarket/misery-market.jpg'
+import miseryMarketImage2Url from '../../assets/images/expeditions/miseryMarket/misery-market-2.jpg'
 import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
 
@@ -199,12 +200,15 @@ export const MiseryMarket = () => {
             }
             return (
               <Fragment>
-                {t(
-                  'miseryMarketReward',
-                  MISERY_MARKET_MEAT_REWARD,
-                  MISERY_MARKET_BONES_REWARD,
-                  MISERY_MARKET_MATERIAL_REWARD,
-                )}
+                <ExpeditionImage src={miseryMarketImage2Url} />
+                <div css={expeditionStepDescription}>
+                  {t(
+                    'miseryMarketReward',
+                    MISERY_MARKET_MEAT_REWARD,
+                    MISERY_MARKET_BONES_REWARD,
+                    MISERY_MARKET_MATERIAL_REWARD,
+                  )}
+                </div>
                 {renderEndButton(handleCollectFinalReward)}
               </Fragment>
             )

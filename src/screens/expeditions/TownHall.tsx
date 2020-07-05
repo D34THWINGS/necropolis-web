@@ -22,6 +22,10 @@ import { cancelReinforcements } from '../../data/expeditions/actions'
 import { UndeadBox } from '../../components/undeads/UndeadBox'
 import { castSpell } from '../../data/spells/actions'
 import { TalentIcon } from '../../components/talents/TalentIcon'
+import townHallImageUrl from '../../assets/images/expeditions/townHall/town-hall.jpg'
+import townHallImage2Url from '../../assets/images/expeditions/townHall/town-hall-2.jpg'
+import { ExpeditionImage } from './components/ExpeditionImage'
+import { expeditionStepDescription } from './helpers/expeditionStyles'
 
 const TOWN_HALL_FIRE_UNDEAD_COST = 1
 const TOWN_HALL_MATERIALS_REWARD = 6
@@ -59,7 +63,8 @@ export const TownHall = () => {
             }
             return (
               <Fragment>
-                {t('townHallStep1')}
+                <ExpeditionImage src={townHallImageUrl} />
+                <div css={expeditionStepDescription}>{t('townHallStep1')}</div>
 
                 {hasTheKey && (
                   <ExpeditionAction
@@ -88,7 +93,8 @@ export const TownHall = () => {
             }
             return (
               <Fragment>
-                {t('townHallStep3', TOWN_HALL_FIRE_UNDEAD_COST)}
+                <ExpeditionImage src={townHallImage2Url} />
+                <div css={expeditionStepDescription}>{t('townHallStep3', TOWN_HALL_FIRE_UNDEAD_COST)}</div>
                 <ExpeditionAction
                   prerequisites={
                     <TalentIcon type={UndeadTalent.Lethality} text={TOWN_HALL_LETHALITY_REQUIRED} size="1rem" />

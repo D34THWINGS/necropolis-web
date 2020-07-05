@@ -106,7 +106,7 @@ export const Header = () => {
     <div css={headerContainer}>
       <TurnCounter currentTurn={turn} />
       <div css={headerCountersWrapper}>
-        <OnboardingHighlight step={OnboardingStep.HighlightMaterialsCounter}>
+        <OnboardingHighlight<HTMLDivElement> step={OnboardingStep.HighlightMaterialsCounter}>
           {({ ref, className }) => (
             <div ref={ref} className={className} css={headerResourceCounter('#94C58C')}>
               <ResourceIcon css={headerResourceIcon} type={ResourceType.Materials} />
@@ -114,7 +114,7 @@ export const Header = () => {
             </div>
           )}
         </OnboardingHighlight>
-        <OnboardingHighlight step={OnboardingStep.HighlightMeatCounter}>
+        <OnboardingHighlight<HTMLDivElement> step={OnboardingStep.HighlightMeatCounter}>
           {({ ref, className }) => (
             <div ref={ref} className={className} css={headerResourceCounter('#C58C8F')}>
               <ResourceIcon css={headerResourceIcon} type={ResourceType.Meat} />

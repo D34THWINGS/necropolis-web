@@ -9,6 +9,9 @@ import { EventAction } from './components/EventAction'
 import { BuildingType } from '../../config/constants'
 import { freeUpgradeBuilding } from '../../data/buildings/actions'
 import { endEvent } from '../../data/events/actions'
+import offeringImageUrl from '../../assets/images/events/offering.jpg'
+import { EventImage } from './components/EventImage'
+import { eventStepDescription } from './helpers/eventStyles'
 
 export const Offering = () => {
   const { t } = useTranslation()
@@ -23,7 +26,8 @@ export const Offering = () => {
   return (
     <Fragment>
       <h2 css={h2Title}>{t('offeringTitle')}</h2>
-      {t('offeringDescription')}
+      <EventImage src={offeringImageUrl} />
+      <div css={eventStepDescription}>{t('offeringDescription')}</div>
       {upgradableBuildings.map(type => (
         <EventAction key={type} extra={t('offeringActionSubtitle')} onClick={handleUpgrade(type)}>
           {t('offeringAction', type)}

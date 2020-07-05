@@ -1,7 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { MouseEventHandler, useEffect, useState } from 'react'
+import React, { MouseEventHandler, useEffect, useState } from 'react'
 import { Link, useHistory, useRouteMatch } from 'react-router-dom'
+import { css } from '@emotion/core'
 import { CATACOMBS, EXPEDITIONS, MAIN_HUB, OSSUARY } from '../config/routes'
 import buttonBackgroundUrl from '../assets/images/footer/button.png'
 import buildIconUrl from '../assets/images/footer/build.png'
@@ -82,7 +81,7 @@ export const NavigationBar = () => {
       <Link to={MAIN_HUB} replace css={footerButton} onClick={handleHackNavigation}>
         <span css={[footerButtonIcon, buildIcon, backgroundImage(buildIconUrl)]} />
       </Link>
-      <OnboardingHighlight step={OnboardingStep.LetsExplore}>
+      <OnboardingHighlight<HTMLAnchorElement> step={OnboardingStep.LetsExplore}>
         {({ ref, className, onClick }) => (
           <Link
             ref={ref}

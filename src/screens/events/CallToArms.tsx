@@ -13,6 +13,9 @@ import { getPaladinsCounter } from '../../data/paladins/selectors'
 import { preventSelectorUpdate } from '../../data/helpers'
 import { getOnboardingStep } from '../../data/onboarding/selectors'
 import { nextOnboardingStep } from '../../data/onboarding/actions'
+import callToArmsImageUrl from '../../assets/images/events/call-to-arms.jpg'
+import { EventImage } from './components/EventImage'
+import { eventStepDescription } from './helpers/eventStyles'
 
 export const CallToArms = ({ renderStep }: EventModalContentProps) => {
   const { t } = useTranslation()
@@ -31,10 +34,13 @@ export const CallToArms = ({ renderStep }: EventModalContentProps) => {
   return (
     <Fragment>
       <h2 css={h2Title}>{t('callToArmsTitle')}</h2>
-      <p>{t('callToArmsDescription', PALADINS_ATTACK_THRESHOLD)}</p>
-      <p css={textCenter}>
-        <PaladinsIcon counter={paladinsCounter + 1} />
-      </p>
+      <EventImage src={callToArmsImageUrl} />
+      <div css={eventStepDescription}>
+        {t('callToArmsDescription', PALADINS_ATTACK_THRESHOLD)}
+        <p css={textCenter}>
+          <PaladinsIcon counter={paladinsCounter + 1} />
+        </p>
+      </div>
       {renderStep((_, { renderAcknowledgeButton }) => renderAcknowledgeButton(handleAcknowledge))}
     </Fragment>
   )

@@ -21,21 +21,16 @@ const highlightContainer = css({
 
 export const OnboardingHighlightStyles = () => <Global styles={highlightContainer} />
 
-export type OnboardingHighlightProps = {
+export type OnboardingHighlightProps<T extends HTMLElement> = {
   step: OnboardingStep | OnboardingStep[]
-  children: (props: {
-    className?: string
-    ref?: RefObject<any>
-    onClick?: () => void
-    step: OnboardingStep
-  }) => ReactNode
+  children: (props: { className?: string; ref?: RefObject<T>; onClick?: () => void; step: OnboardingStep }) => ReactNode
 }
 
-export const OnboardingHighlight = ({ step, children }: OnboardingHighlightProps) => {
+export const OnboardingHighlight = <T extends HTMLElement>({ step, children }: OnboardingHighlightProps<T>) => {
   const onboardingStep = useSelector(getOnboardingStep)
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null)
-  const highlightRef = useRef<HTMLElement>(null)
-  const placeholderRef = useRef<HTMLElement>(null)
+  const highlightRef = useRef<T>(null)
+  const placeholderRef = useRef<T>(null)
   const dispatch = useDispatch()
 
   useEffect(() => {

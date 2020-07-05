@@ -13,6 +13,10 @@ import { gainResources, spendResources } from '../../data/resources/actions'
 import { TalentIcon } from '../../components/talents/TalentIcon'
 import { getHasCancelledReinforcements } from '../../data/expeditions/selectors'
 import { castSpell } from '../../data/spells/actions'
+import bastionImageUrl from '../../assets/images/expeditions/bastion/bastion.jpg'
+import bastionImage2Url from '../../assets/images/expeditions/bastion/bastion-2.jpg'
+import { ExpeditionImage } from './components/ExpeditionImage'
+import { expeditionStepDescription } from './helpers/expeditionStyles'
 
 enum BastionStep {
   Setup,
@@ -56,7 +60,8 @@ export const Bastion = () => {
             }
             return (
               <Fragment>
-                {t('bastionStep1')}
+                <ExpeditionImage src={bastionImageUrl} />
+                <div css={expeditionStepDescription}>{t('bastionStep1')}</div>
                 <ExpeditionAction
                   disabled={souls < SPELLS_SOUL_COSTS[Spell.TheKey]}
                   cost={<ResourceIcon type={ResourceType.Souls} text={SPELLS_SOUL_COSTS[Spell.TheKey]} size="1rem" />}
@@ -158,7 +163,8 @@ export const Bastion = () => {
               dispatch(gainResources({ [ResourceType.Materials]: BASTION_MATERIALS_REWARD }))
             return (
               <Fragment>
-                {t('bastionStep8', BASTION_MATERIALS_REWARD)}
+                <ExpeditionImage src={bastionImage2Url} />
+                <div css={expeditionStepDescription}>{t('bastionStep8', BASTION_MATERIALS_REWARD)}</div>
                 {renderEndButton(handleKilledPaladins)}
               </Fragment>
             )

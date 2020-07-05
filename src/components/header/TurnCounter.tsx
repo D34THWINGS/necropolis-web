@@ -62,7 +62,7 @@ export const TurnCounter = ({ currentTurn }: TurnCounterProps) => {
   const paladinsCounter = useSelector(getPaladinsCounter)
   return (
     <Fragment>
-      <OnboardingHighlight step={OnboardingStep.HighlightTurnCounter}>
+      <OnboardingHighlight<HTMLButtonElement> step={OnboardingStep.HighlightTurnCounter}>
         {({ ref, className, step }) => (
           <button
             ref={ref}

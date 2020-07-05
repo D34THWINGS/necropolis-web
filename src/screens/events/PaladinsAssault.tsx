@@ -13,6 +13,11 @@ import { ResourceType } from '../../config/constants'
 import { killAllUndead, requireSacrifice } from '../../data/undeads/actions'
 import { resetPaladinsCounter } from '../../data/paladins/actions'
 import { getDefense } from '../../data/selectors'
+import paladinsAssault1ImageUrl from '../../assets/images/events/paladins-assault-1.jpg'
+import paladinsAssault2ImageUrl from '../../assets/images/events/paladins-assault-2.jpg'
+import paladinsAssault3ImageUrl from '../../assets/images/events/paladins-assault-3.jpg'
+import { EventImage } from './components/EventImage'
+import { eventStepDescription } from './helpers/eventStyles'
 
 enum PaladinsAssaultStep {
   Setup,
@@ -44,6 +49,16 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
     return t('paladinsAssaultStrong')
   }
 
+  const getImageUrl = () => {
+    if (paladinsStrength <= PALADINS_ASSAULT_WEAK) {
+      return paladinsAssault1ImageUrl
+    }
+    if (paladinsStrength <= PALADINS_ASSAULT_MEDIUM) {
+      return paladinsAssault2ImageUrl
+    }
+    return paladinsAssault3ImageUrl
+  }
+
   const getNextStep = () => {
     if (diff <= 0) {
       return PaladinsAssaultStep.Victory
@@ -68,9 +83,12 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
           case PaladinsAssaultStep.Setup:
             return (
               <Fragment>
-                {getDescription()}
-                <br />
-                <span css={textColor('LIME')}>{t('currentDefense', defense)}</span>
+                <EventImage src={getImageUrl()} />
+                <div css={eventStepDescription}>
+                  {getDescription()}
+                  <br />
+                  <span css={textColor('LIME')}>{t('currentDefense', defense)}</span>
+                </div>
                 <EventAction
                   extra={t('paladinsAssaultPrerequisite', paladinsStrength)}
                   onClick={goToStep(getNextStep())}

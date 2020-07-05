@@ -76,7 +76,7 @@ export const MainHub = () => {
 
   return (
     <ScreenWrapper css={mainHubWrapper} backgroundUrl={backgroundImageUrl}>
-      <OnboardingHighlight step={charnelHouseHighlight}>
+      <OnboardingHighlight<HTMLAnchorElement> step={charnelHouseHighlight}>
         {({ className, ref, onClick, step }) => (
           <Building
             ref={ref}
@@ -95,7 +95,7 @@ export const MainHub = () => {
           />
         )}
       </OnboardingHighlight>
-      <OnboardingHighlight step={soulWellHighlight}>
+      <OnboardingHighlight<HTMLAnchorElement> step={soulWellHighlight}>
         {({ className, ref, onClick, step }) => (
           <Building
             ref={ref}

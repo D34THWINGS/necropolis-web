@@ -19,7 +19,7 @@ export const Expeditions = () => {
 
   return (
     <ScreenWrapper backgroundUrl={mapBgUrl}>
-      <OnboardingHighlight step={OnboardingStep.StartSmall}>
+      <OnboardingHighlight<HTMLButtonElement> step={OnboardingStep.StartSmall}>
         {({ ref, className, onClick }) => (
           <ExpeditionMarker
             ref={ref}
