@@ -36,6 +36,8 @@ import { PhaseOverlay } from '../components/PhaseOverlay'
 import { OnboardingModal } from '../screens/onboarding/components/OnboardingModal'
 import { OnboardingHighlightStyles } from '../screens/onboarding/components/OnboardingHighlight'
 import { getHasActiveGame } from '../data/settings/selectors'
+import { getUndeadCount } from '../data/undeads/selectors'
+import { getIsBuildingsFullyUpgraded } from '../data/buildings/selectors'
 
 const gameContent = css({
   position: 'relative',
@@ -51,6 +53,8 @@ export const GameContent = () => {
   const expeditionsMatch = useRouteMatch(EXPEDITIONS)
   const openedExpedition = useSelector(getOpenedExpedition)
   const hasActiveGame = useSelector(getHasActiveGame)
+  const undeadCount = useSelector(getUndeadCount)
+  const isBuildingsFullyUpgraded = useSelector(getIsBuildingsFullyUpgraded)
   const history = useHistory()
   const location = useLocation()
 
@@ -60,7 +64,7 @@ export const GameContent = () => {
     }
   }, [openedExpedition, history, expeditionsMatch])
 
-  if (!hasActiveGame) {
+  if (!hasActiveGame && undeadCount !== 0 && !isBuildingsFullyUpgraded) {
     return <Redirect to={MAIN_MENU} />
   }
 

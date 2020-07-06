@@ -2,6 +2,8 @@
 import { css, jsx } from '@emotion/core'
 import { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import TransitionGroup from 'react-transition-group/TransitionGroup'
+import CSSTransition from 'react-transition-group/CSSTransition'
 import { breakpoints, layers, transitions } from '../../config/theme'
 import { useModalState } from '../ui/Modal/Modal'
 import { ModalColor, modalInner, modalOverlay, modalPanel } from '../ui/Modal/modalStyles'
@@ -100,9 +102,13 @@ export const UndeadOverlay = () => {
               />
             ))}
           </div>
-          {undeads.map(undead => (
-            <UndeadBox key={undead.type} undead={undead} onBan={handleBan(undead.type)} />
-          ))}
+          <TransitionGroup>
+            {undeads.map(undead => (
+              <CSSTransition key={undead.type} timeout={transitions.FAST_DURATION}>
+                <UndeadBox undead={undead} onBan={handleBan(undead.type)} />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
         </div>
         <button type="button" css={undeadOverlayToggle} onClick={toggle}>
           <Image src={isOpen ? overlayCloseUrl : overlayOpenUrl} size="2rem" />

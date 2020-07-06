@@ -24,7 +24,12 @@ export const UndeadSacrifice = () => {
       <h2 css={h2Title}>{t('sacrificeRequiredTitle')}</h2>
       <p>{t('sacrificeRequiredDescription', requiredSacrifices)}</p>
       {undeads.map(undead => (
-        <UndeadBox key={undead.type} undead={undead} onBan={handleBan(undead.type)} />
+        <UndeadBox
+          key={undead.type}
+          undead={undead}
+          onBan={handleBan(undead.type)}
+          renderBanText={name => t('confirmUndeadSacrifice', name)}
+        />
       ))}
     </Modal>
   )

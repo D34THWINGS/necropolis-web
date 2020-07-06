@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React, { Fragment, ReactNode } from 'react'
 import { plural } from './i18nHelpers'
 import { noBreak, textColor } from '../styles/base'
 import { BuildingType, ResourceType, Spell, UndeadTalent, UndeadType } from '../config/constants'
@@ -18,7 +16,7 @@ export const fr = {
   productionPhaseTitle: 'Phase de production',
   productionPhaseDescription: 'Production issue de vos bâtiments\u00A0:',
   productionPhaseNoProduction: 'Vos bâtiments ne produisent aucune resources',
-  upkeepPhaseTitle: "Phase d'entretien",
+  upkeepPhaseTitle: 'Phase de ravitaillement',
   upkeepPhaseDescription: (meat: number) => (
     <Fragment>
       Votre armée consomme <ResourceIcon type={ResourceType.Meat} text={meat} />.
@@ -144,6 +142,16 @@ export const fr = {
   undeadOverlayTitle: 'Morts-vivants',
   undeadUpkeep: 'Consomation par tour :\u00A0',
   talentsTotal: 'Total talents\u00A0:\u00A0',
+  confirmUndeadBan: (name: ReactNode) => (
+    <>
+      Renvoyer <span css={textColor('PURPLE')}>{name}</span>
+    </>
+  ),
+  confirmUndeadSacrifice: (name: ReactNode) => (
+    <>
+      Sacrifier <span css={textColor('PURPLE')}>{name}</span>
+    </>
+  ),
   undeadName: (type: UndeadType) => {
     switch (type) {
       case UndeadType.Valet:

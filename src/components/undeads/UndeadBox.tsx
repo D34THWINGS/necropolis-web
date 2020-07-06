@@ -1,14 +1,15 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
+import { css, keyframes } from '@emotion/core'
 import { Image } from '../images/Image'
 import brikolerIconUrl from '../../assets/images/undeads/brikoler.png'
 import undeadIconUrl from '../../assets/images/undeads/undead.png'
-import closeIconUrl from '../../assets/images/icons/close.png'
-import { purpleBox, textColor } from '../../styles/base'
+import undeadBanUrl from '../../assets/images/icons/ban-undead.png'
+import checkUrl from '../../assets/images/icons/check.png'
+import { contentCover, purpleBox, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
-import { colors, shadows } from '../../config/theme'
+import { colors, shadows, transitions } from '../../config/theme'
 import { Undead } from '../../data/undeads/helpers'
-import { purpleRoundButton } from '../../styles/buttons'
+import { limeRoundButton, purpleRoundButton } from '../../styles/buttons'
 import { LA_MOTTE_DEFENSE_BONUS, UndeadType } from '../../config/constants'
 import { TalentButton } from '../talents/TalentButton'
 
@@ -26,10 +27,49 @@ const undeadBox = (canBeBanned: boolean) => [
     position: 'relative',
     paddingBottom: '1.5rem',
     marginBottom: canBeBanned ? '2rem' : '0.4rem',
+    transition: `transform ${transitions.FAST}, opacity ${transitions.FAST}`,
+    transformOrigin: 'center top',
 
     ':last-child': {
       marginBottom: '1rem',
     },
+
+    '&.exit-active': {
+      transform: 'scaleY(0)',
+      opacity: 0,
+    },
+  }),
+]
+
+const confirmTimeout = keyframes({
+  from: {
+    backgroundSize: '100% 100%',
+  },
+
+  to: {
+    backgroundSize: '0% 100%',
+  },
+})
+
+const undeadConfirmBox = [
+  contentCover,
+  css({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '15px',
+    padding: '1rem 1rem 1.5rem',
+    fontSize: '1.6rem',
+    fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+    textAlign: 'center',
+    textShadow: shadows.TEXT_SOLID,
+    animationName: confirmTimeout,
+    animationDuration: '3s',
+    animationTimingFunction: 'linear',
+    backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%)',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: '0 0',
+    backgroundColor: colors.DARK_PURPLE,
   }),
 ]
 
@@ -56,27 +96,40 @@ const undeadDescription = css({
   alignItems: 'flex-start',
 })
 
-const undeadBanButton = [
-  purpleRoundButton,
-  css({
-    position: 'absolute',
-    bottom: 0,
-    left: '50%',
-    transform: 'translate(-50%, 50%)',
+const undeadBoxButton = css({
+  position: 'absolute',
+  bottom: 0,
+  left: '50%',
+  transform: 'translate(-50%, 50%)',
 
-    ':not(:disabled):active': {
-      transform: 'translate(-50%, calc(50% + 0.1rem))',
-    },
-  }),
-]
+  ':not(:disabled):active': {
+    transform: 'translate(-50%, calc(50% + 0.1rem))',
+  },
+})
+
+const undeadBanButton = [purpleRoundButton, undeadBoxButton]
+
+const undeadConfirmBanButton = [limeRoundButton, undeadBoxButton]
 
 export type UndeadBoxProps = {
   undead: Undead
+  renderBanText?: (name: ReactNode) => ReactNode
   onBan?: () => void
 }
 
-export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
+export const UndeadBox = ({ undead, onBan, renderBanText }: UndeadBoxProps) => {
   const { t } = useTranslation()
+  const [showConfirm, setShowConfirm] = useState(false)
+  const cancelTimeout = useRef<number | null>(null)
+
+  useEffect(
+    () => () => {
+      if (cancelTimeout.current) {
+        clearTimeout(cancelTimeout.current)
+      }
+    },
+    [],
+  )
 
   const getAbility = () => {
     switch (undead.type) {
@@ -95,9 +148,27 @@ export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
     }
   }
 
+  const handleShowConfirm = () => {
+    setShowConfirm(true)
+    cancelTimeout.current = window.setTimeout(() => {
+      setShowConfirm(false)
+    }, 3000)
+  }
+
+  const handleConfirmBan = () => {
+    if (cancelTimeout.current) {
+      clearTimeout(cancelTimeout.current)
+    }
+    if (onBan) {
+      onBan()
+    }
+  }
+
+  const undeadNameText = t('undeadName', undead.type)
+
   return (
     <div css={undeadBox(!!onBan)}>
-      <h4 css={undeadName}>{t('undeadName', undead.type)}</h4>
+      <h4 css={undeadName}>{undeadNameText}</h4>
       <div css={undeadDescription}>
         <Image src={undeadIconMap[undead.type]} size="4rem" marginRight="0.5rem" />
         <div>
@@ -109,10 +180,18 @@ export const UndeadBox = ({ undead, onBan }: UndeadBoxProps) => {
           <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {getAbility()}
         </div>
       </div>
-      {onBan && (
-        <button type="button" css={undeadBanButton} onClick={onBan}>
-          <Image src={closeIconUrl} size="2rem" block />
+      {onBan && !showConfirm && (
+        <button type="button" css={undeadBanButton} onClick={handleShowConfirm}>
+          <Image src={undeadBanUrl} size="2rem" block />
         </button>
+      )}
+      {showConfirm && (
+        <div css={undeadConfirmBox}>
+          <div>{renderBanText?.(undeadNameText) ?? t('confirmUndeadBan', undeadNameText)}</div>
+          <button type="button" css={undeadConfirmBanButton} onClick={handleConfirmBan}>
+            <Image src={checkUrl} size="2rem" block />
+          </button>
+        </div>
       )}
     </div>
   )

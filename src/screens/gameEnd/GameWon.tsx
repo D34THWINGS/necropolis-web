@@ -7,7 +7,7 @@ import { Image } from '../../components/images/Image'
 import { useTranslation } from '../../lang/useTranslation'
 import { gameEndButton, gameEndContainer, gameEndImage, gameEndText } from './helpers/gameEndStyles'
 import { forestSquareButton } from '../../styles/buttons'
-import { gameEnded, resetGame } from '../../data/settings/actions'
+import { gameCreated, gameEnded, resetGame } from '../../data/settings/actions'
 import { MAIN_MENU } from '../../config/routes'
 import { smallMarginTop } from '../../styles/base'
 
@@ -26,7 +26,10 @@ export const GameWon = () => {
     dispatch(gameEnded())
   }, [])
 
-  const handleRetry = () => dispatch(resetGame())
+  const handleRetry = () => {
+    dispatch(resetGame())
+    dispatch(gameCreated())
+  }
 
   const handleGoToMainMenu = () => history.push(MAIN_MENU)
 

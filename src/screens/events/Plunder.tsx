@@ -7,7 +7,7 @@ import { h2Title, textCenter } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { EventAction } from './components/EventAction'
 import { ResourceType } from '../../config/constants'
-import { getMaterials } from '../../data/resources/selectors'
+import { getMeat } from '../../data/resources/selectors'
 import { gainResources, spendResources } from '../../data/resources/actions'
 import { getLethality } from '../../data/selectors'
 import { PaladinsIcon } from '../../components/images/PaladinsIcon'
@@ -21,7 +21,7 @@ import { eventStepDescription } from './helpers/eventStyles'
 const PLUNDER_FIGHT_LETHALITY = 4
 const PLUNDER_REWARD_MEAT = 1
 const PLUNDER_REWARD_BONES = 3
-const PLUNDER_LEAVE_MEAT_COST = 5
+const PLUNDER_LEAVE_MEAT_COST = 10
 
 enum PlunderStep {
   Setup,
@@ -33,7 +33,7 @@ export const Plunder = ({ renderStep }: EventModalContentProps) => {
   const { t } = useTranslation()
   const paladinsCounter = useSelector(getPaladinsCounter, preventSelectorUpdate)
   const lethality = useSelector(getLethality)
-  const materials = useSelector(getMaterials)
+  const meat = useSelector(getMeat)
   const dispatch = useDispatch()
 
   return (
@@ -75,7 +75,7 @@ export const Plunder = ({ renderStep }: EventModalContentProps) => {
             )
           }
           case PlunderStep.Leave: {
-            const meatCost = Math.min(PLUNDER_LEAVE_MEAT_COST, materials)
+            const meatCost = Math.min(PLUNDER_LEAVE_MEAT_COST, meat)
 
             const handleLeave = () => {
               dispatch(spendResources({ [ResourceType.Meat]: meatCost }))
