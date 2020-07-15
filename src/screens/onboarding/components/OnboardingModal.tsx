@@ -17,22 +17,41 @@ import { layers } from '../../../config/theme'
 import { gainResources } from '../../../data/resources/actions'
 import { MAIN_HUB } from '../../../config/routes'
 
-const noScrollModal = css({
-  overflow: 'visible',
-})
+const noScrollModal = (alignToEnd: boolean) => [
+  css({
+    overflow: 'visible',
+  }),
+  alignToEnd
+    ? css({
+        padding: '1rem 1rem 1.5rem',
+      })
+    : css({
+        padding: '1.5rem 1rem 1rem',
+      }),
+]
 
-const portraitCircle = css({
-  position: 'absolute',
-  top: 0,
-  left: '50%',
-  border: '2px solid rgba(0, 0, 0, 0.5)',
-  borderRadius: '50%',
-  padding: '0.6rem',
-  transform: 'translate(-50%, -70%)',
-  backgroundColor: '#448B84',
-  boxShadow: 'inset 0px 1px 1px rgba(255,255,255,0.5), 0 5px 5px rgba(0, 0, 0, 0.3)',
-  zIndex: 1,
-})
+const portraitCircle = (alignToEnd: boolean) => [
+  css({
+    position: 'absolute',
+    border: '2px solid rgba(0, 0, 0, 0.5)',
+    borderRadius: '50%',
+    padding: '0.6rem',
+    backgroundColor: '#448B84',
+    boxShadow: 'inset 0px 1px 1px rgba(255,255,255,0.5), 0 0 8px rgba(0, 0, 0, 0.3)',
+    zIndex: 1,
+  }),
+  alignToEnd
+    ? css({
+        bottom: 0,
+        right: 0,
+        transform: 'translate(-1rem, 80%)',
+      })
+    : css({
+        top: 0,
+        left: 0,
+        transform: 'translate(1rem, -80%)',
+      }),
+]
 
 const portraitInner = css({
   display: 'flex',
@@ -44,6 +63,8 @@ const portraitInner = css({
   boxShadow: '0px 1px 1px rgba(255, 255, 255, 0.5)',
   backgroundColor: '#1B655F',
 })
+
+const nextButton = [...greenSquareButton, css({ marginTop: '1rem', padding: '0.6rem 0.8rem' })]
 
 const stepsWithoutNextButton = [
   OnboardingStep.HighlightCharnelHouse,
@@ -60,6 +81,7 @@ const stepsWithValetTalking = [
 ]
 const alignedToEnd = [
   OnboardingStep.HighlightProduction,
+  OnboardingStep.HighlightCharnelHouse,
   OnboardingStep.RemindUpkeep,
   OnboardingStep.AwaitNextTurn,
   OnboardingStep.BuildSoulWell,
@@ -123,23 +145,24 @@ export const OnboardingModal = () => {
   }
 
   const content = getContent()
+  const isAlignedToEnd = alignedToEnd.includes(onboardingStep)
 
   return (
     <Modal
-      css={noScrollModal}
+      css={noScrollModal(isAlignedToEnd)}
       isOpen={content !== null}
       color={ModalColor.GREEN}
       priority={layers.ONBOARDING}
-      align={alignedToEnd.includes(onboardingStep) ? ModalAlignment.End : ModalAlignment.Center}
+      align={isAlignedToEnd ? ModalAlignment.End : ModalAlignment.Center}
     >
-      <div css={portraitCircle}>
+      <div css={portraitCircle(isAlignedToEnd)}>
         <div css={portraitInner}>
           <Image src={stepsWithValetTalking.includes(onboardingStep) ? undeadUrl : marenneHeadUrl} size="3rem" />
         </div>
       </div>
       {content}
       {!stepsWithoutNextButton.includes(onboardingStep) && (
-        <button type="button" css={greenSquareButton} onClick={handleNextStep}>
+        <button type="button" css={nextButton} onClick={handleNextStep}>
           <Image src={nextStepArrowUrl} marginRight="0.4rem" /> {t('onboardingNext')}
         </button>
       )}

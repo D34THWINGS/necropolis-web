@@ -47,7 +47,7 @@ export const modalOverlay = (isOpen: boolean, priority?: number, align: ModalAli
     ':after': {
       content: '""',
       flex: '0 1 auto',
-      height: '10rem',
+      height: '5rem',
     },
   })
 
@@ -79,11 +79,11 @@ export const modalPanel = (color: ModalColor, shouldWobble?: boolean) =>
       display: 'block',
       content: '""',
       position: 'absolute',
-      top: '1.2rem',
+      top: '0.6rem',
       borderRadius: '10px',
       width: 'calc(100% - 1.2rem)',
       height: '3rem',
-      boxShadow: '0px -10px 0px rgba(0, 0, 0, 0.35)',
+      boxShadow: 'inset 0px 5px 4px rgba(0, 0, 0, 0.35)',
       pointerEvents: 'none',
       zIndex: 1,
     },

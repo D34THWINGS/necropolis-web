@@ -13,32 +13,32 @@ export const frEvents = {
   callToArmsTitle: 'Appel aux armes',
   callToArmsDescription: (maxCounter: number) => (
     <Fragment>
-      Vous apprenez qu’une clique de seigneurs auto-proclamés et surnommés les Paladins préparent un assaut contre la
-      Nécropole. Ils ont l’intention de balayer la menace que vous représentez pour eux. Au fil du temps, ils
-      deviendront de mieux en mieux préparés, mais n’attaqueront que lorsqu’ils en verront l’opportunité, c’est-à-dire
-      lorsque l’icône ci-dessous montrera <span css={textColor('RED')}>{maxCounter}&nbsp;Paladins</span>.
+      Vous apprenez qu&apos;une clique de seigneurs auto-proclamés et surnommés les Paladins préparent un assaut contre
+      la Nécropole. Ils ont l&apos;intention de balayer la menace que vous représentez pour eux. Au fil du temps, ils
+      deviendront de mieux en mieux préparés, mais n&apos;attaqueront que lorsqu&apos;ils en verront l&apos;opportunité,
+      c&apos;est-à-dire lorsque l&apos;icône ci-dessous montrera{' '}
+      <span css={textColor('RED')}>{maxCounter}&nbsp;Paladins</span>.
     </Fragment>
   ),
 
   paladinsAssaultTitle: 'Assaut des paladins',
   paladinsAssaultWeak: (
     <Fragment>
-      Une troupe d’hommes en armure rouges étincelantes s’amasse devant vos portes. Leurs bannières arborent une chaîne
-      en guise de blason, symbole de ce qu’ils défendent&nbsp;: l’ordre établi. Et vous, vous n’en faites décidément pas
-      partie. Leurs intentions sont claires&nbsp;: vous balayer de la carte !
+      Une troupe d&apos;hommes s&apos;amasse devant vos portes. Ils arborent une chaîne en guise de blason, symbole de
+      ce qu&apos;ils défendent&nbsp;: l&apos;ordre établi. Et vous, vous n&apos;en faites décidément pas partie. Leurs
+      intentions sont claires&nbsp;: vous balayer de la carte&nbsp;!
     </Fragment>
   ),
   paladinsAssaultMedium: (
     <Fragment>
-      Une imposante troupe d’hommes en armure rouges étincelantes s’amasse devant vos portes. Certains tiennent de
-      longues échelles avec des crochets au bout. L’air empeste la haine, le sang et la mort.
+      Une imposante troupe d&apos;hommes s&apos;amasse devant vos portes. Certains tiennent de longues échelles avec des
+      crochets au bout. L&apos;air empeste la haine, le sang et la mort.
     </Fragment>
   ),
   paladinsAssaultStrong: (
     <Fragment>
-      Une menaçante armée d’hommes en armure rouges étincelantes s’amasse devant vos portes. Ils ont fabriqué pour
-      l’occasion des tours de siège ainsi que des trébuchets. L’instant se fige, tandis que la Faucheuse vous observe.
-      Elle est venue pour la récolte.
+      Une menaçante armée d&apos;hommes s&apos;amasse devant vos portes. Cette fois, ils ont amené des trébuchets.
+      L&apos;instant se fige, tandis que la Faucheuse vous observe. Elle est venue pour la récolte.
     </Fragment>
   ),
   paladinsAssaultAction1: 'Combattre',
@@ -50,7 +50,7 @@ export const frEvents = {
   ),
   paladinsAssaultVictory: (meat: number) => (
     <Fragment>
-      Une trompette sonne leur retraite, c’est la victoire ! Vous voilà tranquille pour un moment.{' '}
+      Une trompette sonne leur retraite, c&apos;est la victoire ! Vous voilà tranquille pour un moment.{' '}
       {meat > 0 && (
         <Fragment>
           Vous récoltez <ResourceIcon type={ResourceType.Meat} text={meat} /> sur leurs dépouilles.
@@ -71,8 +71,8 @@ export const frEvents = {
   paladinsAssaultTotalDefeat: (
     <Fragment>
       Des Paladins ont ouvert une brèche dans vos défenses et trucident tout ce qui bouge. Ils trouvent rapidement votre
-      cachette, la salle du tombeau. C’est ici que vous avez perdu la vie et ironiquement, c’est ici que vous allez
-      finalement la reperdre.
+      cachette, la salle du tombeau. C&apos;est ici que vous avez perdu la vie et ironiquement, c&apos;est ici que vous
+      allez finalement la reperdre.
     </Fragment>
   ),
 
@@ -89,7 +89,7 @@ export const frEvents = {
     <Fragment>
       Laisser la salle sous les éboulis
       <br />
-      <span css={textColor('CYAN')}>Elle reste inaccessible tant qu’elle ne sera pas déblayée.</span>
+      <span css={textColor('CYAN')}>Elle reste inaccessible tant qu&apos;elle ne sera pas déblayée.</span>
     </Fragment>
   ),
   collapsingStep2: (defense: number) => (
@@ -102,7 +102,7 @@ export const frEvents = {
   plunderTitle: 'Le Pillage',
   plunderStep1:
     // eslint-disable-next-line max-len
-    'Des sortes de rats armés jusqu’aux dents se sont faufilés à travers les égouts de la Nécropole et se livrent au pillage.',
+    'Des sortes de rats armés jusqu&apos;aux dents se sont faufilés à travers les égouts de la Nécropole et se livrent au pillage.',
   plunderAction1: 'Combattre',
   plunderAction1Prerequisite: (lethality: number) => (
     <Fragment>
@@ -126,9 +126,9 @@ export const frEvents = {
   offeringTitle: "L'Offrande",
   offeringDescription: (
     <Fragment>
-      L’idée d’être immortel vous empli d’ennui. Pour tuer le temps, vous décidez de rendre une visite à votre tombeau.
-      Vous passez un long moment à admirer les offrandes, mais parmi toutes ces breloques, une retient particulièrement
-      votre attention : un parchemin d’architecture magique.
+      L&apos;idée d&apos;être immortel vous empli d&apos;ennui. Pour tuer le temps, vous décidez de rendre une visite à
+      votre tombeau. Vous passez un long moment à admirer les offrandes, mais parmi toutes ces breloques, une retient
+      particulièrement votre attention : un parchemin d&apos;architecture magique.
     </Fragment>
   ),
   offeringAction: (type: BuildingType) => {
@@ -152,10 +152,10 @@ export const frEvents = {
   stateOfEmergencyTitle: "L'État d'Urgence",
   stateOfEmergencyDescription: (strengthIncrease: number) => (
     <Fragment>
-      Suite au carnage orchestré par vos soins, les Paladins ont décrété l’état d’urgence. Doublant le budget de la
-      défense, ils ont investi dans de nouveaux équipements tels que des lances à eau et des bombes à gaz (
-      <span css={textColor('RED')}>+{strengthIncrease} Force</span>), et ont hâté les préparatifs pour leur prochain
-      assaut.
+      Suite à votre carnage, les Paladins ont décrété l&apos;état d&apos;urgence. Doublant le budget de la défense, ils
+      ont investi dans de nouveaux équipements (<span css={textColor('RED')}>+{strengthIncrease} Force</span>)
+      qu&apos;ils comptent utiliser contre vous.
+      <br />
     </Fragment>
   ),
 }

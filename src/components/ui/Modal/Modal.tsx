@@ -74,7 +74,9 @@ export const Modal = ({
           ariaHideApp={false}
           closeTimeoutMS={200}
         >
-          <div css={[className, modalInner(color)]}>{isOpen ? children : lastContent.current}</div>
+          <div className={className} css={modalInner(color)}>
+            {isOpen ? children : lastContent.current}
+          </div>
           {onClose && (
             <button css={[...modalCloseButtonMap[color], modalCloseButton]} onClick={onClose} type="button">
               <img css={modalCloseIcon} src={closeIconUrl} alt="" />

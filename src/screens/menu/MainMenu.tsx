@@ -8,8 +8,14 @@ import { largeMarginTop } from '../../styles/base'
 import { MAIN_HUB, NEW_GAME } from '../../config/routes'
 import { getHasActiveGame } from '../../data/settings/selectors'
 import { breakpoints } from '../../config/theme'
+import { ScreenWrapper } from '../../components/ui/ScreenWrapper'
+import backgroundImageUrl from '../../assets/images/background.jpg'
 
 const mainMenuWrapper = css({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'stretch',
+  justifyContent: 'flex-end',
   padding: '0 2rem',
 
   [breakpoints.SM]: {
@@ -26,13 +32,13 @@ export const MainMenu = () => {
   const handleNewGame = () => history.replace(NEW_GAME)
 
   return (
-    <div css={mainMenuWrapper}>
+    <ScreenWrapper css={mainMenuWrapper} backgroundUrl={backgroundImageUrl}>
       <button type="button" css={cyanSquareButton} onClick={handleContinue} disabled={!hasActiveGame}>
         {t('continueGame')}
       </button>
       <button type="button" css={[cyanSquareButton, largeMarginTop]} onClick={handleNewGame}>
         {t('newGame')}
       </button>
-    </div>
+    </ScreenWrapper>
   )
 }

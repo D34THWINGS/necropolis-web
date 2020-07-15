@@ -20,6 +20,19 @@ import { greenBox, h2Title, smallMarginTop } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { gameCreated, resetGame } from '../../data/settings/actions'
 import { MAIN_MENU } from '../../config/routes'
+import backgroundImageUrl from '../../assets/images/background.jpg'
+
+const newGameMenuWrapper = css({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  height: '100%',
+  paddingTop: '1rem',
+  backgroundImage: `url(${backgroundImageUrl})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+})
 
 const scenarioSelectTitle = [
   h2Title,
@@ -107,7 +120,7 @@ export const NewGameMenu = () => {
   const handleClose = () => history.replace(MAIN_MENU)
 
   return (
-    <>
+    <div css={newGameMenuWrapper}>
       <h1 css={scenarioSelectTitle}>{t('characterChoosing')}</h1>
       <div css={characterModal}>
         <div css={modalInner(ModalColor.GREEN)}>
@@ -130,6 +143,6 @@ export const NewGameMenu = () => {
           <img css={modalCloseIcon} src={closeIconUrl} alt="" />
         </button>
       </div>
-    </>
+    </div>
   )
 }
