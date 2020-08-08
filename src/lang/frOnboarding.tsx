@@ -23,12 +23,7 @@ const introTexts = [
       La mort soit louée&nbsp;!
     </span>
   </>,
-  <>
-    Votre stèle se déplace tandis qu’une lumière vient vous réchauffer.
-    <br />
-    <br />
-    Au-dessus de vous se tient une créature décharnée portant des habits luxueux quoique déchirés.
-  </>,
+  '',
   <>
     <span css={textColor('PURPLE')}>
       Il est si pesant&nbsp;!

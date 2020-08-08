@@ -9,7 +9,7 @@ import { INITIAL_MATERIALS, INITIAL_MEAT, OnboardingStep, ResourceType } from '.
 import { useTranslation } from '../../../lang/useTranslation'
 import { Image } from '../../../components/images/Image'
 import marenneHeadUrl from '../../../assets/images/characters/marenne-head.png'
-import undeadUrl from '../../../assets/images/undeads/undead.png'
+import valetUrl from '../../../assets/images/undeads/valet.png'
 import nextStepArrowUrl from '../../../assets/images/onboarding/next-step-arrow.png'
 import { greenSquareButton } from '../../../styles/buttons'
 import { nextOnboardingStep } from '../../../data/onboarding/actions'
@@ -157,7 +157,7 @@ export const OnboardingModal = () => {
     >
       <div css={portraitCircle(isAlignedToEnd)}>
         <div css={portraitInner}>
-          <Image src={stepsWithValetTalking.includes(onboardingStep) ? undeadUrl : marenneHeadUrl} size="3rem" />
+          <Image src={stepsWithValetTalking.includes(onboardingStep) ? valetUrl : marenneHeadUrl} size="3rem" />
         </div>
       </div>
       {content}

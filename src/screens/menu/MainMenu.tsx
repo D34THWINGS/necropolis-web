@@ -10,6 +10,8 @@ import { getHasActiveGame } from '../../data/settings/selectors'
 import { breakpoints } from '../../config/theme'
 import { ScreenWrapper } from '../../components/ui/ScreenWrapper'
 import backgroundImageUrl from '../../assets/images/background.jpg'
+import titleImageUrl from '../../assets/images/title.png'
+import { Image } from '../../components/images/Image'
 
 const mainMenuWrapper = css({
   display: 'flex',
@@ -23,6 +25,10 @@ const mainMenuWrapper = css({
   },
 })
 
+const separator = css({
+  flex: '1 0 auto',
+})
+
 export const MainMenu = () => {
   const history = useHistory()
   const { t } = useTranslation()
@@ -33,6 +39,8 @@ export const MainMenu = () => {
 
   return (
     <ScreenWrapper css={mainMenuWrapper} backgroundUrl={backgroundImageUrl}>
+      <Image src={titleImageUrl} size="100%" />
+      <div css={separator} />
       <button type="button" css={cyanSquareButton} onClick={handleContinue} disabled={!hasActiveGame}>
         {t('continueGame')}
       </button>

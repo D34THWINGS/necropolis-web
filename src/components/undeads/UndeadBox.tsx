@@ -2,7 +2,10 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import { css, keyframes } from '@emotion/core'
 import { Image } from '../images/Image'
 import brikolerIconUrl from '../../assets/images/undeads/brikoler.png'
-import undeadIconUrl from '../../assets/images/undeads/undead.png'
+import skeletonIconUrl from '../../assets/images/undeads/skeleton.png'
+import bloodPrinceIconUrl from '../../assets/images/undeads/blood-prince.png'
+import laMotteIconUrl from '../../assets/images/undeads/la-motte.png'
+import valetIconUrl from '../../assets/images/undeads/valet.png'
 import undeadBanUrl from '../../assets/images/icons/ban-undead.png'
 import checkUrl from '../../assets/images/icons/check.png'
 import { contentCover, purpleBox, textColor } from '../../styles/base'
@@ -14,11 +17,11 @@ import { LA_MOTTE_DEFENSE_BONUS, UndeadType } from '../../config/constants'
 import { TalentButton } from '../talents/TalentButton'
 
 const undeadIconMap: Record<UndeadType, string> = {
-  [UndeadType.Valet]: undeadIconUrl,
+  [UndeadType.Valet]: valetIconUrl,
   [UndeadType.Brikoler]: brikolerIconUrl,
-  [UndeadType.LaMotte]: undeadIconUrl,
-  [UndeadType.Skeleton]: undeadIconUrl,
-  [UndeadType.BloodPrince]: undeadIconUrl,
+  [UndeadType.LaMotte]: laMotteIconUrl,
+  [UndeadType.Skeleton]: skeletonIconUrl,
+  [UndeadType.BloodPrince]: bloodPrinceIconUrl,
 }
 
 const undeadBox = (canBeBanned: boolean) => [
