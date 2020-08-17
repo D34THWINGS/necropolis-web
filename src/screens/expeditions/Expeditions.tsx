@@ -25,19 +25,19 @@ export const Expeditions = () => {
             ref={ref}
             className={className}
             type={ExpeditionType.OldCoffin}
-            x={6}
-            y={1}
+            x={25}
+            y={-5}
             shown={!oldCoffinDone}
             onClick={onClick}
           />
         )}
       </OnboardingHighlight>
       <OldCoffin />
-      <ExpeditionMarker type={ExpeditionType.MiseryMarket} x={5} y={12} shown={!miseryMarketDone && oldCoffinDone} />
+      <ExpeditionMarker type={ExpeditionType.MiseryMarket} x={5} y={25} shown={!miseryMarketDone && oldCoffinDone} />
       <MiseryMarket />
-      <ExpeditionMarker type={ExpeditionType.TownHall} x={-5} y={-12} shown={!townHallDone && miseryMarketDone} />
+      <ExpeditionMarker type={ExpeditionType.TownHall} x={-5} y={-20} shown={!townHallDone && miseryMarketDone} />
       <TownHall />
-      <ExpeditionMarker type={ExpeditionType.Bastion} x={-3} y={5} shown={!bastionDone && townHallDone} />
+      <ExpeditionMarker type={ExpeditionType.Bastion} x={-20} y={5} shown={!bastionDone && townHallDone} />
       <Bastion />
     </ScreenWrapper>
   )

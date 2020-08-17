@@ -22,12 +22,12 @@ const markerWrapper = (x: number, y: number, shown: boolean, animate: boolean) =
   css({
     display: shown ? 'block' : 'none',
     position: 'absolute',
-    top: '50%',
-    left: '50%',
+    top: `${y + 50}%`,
+    left: `${x + 50}%`,
     padding: '1.5rem',
     width: '8rem',
     height: '8rem',
-    transform: `translate(calc(-50% + ${x}rem), calc(-50% + ${y}rem))`,
+    transform: 'translate(-50%, -50%)',
     ...(animate
       ? {
           animation: `${fadeIn} ${transitions.SLOW}`,
