@@ -6,7 +6,7 @@ import { TalentIcon } from '../components/talents/TalentIcon'
 import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
 import { frEvents } from './frEvents'
-import { ResourceIcon } from '../components/images/ResourceIcon'
+import { ResourceIcon } from '../components/resources/ResourceIcon'
 import { frMenu } from './frMenu'
 
 export const fr = {
@@ -196,6 +196,31 @@ export const fr = {
   [UndeadTalent.Lethality]: (
     <Fragment>
       <span css={textColor('CYAN')}>Létalité&nbsp;:</span>&nbsp;Tuer des ennemis. Inefficace contre les paladins.
+    </Fragment>
+  ),
+
+  resourcesTitle: 'Resources',
+  resourcesDescription: "Les resources sont nécessaires pour l'expension de la Nécropole",
+  [ResourceType.Materials]: (
+    <Fragment>
+      <span css={textColor('CYAN')}>Matériaux&nbsp;:</span>&nbsp;Servent à la construction et l&apos;amélioration des
+      bâtiments.
+    </Fragment>
+  ),
+  [ResourceType.Meat]: (
+    <Fragment>
+      <span css={textColor('CYAN')}>Chair&nbsp;:</span>&nbsp;Nourrie votre armée.
+    </Fragment>
+  ),
+  [ResourceType.Souls]: (
+    <Fragment>
+      <span css={textColor('CYAN')}>Âmes&nbsp;:</span>&nbsp;Permettent de lancer des sorts.
+    </Fragment>
+  ),
+  [ResourceType.Bones]: (
+    <Fragment>
+      <span css={textColor('CYAN')}>Ossements&nbsp;:</span>&nbsp;Utilisés pour découvrir de nouveaux sort et parfois
+      lors des excursions.
     </Fragment>
   ),
 

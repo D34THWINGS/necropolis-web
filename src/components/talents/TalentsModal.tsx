@@ -24,7 +24,7 @@ const talentRow = [
 export const TalentsModal = ({ isOpen, onClose }: Pick<ModalProps, 'isOpen' | 'onClose'>) => {
   const { t } = useTranslation()
   return (
-    <Modal color={ModalColor.GREEN} isOpen={isOpen} onClose={onClose} priority={layers.TALENTS}>
+    <Modal color={ModalColor.GREEN} isOpen={isOpen} onClose={onClose} priority={layers.INFO_MODAL}>
       <h2 css={h2Title}>{t('talentsTitle')}</h2>
       <p css={description}>{t('talentsDescription')}</p>
       {Object.values(UndeadTalent).map(talent => (

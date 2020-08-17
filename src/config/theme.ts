@@ -50,8 +50,8 @@ export const breakpoints = {
 export const layers = {
   SPELLS_MODAL: 1,
   UNDEAD_OVERLAY: 2,
-  TALENTS: 3,
-  SACRIFICE: 4,
+  SACRIFICE: 3,
+  INFO_MODAL: 4,
   ONBOARDING: 5,
   SETTINGS: 6,
 }

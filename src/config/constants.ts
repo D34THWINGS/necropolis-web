@@ -54,10 +54,10 @@ export enum BuildingType {
 }
 
 export enum ResourceType {
+  Materials = 'materials',
   Meat = 'meat',
   Souls = 'souls',
   Bones = 'bones',
-  Materials = 'materials',
 }
 
 export enum TurnPhase {

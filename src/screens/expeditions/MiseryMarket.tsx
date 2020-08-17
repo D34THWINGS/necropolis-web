@@ -10,7 +10,7 @@ import { getUndeadArmyMuscles, getUndeadCount } from '../../data/undeads/selecto
 import { textColor } from '../../styles/base'
 import { TalentIcon } from '../../components/talents/TalentIcon'
 import { getHasTheKey } from '../../data/spells/selectors'
-import { ResourceIcon } from '../../components/images/ResourceIcon'
+import { ResourceIcon } from '../../components/resources/ResourceIcon'
 import { gainResources } from '../../data/resources/actions'
 import { getSouls } from '../../data/resources/selectors'
 import { requireSacrifice } from '../../data/undeads/actions'

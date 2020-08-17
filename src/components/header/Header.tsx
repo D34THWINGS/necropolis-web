@@ -1,22 +1,21 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import darken from 'polished/lib/color/darken'
+import { css } from '@emotion/core'
 import settingsImageUrl from '../../assets/images/header/settings.png'
 import spellImageUrl from '../../assets/images/header/spells.png'
 import { buttonBase } from '../../styles/buttons'
-import { breakpoints, colors, layers, shadows } from '../../config/theme'
+import { breakpoints, layers } from '../../config/theme'
 import { TurnCounter } from './TurnCounter'
 import { SettingsModal } from './SettingsModal'
 import { useModalState } from '../ui/Modal/Modal'
 import { getResources } from '../../data/resources/selectors'
 import { getTurn } from '../../data/turn/selectors'
-import { ResourceIcon } from '../images/ResourceIcon'
 import { OnboardingStep, ResourceType } from '../../config/constants'
 import { SpellsModal } from '../spells/SpellsModal'
 import { Image } from '../images/Image'
 import { getHasSpells } from '../../data/spells/selectors'
 import { OnboardingHighlight } from '../../screens/onboarding/components/OnboardingHighlight'
+import { ResourceButton } from '../resources/ResourceButton'
 
 const headerContainer = css({
   display: 'flex',
@@ -35,44 +34,6 @@ const headerCountersWrapper = css({
   justifyContent: 'center',
   flexWrap: 'wrap',
   flex: '1 1 auto',
-})
-
-const headerResourceCounter = (backgroundColor: string) =>
-  css({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    position: 'relative',
-    margin: '0.7rem 0.3rem 0.7rem 1.3rem',
-    border: `2px solid ${darken(0.3, backgroundColor)}`,
-    borderRadius: '26px',
-    padding: '0.2rem 0.5rem 0.2rem 0',
-    width: '3rem',
-    flex: '0 0 auto',
-    backgroundColor,
-    boxSizing: 'border-box',
-    boxShadow: `inset 0px -8px 0px ${darken(0.12, backgroundColor)}`,
-    textAlign: 'right',
-    fontSize: '1.3rem',
-    lineHeight: '1',
-    color: colors.WHITE,
-    textShadow: shadows.TEXT,
-
-    [breakpoints.SM]: {
-      margin: '0.7rem 0.7rem 0.7rem 1.6rem',
-      width: '4rem',
-    },
-  })
-
-const headerResourceIcon = css({
-  position: 'absolute',
-  left: 0,
-  width: '2.5rem',
-  transform: 'translateX(-50%)',
-
-  [breakpoints.SM]: {
-    width: '3rem',
-  },
 })
 
 const headerButtons = css({
@@ -106,30 +67,30 @@ export const Header = () => {
     <div css={headerContainer}>
       <TurnCounter currentTurn={turn} />
       <div css={headerCountersWrapper}>
-        <OnboardingHighlight<HTMLDivElement> step={OnboardingStep.HighlightMaterialsCounter}>
+        <OnboardingHighlight<HTMLButtonElement> step={OnboardingStep.HighlightMaterialsCounter}>
           {({ ref, className }) => (
-            <div ref={ref} className={className} css={headerResourceCounter('#94C58C')}>
-              <ResourceIcon css={headerResourceIcon} type={ResourceType.Materials} />
-              <span>{resources.materials}</span>
-            </div>
+            <ResourceButton
+              ref={ref}
+              type={ResourceType.Materials}
+              className={className}
+              color="#94C58C"
+              text={resources.materials}
+            />
           )}
         </OnboardingHighlight>
-        <OnboardingHighlight<HTMLDivElement> step={OnboardingStep.HighlightMeatCounter}>
+        <OnboardingHighlight<HTMLButtonElement> step={OnboardingStep.HighlightMeatCounter}>
           {({ ref, className }) => (
-            <div ref={ref} className={className} css={headerResourceCounter('#C58C8F')}>
-              <ResourceIcon css={headerResourceIcon} type={ResourceType.Meat} />
-              <span>{resources.meat}</span>
-            </div>
+            <ResourceButton
+              ref={ref}
+              type={ResourceType.Meat}
+              className={className}
+              color="#C58C8F"
+              text={resources.meat}
+            />
           )}
         </OnboardingHighlight>
-        <div css={headerResourceCounter('#83B9D6')}>
-          <ResourceIcon css={headerResourceIcon} type={ResourceType.Souls} />
-          <span>{resources.souls}</span>
-        </div>
-        <div css={headerResourceCounter('#CDC59C')}>
-          <ResourceIcon css={headerResourceIcon} type={ResourceType.Bones} />
-          <span>{resources.bones}</span>
-        </div>
+        <ResourceButton type={ResourceType.Souls} color="#83B9D6" text={resources.souls} />
+        <ResourceButton type={ResourceType.Bones} color="#CDC59C" text={resources.bones} />
       </div>
       <div css={headerButtons}>
         <button type="button" css={settingsButton} onClick={openSettings}>

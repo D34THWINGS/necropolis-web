@@ -16,7 +16,7 @@ import charnelHouseBgUrl from '../../../assets/images/buildings/charnel-house-bg
 import { Image } from '../../../components/images/Image'
 import upgradeIconUrl from '../../../assets/images/icons/upgrade.png'
 import repairIconUrl from '../../../assets/images/icons/repair.png'
-import { ResourceIcon } from '../../../components/images/ResourceIcon'
+import { ResourceIcon } from '../../../components/resources/ResourceIcon'
 import { smallMarginTop } from '../../../styles/base'
 
 type BuildingDetailsProps = {

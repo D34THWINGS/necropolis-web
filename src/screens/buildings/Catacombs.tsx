@@ -12,7 +12,7 @@ import { getRaisableUndeadTypes, getRaisedUndeadCount } from '../../data/undeads
 import { Image } from '../../components/images/Image'
 import { BuildingDetails } from './components/BuildingDetails'
 import { BuildingAction } from './components/BuildingAction'
-import { ResourceIcon } from '../../components/images/ResourceIcon'
+import { ResourceIcon } from '../../components/resources/ResourceIcon'
 import { ReanimatedUndeadModal } from './components/ReanimatedUndeadModal'
 import { useModalState } from '../../components/ui/Modal/Modal'
 import { createUndead, Undead } from '../../data/undeads/helpers'

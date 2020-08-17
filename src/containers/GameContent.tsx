@@ -38,6 +38,7 @@ import { OnboardingHighlightStyles } from '../screens/onboarding/components/Onbo
 import { getHasActiveGame } from '../data/settings/selectors'
 import { getUndeadCount } from '../data/undeads/selectors'
 import { getIsBuildingsFullyUpgraded } from '../data/buildings/selectors'
+import { ResourcesModalProvider } from '../components/resources/ResourcesModalProvider'
 
 const gameContent = css({
   position: 'relative',
@@ -70,31 +71,33 @@ export const GameContent = () => {
 
   return (
     <TalentsModalProvider>
-      <div css={gameContent}>
-        <TransitionGroup css={middleSection}>
-          <CSSTransition key={location.pathname} timeout={transitions.SLOW_DURATION}>
-            <Switch location={location}>
-              <Route path={MAIN_HUB} exact component={MainHub} />
-              <Route path={EXPEDITIONS} exact component={Expeditions} />
-              <Route path={CATACOMBS} exact component={Catacombs} />
-              <Route path={OSSUARY} exact component={Ossuary} />
-              <Route path={SOUL_WELL} exact component={SoulWell} />
-              <Route path={BATTLEMENTS} exact component={Battlements} />
-              <Route path={CHARNEL_HOUSE} exact component={CharnelHouse} />
-            </Switch>
-          </CSSTransition>
-        </TransitionGroup>
-        <PhaseOverlay />
-        <Header />
-        <NavigationBar />
-      </div>
-      <UndeadUpkeep />
-      <EventModal />
-      <UndeadOverlay />
-      <UndeadSacrifice />
-      <DiscoverSpellModal />
-      <OnboardingModal />
-      <OnboardingHighlightStyles />
+      <ResourcesModalProvider>
+        <div css={gameContent}>
+          <TransitionGroup css={middleSection}>
+            <CSSTransition key={location.pathname} timeout={transitions.SLOW_DURATION}>
+              <Switch location={location}>
+                <Route path={MAIN_HUB} exact component={MainHub} />
+                <Route path={EXPEDITIONS} exact component={Expeditions} />
+                <Route path={CATACOMBS} exact component={Catacombs} />
+                <Route path={OSSUARY} exact component={Ossuary} />
+                <Route path={SOUL_WELL} exact component={SoulWell} />
+                <Route path={BATTLEMENTS} exact component={Battlements} />
+                <Route path={CHARNEL_HOUSE} exact component={CharnelHouse} />
+              </Switch>
+            </CSSTransition>
+          </TransitionGroup>
+          <PhaseOverlay />
+          <Header />
+          <NavigationBar />
+        </div>
+        <UndeadUpkeep />
+        <EventModal />
+        <UndeadOverlay />
+        <UndeadSacrifice />
+        <DiscoverSpellModal />
+        <OnboardingModal />
+        <OnboardingHighlightStyles />
+      </ResourcesModalProvider>
     </TalentsModalProvider>
   )
 }

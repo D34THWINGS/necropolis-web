@@ -1,7 +1,5 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment, ReactNode } from 'react'
-import { Image, IconProps } from './Image'
+import React, { ReactNode } from 'react'
+import { Image, IconProps } from '../images/Image'
 import { ResourceType } from '../../config/constants'
 import bonesImageUrl from '../../assets/images/resources/bones.png'
 import materialsImageUrl from '../../assets/images/resources/materials.png'
@@ -30,7 +28,7 @@ export type ResourceIconProps = Omit<IconProps, 'src'> & {
 }
 
 export const ResourceIcon = ({ type, text, className, marginLeft, marginRight, size, block }: ResourceIconProps) => (
-  <Fragment>
+  <>
     {text === undefined ? null : <span css={textColor(colorMap[type])}>{text}</span>}
     <Image
       src={iconMap[type]}
@@ -40,5 +38,5 @@ export const ResourceIcon = ({ type, text, className, marginLeft, marginRight, s
       size={size}
       block={block}
     />
-  </Fragment>
+  </>
 )

@@ -12,7 +12,7 @@ import {
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
 import { getHasTheKey } from '../../data/spells/selectors'
-import { ResourceIcon } from '../../components/images/ResourceIcon'
+import { ResourceIcon } from '../../components/resources/ResourceIcon'
 import { getSouls } from '../../data/resources/selectors'
 import { gainResources } from '../../data/resources/actions'
 import { getIsBloodPrinceInJail, getUndeadCount } from '../../data/undeads/selectors'

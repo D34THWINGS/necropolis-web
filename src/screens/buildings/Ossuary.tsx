@@ -16,7 +16,7 @@ import { discoverSpell } from '../../data/spells/actions'
 import { getHasDiscoverableSpells } from '../../data/spells/selectors'
 import { BuildingDetails } from './components/BuildingDetails'
 import { BuildingAction } from './components/BuildingAction'
-import { ResourceIcon } from '../../components/images/ResourceIcon'
+import { ResourceIcon } from '../../components/resources/ResourceIcon'
 
 export const Ossuary = () => {
   const { t } = useTranslation()

@@ -1,6 +1,6 @@
 import React from 'react'
 import { smallMarginTop, textColor } from '../styles/base'
-import { ResourceIcon } from '../components/images/ResourceIcon'
+import { ResourceIcon } from '../components/resources/ResourceIcon'
 import { ResourceType } from '../config/constants'
 
 const introTexts = [
@@ -104,8 +104,8 @@ export const frOnboarding = {
     <>
       <div>4) Phase de Ravitaillement</div>
       <div css={smallMarginTop}>
-        Chaque <span css={textColor('PURPLE')}>Morts-vivant</span> présent dans la Nécropole consomme{' '}
-        <ResourceIcon type={ResourceType.Meat} text={1} /> . En cas de pénurie, le ou les Morts-vivant de mon choix
+        Chaque <span css={textColor('PURPLE')}>Morts-vivant</span> présent dans la Nécropole consomme de la{' '}
+        <ResourceIcon type={ResourceType.Meat} text="chair" /> . En cas de pénurie, le ou les Morts-vivant de mon choix
         meurent de famine.
       </div>
     </>
@@ -118,8 +118,9 @@ export const frOnboarding = {
   ),
   onboardingMaterials: (materials: number, meat: number) => (
     <>
-      Pour ce faire, nous avons besoin de <ResourceIcon type={ResourceType.Materials} />. Mais nulle crainte, j’ai déjà
-      trouvé ce qu’il faut&nbsp;! (<ResourceIcon type={ResourceType.Materials} text={materials} />{' '}
+      Pour ce faire, nous avons besoin de <ResourceIcon type={ResourceType.Materials} text="matériaux" />. Mais nulle
+      crainte, j’ai déjà trouvé ce qu’il faut&nbsp;! (<ResourceIcon type={ResourceType.Materials} text={materials} />
+      &nbsp;
       <ResourceIcon type={ResourceType.Meat} text={meat} />)
     </>
   ),
@@ -130,8 +131,8 @@ export const frOnboarding = {
   ),
   onboardingUpkeepReminder: (
     <>
-      Je dois garder en tête que la production de <ResourceIcon type={ResourceType.Meat} /> est soustraite à la
-      consommation des <span css={textColor('PURPLE')}>Morts-vivant</span> à la fin de chaque tour.
+      Je dois garder en tête que la consommation des <span css={textColor('PURPLE')}>Morts-vivant</span> est soustraite
+      à la production de <ResourceIcon type={ResourceType.Meat} text="chair" /> à la fin de chaque tour.
     </>
   ),
   onboardingBuildSoulWell: (
