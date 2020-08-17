@@ -4,18 +4,26 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { Modal } from '../../../components/ui/Modal/Modal'
 import { ModalAlignment, ModalColor } from '../../../components/ui/Modal/modalStyles'
-import { getIsOnboardingActive, getOnboardingStep } from '../../../data/onboarding/selectors'
-import { INITIAL_MATERIALS, INITIAL_MEAT, OnboardingStep, ResourceType } from '../../../config/constants'
+import { getIsOnboardingActive, getMissingOnboardingFlags, getOnboardingStep } from '../../../data/onboarding/selectors'
+import {
+  INITIAL_MATERIALS,
+  INITIAL_MEAT,
+  OnboardingFlag,
+  OnboardingStep,
+  PALADINS_WARN_THRESHOLD,
+  ResourceType,
+} from '../../../config/constants'
 import { useTranslation } from '../../../lang/useTranslation'
 import { Image } from '../../../components/images/Image'
 import marenneHeadUrl from '../../../assets/images/characters/marenne-head.png'
 import valetUrl from '../../../assets/images/undeads/valet.png'
 import nextStepArrowUrl from '../../../assets/images/onboarding/next-step-arrow.png'
 import { greenSquareButton } from '../../../styles/buttons'
-import { nextOnboardingStep } from '../../../data/onboarding/actions'
+import { addOnboardingFlag, nextOnboardingStep } from '../../../data/onboarding/actions'
 import { layers } from '../../../config/theme'
 import { gainResources } from '../../../data/resources/actions'
 import { MAIN_HUB } from '../../../config/routes'
+import { getPaladinsCounter } from '../../../data/paladins/selectors'
 
 const noScrollModal = (alignToEnd: boolean) => [
   css({
@@ -93,23 +101,22 @@ export const OnboardingModal = () => {
   const history = useHistory()
   const onboardingActive = useSelector(getIsOnboardingActive)
   const onboardingStep = useSelector(getOnboardingStep)
+  const missingOnboardingFlags = useSelector(getMissingOnboardingFlags)
+  const paladinsCounter = useSelector(getPaladinsCounter)
   const dispatch = useDispatch()
 
-  if (!onboardingActive) {
+  if (!onboardingActive && missingOnboardingFlags.length === 0) {
     return null
   }
 
-  const handleNextStep = () => {
-    if (onboardingStep === OnboardingStep.HighlightMaterialsCounter) {
-      dispatch(gainResources({ [ResourceType.Materials]: INITIAL_MATERIALS, [ResourceType.Meat]: INITIAL_MEAT }))
-    }
-    if (onboardingStep === OnboardingStep.RemindUpkeep) {
-      history.push(MAIN_HUB)
-    }
-    dispatch(nextOnboardingStep())
-  }
+  const shouldDisplayPaladinsTips =
+    paladinsCounter >= PALADINS_WARN_THRESHOLD && missingOnboardingFlags.includes(OnboardingFlag.PaladinsExplained)
 
   const getContent = () => {
+    if (shouldDisplayPaladinsTips) {
+      return t('onboardingBuildBattlements')
+    }
+
     switch (onboardingStep) {
       case OnboardingStep.GamePresentation:
         return t('onboardingGamePresentation')
@@ -139,9 +146,27 @@ export const OnboardingModal = () => {
         return t('onboardingLetsExplore')
       case OnboardingStep.StartSmall:
         return t('onboardingStartSmall')
+      case OnboardingStep.BuildCatacombs:
+        return t('onboardingBuildCatacombs')
+      case OnboardingStep.BuildOssuary:
+        return t('onboardingBuildOssuary')
       default:
         return null
     }
+  }
+
+  const handleNextStep = () => {
+    if (shouldDisplayPaladinsTips) {
+      dispatch(addOnboardingFlag(OnboardingFlag.PaladinsExplained))
+      return
+    }
+    if (onboardingStep === OnboardingStep.HighlightMaterialsCounter) {
+      dispatch(gainResources({ [ResourceType.Materials]: INITIAL_MATERIALS, [ResourceType.Meat]: INITIAL_MEAT }))
+    }
+    if (onboardingStep === OnboardingStep.RemindUpkeep) {
+      history.push(MAIN_HUB)
+    }
+    dispatch(nextOnboardingStep())
   }
 
   const content = getContent()
@@ -157,7 +182,12 @@ export const OnboardingModal = () => {
     >
       <div css={portraitCircle(isAlignedToEnd)}>
         <div css={portraitInner}>
-          <Image src={stepsWithValetTalking.includes(onboardingStep) ? valetUrl : marenneHeadUrl} size="3rem" />
+          <Image
+            src={
+              shouldDisplayPaladinsTips || stepsWithValetTalking.includes(onboardingStep) ? valetUrl : marenneHeadUrl
+            }
+            size="3rem"
+          />
         </div>
       </div>
       {content}

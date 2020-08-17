@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useMemo, useState } from 'react'
+import React, { ComponentType, FC, ReactNode, useContext, useMemo, useState } from 'react'
 import { fr, TranslationBundle } from './fr'
 import { defaultLanguage, Translator, i18nContext, SupportedLanguages } from './i18nContext'
 
@@ -29,3 +29,19 @@ export const TranslationProvider = ({ children }: TranslationProviderProps) => {
 }
 
 export const useTranslation = () => useContext(i18nContext)
+
+export type WithTranslationProps = {
+  t: Translator['t']
+}
+
+export const withTranslation = <TProps extends WithTranslationProps>(Component: ComponentType<TProps>) => {
+  const WrappedComponent: FC<Omit<TProps, keyof WithTranslationProps>> = props => {
+    const { t } = useTranslation()
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    return <Component {...(props as TProps)} t={t} />
+  }
+
+  WrappedComponent.displayName = `WithTranslation(${Component.displayName})`
+
+  return WrappedComponent
+}

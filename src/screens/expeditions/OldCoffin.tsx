@@ -1,9 +1,7 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ExpeditionModal } from './components/ExpeditionModal'
-import { ExpeditionType, ResourceType, UndeadTalent, UndeadType } from '../../config/constants'
+import { ExpeditionType, OnboardingStep, ResourceType, UndeadTalent, UndeadType } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
 import { TalentIcon } from '../../components/talents/TalentIcon'
@@ -16,6 +14,8 @@ import { expeditionStepDescription } from './helpers/expeditionStyles'
 import oldCoffinImageUrl from '../../assets/images/expeditions/oldCoffin/old-coffin.jpg'
 import oldCoffin2ImageUrl from '../../assets/images/expeditions/oldCoffin/old-coffin-2.jpg'
 import { ExpeditionImage } from './components/ExpeditionImage'
+import { getOnboardingStep } from '../../data/onboarding/selectors'
+import { nextOnboardingStep } from '../../data/onboarding/actions'
 
 const OLD_COFFIN_MATERIALS_REWARD = 5
 const OLD_COFFIN_STRENGTH_REQUIRED = 1
@@ -29,6 +29,7 @@ export const OldCoffin = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const muscles = useSelector(getUndeadArmyMuscles)
+  const onboardingStep = useSelector(getOnboardingStep)
 
   return (
     <ExpeditionModal<OldCoffinStep>
@@ -40,7 +41,7 @@ export const OldCoffin = () => {
         switch (step) {
           case OldCoffinStep.Setup:
             return (
-              <Fragment>
+              <>
                 <ExpeditionImage src={oldCoffinImageUrl} />
                 <div css={expeditionStepDescription}>{t('oldCoffinStep1')}</div>
                 <ExpeditionAction
@@ -53,22 +54,25 @@ export const OldCoffin = () => {
                   {t('oldCoffinOpen')}
                 </ExpeditionAction>
                 {renderFleeButton()}
-              </Fragment>
+              </>
             )
           case OldCoffinStep.Reward: {
             const brikoler = createUndead(UndeadType.Brikoler)
             const handleCollectReward = () => {
               dispatch(gainResources({ [ResourceType.Materials]: OLD_COFFIN_MATERIALS_REWARD }))
               dispatch(addUndead(brikoler))
+              if (onboardingStep === OnboardingStep.AwaitOldCoffin) {
+                dispatch(nextOnboardingStep())
+              }
             }
 
             return (
-              <Fragment>
+              <>
                 <ExpeditionImage src={oldCoffin2ImageUrl} />
                 <div css={expeditionStepDescription}>{t('oldCoffinStep2', OLD_COFFIN_MATERIALS_REWARD)}</div>
                 <UndeadBox undead={brikoler} />
                 {renderEndButton(handleCollectReward)}
-              </Fragment>
+              </>
             )
           }
           default:

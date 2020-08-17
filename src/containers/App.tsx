@@ -1,10 +1,9 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'
 import { useRouteMatch } from 'react-router'
+import { css } from '@emotion/core'
 import { ResetCSS } from '../components/ResetCSS'
 import { Fonts } from '../components/Fonts'
 import { GameContent } from './GameContent'
@@ -19,6 +18,7 @@ import { colors, transitions } from '../config/theme'
 import { MAIN_MENU, NEW_GAME } from '../config/routes'
 import { MenuWrapper } from '../screens/menu/MenuWrapper'
 import { getHasActiveGame } from '../data/settings/selectors'
+import { ErrorBoundary } from './ErrorBoundary'
 
 const appContainer = css({
   display: 'flex',
@@ -84,13 +84,15 @@ export const App = () => {
   }
 
   return (
-    <Fragment>
+    <>
       <ResetCSS />
       <Fonts />
-      <div css={appContainer}>
-        <TransitionGroup css={gameContainer}>{getContent()}</TransitionGroup>
-      </div>
-      <CheatsModal />
-    </Fragment>
+      <ErrorBoundary>
+        <div css={appContainer}>
+          <TransitionGroup css={gameContainer}>{getContent()}</TransitionGroup>
+        </div>
+        <CheatsModal />
+      </ErrorBoundary>
+    </>
   )
 }

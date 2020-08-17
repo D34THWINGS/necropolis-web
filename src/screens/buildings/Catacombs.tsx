@@ -1,11 +1,9 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment, useRef } from 'react'
+import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
 import reanimateIconUrl from '../../assets/images/icons/reanimate.png'
 import lockIconUrl from '../../assets/images/icons/lock.png'
-import { BuildingType, ResourceType } from '../../config/constants'
+import { BuildingType, OnboardingStep, ResourceType } from '../../config/constants'
 import { getSouls } from '../../data/resources/selectors'
 import { getMaxUndeadRaising, getRaiseUndeadSoulCost } from '../../data/buildings/helpers'
 import { getRaisableUndeadTypes, getRaisedUndeadCount } from '../../data/undeads/selectors'
@@ -17,10 +15,13 @@ import { ReanimatedUndeadModal } from './components/ReanimatedUndeadModal'
 import { useModalState } from '../../components/ui/Modal/Modal'
 import { createUndead, Undead } from '../../data/undeads/helpers'
 import { raiseUndead } from '../../data/undeads/actions'
+import { getOnboardingStep } from '../../data/onboarding/selectors'
+import { nextOnboardingStep } from '../../data/onboarding/actions'
 
 export const Catacombs = () => {
   const { t } = useTranslation()
   const raisedUndead = useSelector(getRaisedUndeadCount)
+  const onboardingStep = useSelector(getOnboardingStep)
   const souls = useSelector(getSouls)
   const types = useSelector(getRaisableUndeadTypes)
   const dispatch = useDispatch()
@@ -36,6 +37,9 @@ export const Catacombs = () => {
     if (raisedUndeadRef.current) {
       dispatch(raiseUndead(raisedUndeadRef.current))
     }
+    if (onboardingStep === OnboardingStep.AwaitUndeadRaising) {
+      dispatch(nextOnboardingStep())
+    }
     close()
   }
 
@@ -44,7 +48,7 @@ export const Catacombs = () => {
       type={BuildingType.Catacombs}
       renderSpecialAction={(level, isCollapsed) =>
         level === 0 ? null : (
-          <Fragment>
+          <>
             <BuildingAction
               onClick={handleRaiseUndead}
               disabled={
@@ -63,7 +67,7 @@ export const Catacombs = () => {
               <ResourceIcon type={ResourceType.Souls} text={getRaiseUndeadSoulCost(level)} />
             </BuildingAction>
             <ReanimatedUndeadModal isOpen={isOpen} onAcknowledge={handleAcknowledge} undead={raisedUndeadRef.current} />
-          </Fragment>
+          </>
         )
       }
       renderUpgradeDescription={level =>

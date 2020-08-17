@@ -144,16 +144,37 @@ export const frOnboarding = {
   ),
   onboardingSoulWellDescription: (
     <>
-      Celui-ci me permettra de récolter les <ResourceIcon type={ResourceType.Souls} /> nécessaire pour ramener à la vie
-      les dépouilles enfouies dans les Catacombes.
+      Celui-ci me permettra de récolter les <ResourceIcon type={ResourceType.Souls} text="âmes" /> nécessaire pour
+      ramener à la vie les dépouilles enfouies dans les Catacombes.
     </>
   ),
   onboardingNoMoreMaterials: (
     <>
       Marenne, votre nouvel édifice m&apos;ébahit&nbsp;! Cependant, notre réserve de{' '}
-      <ResourceIcon type={ResourceType.Materials} /> s&apos;est tarie.
+      <ResourceIcon type={ResourceType.Materials} text="matériaux" /> s&apos;est tarie.
     </>
   ),
   onboardingLetsExplore: <>Partons donc explorer les alentours. Qui sait quels trésors trouverons-nous&nbsp;?</>,
   onboardingStartSmall: <>Commençons avec quelque chose de facile...</>,
+  onboardingBuildCatacombs: (
+    <>
+      Je dispose maintenant des <ResourceIcon type={ResourceType.Materials} text="matériaux" /> nécessaires à la
+      construction des Catacombes. Au tour prochain, j’aurai également suffisamment{' '}
+      <ResourceIcon type={ResourceType.Souls} text="d'âmes" /> pour réanimer un{' '}
+      <span css={textColor('PURPLE')}>Mort-Vivant</span>.
+    </>
+  ),
+  onboardingBuildOssuary: (
+    <>
+      Les <ResourceIcon type={ResourceType.Souls} text="âmes" /> sont une source puissante de pouvoir… Je pourrais les
+      utiliser pour lancer des Sorts&nbsp;! Mais d&apos;abord, je dois en découvrir un en construisant l&apos;Ossuaire .
+    </>
+  ),
+  onboardingBuildBattlements: (
+    <>
+      Mais que nous veulent-ils à la fin, ces fichus Paladins&nbsp;? Construisez des Remparts pour renforcer la{' '}
+      <span css={textColor('LIME')}>Défense</span> de notre fortin. Si lorsqu&apos;ils attaquent, cette dernière est
+      inférieure à leur <span css={textColor('RED')}>Force</span>, Je crains que les choses pour nous se corsent.
+    </>
+  ),
 }

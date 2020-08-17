@@ -298,6 +298,20 @@ export const fr = {
     // eslint-disable-next-line max-len
     'Vous l’avez fait, atteindre la prospérité\u00A0! Il ne vous reste plus qu’à profiter de la vie jusqu’à la fin des temps...',
 
+  errorTitle: 'Oops :(',
+  errorMessage: (
+    <>
+      Il semblerait qu&apos;un incident fâcheux soit survenu. Si vous rencontrez souvent des soucis avec le jeu, merci
+      de nous{' '}
+      <a css={textColor('LIGHT_BLUE')} href="mailto:thefallenworld@gmail.com">
+        contacter
+      </a>
+      .
+    </>
+  ),
+  reload: 'Recharger',
+  reset: 'Ré-initialiser la partie',
+
   ...frOnboarding,
   ...frExpeditions,
   ...frEvents,

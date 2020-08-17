@@ -31,6 +31,7 @@ export const PALADINS_STRENGTH_INCREASE = 1
 export const PALADINS_INCREASE_SPACING = 3
 export const PALADINS_CALL_TO_ARMS_TURN = 3
 export const PALADINS_ATTACK_THRESHOLD = 3
+export const PALADINS_WARN_THRESHOLD = 2
 
 export enum UndeadType {
   Valet = 'valet',
@@ -121,7 +122,15 @@ export enum OnboardingStep {
   NoMoreMaterials,
   LetsExplore,
   StartSmall,
+  AwaitOldCoffin,
+  BuildCatacombs,
+  AwaitUndeadRaising,
+  BuildOssuary,
   End,
+}
+
+export enum OnboardingFlag {
+  PaladinsExplained = 'paladinsExplained',
 }
 
 export enum ExpeditionType {
