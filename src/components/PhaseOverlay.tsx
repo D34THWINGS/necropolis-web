@@ -6,8 +6,8 @@ import { contentCover, h2Title } from '../styles/base'
 import { getCurrentPhase } from '../data/turn/selectors'
 import { greenSquareButton } from '../styles/buttons'
 import { useTranslation } from '../lang/useTranslation'
-import { nextPhase } from '../data/turn/actions'
-import { OnboardingStep, ResourceType, TurnPhase } from '../config/constants'
+import { loose, nextPhase } from '../data/turn/actions'
+import { LooseReason, OnboardingStep, ResourceType, TurnPhase } from '../config/constants'
 import { getBuildingsProduction } from '../data/buildings/selectors'
 import { ResourceIcon } from './resources/ResourceIcon'
 import { gainResources, spendResources } from '../data/resources/actions'
@@ -18,6 +18,7 @@ import { Image } from './images/Image'
 import arrowUrl from '../assets/images/onboarding/next-step-arrow.png'
 import { getOnboardingStep } from '../data/onboarding/selectors'
 import { nextOnboardingStep } from '../data/onboarding/actions'
+import { getMeat } from '../data/resources/selectors'
 
 const overlay = [
   contentCover,
@@ -64,6 +65,7 @@ export const PhaseOverlay = () => {
   const currentPhase = useSelector(getCurrentPhase)
   const production = useSelector(getBuildingsProduction)
   const upkeep = useSelector(getUpkeep)
+  const meat = useSelector(getMeat)
   const dispatch = useDispatch()
 
   if (currentPhase === TurnPhase.Action || currentPhase === TurnPhase.Event) {
@@ -120,7 +122,8 @@ export const PhaseOverlay = () => {
         return (
           <Fragment>
             <h2 css={h2Title}>{t('upkeepPhaseTitle')}</h2>
-            <p>{t('upkeepPhaseDescription', upkeep)}</p>
+            {meat > 0 && <p>{t('upkeepPhaseDescription', upkeep)}</p>}
+            {meat === 0 && <p>{t('upkeepNoMeat')}</p>}
           </Fragment>
         )
       default:
@@ -128,13 +131,30 @@ export const PhaseOverlay = () => {
     }
   }
 
-  return (
-    <div css={overlay}>
-      <div css={content}>{getContent()}</div>
+  const getActionButton = () => {
+    if (currentPhase === TurnPhase.Upkeep && meat === 0) {
+      const handleLoose = () => dispatch(loose(LooseReason.Famine))
+
+      return (
+        <button type="button" css={nextPhaseButton} onClick={handleLoose}>
+          <Image src={arrowUrl} marginRight="0.4rem" />
+          {t('rip')}
+        </button>
+      )
+    }
+
+    return (
       <button type="button" css={nextPhaseButton} onClick={handleNextPhase}>
         <Image src={arrowUrl} marginRight="0.4rem" />
         {t('nextPhase')}
       </button>
+    )
+  }
+
+  return (
+    <div css={overlay}>
+      <div css={content}>{getContent()}</div>
+      {getActionButton()}
     </div>
   )
 }

@@ -16,6 +16,7 @@ import oldCoffin2ImageUrl from '../../assets/images/expeditions/oldCoffin/old-co
 import { ExpeditionImage } from './components/ExpeditionImage'
 import { getOnboardingStep } from '../../data/onboarding/selectors'
 import { nextOnboardingStep } from '../../data/onboarding/actions'
+import { ResourceIcon } from '../../components/resources/ResourceIcon'
 
 const OLD_COFFIN_MATERIALS_REWARD = 5
 const OLD_COFFIN_STRENGTH_REQUIRED = 1
@@ -37,7 +38,7 @@ export const OldCoffin = () => {
       title={t('oldCoffinTitle')}
       renderOverview={() => t('oldCoffinOverview')}
       renderTreasure={() => t('oldCoffinReward')}
-      renderStep={(step, { goToStep, renderFleeButton, renderEndButton }) => {
+      renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderLoot }) => {
         switch (step) {
           case OldCoffinStep.Setup:
             return (
@@ -69,8 +70,9 @@ export const OldCoffin = () => {
             return (
               <>
                 <ExpeditionImage src={oldCoffin2ImageUrl} />
-                <div css={expeditionStepDescription}>{t('oldCoffinStep2', OLD_COFFIN_MATERIALS_REWARD)}</div>
+                <div css={expeditionStepDescription}>{t('oldCoffinStep2')}</div>
                 <UndeadBox undead={brikoler} />
+                {renderLoot(<ResourceIcon type={ResourceType.Materials} text={OLD_COFFIN_MATERIALS_REWARD} />)}
                 {renderEndButton(handleCollectReward)}
               </>
             )

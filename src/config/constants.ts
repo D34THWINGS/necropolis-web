@@ -3,7 +3,7 @@ export const INITIAL_MEAT = 2
 
 export const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 3, 5]
 export const CHARNEL_HOUSE_BONES_PRODUCTION = [0, 0, 1, 1]
-export const CHARNEL_HOUSE_PRODUCTION_TURNS = [0, 0, 3, 3]
+export const CHARNEL_HOUSE_PRODUCTION_TURNS = [0, 0, 2, 2]
 export const CHARNEL_HOUSE_UPGRADE_COST = [0, 4, 1, 3]
 export const CHARNEL_HOUSE_MAX_LEVEL = 3
 
@@ -122,6 +122,7 @@ export enum OnboardingStep {
   NoMoreMaterials,
   LetsExplore,
   StartSmall,
+  CoffinHelp,
   AwaitOldCoffin,
   BuildCatacombs,
   AwaitUndeadRaising,
@@ -152,3 +153,16 @@ export enum EventType {
 export const PLUNDER_ACTIVATION_TURN = 9
 
 export const ARTIFACT_DEFENSE_BONUS = 2
+
+export enum GameState {
+  Ongoing,
+  Win,
+  Loose,
+}
+
+export enum LooseReason {
+  UndeadsKilled,
+  BastionDefeat,
+  PaladinsAssault,
+  Famine,
+}

@@ -15,7 +15,7 @@ import { getHasTheKey } from '../../data/spells/selectors'
 import { ResourceIcon } from '../../components/resources/ResourceIcon'
 import { getSouls } from '../../data/resources/selectors'
 import { gainResources } from '../../data/resources/actions'
-import { getIsBloodPrinceInJail, getUndeadCount } from '../../data/undeads/selectors'
+import { getIsBloodPrinceInJail, getUndeadArmyMuscles, getUndeadCount } from '../../data/undeads/selectors'
 import { addUndead, requireSacrifice } from '../../data/undeads/actions'
 import { createUndead } from '../../data/undeads/helpers'
 import { cancelReinforcements } from '../../data/expeditions/actions'
@@ -26,7 +26,9 @@ import townHallImageUrl from '../../assets/images/expeditions/townHall/town-hall
 import townHallImage2Url from '../../assets/images/expeditions/townHall/town-hall-2.jpg'
 import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
+import { getLethality } from '../../data/selectors'
 
+const TOWN_HALL_MUSCLES_REQUIRED = 4
 const TOWN_HALL_FIRE_UNDEAD_COST = 1
 const TOWN_HALL_MATERIALS_REWARD = 6
 const TOWN_HALL_LETHALITY_REQUIRED = 5
@@ -46,6 +48,8 @@ export const TownHall = () => {
   const isBloodPrinceInJail = useSelector(getIsBloodPrinceInJail)
   const souls = useSelector(getSouls)
   const undeadCount = useSelector(getUndeadCount)
+  const muscles = useSelector(getUndeadArmyMuscles)
+  const lethality = useSelector(getLethality)
   const dispatch = useDispatch()
 
   return (
@@ -54,7 +58,7 @@ export const TownHall = () => {
       title={t('townHallTitle')}
       renderOverview={() => t('townHallOverview')}
       renderTreasure={() => t('townHallRewardOverview')}
-      renderStep={(step, { goToStep, renderFleeButton, renderContinueButton, renderEndButton }) => {
+      renderStep={(step, { goToStep, renderFleeButton, renderContinueButton, renderEndButton, renderLoot }) => {
         switch (step as TownHallStep) {
           case TownHallStep.Entrance: {
             const handleCastTheKey = () => {
@@ -75,6 +79,13 @@ export const TownHall = () => {
                     {t('townHallAction1')}
                   </ExpeditionAction>
                 )}
+                <ExpeditionAction
+                  prerequisites={<TalentIcon type={UndeadTalent.Muscles} text={TOWN_HALL_MUSCLES_REQUIRED} />}
+                  disabled={muscles < TOWN_HALL_MUSCLES_REQUIRED}
+                  onClick={goToStep(TownHallStep.BrokenDoor)}
+                >
+                  {t('townHallAction6')}
+                </ExpeditionAction>
                 {renderFleeButton()}
               </Fragment>
             )
@@ -99,7 +110,7 @@ export const TownHall = () => {
                   prerequisites={
                     <TalentIcon type={UndeadTalent.Lethality} text={TOWN_HALL_LETHALITY_REQUIRED} size="1rem" />
                   }
-                  disabled={undeadCount < TOWN_HALL_FIRE_UNDEAD_COST}
+                  disabled={undeadCount < TOWN_HALL_FIRE_UNDEAD_COST || lethality < TOWN_HALL_LETHALITY_REQUIRED}
                   onClick={handleLooseUndeadInFire(goToStep(TownHallStep.KillRunners))}
                 >
                   {t('townHallAction2')}
@@ -133,7 +144,8 @@ export const TownHall = () => {
             const handleLoot = () => dispatch(gainResources({ [ResourceType.Materials]: TOWN_HALL_MATERIALS_REWARD }))
             return (
               <Fragment>
-                {t('townHallStep5', TOWN_HALL_MATERIALS_REWARD)}
+                {t('townHallStep5')}
+                {renderLoot(<ResourceIcon type={ResourceType.Materials} text={TOWN_HALL_MATERIALS_REWARD} />)}
                 {renderEndButton(handleLoot)}
               </Fragment>
             )

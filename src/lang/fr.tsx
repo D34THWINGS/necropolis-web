@@ -10,6 +10,7 @@ import { ResourceIcon } from '../components/resources/ResourceIcon'
 import { frMenu } from './frMenu'
 
 export const fr = {
+  rip: 'Argh!',
   resetGame: 'Recommencer la partie',
   goToMainMenu: 'Menu principal',
   nextPhase: 'Phase suivante',
@@ -141,6 +142,13 @@ export const fr = {
 
   undeadOverlayTitle: 'Morts-vivants',
   undeadUpkeep: 'Consomation par tour :\u00A0',
+  upkeepNoMeat: (
+    <>
+      La famine emporte vos citoyens. Sans entretien, la cité tombe rapidement en désuétude, et vous mourrez peu de
+      temps après de désespoir.
+    </>
+  ),
+  upkeepConfirm: 'Continuer',
   talentsTotal: 'Total talents\u00A0:\u00A0',
   confirmUndeadBan: (name: ReactNode) => (
     <>
@@ -293,6 +301,8 @@ export const fr = {
   ),
 
   gameLost: 'La Faucheuse a enfin récolté votre âme désespérée !',
+  gameLostAssault: 'La Faucheuse a enfin récolté votre âme meurtrie.',
+  gameLostBastion: 'La Faucheuse a enfin récolté votre âme asservie.',
   gameRetry: 'Recommencer',
   gameWon:
     // eslint-disable-next-line max-len

@@ -9,8 +9,8 @@ import { EventAction } from './components/EventAction'
 import { getPaladinsStrength } from '../../data/paladins/selectors'
 import { getUndeadCount } from '../../data/undeads/selectors'
 import { gainResources } from '../../data/resources/actions'
-import { ResourceType } from '../../config/constants'
-import { killAllUndead, requireSacrifice } from '../../data/undeads/actions'
+import { LooseReason, ResourceType } from '../../config/constants'
+import { requireSacrifice } from '../../data/undeads/actions'
 import { resetPaladinsCounter } from '../../data/paladins/actions'
 import { getDefense } from '../../data/selectors'
 import paladinsAssault1ImageUrl from '../../assets/images/events/paladins-assault-1.jpg'
@@ -18,6 +18,7 @@ import paladinsAssault2ImageUrl from '../../assets/images/events/paladins-assaul
 import paladinsAssault3ImageUrl from '../../assets/images/events/paladins-assault-3.jpg'
 import { EventImage } from './components/EventImage'
 import { eventStepDescription } from './helpers/eventStyles'
+import { loose } from '../../data/turn/actions'
 
 enum PaladinsAssaultStep {
   Setup,
@@ -118,7 +119,7 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
             )
           }
           case PaladinsAssaultStep.TotalDefeat: {
-            const handleTotalDefeat = () => dispatch(killAllUndead())
+            const handleTotalDefeat = () => dispatch(loose(LooseReason.PaladinsAssault))
             return (
               <Fragment>
                 {t('paladinsAssaultTotalDefeat')}

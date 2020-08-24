@@ -10,15 +10,15 @@ import { GameContent } from './GameContent'
 import { getIsIntroActive } from '../data/onboarding/selectors'
 import { Intro } from '../screens/onboarding/Intro'
 import { CheatsModal } from '../components/CheatsModal'
-import { getUndeadCount } from '../data/undeads/selectors'
 import { GameLost } from '../screens/gameEnd/GameLost'
 import { GameWon } from '../screens/gameEnd/GameWon'
-import { getIsBuildingsFullyUpgraded } from '../data/buildings/selectors'
 import { colors, transitions } from '../config/theme'
 import { MAIN_MENU, NEW_GAME } from '../config/routes'
 import { MenuWrapper } from '../screens/menu/MenuWrapper'
 import { getHasActiveGame } from '../data/settings/selectors'
 import { ErrorBoundary } from './ErrorBoundary'
+import { getGameState } from '../data/turn/selectors'
+import { GameState } from '../config/constants'
 
 const appContainer = css({
   display: 'flex',
@@ -42,8 +42,7 @@ export const App = () => {
   const matchNewGame = useRouteMatch({ path: NEW_GAME, exact: true })
   const hasActiveGame = useSelector(getHasActiveGame)
   const isOnboardingActive = useSelector(getIsIntroActive)
-  const undeadCount = useSelector(getUndeadCount)
-  const isBuildingsFullyUpgraded = useSelector(getIsBuildingsFullyUpgraded)
+  const gameState = useSelector(getGameState)
 
   const isOnMainMenu = !!matchMainMenu || !!matchNewGame
 
@@ -62,14 +61,14 @@ export const App = () => {
         </CSSTransition>
       )
     }
-    if (isBuildingsFullyUpgraded) {
+    if (gameState === GameState.Win) {
       return (
         <CSSTransition key="won" timeout={transitions.SLOW_DURATION}>
           <GameWon />
         </CSSTransition>
       )
     }
-    if (undeadCount === 0) {
+    if (gameState === GameState.Loose) {
       return (
         <CSSTransition key="lost" timeout={transitions.SLOW_DURATION}>
           <GameLost />

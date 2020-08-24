@@ -7,8 +7,7 @@ import { useTranslation } from '../../lang/useTranslation'
 import { largeMarginTop } from '../../styles/base'
 import { MAIN_HUB, NEW_GAME } from '../../config/routes'
 import { getHasActiveGame } from '../../data/settings/selectors'
-import { breakpoints } from '../../config/theme'
-import { ScreenWrapper } from '../../components/ui/ScreenWrapper'
+import { colors } from '../../config/theme'
 import backgroundImageUrl from '../../assets/images/background.jpg'
 import titleImageUrl from '../../assets/images/title.png'
 import { Image } from '../../components/images/Image'
@@ -18,15 +17,21 @@ const mainMenuWrapper = css({
   flexDirection: 'column',
   alignItems: 'stretch',
   justifyContent: 'flex-end',
-  padding: '0 2rem',
-
-  [breakpoints.SM]: {
-    padding: '0 4rem',
-  },
+  padding: '3rem 2rem 2rem',
+  height: '100%',
+  backgroundImage: `url("${backgroundImageUrl}")`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundColor: colors.DARK_GREEN,
 })
 
 const separator = css({
   flex: '1 0 auto',
+})
+
+const titleImage = css({
+  margin: '-1rem',
+  width: 'calc(100% + 2rem)',
 })
 
 export const MainMenu = () => {
@@ -38,8 +43,8 @@ export const MainMenu = () => {
   const handleNewGame = () => history.replace(NEW_GAME)
 
   return (
-    <ScreenWrapper css={mainMenuWrapper} backgroundUrl={backgroundImageUrl}>
-      <Image src={titleImageUrl} size="100%" />
+    <div css={mainMenuWrapper}>
+      <Image css={titleImage} src={titleImageUrl} />
       <div css={separator} />
       <button type="button" css={cyanSquareButton} onClick={handleContinue} disabled={!hasActiveGame}>
         {t('continueGame')}
@@ -47,6 +52,6 @@ export const MainMenu = () => {
       <button type="button" css={[cyanSquareButton, largeMarginTop]} onClick={handleNewGame}>
         {t('newGame')}
       </button>
-    </ScreenWrapper>
+    </div>
   )
 }

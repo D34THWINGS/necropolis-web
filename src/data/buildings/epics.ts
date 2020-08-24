@@ -14,8 +14,8 @@ import {
   Spell,
 } from '../../config/constants'
 import { getBuildingUpgradeCost } from './helpers'
-import { nextPhase } from '../turn/actions'
-import { getBuildingLevel } from './selectors'
+import { nextPhase, win } from '../turn/actions'
+import { getBuildingLevel, getIsBuildingsFullyUpgraded } from './selectors'
 import { addSpell } from '../spells/actions'
 
 export const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
@@ -45,6 +45,11 @@ export const upgradeBuildingRewardsEpic: Epic<RootAction, RootAction, RootState>
             [ResourceType.Bones]: OSSUARY_UPGRADE_BONUS_BONES[level],
           }),
         )
+      }
+
+      const isBuildingsFullyUpgraded = getIsBuildingsFullyUpgraded(state$.value)
+      if (isBuildingsFullyUpgraded) {
+        actions.push(win())
       }
 
       return of(...actions)

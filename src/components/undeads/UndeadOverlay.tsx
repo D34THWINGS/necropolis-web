@@ -14,12 +14,13 @@ import { useTranslation } from '../../lang/useTranslation'
 import { getUndeads, getUpkeep } from '../../data/undeads/selectors'
 import { h2Title, purpleBox, textColor } from '../../styles/base'
 import { ResourceIcon } from '../resources/ResourceIcon'
-import { ResourceType, UndeadTalent, UndeadType } from '../../config/constants'
+import { OnboardingStep, ResourceType, UndeadTalent, UndeadType } from '../../config/constants'
 import { UndeadBox } from './UndeadBox'
 import { banUndead } from '../../data/undeads/actions'
 import { Image } from '../images/Image'
 import { TalentButton } from '../talents/TalentButton'
 import { getUndeadTalentValue } from '../../data/undeads/helpers'
+import { OnboardingHighlight } from '../../screens/onboarding/components/OnboardingHighlight'
 
 const undeadOverlayContainer = (isOpen: boolean) => [
   modalPanel(ModalColor.PURPLE),
@@ -110,9 +111,22 @@ export const UndeadOverlay = () => {
             ))}
           </TransitionGroup>
         </div>
-        <button type="button" css={undeadOverlayToggle} onClick={toggle}>
-          <Image src={isOpen ? overlayCloseUrl : overlayOpenUrl} size="2rem" />
-        </button>
+        <OnboardingHighlight<HTMLButtonElement> step={OnboardingStep.CoffinHelp}>
+          {({ className, onClick, ref }) => {
+            const handleClick = () => {
+              if (onClick) {
+                onClick()
+              }
+              toggle()
+            }
+
+            return (
+              <button ref={ref} className={className} type="button" css={undeadOverlayToggle} onClick={handleClick}>
+                <Image src={isOpen ? overlayCloseUrl : overlayOpenUrl} size="2rem" />
+              </button>
+            )
+          }}
+        </OnboardingHighlight>
       </div>
     </Fragment>
   )

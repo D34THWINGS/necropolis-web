@@ -1,9 +1,14 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ExpeditionModal } from './components/ExpeditionModal'
-import { ExpeditionType, ResourceType, Spell, SPELLS_SOUL_COSTS, UndeadTalent } from '../../config/constants'
+import {
+  ExpeditionType,
+  LooseReason,
+  ResourceType,
+  Spell,
+  SPELLS_SOUL_COSTS,
+  UndeadTalent,
+} from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
 import { ResourceIcon } from '../../components/resources/ResourceIcon'
@@ -17,6 +22,8 @@ import bastionImageUrl from '../../assets/images/expeditions/bastion/bastion.jpg
 import bastionImage2Url from '../../assets/images/expeditions/bastion/bastion-2.jpg'
 import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
+import { getUndeadArmyMuscles } from '../../data/undeads/selectors'
+import { loose } from '../../data/turn/actions'
 
 enum BastionStep {
   Setup,
@@ -27,8 +34,10 @@ enum BastionStep {
   Reinforced,
   Weakened,
   Perish,
+  Obey,
 }
 
+const BASTION_MUSCLES_REQUIRED = 5
 const BASTION_KILL_DOGS_LETHALITY_COST = 8
 const BASTION_KILL_DOGS_MEAT_REWARD = 8
 const BASTION_KILL_DOGS_BONES_REWARD = 2
@@ -42,6 +51,7 @@ export const Bastion = () => {
   const souls = useSelector(getSouls)
   const bones = useSelector(getBones)
   const lethality = useSelector(getLethality)
+  const muscles = useSelector(getUndeadArmyMuscles)
   const hasCancelledReinforcements = useSelector(getHasCancelledReinforcements)
   const dispatch = useDispatch()
 
@@ -51,7 +61,7 @@ export const Bastion = () => {
       title={t('bastionTitle')}
       renderOverview={() => t('bastionOverview')}
       renderTreasure={() => <ResourceIcon type={ResourceType.Materials} />}
-      renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderContinueButton }) => {
+      renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderContinueButton, renderLoot }) => {
         switch (step) {
           case BastionStep.Setup: {
             const handleCastTheKey = () => {
@@ -59,7 +69,7 @@ export const Bastion = () => {
               goToStep(BastionStep.DoorOpens)()
             }
             return (
-              <Fragment>
+              <>
                 <ExpeditionImage src={bastionImageUrl} />
                 <div css={expeditionStepDescription}>{t('bastionStep1')}</div>
                 <ExpeditionAction
@@ -69,16 +79,23 @@ export const Bastion = () => {
                 >
                   {t('bastionAction1')}
                 </ExpeditionAction>
+                <ExpeditionAction
+                  disabled={muscles < BASTION_MUSCLES_REQUIRED}
+                  prerequisites={<TalentIcon type={UndeadTalent.Muscles} text={BASTION_MUSCLES_REQUIRED} />}
+                  onClick={goToStep(BastionStep.DoorOpens)}
+                >
+                  {t('bastionAction6')}
+                </ExpeditionAction>
                 {renderFleeButton()}
-              </Fragment>
+              </>
             )
           }
           case BastionStep.DoorOpens:
             return (
-              <Fragment>
+              <>
                 {t('bastionStep2')}
                 {renderContinueButton(BastionStep.Hall)}
-              </Fragment>
+              </>
             )
           case BastionStep.Hall: {
             const handleFeedDogs = () => {
@@ -86,7 +103,7 @@ export const Bastion = () => {
               goToStep(BastionStep.NourishedDogs)()
             }
             return (
-              <Fragment>
+              <>
                 {t('bastionStep3')}
                 <ExpeditionAction
                   disabled={lethality < BASTION_KILL_DOGS_LETHALITY_COST}
@@ -105,26 +122,32 @@ export const Bastion = () => {
                   {t('bastionAction3')}
                 </ExpeditionAction>
                 {renderFleeButton()}
-              </Fragment>
+              </>
             )
           }
           case BastionStep.DeadDogs:
             return (
-              <Fragment>
-                {t('bastionStep4', BASTION_KILL_DOGS_MEAT_REWARD, BASTION_KILL_DOGS_BONES_REWARD)}
+              <>
+                {t('bastionStep4')}
+                {renderLoot(
+                  <>
+                    <ResourceIcon type={ResourceType.Meat} text={BASTION_KILL_DOGS_MEAT_REWARD} marginRight="0.5rem" />
+                    <ResourceIcon type={ResourceType.Bones} text={BASTION_KILL_DOGS_BONES_REWARD} />
+                  </>,
+                )}
                 {renderContinueButton(hasCancelledReinforcements ? BastionStep.Weakened : BastionStep.Reinforced)}
-              </Fragment>
+              </>
             )
           case BastionStep.NourishedDogs:
             return (
-              <Fragment>
+              <>
                 {t('bastionStep5')}
                 {renderContinueButton(hasCancelledReinforcements ? BastionStep.Weakened : BastionStep.Reinforced)}
-              </Fragment>
+              </>
             )
           case BastionStep.Reinforced:
             return (
-              <Fragment>
+              <>
                 {t('bastionStep6')}
                 <ExpeditionAction
                   disabled={lethality < BASTION_KILL_PALADINS_LETHALITY_COST}
@@ -135,12 +158,12 @@ export const Bastion = () => {
                 >
                   {t('bastionAction2')}
                 </ExpeditionAction>
-                {renderFleeButton()}
-              </Fragment>
+                <ExpeditionAction onClick={goToStep(BastionStep.Obey)}>{t('bastionAction5')}</ExpeditionAction>
+              </>
             )
           case BastionStep.Weakened:
             return (
-              <Fragment>
+              <>
                 {t('bastionStep7')}
                 <ExpeditionAction
                   disabled={lethality < BASTION_KILL_WEAKENED_PALADINS_LETHALITY_COST}
@@ -155,18 +178,28 @@ export const Bastion = () => {
                 >
                   {t('bastionAction2')}
                 </ExpeditionAction>
-                {renderFleeButton()}
-              </Fragment>
+                <ExpeditionAction onClick={goToStep(BastionStep.Obey)}>{t('bastionAction5')}</ExpeditionAction>
+              </>
             )
           case BastionStep.Perish: {
             const handleKilledPaladins = () =>
               dispatch(gainResources({ [ResourceType.Materials]: BASTION_MATERIALS_REWARD }))
             return (
-              <Fragment>
+              <>
                 <ExpeditionImage src={bastionImage2Url} />
-                <div css={expeditionStepDescription}>{t('bastionStep8', BASTION_MATERIALS_REWARD)}</div>
+                <div css={expeditionStepDescription}>{t('bastionStep8')}</div>
+                {renderLoot(<ResourceIcon type={ResourceType.Materials} text={BASTION_MATERIALS_REWARD} />)}
                 {renderEndButton(handleKilledPaladins)}
-              </Fragment>
+              </>
+            )
+          }
+          case BastionStep.Obey: {
+            const handleLoose = () => dispatch(loose(LooseReason.BastionDefeat))
+            return (
+              <>
+                {t('bastionStep9')}
+                <ExpeditionAction onClick={handleLoose}>{t('bastionAction7')}</ExpeditionAction>
+              </>
             )
           }
           default:

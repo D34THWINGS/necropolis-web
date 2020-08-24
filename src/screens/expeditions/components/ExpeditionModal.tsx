@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { Fragment, ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
+import { css } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from '../../../components/ui/Modal/Modal'
 import { ExpeditionType } from '../../../config/constants'
@@ -12,6 +11,7 @@ import { getExpeditionStep, getOpenedExpedition } from '../../../data/expedition
 import { Image } from '../../../components/images/Image'
 import greenArrowUrl from '../../../assets/images/onboarding/next-step-arrow.png'
 import treasureUrl from '../../../assets/images/expeditions/treasure.png'
+import lootUrl from '../../../assets/images/expeditions/loot.png'
 import { ExpeditionFlee } from './ExpeditionFlee'
 
 const expeditionButton = [
@@ -46,6 +46,23 @@ const treasureImage = css({
   alignSelf: 'center',
 })
 
+const lootWrapper = css({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'relative',
+  padding: '0.5rem 0',
+})
+
+const lootInner = css({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  textAlign: 'center',
+  filter: 'brightness(1.3)',
+})
+
 export type ExpeditionModalProps<TStep> = {
   type: ExpeditionType
   title: ReactNode
@@ -57,6 +74,7 @@ export type ExpeditionModalProps<TStep> = {
       renderEndButton: (onClick?: () => void) => ReactNode
       renderFleeButton: () => ReactNode
       renderContinueButton: (step: TStep, onClick?: () => void) => ReactNode
+      renderLoot: (children?: ReactNode) => ReactNode
     },
   ) => ReactNode
   renderTreasure: () => ReactNode
@@ -87,7 +105,7 @@ export const ExpeditionModal = <TStep extends number = number>({
   const getContent = () => {
     if (step === undefined) {
       return (
-        <Fragment>
+        <>
           {renderOverview()}
           <div css={treasureContainer}>
             <Image css={treasureImage} src={treasureUrl} size="14rem" />
@@ -98,7 +116,7 @@ export const ExpeditionModal = <TStep extends number = number>({
           <button type="button" css={expeditionButton} onClick={handleBeginExpedition}>
             {t('beginExpedition')}
           </button>
-        </Fragment>
+        </>
       )
     }
 
@@ -108,7 +126,7 @@ export const ExpeditionModal = <TStep extends number = number>({
 
     const goToStep = (newStep: TStep) => () => dispatch(setExpeditionStep(type, newStep))
     return (
-      <Fragment>
+      <>
         {renderStep(step as TStep, {
           goToStep,
           renderFleeButton: () => {
@@ -146,8 +164,14 @@ export const ExpeditionModal = <TStep extends number = number>({
               </button>
             )
           },
+          renderLoot: (children?: ReactNode) => (
+            <div css={lootWrapper}>
+              <Image src={lootUrl} size="10rem" />
+              <div css={lootInner}>{children}</div>
+            </div>
+          ),
         })}
-      </Fragment>
+      </>
     )
   }
 

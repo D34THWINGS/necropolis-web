@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import gameLostBgUrl from '../../assets/images/endScreens/defeat-bg.jpg'
 import gameLostImageUrl from '../../assets/images/endScreens/defeat.png'
@@ -10,6 +10,8 @@ import { gameCreated, gameEnded, resetGame } from '../../data/settings/actions'
 import { gameEndButton, gameEndContainer, gameEndImage, gameEndText } from './helpers/gameEndStyles'
 import { MAIN_MENU } from '../../config/routes'
 import { smallMarginTop } from '../../styles/base'
+import { getLooseReason } from '../../data/turn/selectors'
+import { LooseReason } from '../../config/constants'
 
 const gameLostContainer = gameEndContainer(gameLostBgUrl)
 
@@ -21,6 +23,7 @@ export const GameLost = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const history = useHistory()
+  const looseReason = useSelector(getLooseReason)
 
   useEffect(() => {
     dispatch(gameEnded())
@@ -33,10 +36,24 @@ export const GameLost = () => {
 
   const handleGoToMainMenu = () => history.push(MAIN_MENU)
 
+  const getLooseText = () => {
+    switch (looseReason) {
+      default:
+      case null:
+      case LooseReason.UndeadsKilled:
+      case LooseReason.Famine:
+        return t('gameLost')
+      case LooseReason.BastionDefeat:
+        return t('gameLostBastion')
+      case LooseReason.PaladinsAssault:
+        return t('gameLostAssault')
+    }
+  }
+
   return (
     <div css={gameLostContainer}>
       <Image css={gameEndImage} src={gameLostImageUrl} size="80%" />
-      <div css={gameLostText}>{t('gameLost')}</div>
+      <div css={gameLostText}>{getLooseText()}</div>
       <button type="button" css={gameLostButton} onClick={handleRetry}>
         {t('gameRetry')}
       </button>

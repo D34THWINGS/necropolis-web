@@ -81,6 +81,7 @@ const stepsWithoutNextButton = [
   OnboardingStep.HighlightSoulWellBuildButton,
   OnboardingStep.LetsExplore,
   OnboardingStep.StartSmall,
+  OnboardingStep.CoffinHelp,
 ]
 const stepsWithValetTalking = [
   OnboardingStep.HighlightCharnelHouse,
@@ -146,6 +147,8 @@ export const OnboardingModal = () => {
         return t('onboardingLetsExplore')
       case OnboardingStep.StartSmall:
         return t('onboardingStartSmall')
+      case OnboardingStep.CoffinHelp:
+        return t('onboardingCoffinHelp')
       case OnboardingStep.BuildCatacombs:
         return t('onboardingBuildCatacombs')
       case OnboardingStep.BuildOssuary:

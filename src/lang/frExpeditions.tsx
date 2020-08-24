@@ -1,19 +1,15 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
 import { alignItemsCenter, textColor } from '../styles/base'
-import { ResourceIcon } from '../components/resources/ResourceIcon'
-import { ResourceType } from '../config/constants'
 
 export const frExpeditions = {
   beginExpedition: "S'y rendre",
   endExpedition: 'Partir',
   fleeExpedition: (
-    <Fragment>
+    <>
       Fuir
       <br />
       <span css={textColor('CYAN')}>Vous conservez les trésors obtenus</span>
-    </Fragment>
+    </>
   ),
   fleeExpeditionDescription: 'Les Paladins ont eu vent de votre instant de faiblesse.',
   fleeExpeditionButton: 'Partir',
@@ -24,22 +20,22 @@ export const frExpeditions = {
 
   oldCoffinTitle: 'Vieux cercueil',
   oldCoffinOverview: (
-    <Fragment>
+    <>
       Parmi les tombes du cimetière repose un vieux cercueil qui n&apos;a jamais connu l&apos;enterrement. Il vous
       semble avoir remué.
-    </Fragment>
+    </>
   ),
   oldCoffinReward: <span css={textColor('PURPLE')}>Mort-vivant</span>,
   oldCoffinStep1:
     // eslint-disable-next-line max-len
     "Vous trouvez facilement le cercueil. La vigne qui a poussé dessus ainsi que l'humidité ont pourri le bois des planches.",
   oldCoffinOpen: 'Ouvrir le cercueil',
-  oldCoffinStep2: (materialsReward: number) => (
-    <Fragment>
+  oldCoffinStep2: (
+    <>
       Un être décharné sort du cercueil, le fameux <span css={textColor('PURPLE')}>Jan Brik&apos;Holeur</span> connu
       pour avoir été un homme à tout faire. En guise de remerciement, il part couper le gigantesque arbre au milieu du
-      cimetière et vous rapporte <ResourceIcon type={ResourceType.Materials} text={materialsReward} />, comme ça.
-    </Fragment>
+      cimetière, comme ça.
+    </>
   ),
 
   miseryMarketTitle: 'Marché de la Misère',
@@ -49,40 +45,42 @@ export const frExpeditions = {
   miseryMarketStep1: 'Devant vous se dressent les portes de Bourg Misère. Vous n’êtes pas les bienvenues ici.',
   miseryMarketAction1: 'Catapulter un Mort-Vivant derrière les murs afin qu’il ouvre les portes',
   miseryMarketAction1Cost: (cost: number) => `${cost}\u00A0Mort-vivant`,
-  miseryMarketAction1Feedback:
-    // eslint-disable-next-line max-len
-    'Vous construisez une catapulte en vitesse et envoyez sans regret l’un de vos serviteurs vers une mission suicide. Peu importe ce qui lui est arrivé, le pont est maintenant abaissé.',
+  miseryMarketAction1Feedback: (
+    <>
+      Vous construisez une catapulte en vitesse et envoyez sans regret l’un de vos serviteurs vers une mission suicide.
+      Peu importe ce qui lui est arrivé, les portes sont maintenant ouvertes.
+    </>
+  ),
   miseryMarketAction2: 'Enfoncer les portes',
   miseryMarketAction2Feedback: 'Les portes vous sont maintenant ouvertes.',
   miseryMarketAction3: (
-    <Fragment>
+    <>
       Lancer <span css={textColor('LIGHT_BLUE')}>La Clé</span> sur la porte principale
-    </Fragment>
+    </>
   ),
   miseryMarketAction3Feedback: 'Des portes ne restent que des miettes.',
-  miseryMarketStep2:
-    // eslint-disable-next-line max-len
-    'La Garde de Bourg Misère s’est amassée devant vous, formant comme un épais barrage de chair vous bloquant le passage.',
+  miseryMarketStep2: (
+    <>
+      La Garde de Bourg Misère s’est amassée devant vous, formant comme un épais barrage de chair vous bloquant le
+      passage.
+    </>
+  ),
   miseryMarketAction4: 'Combattre',
-  miseryMarketStep3: (meat: number, materials: number) => (
-    <Fragment>
-      la plupart battent en retraite vers le centre-ville. Au passage, vous récupérez{' '}
-      <ResourceIcon type={ResourceType.Meat} size="1rem" text={meat} /> dans le champs de viscères et{' '}
-      <ResourceIcon type={ResourceType.Materials} size="1rem" text={materials} /> en pillant les alentours.
-    </Fragment>
+  miseryMarketStep3: (
+    <>
+      Alors que vos ennemis commencent à faiblir, la plupart battent en retraite vers le centre-ville. Vous en profitez
+      pour piller les alentours.
+    </>
   ),
   miseryMarketStep4:
     // eslint-disable-next-line max-len
     'Vous vous tenez devant les dernières défenses de la ville : de nombreux Gardes en position derrière leurs barricades.',
-  miseryMarketReward: (meat: number, bones: number, materials: number) => (
-    <Fragment>
-      À vos pieds gisent d’innombrables cadavres. Tous ces hommes sont morts, cruellement arrachés à leurs pauvres
-      familles. Ils ne faisaient que suivre les ordres. Mais vous vous dites que justement, ils faisaient partie de la
-      Chaîne, de l’ordre établi. Quant à leurs maîtres, ils se sont réfugiés dans l’Hôtel de Ville. Vous mettez à sac le
-      Bourg et récupérez <ResourceIcon type={ResourceType.Meat} size="1rem" text={meat} />,{' '}
-      <ResourceIcon type={ResourceType.Bones} size="1rem" text={bones} /> et{' '}
-      <ResourceIcon type={ResourceType.Materials} size="1rem" text={materials} />.
-    </Fragment>
+  miseryMarketReward: (
+    <>
+      Tous ces hommes sont morts, cruellement arrachés à leurs familles. Ils ne faisaient que suivre les ordres. Mais
+      vous vous dites que justement, ils faisaient partie de la Chaîne, de l’ordre établi. Quant à leurs maîtres, ils se
+      trouvent dans l’Hôtel de Ville. Vous en profitez pour mettre à sac le Bourg.
+    </>
   ),
 
   townHallTitle: 'Hôtel de ville',
@@ -92,43 +90,39 @@ export const frExpeditions = {
   townHallRewardOverview: 'variable',
   townHallStep1: 'Une large porte couverte de chaînes vous empêche d’entrer.',
   townHallAction1: (
-    <Fragment>
+    <>
       Lancer <span css={textColor('LIGHT_BLUE')}>La Clé</span> sur la porte
-    </Fragment>
+    </>
   ),
+  townHallAction6: <>Enfoncer la porte</>,
   townHallStep2: 'De la porte, il n’en reste que des miettes.',
   townHallStep3: (cost: number) => (
-    <Fragment>
+    <>
       Votre intrusion a alerté le bâtiment. Les Paladins décident d’y mettre le feu et fuient une fois de plus, mais
       cette fois-ci vers le Bastion. Vous perdez <span css={textColor('PURPLE')}>{cost} Mort-vivant</span> dans les
       flammes.
-    </Fragment>
+    </>
   ),
   townHallAction2: 'Les poursuivre',
   townHallAction3: 'Piller autant que vous le pouvez',
   townHallAction4: 'Fouiller les geôles',
   townHallStep4: (
-    <Fragment>
+    <>
       Vous réussissez à tuer plusieurs fuyards, ce qui devrait vous alléger la tâche au Bastion. Par ailleurs, vous
       trouvez sur l’un des cadavres le plan d’un passage secret dans le Bastion.
-    </Fragment>
+    </>
   ),
-  townHallStep5: (materials: number) => (
-    <Fragment>
-      Vous avez le temps de récupérer <ResourceIcon type={ResourceType.Materials} text={materials} /> avant que l’Hôtel
-      de ville ne soit emporté dans le brasier.
-    </Fragment>
-  ),
+  townHallStep5: <>L&apos;Hôtel de ville est emporté dans le brasier.</>,
   townHallStep6: (isBloodPrinceInJail: boolean) =>
     isBloodPrinceInJail ? (
-      <Fragment>
+      <>
         Vous libérez le <span css={[alignItemsCenter, textColor('PURPLE')]}>Prince de Sang-Séché</span>. Ce dernier
         s’explique :<br />
         <i>
-          “Les Paladins m’ont mis en prison car ils doutaient de ma loyauté. L’un a proposé de prendre ma baguette et de
-          me tuer, mais un changement dans le script me sauva la mise. Je vous remercie de m’avoir libéré.”
+          &ldquo;Les Paladins m’ont mis en prison car ils doutaient de ma loyauté. L’un a proposé de prendre ma baguette
+          et de me tuer, mais un changement dans le script me sauva la mise. Merci de m’avoir libéré.&rdquo;
         </i>
-      </Fragment>
+      </>
     ) : (
       'Vous ne trouvez rien d’intéressant dans les geôles.'
     ),
@@ -139,46 +133,48 @@ export const frExpeditions = {
     'Ce somptueux fortin est le dernier bastion des Paladins. Toutes ces richesses qu’ils prétendent mériter, vous comptez bien les en déshériter.',
   bastionStep1: 'L’ultime rencontre vous attend au-delà de ce pont-levis.',
   bastionAction1: (
-    <Fragment>
-      Lancer <span css={textColor('LIGHT_BLUE')}>La Clé</span> sur l’immense porte d’entrée
-    </Fragment>
+    <>
+      Utiliser <span css={textColor('LIGHT_BLUE')}>La Clé</span>
+    </>
   ),
+  bastionAction6: <>Soulever la herse</>,
   bastionStep2: 'La porte est grande ouverte, la fin est proche.',
   bastionStep3:
     // eslint-disable-next-line max-len
     'Vous pénétrez un immense hall magnifiquement décoré. Une horde de molosses enragés vous propose une visite guidée… de leurs estomacs.',
   bastionAction2: 'Combattre',
   bastionAction3: 'Les nourrir',
-  bastionStep4: (meat: number, bones: number) => (
-    <Fragment>
-      Vous récupérez <ResourceIcon type={ResourceType.Meat} text={meat} /> et{' '}
-      <ResourceIcon type={ResourceType.Bones} text={bones} /> sur le “comité d’accueil”, puis continuez votre chemin.
-    </Fragment>
+  bastionStep4: (
+    <>Après quelques os broyés et chaires déchiquetés le &ldquo;comité d&apos;accueil&rdquo; n&apos;est plus.</>
   ),
   bastionStep5: 'Le comité d’accueil apprécie votre généreux pourboire.',
   bastionStep6: (
-    <Fragment>
-      Le corridor que vous parcourez est parsemé de chaînes telles un rappel de la soumission au pouvoir. Les tableaux
-      aux murs suggèrent que les Paladins occupent cette place privilégiée depuis longtemps. En parlant d’eux, ces
-      derniers se sont rassemblés pour un affrontement final. Leur héraut s’exclame“Vous êtes contre-nature, vous n’avez
-      pas le droit d’exister. C’est aller à l’encontre de l’ordre des choses !” Et sur ces mots, ils chargent.
-    </Fragment>
+    <>
+      Vous déboulez sur un corridor parsemé de chaînes telles un rappel de la soumission au pouvoir. Les tableaux aux
+      murs suggèrent que les Paladins occupent cette place privilégiée depuis longtemps. Ces derniers se sont
+      d&apos;ailleurs rassemblés pour l&apos;affrontement final.
+      <br />
+      <span css={textColor('RED')}>Nous seuls méritons le pouvoir. Faites comme tout le monde et obéissez !</span>
+    </>
   ),
   bastionStep7: (
-    <Fragment>
-      Le corridor que vous parcourez est parsemé de chaînes telles un rappel de la soumission au pouvoir. Les tableaux
-      aux murs suggèrent que les Paladins occupent cette place privilégiée depuis longtemps. En parlant d’eux, ces
-      derniers se sont rassemblés pour un affrontement final. Vos efforts passés ont porté leurs fruits : ils ne sont
-      vraiment pas nombreux. Leur héraut s’exclame néanmoins “Vous êtes contre-nature, vous n’avez pas le droit
-      d’exister. C’est aller à l’encontre de l’ordre des choses !” Et sur ces mots, ils chargent.
-    </Fragment>
+    <>
+      Vous déboulez sur un corridor parsemé de chaînes telles un rappel de la soumission au pouvoir. Les tableaux aux
+      murs suggèrent que les Paladins occupent cette place privilégiée depuis longtemps. Ces derniers se sont
+      d&apos;ailleurs rassemblés pour l&apos;affrontement final. Vos efforts passés ont porté leurs fruits : ils ne sont
+      vraiment pas nombreux.
+      <br />
+      <span css={textColor('RED')}>Nous seuls méritons le pouvoir. Faites comme tout le monde et obéissez !</span>
+    </>
   ),
   bastionAction4: 'Combattre',
-  bastionAction5: 'Les nourrir',
-  bastionStep8: (materials: number) => (
-    <Fragment>
-      Aucun n’a survécu, c’en est fini d’eux. En fouillant leur palace, vous trouvez la salle du trésor, et à
-      l’intérieur <ResourceIcon type={ResourceType.Materials} text={materials} />
-    </Fragment>
+  bastionAction5: 'Obéir',
+  bastionStep8: <>Aucun n’a survécu, c’en est fini d’eux. En fouillant leur palace, vous trouvez la salle du trésor.</>,
+  bastionStep9: (
+    <>
+      Les Paladins vous ont réduit à l&apos;esclavage. Maintenant, vous travaillez dur et payez des impôts injustifiés
+      comme tout le monde.
+    </>
   ),
+  bastionAction7: 'Argh!',
 }

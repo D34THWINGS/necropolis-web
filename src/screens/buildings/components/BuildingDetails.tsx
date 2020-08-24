@@ -1,7 +1,5 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
-import { Fragment, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { buildingActionFrame, buildingLevel, buildingTitle, buildingWrapper } from '../helpers/buildingsStyles'
 import { Panel } from '../../../components/ui/Panel'
 import { BuildingType, ResourceType } from '../../../config/constants'
@@ -21,16 +19,20 @@ import { smallMarginTop } from '../../../styles/base'
 
 type BuildingDetailsProps = {
   type: BuildingType
+  children?: (level: number) => ReactNode
   renderUpgradeDescription: (level: number) => ReactNode
   renderDescription?: (level: number, isCollapsed: boolean) => ReactNode
   renderSpecialAction?: (level: number, isCollapsed: boolean) => ReactNode
+  backgroundUrl?: string
 }
 
 export const BuildingDetails = ({
   type,
+  children,
   renderSpecialAction,
   renderDescription,
   renderUpgradeDescription,
+  backgroundUrl = charnelHouseBgUrl,
 }: BuildingDetailsProps) => {
   const { t } = useTranslation()
   const level = useSelector(getBuildingLevel(type))
@@ -44,7 +46,8 @@ export const BuildingDetails = ({
   const handleRepair = () => dispatch(repairBuilding(type))
 
   return (
-    <ScreenWrapper css={buildingWrapper} backgroundUrl={charnelHouseBgUrl}>
+    <ScreenWrapper css={buildingWrapper} backgroundUrl={backgroundUrl}>
+      {children && children(level)}
       <Panel>
         <h2 css={buildingTitle}>{t(type)}</h2>
         <p css={buildingLevel}>{level === 0 ? t('buildingNotConstructed') : t('buildingLevel', level)}</p>
@@ -66,12 +69,12 @@ export const BuildingDetails = ({
             {isCollapsed ? (
               t('repairBuilding')
             ) : (
-              <Fragment>
+              <>
                 {renderUpgradeDescription(level + 1)}
                 <br />
                 {t('cost')}&nbsp;
                 <ResourceIcon type={ResourceType.Materials} text={upgradeCost} />
-              </Fragment>
+              </>
             )}
           </BuildingAction>
         )}

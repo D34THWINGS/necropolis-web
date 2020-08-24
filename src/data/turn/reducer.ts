@@ -1,10 +1,12 @@
 import { createReducer } from 'typesafe-actions'
-import { nextPhase, nextTurn } from './actions'
-import { TURN_PHASES_ORDER, TurnPhase } from '../../config/constants'
+import { loose, nextPhase, nextTurn, win } from './actions'
+import { GameState, LooseReason, TURN_PHASES_ORDER, TurnPhase } from '../../config/constants'
 
 export const turn = createReducer({
   currentTurn: 1,
   phase: TurnPhase.Action,
+  gameState: GameState.Ongoing,
+  looseReason: null as LooseReason | null,
 })
   .handleAction(nextTurn, state => ({ ...state, currentTurn: state.currentTurn + 1 }))
   .handleAction(nextPhase, state => {
@@ -16,3 +18,12 @@ export const turn = createReducer({
       phase: shouldTriggerNextTurn ? TURN_PHASES_ORDER[0] : TURN_PHASES_ORDER[currentPhaseIndex + 1],
     }
   })
+  .handleAction(loose, (state, { payload: { reason } }) => ({
+    ...state,
+    gameState: GameState.Loose,
+    looseReason: reason,
+  }))
+  .handleAction(win, state => ({
+    ...state,
+    gameState: GameState.Win,
+  }))

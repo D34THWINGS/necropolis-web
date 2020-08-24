@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from '../ui/Modal/Modal'
 import { ModalColor } from '../ui/Modal/modalStyles'
@@ -23,7 +22,7 @@ export const UndeadUpkeep = () => {
   const handleBan = (type: UndeadType) => () => dispatch(killUndead(type))
 
   return (
-    <Modal isOpen={upkeep > meat && phase === TurnPhase.Upkeep} color={ModalColor.PURPLE}>
+    <Modal isOpen={meat > 0 && upkeep > meat && phase === TurnPhase.Upkeep} color={ModalColor.PURPLE}>
       <h2 css={h2Title}>{t('upkeepTitle')}</h2>
       <p>{t('upkeepInsufficient', upkeep, meat)}</p>
       {undeads.map(undead => (

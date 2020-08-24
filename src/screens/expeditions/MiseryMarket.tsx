@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ExpeditionModal } from './components/ExpeditionModal'
 import { ExpeditionType, ResourceType, Spell, SPELLS_SOUL_COSTS, UndeadTalent } from '../../config/constants'
@@ -58,12 +56,12 @@ export const MiseryMarket = () => {
       title={t('miseryMarketTitle')}
       renderOverview={() => t('miseryMarketOverview')}
       renderTreasure={() => (
-        <Fragment>
+        <>
           <ResourceIcon type={ResourceType.Meat} marginRight="0.4rem" />
           <ResourceIcon type={ResourceType.Materials} />
-        </Fragment>
+        </>
       )}
-      renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderContinueButton }) => {
+      renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderContinueButton, renderLoot }) => {
         switch (step) {
           case MiseryMarketStep.Doors: {
             const handleCastTheKey = () => {
@@ -75,7 +73,7 @@ export const MiseryMarket = () => {
               goToStep(MiseryMarketStep.Catapulted)()
             }
             return (
-              <Fragment>
+              <>
                 <ExpeditionImage src={miseryMarketImageUrl} />
                 <div css={expeditionStepDescription}>{t('miseryMarketStep1')}</div>
                 <ExpeditionAction
@@ -106,33 +104,33 @@ export const MiseryMarket = () => {
                   </ExpeditionAction>
                 )}
                 {renderFleeButton()}
-              </Fragment>
+              </>
             )
           }
           case MiseryMarketStep.Catapulted:
             return (
-              <Fragment>
+              <>
                 {t('miseryMarketAction1Feedback')}
                 {renderContinueButton(MiseryMarketStep.Guards)}
-              </Fragment>
+              </>
             )
           case MiseryMarketStep.DoorsBroken:
             return (
-              <Fragment>
+              <>
                 {t('miseryMarketAction2Feedback')}
                 {renderContinueButton(MiseryMarketStep.Guards)}
-              </Fragment>
+              </>
             )
           case MiseryMarketStep.DoorsAnnihilated:
             return (
-              <Fragment>
+              <>
                 {t('miseryMarketAction3Feedback')}
                 {renderContinueButton(MiseryMarketStep.Guards)}
-              </Fragment>
+              </>
             )
           case MiseryMarketStep.Guards:
             return (
-              <Fragment>
+              <>
                 {t('miseryMarketStep2')}
                 <ExpeditionAction
                   disabled={lethality < MISERY_MARKET_STEP2_LETHALITY_REQUIRED}
@@ -148,7 +146,7 @@ export const MiseryMarket = () => {
                   {t('miseryMarketAction4')}
                 </ExpeditionAction>
                 {renderFleeButton()}
-              </Fragment>
+              </>
             )
           case MiseryMarketStep.GuardsFlee: {
             const handleCollectAndContinue = () => {
@@ -161,15 +159,21 @@ export const MiseryMarket = () => {
               goToStep(MiseryMarketStep.LastStand)()
             }
             return (
-              <Fragment>
-                {t('miseryMarketStep3', MISERY_MARKET_STEP3_MEAT, MISERY_MARKET_STEP3_MATERIALS)}
+              <>
+                {t('miseryMarketStep3')}
+                {renderLoot(
+                  <>
+                    <ResourceIcon type={ResourceType.Meat} text={MISERY_MARKET_STEP3_MEAT} marginRight="0.5rem" />
+                    <ResourceIcon type={ResourceType.Materials} text={MISERY_MARKET_STEP3_MATERIALS} />
+                  </>,
+                )}
                 {renderContinueButton(MiseryMarketStep.LastStand, handleCollectAndContinue)}
-              </Fragment>
+              </>
             )
           }
           case MiseryMarketStep.LastStand:
             return (
-              <Fragment>
+              <>
                 {t('miseryMarketStep4')}
                 <ExpeditionAction
                   disabled={lethality < MISERY_MARKET_STEP3_LETHALITY_REQUIRED}
@@ -185,7 +189,7 @@ export const MiseryMarket = () => {
                   {t('miseryMarketAction4')}
                 </ExpeditionAction>
                 {renderFleeButton()}
-              </Fragment>
+              </>
             )
           case MiseryMarketStep.Carnage: {
             const handleCollectFinalReward = () => {
@@ -199,18 +203,19 @@ export const MiseryMarket = () => {
               dispatch(triggerCarnage())
             }
             return (
-              <Fragment>
+              <>
                 <ExpeditionImage src={miseryMarketImage2Url} />
-                <div css={expeditionStepDescription}>
-                  {t(
-                    'miseryMarketReward',
-                    MISERY_MARKET_MEAT_REWARD,
-                    MISERY_MARKET_BONES_REWARD,
-                    MISERY_MARKET_MATERIAL_REWARD,
-                  )}
-                </div>
+                <div css={expeditionStepDescription}>{t('miseryMarketReward')}</div>
+                {renderLoot(
+                  <>
+                    <ResourceIcon type={ResourceType.Meat} text={MISERY_MARKET_MEAT_REWARD} marginRight="0.5rem" />
+                    <ResourceIcon type={ResourceType.Bones} text={MISERY_MARKET_BONES_REWARD} />
+                    <br />
+                    <ResourceIcon type={ResourceType.Materials} text={MISERY_MARKET_MATERIAL_REWARD} />
+                  </>,
+                )}
                 {renderEndButton(handleCollectFinalReward)}
-              </Fragment>
+              </>
             )
           }
           default:

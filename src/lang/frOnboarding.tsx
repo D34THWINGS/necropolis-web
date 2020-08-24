@@ -156,6 +156,11 @@ export const frOnboarding = {
   ),
   onboardingLetsExplore: <>Partons donc explorer les alentours. Qui sait quels trésors trouverons-nous&nbsp;?</>,
   onboardingStartSmall: <>Commençons avec quelque chose de facile...</>,
+  onboardingCoffinHelp: (
+    <>
+      Je vais avoir besoin des <span css={textColor('CYAN')}>Talents</span> de mon serviteur.
+    </>
+  ),
   onboardingBuildCatacombs: (
     <>
       Je dispose maintenant des <ResourceIcon type={ResourceType.Materials} text="matériaux" /> nécessaires à la
