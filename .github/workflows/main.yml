@@ -18,13 +18,12 @@ jobs:
       - name: Restore node_modules
         uses: actions/cache@v2
         with:
-          path: app/node_modules
+          path: node_modules
           key: yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             yarn-${{ hashFiles('**/yarn.lock') }}
             yarn-
       - run: yarn --frozen-lockfile
-        working-directory: app
   lint-and-test:
     name: Lint and typecheck
     runs-on: ubuntu-latest
@@ -37,15 +36,13 @@ jobs:
       - name: Restore node_modules
         uses: actions/cache@v2
         with:
-          path: app/node_modules
+          path: node_modules
           key: yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             yarn-${{ hashFiles('**/yarn.lock') }}
             yarn-
       - run: yarn lint
-        working-directory: app
       - run: yarn typecheck
-        working-directory: app
   build:
     name: Build app
     runs-on: ubuntu-latest
@@ -55,13 +52,12 @@ jobs:
       - name: Restore node_modules
         uses: actions/cache@v2
         with:
-          path: app/node_modules
+          path: node_modules
           key: yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             yarn-${{ hashFiles('**/yarn.lock') }}
             yarn-
       - run: yarn build
-        working-directory: app
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:
