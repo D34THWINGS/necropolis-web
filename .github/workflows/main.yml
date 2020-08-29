@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  install:
+    name: Install node_modules
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Restore node_modules
+        uses: actions/cache@v2
+        with:
+          path: app/node_modules
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ hashFiles('**/yarn.lock') }}
+            yarn-
+      - run: yarn --frozen-lockfile
+        working-directory: app
+  lint-and-test:
+    name: Lint and typecheck
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Restore node_modules
+        uses: actions/cache@v2
+        with:
+          path: app/node_modules
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ hashFiles('**/yarn.lock') }}
+            yarn-
+      - run: yarn lint
+        working-directory: app
+      - run: yarn typecheck
+        working-directory: app
+  build:
+    name: Build app
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - uses: actions/checkout@master
+      - name: Restore node_modules
+        uses: actions/cache@v2
+        with:
+          path: app/node_modules
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ hashFiles('**/yarn.lock') }}
+            yarn-
+      - run: yarn build
+        working-directory: app
+      - name: Upload build
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: dist/
