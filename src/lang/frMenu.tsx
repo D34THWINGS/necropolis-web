@@ -11,6 +11,9 @@ export const frMenu = {
     <>
       Découvrez <span css={textColor('CYAN')}>Sinistra</span>, ses contrées et ses personnages en incarnant une reine
       bienveillante. Du moins au premier abord.
+      <br />
+      <span css={textColor('CYAN')}>Objectif&nbsp;:</span> Construire et améliorer toutes les salles de la nécropole au
+      niveau 3.
     </>
   ),
 }
