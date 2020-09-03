@@ -14,7 +14,7 @@ const getBaseTalents = (type: UndeadType): Undead['talents'] => {
     case UndeadType.Skeleton:
       return [
         [UndeadTalent.Muscles, 1],
-        [UndeadTalent.Lethality, 1],
+        [UndeadTalent.Lethality, 2],
       ]
     case UndeadType.LaMotte:
       return [[UndeadTalent.Lethality, 3]]

@@ -8,16 +8,20 @@ import backgroundImageUrl from '../../assets/images/background.jpg'
 import soulWell1Url from '../../assets/images/buildings/soul-well-1.png'
 import soulWell2Url from '../../assets/images/buildings/soul-well-2.png'
 import soulWell3Url from '../../assets/images/buildings/soul-well-3.png'
-import { Image } from '../../components/images/Image'
 
 const soulWellImages = [soulWell1Url, soulWell2Url, soulWell3Url]
 
-const soulWellImage = css({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flex: '1 0 auto',
-})
+const soulWellImage = (backgroundUrl: string) =>
+  css({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: '1 0 auto',
+    backgroundImage: `url(${backgroundUrl})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    backgroundPosition: 'center',
+  })
 
 export const SoulWell = () => {
   const { t } = useTranslation()
@@ -38,13 +42,7 @@ export const SoulWell = () => {
         }
       }}
     >
-      {level =>
-        level === 0 ? null : (
-          <div css={soulWellImage}>
-            <Image src={soulWellImages[level - 1]} size="70%" />
-          </div>
-        )
-      }
+      {level => (level === 0 ? null : <div css={soulWellImage(soulWellImages[level - 1])} />)}
     </BuildingDetails>
   )
 }
