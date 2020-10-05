@@ -43,7 +43,7 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "history": "^4.10.1",
-    "polished": "^3.5.2",
+    "polished": "^4.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-modal": "^3.11.2",
