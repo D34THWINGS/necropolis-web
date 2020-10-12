@@ -1,6 +1,6 @@
 import { isActionOf } from 'typesafe-actions'
 import { EMPTY, of } from 'rxjs'
-import { filter, flatMap } from 'rxjs/operators'
+import { filter, mergeMap } from 'rxjs/operators'
 import { Epic } from 'redux-observable'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
@@ -16,7 +16,7 @@ import { endExpedition } from '../expeditions/actions'
 export const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(raiseUndead)),
-    flatMap(({ payload: { undead } }) =>
+    mergeMap(({ payload: { undead } }) =>
       of(
         spendResources({ [ResourceType.Souls]: getRaiseUndeadSoulCost(getCatacombs(state$.value).level) }),
         addUndead(undead),
@@ -28,7 +28,7 @@ export const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$
 export const valetEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(endExpedition)),
-    flatMap(() => {
+    mergeMap(() => {
       const hasValet = getUndeadTypes(state$.value).includes(UndeadType.Valet)
       return hasValet ? of(upgradeValet()) : EMPTY
     }),
@@ -37,7 +37,7 @@ export const valetEpic: Epic<RootAction, RootAction, RootState> = (action$, stat
 export const looseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf([banUndead, killUndead])),
-    flatMap(() => {
+    mergeMap(() => {
       const undeadCount = getUndeadCount(state$.value)
       if (undeadCount === 0) {
         return of(loose(LooseReason.UndeadsKilled))

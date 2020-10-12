@@ -118,9 +118,10 @@ export type UndeadBoxProps = {
   undead: Undead
   renderBanText?: (name: ReactNode) => ReactNode
   onBan?: () => void
+  disableBan?: boolean
 }
 
-export const UndeadBox = ({ undead, onBan, renderBanText }: UndeadBoxProps) => {
+export const UndeadBox = ({ undead, disableBan, onBan, renderBanText }: UndeadBoxProps) => {
   const { t } = useTranslation()
   const [showConfirm, setShowConfirm] = useState(false)
   const cancelTimeout = useRef<number | null>(null)
@@ -184,7 +185,7 @@ export const UndeadBox = ({ undead, onBan, renderBanText }: UndeadBoxProps) => {
         </div>
       </div>
       {onBan && !showConfirm && (
-        <button type="button" css={undeadBanButton} onClick={handleShowConfirm}>
+        <button type="button" css={undeadBanButton} onClick={handleShowConfirm} disabled={disableBan}>
           <Image src={undeadBanUrl} size="2rem" block />
         </button>
       )}

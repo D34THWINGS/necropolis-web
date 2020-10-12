@@ -38,7 +38,7 @@ export const OldCoffin = () => {
       title={t('oldCoffinTitle')}
       renderOverview={() => t('oldCoffinOverview')}
       renderTreasure={() => t('oldCoffinReward')}
-      renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderLoot }) => {
+      renderStep={(step, { goToStep, renderEndButton, renderLoot }) => {
         switch (step) {
           case OldCoffinStep.Setup:
             return (
@@ -54,7 +54,6 @@ export const OldCoffin = () => {
                 >
                   {t('oldCoffinOpen')}
                 </ExpeditionAction>
-                {renderFleeButton()}
               </>
             )
           case OldCoffinStep.Reward: {

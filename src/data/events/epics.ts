@@ -1,6 +1,6 @@
 import { isActionOf } from 'typesafe-actions'
 import { of } from 'rxjs'
-import { filter, flatMap, mapTo } from 'rxjs/operators'
+import { filter, mergeMap, mapTo } from 'rxjs/operators'
 import { Epic } from 'redux-observable'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
@@ -16,7 +16,7 @@ export const eventsEpic: Epic<RootAction, RootAction, RootState> = (action$, sta
   action$.pipe(
     filter(isActionOf(nextPhase)),
     filter(() => getCurrentPhase(state$.value) === TurnPhase.Event),
-    flatMap(() => {
+    mergeMap(() => {
       const state = state$.value
       const actions: RootAction[] = []
       const turn = getTurn(state)

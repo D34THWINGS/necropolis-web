@@ -1,5 +1,5 @@
 import { createReducer } from 'typesafe-actions'
-import { addOnboardingFlag, nextOnboardingStep, resetOnboarding } from './actions'
+import { addOnboardingFlag, nextOnboardingStep, resetOnboarding, skipOnboarding } from './actions'
 import { OnboardingFlag, OnboardingStep } from '../../config/constants'
 
 export const onboarding = createReducer({
@@ -18,3 +18,4 @@ export const onboarding = createReducer({
     step: OnboardingStep.GamePresentation,
   }))
   .handleAction(addOnboardingFlag, (state, { payload: { flag } }) => ({ ...state, flags: [...state.flags, flag] }))
+  .handleAction(skipOnboarding, state => ({ ...state, active: false }))

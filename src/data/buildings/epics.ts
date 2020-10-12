@@ -1,6 +1,6 @@
 import { isActionOf } from 'typesafe-actions'
 import { of } from 'rxjs'
-import { filter, flatMap, mapTo } from 'rxjs/operators'
+import { filter, mergeMap, mapTo } from 'rxjs/operators'
 import { Epic } from 'redux-observable'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
@@ -21,7 +21,7 @@ import { addSpell } from '../spells/actions'
 export const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(upgradeBuilding)),
-    flatMap(({ payload: { type } }) => {
+    mergeMap(({ payload: { type } }) => {
       const level = getBuildingLevel(type)(state$.value)
       return of(spendResources({ [ResourceType.Materials]: getBuildingUpgradeCost(type, level) }), nextPhase())
     }),
@@ -30,7 +30,7 @@ export const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = (act
 export const upgradeBuildingRewardsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf([upgradeBuilding, freeUpgradeBuilding])),
-    flatMap(({ payload: { type } }) => {
+    mergeMap(({ payload: { type } }) => {
       const level = getBuildingLevel(type)(state$.value)
       const actions: RootAction[] = []
 

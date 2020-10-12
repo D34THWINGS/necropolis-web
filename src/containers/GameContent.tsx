@@ -66,9 +66,9 @@ export const GameContent = () => {
               </Switch>
             </CSSTransition>
           </TransitionGroup>
+          <NavigationBar />
           <PhaseOverlay />
           <Header />
-          <NavigationBar />
         </div>
         <UndeadUpkeep />
         <EventModal />

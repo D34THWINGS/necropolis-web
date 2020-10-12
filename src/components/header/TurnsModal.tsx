@@ -4,10 +4,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from '../ui/Modal/Modal'
 import { greenBox, h2Title, noMargin, smallMarginTop, textCenter, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
-import { EVENTS_TURN_SPACING, PALADINS_INCREASE_SPACING, PALADINS_STRENGTH_INCREASE } from '../../config/constants'
+import {
+  EVENTS_TURN_SPACING,
+  PALADINS_INCREASE_SPACING,
+  PALADINS_STRENGTH_INCREASE,
+  TurnPhase,
+} from '../../config/constants'
 import { greenSquareButton } from '../../styles/buttons'
 import { nextPhase } from '../../data/turn/actions'
-import { getTurn } from '../../data/turn/selectors'
+import { getCurrentPhase, getTurn } from '../../data/turn/selectors'
 import { getPaladinsCalledToArms, getPaladinsCounter, getPaladinsStrength } from '../../data/paladins/selectors'
 import { PaladinsIcon } from '../images/PaladinsIcon'
 import { getDefense } from '../../data/selectors'
@@ -30,6 +35,7 @@ export type TurnsModalProps = {
 export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
   const { t } = useTranslation()
   const turn = useSelector(getTurn)
+  const currentPhase = useSelector(getCurrentPhase)
   const paladinsStrength = useSelector(getPaladinsStrength)
   const paladinsCounter = useSelector(getPaladinsCounter)
   const paladinsCalledToArms = useSelector(getPaladinsCalledToArms)
@@ -62,7 +68,12 @@ export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
           </p>
         </div>
       )}
-      <button type="button" css={[...greenSquareButton, smallMarginTop]} onClick={handleSkipTurn}>
+      <button
+        type="button"
+        css={[...greenSquareButton, smallMarginTop]}
+        onClick={handleSkipTurn}
+        disabled={currentPhase !== TurnPhase.Action}
+      >
         {t('skipTurn')}
       </button>
     </Modal>

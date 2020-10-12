@@ -1,6 +1,7 @@
 import React, { MouseEventHandler, useEffect, useState } from 'react'
 import { Link, useHistory, useRouteMatch } from 'react-router-dom'
 import { css } from '@emotion/core'
+import { useSelector } from 'react-redux'
 import { CATACOMBS, EXPEDITIONS, MAIN_HUB, OSSUARY } from '../config/routes'
 import buttonBackgroundUrl from '../assets/images/footer/button.png'
 import buildIconUrl from '../assets/images/footer/build.png'
@@ -10,7 +11,8 @@ import researchIconUrl from '../assets/images/footer/research.png'
 import { backgroundImage } from '../styles/base'
 import { buttonPress } from '../styles/buttons'
 import { OnboardingHighlight } from '../screens/onboarding/components/OnboardingHighlight'
-import { OnboardingStep } from '../config/constants'
+import { BuildingType, OnboardingStep } from '../config/constants'
+import { getBuildingLevel } from '../data/buildings/selectors'
 
 const footerContainer = css({
   display: 'flex',
@@ -38,6 +40,14 @@ const footerButton = [
   buttonPress,
 ]
 
+const disabledFooterButton = [
+  ...footerButton,
+  css({
+    filter: 'grayscale(1)',
+    cursor: '',
+  }),
+]
+
 const footerButtonIcon = css({
   display: 'block',
   height: '100%',
@@ -51,6 +61,8 @@ const buildIcon = css({
 })
 
 export const NavigationBar = () => {
+  const isOssuaryBuilt = useSelector(getBuildingLevel(BuildingType.Ossuary)) > 0
+  const isCatacombsBuilt = useSelector(getBuildingLevel(BuildingType.Catacombs)) > 0
   const [stackSize, setStackSize] = useState(0)
   const match = useRouteMatch({ path: MAIN_HUB, exact: true })
   const history = useHistory()
@@ -95,12 +107,26 @@ export const NavigationBar = () => {
           </Link>
         )}
       </OnboardingHighlight>
-      <Link to={CATACOMBS} replace={!isOnBuildPage} css={footerButton}>
-        <span css={[footerButtonIcon, backgroundImage(spellsIconUrl)]} />
-      </Link>
-      <Link to={OSSUARY} replace={!isOnBuildPage} css={footerButton}>
-        <span css={[footerButtonIcon, backgroundImage(researchIconUrl)]} />
-      </Link>
+      {isCatacombsBuilt && (
+        <Link to={CATACOMBS} replace={!isOnBuildPage} css={footerButton}>
+          <span css={[footerButtonIcon, backgroundImage(spellsIconUrl)]} />
+        </Link>
+      )}
+      {!isCatacombsBuilt && (
+        <span css={disabledFooterButton}>
+          <span css={[footerButtonIcon, backgroundImage(spellsIconUrl)]} />
+        </span>
+      )}
+      {isOssuaryBuilt && (
+        <Link to={OSSUARY} replace={!isOnBuildPage} css={footerButton}>
+          <span css={[footerButtonIcon, backgroundImage(researchIconUrl)]} />
+        </Link>
+      )}
+      {!isOssuaryBuilt && (
+        <span css={disabledFooterButton}>
+          <span css={[footerButtonIcon, backgroundImage(researchIconUrl)]} />
+        </span>
+      )}
     </div>
   )
 }

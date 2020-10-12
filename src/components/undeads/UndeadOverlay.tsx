@@ -106,7 +106,7 @@ export const UndeadOverlay = () => {
           <TransitionGroup>
             {undeads.map(undead => (
               <CSSTransition key={undead.type} timeout={transitions.FAST_DURATION}>
-                <UndeadBox undead={undead} onBan={handleBan(undead.type)} />
+                <UndeadBox undead={undead} disableBan={undeads.length === 1} onBan={handleBan(undead.type)} />
               </CSSTransition>
             ))}
           </TransitionGroup>
