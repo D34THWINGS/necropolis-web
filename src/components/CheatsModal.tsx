@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { ChangeEvent, useEffect, useRef } from 'react'
+import { useDispatch, useStore } from 'react-redux'
+import { css } from '@emotion/core'
 import { Modal, useModalState } from './ui/Modal/Modal'
 import { h2Title, smallMarginTop } from '../styles/base'
 import { greenSquareButton } from '../styles/buttons'
@@ -10,6 +11,7 @@ import { discoverSpell } from '../data/spells/actions'
 import { raiseUndead } from '../data/undeads/actions'
 import { createUndead } from '../data/undeads/helpers'
 import { resetOnboarding } from '../data/onboarding/actions'
+import { loadGameState, resetGame } from '../data/settings/actions'
 import { layers } from '../config/theme'
 
 declare global {
@@ -20,9 +22,21 @@ declare global {
 
 const cheatButton = [...greenSquareButton, smallMarginTop]
 
+const cheatsSeparator = css({
+  border: 'solid 1px transparent',
+  borderBottomColor: 'rgba(0, 0, 0, 0.5)',
+  margin: '1rem 0',
+})
+
+const hidden = css({
+  display: 'none',
+})
+
 export const CheatsModal = () => {
   const { isOpen, open, close } = useModalState()
   const dispatch = useDispatch()
+  const store = useStore()
+  const linkRef = useRef<HTMLAnchorElement>(null)
 
   useEffect(() => {
     window.cheats = open
@@ -54,7 +68,35 @@ export const CheatsModal = () => {
 
   const handleResetOnboarding = () => {
     dispatch(resetOnboarding())
+    dispatch(resetGame())
     close()
+  }
+
+  const handleExportGame = () => {
+    if (!linkRef.current) {
+      return
+    }
+    const state = store.getState()
+    const stringState = window.btoa(JSON.stringify(state))
+    linkRef.current.setAttribute('href', `data:application/json;base64,${stringState}`)
+    linkRef.current.click()
+  }
+
+  const handleImportGame = (event: ChangeEvent<HTMLInputElement>) => {
+    const [file] = event.target.files ?? []
+    if (!file) {
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = ({ target }) => {
+      if (!target || !target.result) {
+        return
+      }
+      const gameState = JSON.parse(target.result.toString())
+      dispatch(loadGameState(gameState))
+      close()
+    }
+    reader.readAsText(file)
   }
 
   return (
@@ -69,6 +111,17 @@ export const CheatsModal = () => {
       <button type="button" css={cheatButton} onClick={handleResetOnboarding}>
         Reset onboarding
       </button>
+      <hr css={cheatsSeparator} />
+      <a ref={linkRef} css={hidden} href="#download" download="game_save.json">
+        Download save file
+      </a>
+      <button type="button" css={cheatButton} onClick={handleExportGame}>
+        Export game
+      </button>
+      <label htmlFor="game-save-upload" css={cheatButton}>
+        Import game
+        <input id="game-save-upload" type="file" accept="application/json" css={hidden} onChange={handleImportGame} />
+      </label>
     </Modal>
   )
 }

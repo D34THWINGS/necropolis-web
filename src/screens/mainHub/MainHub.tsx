@@ -37,10 +37,10 @@ const artifactPanel = css({
     display: 'block',
     content: '""',
     position: 'absolute',
-    top: '0.3rem',
+    top: '0.4rem',
     left: 0,
     width: 'calc(100% - 0.2rem)',
-    height: 'calc(100% - 0.5rem)',
+    height: 'calc(100% - 0.4rem)',
     backgroundImage: `url(${runeImageUrl})`,
     backgroundPosition: 'right center',
     backgroundSize: 'contain',
@@ -56,6 +56,7 @@ const artifactText = css({
 const artifactTitle = css({
   margin: 0,
   fontSize: '1.2rem',
+  fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
   textShadow: shadows.TEXT_SOLID,
   color: colors.CYAN,
 })

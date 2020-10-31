@@ -75,6 +75,7 @@ const squareButton = (backgroundColor: string, light: number, shade: number) => 
     borderRadius: '10px',
     color: colors.WHITE,
     fontSize: '1.2rem',
+    lineHeight: 1,
     textShadow: shadows.TEXT_FLAT,
 
     ':active': {

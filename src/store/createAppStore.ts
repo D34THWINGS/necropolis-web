@@ -8,6 +8,7 @@ import { mainReducer, RootState } from './mainReducer'
 import { rootEpic } from '../data/epics'
 import { RootAction } from '../data/actions'
 import { resetReducer } from './resetableStore'
+import { loadReducer } from './loadableStore'
 
 declare global {
   interface Window {
@@ -26,7 +27,7 @@ const persistConfig = {
 }
 
 export const createAppStore = (history: History) => {
-  const persistedReducer = persistReducer(persistConfig, resetReducer(mainReducer))
+  const persistedReducer = persistReducer(persistConfig, resetReducer(loadReducer(mainReducer)))
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   const epicMiddleware = createEpicMiddleware<RootAction, RootAction, RootState, Dependencies>({
     dependencies: { history },
