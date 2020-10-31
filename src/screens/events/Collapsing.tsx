@@ -1,13 +1,11 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EventModalContentProps } from './helpers/eventModalContentProps'
-import { h2Title, textCenter } from '../../styles/base'
+import { textCenter } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { ARTIFACT_DEFENSE_BONUS } from '../../config/constants'
 import { EventImage } from './components/EventImage'
-import { eventStepDescription } from './helpers/eventStyles'
+import { eventStepDescription, eventTitle } from './helpers/eventStyles'
 import { EventAction } from './components/EventAction'
 import { nextPhase } from '../../data/turn/actions'
 import { endEvent, gainArtifact } from '../../data/events/actions'
@@ -36,8 +34,8 @@ export const Collapsing = ({ renderStep }: EventModalContentProps) => {
   const dispatch = useDispatch()
 
   return (
-    <Fragment>
-      <h2 css={h2Title}>{t('collapsingTitle')}</h2>
+    <>
+      <h2 css={eventTitle}>{t('collapsingTitle')}</h2>
       {renderStep<CollapsingStep>((step, { renderAcknowledgeButton, goToStep }) => {
         switch (step) {
           case CollapsingStep.Setup: {
@@ -51,7 +49,7 @@ export const Collapsing = ({ renderStep }: EventModalContentProps) => {
               dispatch(endEvent())
             }
             return (
-              <Fragment>
+              <>
                 <EventImage src={collapsingImageUrl} />
                 <div css={eventStepDescription}>{t('collapsingStep1', t(collapsedBuilding))}</div>
                 <EventAction
@@ -61,7 +59,7 @@ export const Collapsing = ({ renderStep }: EventModalContentProps) => {
                   {t('collapsingAction1')}
                 </EventAction>
                 <EventAction onClick={handleLeave}>{t('collapsingAction2')}</EventAction>
-              </Fragment>
+              </>
             )
           }
           case CollapsingStep.Shovel: {
@@ -71,20 +69,20 @@ export const Collapsing = ({ renderStep }: EventModalContentProps) => {
               dispatch(nextPhase())
             }
             return (
-              <Fragment>
+              <>
                 <EventImage src={artifactImageUrl} />
                 <div css={eventStepDescription}>{t('collapsingStep2', ARTIFACT_DEFENSE_BONUS)}</div>
                 <p css={textCenter}>
                   <PaladinsIcon counter={paladinsCounter + 1} />
                 </p>
                 {renderAcknowledgeButton(handleShovel)}
-              </Fragment>
+              </>
             )
           }
           default:
             throw new Error('Unknown step')
         }
       })}
-    </Fragment>
+    </>
   )
 }

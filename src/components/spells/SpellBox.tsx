@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
+import { css } from '@emotion/core'
+
 import { SOUL_STORM_DEFENSE_BONUS, SOUL_STORM_LETHALITY_BONUS, Spell } from '../../config/constants'
 import soulStormBackgroundUrl from '../../assets/images/spells/soul-storm.jpg'
 import theKeyBackgroundUrl from '../../assets/images/spells/the-key.jpg'

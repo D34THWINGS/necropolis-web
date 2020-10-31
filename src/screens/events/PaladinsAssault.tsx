@@ -1,9 +1,7 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
-import { h2Title, textColor } from '../../styles/base'
+import { textColor } from '../../styles/base'
 import { EventModalContentProps } from './helpers/eventModalContentProps'
 import { EventAction } from './components/EventAction'
 import { getPaladinsStrength } from '../../data/paladins/selectors'
@@ -17,7 +15,7 @@ import paladinsAssault1ImageUrl from '../../assets/images/events/paladins-assaul
 import paladinsAssault2ImageUrl from '../../assets/images/events/paladins-assault-2.jpg'
 import paladinsAssault3ImageUrl from '../../assets/images/events/paladins-assault-3.jpg'
 import { EventImage } from './components/EventImage'
-import { eventStepDescription } from './helpers/eventStyles'
+import { eventStepDescription, eventTitle } from './helpers/eventStyles'
 import { loose } from '../../data/turn/actions'
 
 enum PaladinsAssaultStep {
@@ -71,8 +69,8 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
   }
 
   return (
-    <Fragment>
-      <h2 css={h2Title}>{t('paladinsAssaultTitle')}</h2>
+    <>
+      <h2 css={eventTitle}>{t('paladinsAssaultTitle')}</h2>
       {renderStep<PaladinsAssaultStep>((step, { goToStep, renderAcknowledgeButton }) => {
         const handleEndAssault = () => {
           if (Math.abs(diff) > 0) {
@@ -83,7 +81,7 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
         switch (step) {
           case PaladinsAssaultStep.Setup:
             return (
-              <Fragment>
+              <>
                 <EventImage src={getImageUrl()} />
                 <div css={eventStepDescription}>
                   {getDescription()}
@@ -96,14 +94,14 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
                 >
                   {t('paladinsAssaultAction1')}
                 </EventAction>
-              </Fragment>
+              </>
             )
           case PaladinsAssaultStep.Victory: {
             return (
-              <Fragment>
+              <>
                 {t('paladinsAssaultVictory', Math.abs(diff))}
                 {renderAcknowledgeButton(handleEndAssault)}
-              </Fragment>
+              </>
             )
           }
           case PaladinsAssaultStep.Defeat: {
@@ -112,25 +110,25 @@ export const PaladinsAssault = ({ renderStep }: EventModalContentProps) => {
               handleEndAssault()
             }
             return (
-              <Fragment>
+              <>
                 {t('paladinsAssaultDefeat', Math.abs(diff), Math.abs(diff))}
                 {renderAcknowledgeButton(handleDefeat)}
-              </Fragment>
+              </>
             )
           }
           case PaladinsAssaultStep.TotalDefeat: {
             const handleTotalDefeat = () => dispatch(loose(LooseReason.PaladinsAssault))
             return (
-              <Fragment>
+              <>
                 {t('paladinsAssaultTotalDefeat')}
                 {renderAcknowledgeButton(handleTotalDefeat)}
-              </Fragment>
+              </>
             )
           }
           default:
             throw new Error('Unknown step')
         }
       })}
-    </Fragment>
+    </>
   )
 }

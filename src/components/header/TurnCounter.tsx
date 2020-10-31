@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
+import { css } from '@emotion/core'
 import { useSelector } from 'react-redux'
 import skullImageUrl from '../../assets/images/header/skull.png'
 import skullEyesGlowImageUrl from '../../assets/images/header/skull-eyes-glow.png'
@@ -61,7 +60,7 @@ export const TurnCounter = ({ currentTurn }: TurnCounterProps) => {
   const { isOpen, close, open } = useModalState(false)
   const paladinsCounter = useSelector(getPaladinsCounter)
   return (
-    <Fragment>
+    <>
       <OnboardingHighlight<HTMLButtonElement> step={OnboardingStep.HighlightTurnCounter}>
         {({ ref, className, step }) => (
           <button
@@ -83,6 +82,6 @@ export const TurnCounter = ({ currentTurn }: TurnCounterProps) => {
         )}
       </OnboardingHighlight>
       <TurnsModal isOpen={isOpen} onClose={close} />
-    </Fragment>
+    </>
   )
 }

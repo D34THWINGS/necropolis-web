@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { greenBox, smallMarginTop, textCenter } from '../../../styles/base'
 import { PaladinsIcon } from '../../../components/images/PaladinsIcon'
@@ -18,7 +16,7 @@ export const ExpeditionFlee = () => {
   const handleFlee = () => dispatch(fleeExpedition())
 
   return (
-    <Fragment>
+    <>
       <div css={greenBox}>
         {t('fleeExpeditionDescription')}
         <p css={textCenter}>
@@ -28,6 +26,6 @@ export const ExpeditionFlee = () => {
       <button type="button" css={[...greenSquareButton, smallMarginTop]} onClick={handleFlee}>
         {t('fleeExpeditionButton')}
       </button>
-    </Fragment>
+    </>
   )
 }

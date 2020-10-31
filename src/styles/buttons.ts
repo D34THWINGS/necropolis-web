@@ -36,7 +36,7 @@ const roundButton = (backgroundColor: string, light: number, shade: number) => [
   css({
     padding: '0.3rem',
     backgroundColor,
-    border: '2px solid rgba(0, 0, 0, 0.75)',
+    border: '1px solid rgba(0, 0, 0, 0.75)',
     boxSizing: 'border-box',
     boxShadow: `inset 0px 5px 3px ${lighten(light, backgroundColor)}, inset 0px -5px 3px ${darken(
       shade,
@@ -66,13 +66,13 @@ const squareButton = (backgroundColor: string, light: number, shade: number) => 
     padding: '0.8rem',
     width: '100%',
     backgroundColor,
-    border: '2px solid rgba(0, 0, 0, 0.75)',
+    border: '1px solid rgba(0, 0, 0, 0.75)',
     boxSizing: 'border-box',
     boxShadow: `inset 0px 5px 3px ${lighten(light, backgroundColor)}, inset 0px -5px 3px ${darken(
       shade,
       backgroundColor,
     )}`,
-    borderRadius: '15px',
+    borderRadius: '10px',
     color: colors.WHITE,
     fontSize: '1.2rem',
     textShadow: shadows.TEXT_FLAT,

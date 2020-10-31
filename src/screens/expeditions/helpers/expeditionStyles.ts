@@ -4,7 +4,7 @@ import { greenBox } from '../../../styles/base'
 export const expeditionStepDescription = [
   greenBox,
   css({
-    marginBottom: '0.4rem',
+    marginBottom: '0.8rem',
     paddingTop: '1.8rem',
     fontSize: '0.9rem',
   }),

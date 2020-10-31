@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { jsx, css, Global, ClassNames } from '@emotion/core'
-import { Fragment, ReactNode, RefObject, useEffect, useRef, useState } from 'react'
+import { css, Global, ClassNames } from '@emotion/core'
+import React, { ReactNode, RefObject, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createPortal } from 'react-dom'
 import { getOnboardingStep } from '../../../data/onboarding/selectors'
@@ -57,7 +56,7 @@ export const OnboardingHighlight = <T extends HTMLElement>({ step, children }: O
   })
 
   if (Array.isArray(step) ? !step.includes(onboardingStep) : onboardingStep !== step) {
-    return <Fragment>{children({ ref: placeholderRef, step: onboardingStep })}</Fragment>
+    return <>{children({ ref: placeholderRef, step: onboardingStep })}</>
   }
 
   const getHighlight = () => {
@@ -76,7 +75,7 @@ export const OnboardingHighlight = <T extends HTMLElement>({ step, children }: O
 
           const { borderRadius, borderWidth, height, padding } = window.getComputedStyle(placeholderRef.current)
           return (
-            <Fragment>
+            <>
               {children({
                 ref: highlightRef,
                 step: onboardingStep,
@@ -108,7 +107,7 @@ export const OnboardingHighlight = <T extends HTMLElement>({ step, children }: O
                   }),
                 ),
               })}
-            </Fragment>
+            </>
           )
         }}
       </ClassNames>,
@@ -117,9 +116,9 @@ export const OnboardingHighlight = <T extends HTMLElement>({ step, children }: O
   }
 
   return (
-    <Fragment>
+    <>
       {children({ ref: placeholderRef, step: onboardingStep })}
       {getHighlight()}
-    </Fragment>
+    </>
   )
 }

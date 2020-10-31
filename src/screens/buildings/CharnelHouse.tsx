@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React from 'react'
 import { useTranslation } from '../../lang/useTranslation'
 import { BuildingType } from '../../config/constants'
 import {

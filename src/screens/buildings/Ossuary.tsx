@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
 import researchIconUrl from '../../assets/images/icons/research.png'

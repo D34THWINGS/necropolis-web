@@ -1,9 +1,7 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EventModalContentProps } from './helpers/eventModalContentProps'
-import { h2Title, textCenter } from '../../styles/base'
+import { textCenter } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { EventAction } from './components/EventAction'
 import { ResourceType } from '../../config/constants'
@@ -16,7 +14,7 @@ import { increasePaladinsCounter } from '../../data/paladins/actions'
 import { preventSelectorUpdate } from '../../data/helpers'
 import { EventImage } from './components/EventImage'
 import plunderImageUrl from '../../assets/images/events/plunder.jpg'
-import { eventStepDescription } from './helpers/eventStyles'
+import { eventStepDescription, eventTitle } from './helpers/eventStyles'
 
 const PLUNDER_FIGHT_LETHALITY = 4
 const PLUNDER_REWARD_MEAT = 1
@@ -37,13 +35,13 @@ export const Plunder = ({ renderStep }: EventModalContentProps) => {
   const dispatch = useDispatch()
 
   return (
-    <Fragment>
-      <h2 css={h2Title}>{t('plunderTitle')}</h2>
+    <>
+      <h2 css={eventTitle}>{t('plunderTitle')}</h2>
       {renderStep<PlunderStep>((step, { renderAcknowledgeButton, goToStep }) => {
         switch (step) {
           case PlunderStep.Setup:
             return (
-              <Fragment>
+              <>
                 <EventImage src={plunderImageUrl} />
                 <div css={eventStepDescription}>{t('plunderStep1')}</div>
                 <EventAction
@@ -54,7 +52,7 @@ export const Plunder = ({ renderStep }: EventModalContentProps) => {
                   {t('plunderAction1')}
                 </EventAction>
                 <EventAction onClick={goToStep(PlunderStep.Leave)}>{t('plunderAction2')}</EventAction>
-              </Fragment>
+              </>
             )
           case PlunderStep.Battle: {
             const handleFight = () => {
@@ -65,13 +63,13 @@ export const Plunder = ({ renderStep }: EventModalContentProps) => {
             }
 
             return (
-              <Fragment>
+              <>
                 {t('plunderStep2', PLUNDER_REWARD_MEAT, PLUNDER_REWARD_BONES)}
                 <p css={textCenter}>
                   <PaladinsIcon counter={paladinsCounter + 1} />
                 </p>
                 {renderAcknowledgeButton(handleFight)}
-              </Fragment>
+              </>
             )
           }
           case PlunderStep.Leave: {
@@ -83,19 +81,19 @@ export const Plunder = ({ renderStep }: EventModalContentProps) => {
             }
 
             return (
-              <Fragment>
+              <>
                 {t('plunderStep3', meatCost)}
                 <p css={textCenter}>
                   <PaladinsIcon counter={paladinsCounter + 1} />
                 </p>
                 {renderAcknowledgeButton(handleLeave)}
-              </Fragment>
+              </>
             )
           }
           default:
             throw new Error('Unknown step')
         }
       })}
-    </Fragment>
+    </>
   )
 }

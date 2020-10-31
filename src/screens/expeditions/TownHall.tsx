@@ -66,7 +66,7 @@ export const TownHall = () => {
               goToStep(TownHallStep.BrokenDoor)()
             }
             return (
-              <Fragment>
+              <>
                 <ExpeditionImage src={townHallImageUrl} />
                 <div css={expeditionStepDescription}>{t('townHallStep1')}</div>
 
@@ -87,15 +87,15 @@ export const TownHall = () => {
                   {t('townHallAction6')}
                 </ExpeditionAction>
                 {renderFleeButton()}
-              </Fragment>
+              </>
             )
           }
           case TownHallStep.BrokenDoor:
             return (
-              <Fragment>
+              <>
                 {t('townHallStep2')}
                 {renderContinueButton(TownHallStep.Fire)}
-              </Fragment>
+              </>
             )
           case TownHallStep.Fire: {
             const handleLooseUndeadInFire = (action: () => void) => () => {
@@ -103,7 +103,7 @@ export const TownHall = () => {
               action()
             }
             return (
-              <Fragment>
+              <>
                 <ExpeditionImage src={townHallImage2Url} />
                 <div css={expeditionStepDescription}>{t('townHallStep3', TOWN_HALL_FIRE_UNDEAD_COST)}</div>
                 <ExpeditionAction
@@ -128,37 +128,37 @@ export const TownHall = () => {
                   {t('townHallAction4')}
                 </ExpeditionAction>
                 {renderFleeButton()}
-              </Fragment>
+              </>
             )
           }
           case TownHallStep.KillRunners: {
             const handleKillRunners = () => dispatch(cancelReinforcements())
             return (
-              <Fragment>
+              <>
                 {t('townHallStep4')}
                 {renderEndButton(handleKillRunners)}
-              </Fragment>
+              </>
             )
           }
           case TownHallStep.Loot: {
             const handleLoot = () => dispatch(gainResources({ [ResourceType.Materials]: TOWN_HALL_MATERIALS_REWARD }))
             return (
-              <Fragment>
+              <>
                 {t('townHallStep5')}
                 {renderLoot(<ResourceIcon type={ResourceType.Materials} text={TOWN_HALL_MATERIALS_REWARD} />)}
                 {renderEndButton(handleLoot)}
-              </Fragment>
+              </>
             )
           }
           case TownHallStep.Jail: {
             const bloodPrince = createUndead(UndeadType.BloodPrince, true)
             const handleFreeBloodPrince = () => dispatch(addUndead(bloodPrince))
             return (
-              <Fragment>
+              <>
                 {t('townHallStep6', isBloodPrinceInJail)}
                 {isBloodPrinceInJail && <UndeadBox undead={bloodPrince} />}
                 {renderEndButton(isBloodPrinceInJail ? handleFreeBloodPrince : undefined)}
-              </Fragment>
+              </>
             )
           }
           default:

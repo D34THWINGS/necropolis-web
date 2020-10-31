@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import React from 'react'
+import { css } from '@emotion/core'
 import { Modal, ModalProps } from '../ui/Modal/Modal'
 import { ModalColor } from '../ui/Modal/modalStyles'
 import { useTranslation } from '../../lang/useTranslation'

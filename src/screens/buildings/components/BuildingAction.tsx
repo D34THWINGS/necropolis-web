@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { ReactNode, RefObject } from 'react'
+import React, { ReactNode, RefObject } from 'react'
 import {
   buildingActionArrow,
   buildingActionButton,

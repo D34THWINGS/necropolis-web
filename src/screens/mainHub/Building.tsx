@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { forwardRef, ReactNode, Ref } from 'react'
+import React, { forwardRef, ReactNode, Ref } from 'react'
+import { css } from '@emotion/core'
+
 import { Link } from 'react-router-dom'
 import { panelBorder, panelInner } from '../../components/ui/Panel'
 import { colors, shadows } from '../../config/theme'

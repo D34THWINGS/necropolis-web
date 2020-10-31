@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { ComponentType, createElement, ReactNode } from 'react'
+import React, { ComponentType, createElement, ReactNode } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from '../../components/ui/Modal/Modal'
 import { ModalColor } from '../../components/ui/Modal/modalStyles'

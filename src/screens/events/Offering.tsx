@@ -1,8 +1,5 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { h2Title } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { getUpgradableBuildings } from '../../data/buildings/selectors'
 import { EventAction } from './components/EventAction'
@@ -11,7 +8,7 @@ import { freeUpgradeBuilding } from '../../data/buildings/actions'
 import { endEvent } from '../../data/events/actions'
 import offeringImageUrl from '../../assets/images/events/offering.jpg'
 import { EventImage } from './components/EventImage'
-import { eventStepDescription } from './helpers/eventStyles'
+import { eventStepDescription, eventTitle } from './helpers/eventStyles'
 
 export const Offering = () => {
   const { t } = useTranslation()
@@ -24,8 +21,8 @@ export const Offering = () => {
   }
 
   return (
-    <Fragment>
-      <h2 css={h2Title}>{t('offeringTitle')}</h2>
+    <>
+      <h2 css={eventTitle}>{t('offeringTitle')}</h2>
       <EventImage src={offeringImageUrl} />
       <div css={eventStepDescription}>{t('offeringDescription')}</div>
       {upgradableBuildings.map(type => (
@@ -33,6 +30,6 @@ export const Offering = () => {
           {t('offeringAction', type)}
         </EventAction>
       ))}
-    </Fragment>
+    </>
   )
 }

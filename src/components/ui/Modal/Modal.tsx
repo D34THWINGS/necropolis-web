@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { jsx, ClassNames, SerializedStyles } from '@emotion/core'
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { ClassNames, SerializedStyles } from '@emotion/core'
 import ReactModal from 'react-modal'
 import { blueRoundButton, cyanRoundButton, purpleRoundButton, redRoundButton } from '../../../styles/buttons'
 import closeIconUrl from '../../../assets/images/icons/close.png'

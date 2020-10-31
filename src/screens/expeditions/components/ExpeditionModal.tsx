@@ -14,6 +14,14 @@ import treasureUrl from '../../../assets/images/expeditions/treasure.png'
 import lootUrl from '../../../assets/images/expeditions/loot.png'
 import { ExpeditionFlee } from './ExpeditionFlee'
 
+const expeditionTitle = [
+  h2Title,
+  css({
+    position: 'relative',
+    zIndex: 1,
+  }),
+]
+
 const expeditionButton = [
   ...cyanSquareButton,
   css({
@@ -177,7 +185,7 @@ export const ExpeditionModal = <TStep extends number = number>({
 
   return (
     <Modal isOpen={openedExpedition === type} onClose={step === undefined ? handleCloseOverview : undefined} noWobble>
-      <h2 css={h2Title}>{title}</h2>
+      <h2 css={expeditionTitle}>{title}</h2>
       {openedExpedition === type && getContent()}
     </Modal>
   )

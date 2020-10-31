@@ -1,11 +1,12 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import React from 'react'
+import { css } from '@emotion/core'
+import { lighten } from 'polished'
 import { Image } from '../../../components/images/Image'
+import { colors } from '../../../config/theme'
 
 export const eventImage = css({
-  margin: '0 -1rem -1.5rem',
-  border: '2px solid #3D0F0F',
-  borderRadius: '20px',
+  margin: '-4rem -1rem -1.5rem',
+  borderBottom: `2px solid ${lighten(0.1, colors.DARK_RED)}`,
 })
 
 export type EventImageProps = {

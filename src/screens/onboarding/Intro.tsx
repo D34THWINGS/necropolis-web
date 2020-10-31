@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import React from 'react'
+import { css } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'

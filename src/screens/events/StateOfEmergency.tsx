@@ -1,8 +1,6 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { h2Title, textCenter, textColor } from '../../styles/base'
+import { textCenter, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { PaladinsIcon } from '../../components/images/PaladinsIcon'
 import { getPaladinsStrength } from '../../data/paladins/selectors'
@@ -11,7 +9,7 @@ import { triggerPaladinsAttack, increasePaladinsStrength } from '../../data/pala
 import { preventSelectorUpdate } from '../../data/helpers'
 import stateOfEmergencyImageUrl from '../../assets/images/events/state-of-emergency.jpg'
 import { EventImage } from './components/EventImage'
-import { eventStepDescription } from './helpers/eventStyles'
+import { eventStepDescription, eventTitle } from './helpers/eventStyles'
 
 const STATE_OF_EMERGENCY_STRENGTH_INCREASE = 1
 
@@ -26,8 +24,8 @@ export const StateOfEmergency = ({ renderStep }: EventModalContentProps) => {
   }
 
   return (
-    <Fragment>
-      <h2 css={h2Title}>{t('stateOfEmergencyTitle')}</h2>
+    <>
+      <h2 css={eventTitle}>{t('stateOfEmergencyTitle')}</h2>
       <EventImage src={stateOfEmergencyImageUrl} />
       <div css={eventStepDescription}>
         {t('stateOfEmergencyDescription', STATE_OF_EMERGENCY_STRENGTH_INCREASE)}
@@ -39,6 +37,6 @@ export const StateOfEmergency = ({ renderStep }: EventModalContentProps) => {
         </span>
       </div>
       {renderStep((_, { renderAcknowledgeButton }) => renderAcknowledgeButton(handleAcknowledge))}
-    </Fragment>
+    </>
   )
 }

@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React from 'react'
 import { useHistory } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { Modal } from '../ui/Modal/Modal'

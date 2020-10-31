@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { MouseEventHandler, ReactNode } from 'react'
+import React, { MouseEventHandler, ReactNode } from 'react'
+import { css } from '@emotion/core'
 import { cyanSquareButton } from '../../../styles/buttons'
 import { Image } from '../../../components/images/Image'
 import actionArrowUrl from '../../../assets/images/icons/cyan-arrow.png'

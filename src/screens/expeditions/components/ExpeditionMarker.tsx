@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { forwardRef, Ref, useRef } from 'react'
+import React, { forwardRef, Ref, useRef } from 'react'
+import { css } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import frameUrl from '../../../assets/images/expeditions/expedition-frame.png'
 import activeFrameUrl from '../../../assets/images/expeditions/expedition-frame-active.png'

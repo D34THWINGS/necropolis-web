@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
+import { css } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { contentCover, h2Title } from '../styles/base'
 import { getCurrentPhase } from '../data/turn/selectors'
@@ -90,10 +89,10 @@ export const PhaseOverlay = () => {
       case TurnPhase.Production: {
         const isProducing = Object.values(production).some(Boolean)
         return (
-          <Fragment>
+          <>
             <h2 css={h2Title}>{t('productionPhaseTitle')}</h2>
             {isProducing ? (
-              <Fragment>
+              <>
                 <p>{t('productionPhaseDescription')}</p>
                 <div css={productionContainer}>
                   {Object.values(ResourceType)
@@ -102,7 +101,7 @@ export const PhaseOverlay = () => {
                         <span key={resource} css={productionCell}>
                           <ResourceIcon
                             type={resource}
-                            text={<Fragment>+{production[resource]}</Fragment>}
+                            text={<>+{production[resource]}</>}
                             marginLeft="0.5rem"
                             size="2rem"
                           />
@@ -111,20 +110,20 @@ export const PhaseOverlay = () => {
                     )
                     .filter(Boolean)}
                 </div>
-              </Fragment>
+              </>
             ) : (
               <p>{t('productionPhaseNoProduction')}</p>
             )}
-          </Fragment>
+          </>
         )
       }
       case TurnPhase.Upkeep:
         return (
-          <Fragment>
+          <>
             <h2 css={h2Title}>{t('upkeepPhaseTitle')}</h2>
             {meat > 0 && <p>{t('upkeepPhaseDescription', upkeep)}</p>}
             {meat === 0 && <p>{t('upkeepNoMeat')}</p>}
-          </Fragment>
+          </>
         )
       default:
         throw new Error('Unkown phase')

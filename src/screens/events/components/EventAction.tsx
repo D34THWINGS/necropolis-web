@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
+import { css } from '@emotion/core'
 import { Image } from '../../../components/images/Image'
 import actionArrowUrl from '../../../assets/images/icons/red-arrow.png'
 import { redSquareButton } from '../../../styles/buttons'

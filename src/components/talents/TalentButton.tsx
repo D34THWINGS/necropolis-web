@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
+import { css } from '@emotion/core'
 import { resetButton } from '../../styles/buttons'
 import { shadows } from '../../config/theme'
 import { UndeadTalent } from '../../config/constants'

@@ -1,5 +1,4 @@
 import { css } from '@emotion/core'
-import darken from 'polished/lib/color/darken'
 import { colors, shadows } from '../config/theme'
 
 export const backgroundImage = (url: string) =>
@@ -20,19 +19,18 @@ export const contentCover = css({
   bottom: 0,
 })
 
-const coloredBox = (backgroundColor: string, borderDarken = 0.2) =>
+const coloredBox = (backgroundColor: string) =>
   css({
-    border: `2px solid ${darken(borderDarken, backgroundColor)}`,
-    borderRadius: '15px',
+    borderRadius: '10px',
     padding: '0.3rem 0.5rem',
     backgroundColor,
   })
 
 export const greenBox = coloredBox(colors.GREEN)
 
-export const purpleBox = coloredBox(colors.DARK_PURPLE, 0.3)
+export const purpleBox = coloredBox(colors.DARK_PURPLE)
 
-export const blueBox = coloredBox(colors.BLUE, 0.35)
+export const blueBox = coloredBox(colors.BLUE)
 
 export const h2Title = css({
   margin: 0,

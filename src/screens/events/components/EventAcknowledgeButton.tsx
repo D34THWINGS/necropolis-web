@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import React from 'react'
+import { css } from '@emotion/core'
 import { useDispatch } from 'react-redux'
 import { darkRedSquareButton } from '../../../styles/buttons'
 import { useTranslation } from '../../../lang/useTranslation'

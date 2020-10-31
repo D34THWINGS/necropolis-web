@@ -47,7 +47,6 @@
     ],
     "react/jsx-filename-extension": ["error", { "extensions": [".jsx", ".tsx"] }],
     "react/jsx-one-expression-per-line": "off",
-    "react/jsx-fragments": "off",
     "jsx-a11y/control-has-associated-label": "off"
   },
   "settings": {

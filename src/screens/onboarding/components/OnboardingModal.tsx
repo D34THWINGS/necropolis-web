@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import React from 'react'
+import { css } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { Modal } from '../../../components/ui/Modal/Modal'
@@ -41,7 +41,7 @@ const noScrollModal = (alignToEnd: boolean) => [
 const portraitCircle = (alignToEnd: boolean) => [
   css({
     position: 'absolute',
-    border: '2px solid rgba(0, 0, 0, 0.5)',
+    border: '1px solid rgba(0, 0, 0, 0.5)',
     borderRadius: '50%',
     padding: '0.6rem',
     backgroundColor: '#448B84',

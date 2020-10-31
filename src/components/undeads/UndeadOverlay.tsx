@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { Fragment } from 'react'
+import React from 'react'
+import { css } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'
@@ -84,7 +83,7 @@ export const UndeadOverlay = () => {
   const handleBan = (type: UndeadType) => () => dispatch(banUndead(type))
 
   return (
-    <Fragment>
+    <>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
       <div css={undeadOverlayShadow(isOpen)} onClick={close} />
       <div css={undeadOverlayContainer(isOpen)}>
@@ -128,6 +127,6 @@ export const UndeadOverlay = () => {
           }}
         </OnboardingHighlight>
       </div>
-    </Fragment>
+    </>
   )
 }

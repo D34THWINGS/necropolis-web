@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
+import { css } from '@emotion/core'
 import { breakpoints, transitions } from '../../config/theme'
 
 const wrapper = (backgroundUrl?: string) =>
