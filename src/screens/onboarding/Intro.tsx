@@ -3,7 +3,7 @@ import { css } from '@emotion/core'
 import { useDispatch, useSelector } from 'react-redux'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'
-import { breakpoints, colors, shadows, transitions } from '../../config/theme'
+import { breakpoints, colors, fonts, shadows, transitions } from '../../config/theme'
 import coffinClosedUrl from '../../assets/images/onboarding/coffin-closed.jpg'
 import coffinOpenedUrl from '../../assets/images/onboarding/coffin-opened.jpg'
 import coffinEmptyUrl from '../../assets/images/onboarding/coffin-empty.jpg'
@@ -24,7 +24,7 @@ const introContainer = css({
   textShadow: shadows.TEXT,
   textAlign: 'center',
   fontSize: '1.5rem',
-  fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+  fontFamily: fonts.TITLES,
   fontWeight: 'normal',
 })
 

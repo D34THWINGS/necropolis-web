@@ -1,5 +1,6 @@
 import { css } from '@emotion/core'
-import { colors, shadows } from '../config/theme'
+import { colors, fonts, shadows } from '../config/theme'
+import { ModalColor, modalColorsMap } from '../components/ui/Modal/modalStyles'
 
 export const backgroundImage = (url: string) =>
   css({
@@ -32,12 +33,16 @@ export const purpleBox = coloredBox(colors.DARK_PURPLE)
 
 export const blueBox = coloredBox(colors.BLUE)
 
+export const redBox = coloredBox(colors.MEDIUM_RED)
+
+export const darkRedBox = coloredBox(modalColorsMap[ModalColor.RED][1])
+
 export const h2Title = css({
   margin: 0,
   fontSize: '1.8rem',
   textAlign: 'center',
   textShadow: shadows.TEXT_SOLID,
-  fontFamily: '"Greywall"',
+  fontFamily: fonts.TITLES,
   fontWeight: 'normal',
 })
 

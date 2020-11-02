@@ -1,5 +1,5 @@
 import { css } from '@emotion/core'
-import { colors, layers, shadows, transitions } from '../../../config/theme'
+import { colors, fonts, layers, shadows, transitions } from '../../../config/theme'
 import { fadeIn, slideFromTop } from '../../../styles/animations'
 
 export const gameEndContainer = (backgroundUrl: string) =>
@@ -41,7 +41,7 @@ export const gameEndText = (marginTop: string, backgroundColor: string) =>
     maxWidth: '18rem',
     backgroundColor,
     fontSize: '1.3rem',
-    fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+    fontFamily: fonts.TITLES,
     color: colors.WHITE,
     textShadow: shadows.TEXT,
     textAlign: 'center',

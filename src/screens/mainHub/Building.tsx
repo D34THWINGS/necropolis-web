@@ -3,7 +3,7 @@ import { css } from '@emotion/core'
 
 import { Link } from 'react-router-dom'
 import { panelBorder, panelInner } from '../../components/ui/Panel'
-import { colors, shadows } from '../../config/theme'
+import { colors, fonts, shadows } from '../../config/theme'
 import { useTranslation } from '../../lang/useTranslation'
 
 const buildingHeader = css({
@@ -11,7 +11,7 @@ const buildingHeader = css({
   justifyContent: 'space-between',
   fontSize: '1.2rem',
   textShadow: shadows.TEXT_SOLID,
-  fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+  fontFamily: fonts.TITLES,
   fontWeight: 'normal',
 })
 

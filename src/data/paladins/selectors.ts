@@ -18,3 +18,11 @@ export const getShouldIncreasePaladinsStrength = (state: RootState) => {
 }
 
 export const getPaladinsShouldAttack = (state: RootState) => getPaladinsCounter(state) >= PALADINS_ATTACK_THRESHOLD
+
+export const getPaladinsAssault = (state: RootState) => state.paladins.assault
+
+export const getPaladinsAssaultOngoing = (state: RootState) => !!getPaladinsAssault(state)
+
+export const getPaladinsAssaultPhase = (state: RootState) => getPaladinsAssault(state)?.phase ?? null
+
+export const getTraps = (state: RootState) => getPaladinsAssault(state)?.traps ?? []

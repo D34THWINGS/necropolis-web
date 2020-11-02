@@ -1,5 +1,6 @@
 import React from 'react'
 import { css, Global } from '@emotion/core'
+import { fonts } from '../config/theme'
 
 const reset = css({
   html: {
@@ -24,7 +25,7 @@ const reset = css({
     margin: 0,
     padding: 0,
     lineHeight: 1.5,
-    fontFamily: '"Azo Sans", Arial, Helvetica, sans-serif',
+    fontFamily: fonts.CORPUS,
     fontStyle: 'normal',
     fontSize: '1rem',
     overflow: 'hidden',

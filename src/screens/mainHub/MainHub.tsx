@@ -17,7 +17,7 @@ import {
 import { getRaisedUndeadCount } from '../../data/undeads/selectors'
 import { getHasArtifact } from '../../data/events/selectors'
 import { Panel } from '../../components/ui/Panel'
-import { breakpoints, colors, shadows } from '../../config/theme'
+import { breakpoints, colors, fonts, shadows } from '../../config/theme'
 import runeImageUrl from '../../assets/images/items/rune.png'
 import { ScreenWrapper } from '../../components/ui/ScreenWrapper'
 import backgroundImageUrl from '../../assets/images/background.jpg'
@@ -56,7 +56,7 @@ const artifactText = css({
 const artifactTitle = css({
   margin: 0,
   fontSize: '1.2rem',
-  fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+  fontFamily: fonts.TITLES,
   textShadow: shadows.TEXT_SOLID,
   color: colors.CYAN,
 })

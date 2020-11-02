@@ -6,7 +6,7 @@ import soulStormBackgroundUrl from '../../assets/images/spells/soul-storm.jpg'
 import theKeyBackgroundUrl from '../../assets/images/spells/the-key.jpg'
 import { useTranslation } from '../../lang/useTranslation'
 import { blueBox } from '../../styles/base'
-import { colors, shadows } from '../../config/theme'
+import { colors, fonts, shadows } from '../../config/theme'
 
 const spellBox = (backgroundUrl: string) => [
   blueBox,
@@ -25,7 +25,7 @@ const spellName = css({
   color: colors.LIGHT_BLUE,
   textAlign: 'center',
   textShadow: shadows.TEXT_SOLID,
-  fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+  fontFamily: fonts.TITLES,
   fontWeight: 'normal',
 })
 

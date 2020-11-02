@@ -1,9 +1,32 @@
 import React, { ReactNode } from 'react'
 import { textColor } from '../styles/base'
 import { ResourceIcon } from '../components/resources/ResourceIcon'
-import { BuildingType, ResourceType, UndeadTalent } from '../config/constants'
-import { plural } from './i18nHelpers'
+import { BuildingType, PaladinType, ResourceType, TrapType, UndeadTalent } from '../config/constants'
 import { TalentIcon } from '../components/talents/TalentIcon'
+
+const paladinNames: Record<PaladinType, string> = {
+  [PaladinType.Vanguard]: 'Avant-Garde',
+}
+
+const paladinAbilities: Record<PaladinType, ReactNode> = {
+  [PaladinType.Vanguard]: (
+    <>
+      <span css={textColor('PURPLE')}>Bouclier&nbsp;:</span> Protège des dégâts
+    </>
+  ),
+}
+
+const trapNames: Record<TrapType, string> = {
+  [TrapType.Impaler]: 'Empaleur',
+}
+
+const trapDescriptions: Record<TrapType, ReactNode> = {
+  [TrapType.Impaler]: (
+    <>
+      Brise les&nbsp;<span css={textColor('PURPLE')}>Bouclier</span>
+    </>
+  ),
+}
 
 export const frEvents = {
   eventAcknowledge: 'Ok',
@@ -40,39 +63,25 @@ export const frEvents = {
     </>
   ),
   paladinsAssaultAction1: 'Combattre',
-  paladinsAssaultPrerequisite: (defense: number) => (
+  paladinsAssaultReveal: 'Révélation',
+  paladinsAssaultNext: 'Suite',
+  paladinName: (type: PaladinType) => paladinNames[type],
+  paladinAbility: (type: PaladinType) => paladinAbilities[type],
+  paladinType: 'Types:',
+  paladinHealth: 'PV',
+  paladinsAssaultPrepare: 'Pose de pièges',
+  paladinsAssaultPlacedTraps: (count: number, max: number) => (
     <>
-      <span css={textColor('CYAN')}>Prérequis&nbsp;:</span>&nbsp;
-      <span css={textColor('LIME')}>{defense}&nbsp;Défense</span>
+      Pièges&nbsp;posés&nbsp;: {count}&nbsp;/&nbsp;{max}
     </>
   ),
-  paladinsAssaultVictory: (meat: number) => (
-    <>
-      Une trompette sonne leur retraite, c&apos;est la victoire ! Vous voilà tranquille pour un moment.{' '}
-      {meat > 0 && (
-        <>
-          Vous récoltez <ResourceIcon type={ResourceType.Meat} text={meat} /> sur leurs dépouilles.
-        </>
-      )}
-    </>
-  ),
-  paladinsAssaultDefeat: (undeads: number, meat: number) => (
-    <>
-      Des Paladins ont ouvert une brèche dans vos défenses et taillent leur chemin dans la Nécropole. Vos citoyens
-      arrivent toutefois à les stopper, mais en y payant le prix du sang. Vous perdez{' '}
-      <span css={textColor('PURPLE')}>
-        {undeads}&nbsp; Mort-vivant{plural(undeads, 's')}
-      </span>{' '}
-      de votre choix. Enfin, vous récoltez <ResourceIcon type={ResourceType.Meat} text={meat} /> sur leurs dépouilles.
-    </>
-  ),
-  paladinsAssaultTotalDefeat: (
-    <>
-      Des Paladins ont ouvert une brèche dans vos défenses et trucident tout ce qui bouge. Ils trouvent rapidement votre
-      cachette, la salle du tombeau. C&apos;est ici que vous avez perdu la vie et ironiquement, c&apos;est ici que vous
-      allez finalement la reperdre.
-    </>
-  ),
+  paladinsAssaultFight: 'Combattre',
+  trapName: (type: TrapType) => trapNames[type],
+  trapDescription: (type: TrapType) => trapDescriptions[type],
+  trapNemesis: 'Nemesis\u00A0:',
+  undeadDetailsAbility: 'Capacité de',
+  undeadDetailsUse: 'Utiliser',
+  paladinsAssaultBattle: 'Combat',
 
   collapsingTitle: "L'Éffondrement",
   collapsingStep1: (buildingName: ReactNode) => (

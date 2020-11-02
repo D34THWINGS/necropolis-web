@@ -166,3 +166,35 @@ export enum LooseReason {
   PaladinsAssault,
   Famine,
 }
+
+export enum PaladinsAssaultPhase {
+  Revealing = 'reveal',
+  Preparing = 'prepare',
+  Fighting = 'fight',
+}
+
+export enum PaladinType {
+  Vanguard = 'vanguard',
+}
+
+export const PALADINS_HEALTH_MAP: Record<PaladinType, number> = {
+  [PaladinType.Vanguard]: 2,
+}
+
+export const PALADINS_DAMAGES_MAP: Record<PaladinType, number> = {
+  [PaladinType.Vanguard]: 2,
+}
+
+export enum TrapType {
+  Impaler = 'impaler',
+}
+
+export const TRAP_NEMESIS_MAP: Record<TrapType, PaladinType> = {
+  [TrapType.Impaler]: PaladinType.Vanguard,
+}
+
+export const TRAP_DAMAGES_MAP: Record<TrapType, number> = {
+  [TrapType.Impaler]: 2,
+}
+
+export const NECROPOLIS_STRUCTURE_POINTS = 8

@@ -1,28 +1,15 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import { css, keyframes } from '@emotion/core'
 import { Image } from '../images/Image'
-import brikolerIconUrl from '../../assets/images/undeads/brikoler.png'
-import skeletonIconUrl from '../../assets/images/undeads/skeleton.png'
-import bloodPrinceIconUrl from '../../assets/images/undeads/blood-prince.png'
-import laMotteIconUrl from '../../assets/images/undeads/la-motte.png'
-import valetIconUrl from '../../assets/images/undeads/valet.png'
 import undeadBanUrl from '../../assets/images/icons/ban-undead.png'
 import checkUrl from '../../assets/images/icons/check.png'
 import { contentCover, purpleBox, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
-import { colors, shadows, transitions } from '../../config/theme'
+import { colors, fonts, shadows, transitions } from '../../config/theme'
 import { Undead } from '../../data/undeads/helpers'
 import { limeRoundButton, purpleRoundButton } from '../../styles/buttons'
-import { LA_MOTTE_DEFENSE_BONUS, UndeadType } from '../../config/constants'
 import { TalentButton } from '../talents/TalentButton'
-
-const undeadIconMap: Record<UndeadType, string> = {
-  [UndeadType.Valet]: valetIconUrl,
-  [UndeadType.Brikoler]: brikolerIconUrl,
-  [UndeadType.LaMotte]: laMotteIconUrl,
-  [UndeadType.Skeleton]: skeletonIconUrl,
-  [UndeadType.BloodPrince]: bloodPrinceIconUrl,
-}
+import { UndeadPortrait } from './UndeadPortrait'
 
 const undeadBox = (canBeBanned: boolean) => [
   purpleBox,
@@ -63,7 +50,7 @@ const undeadConfirmBox = [
     borderRadius: '15px',
     padding: '1rem 1rem 1.5rem',
     fontSize: '1.6rem',
-    fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+    fontFamily: fonts.TITLES,
     textAlign: 'center',
     textShadow: shadows.TEXT_SOLID,
     animationName: confirmTimeout,
@@ -81,7 +68,7 @@ const undeadName = css({
   textAlign: 'center',
   color: colors.PURPLE,
   textShadow: shadows.TEXT_SOLID,
-  fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+  fontFamily: fonts.TITLES,
   fontWeight: 'normal',
 
   '&::after': {
@@ -135,23 +122,6 @@ export const UndeadBox = ({ undead, disableBan, onBan, renderBanText }: UndeadBo
     [],
   )
 
-  const getAbility = () => {
-    switch (undead.type) {
-      case UndeadType.Valet:
-        return t('valetAbility')
-      case UndeadType.Brikoler:
-        return t('brikolerAbility')
-      case UndeadType.LaMotte:
-        return t('laMotteAbility', LA_MOTTE_DEFENSE_BONUS)
-      case UndeadType.Skeleton:
-        return t('skeletonAbility')
-      case UndeadType.BloodPrince:
-        return t('bloodPrinceAbility')
-      default:
-        return ''
-    }
-  }
-
   const handleShowConfirm = () => {
     setShowConfirm(true)
     cancelTimeout.current = window.setTimeout(() => {
@@ -174,14 +144,14 @@ export const UndeadBox = ({ undead, disableBan, onBan, renderBanText }: UndeadBo
     <div css={undeadBox(!!onBan)}>
       <h4 css={undeadName}>{undeadNameText}</h4>
       <div css={undeadDescription}>
-        <Image src={undeadIconMap[undead.type]} size="4rem" marginRight="0.5rem" />
+        <UndeadPortrait type={undead.type} marginRight="0.4rem" />
         <div>
           <div css={textColor('CYAN')}>{t('undeadTalents')}</div>
           {undead.talents.map(([talent, value]) => (
             <TalentButton key={talent} type={talent} text={value} />
           ))}
           <br />
-          <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {getAbility()}
+          <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {t('undeadAbilityDescription', undead.type)}
         </div>
       </div>
       {onBan && !showConfirm && (

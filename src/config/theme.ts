@@ -6,7 +6,8 @@ export const colors = {
   DARK_GREEN: '#144D49',
   CYAN: '#80f4d2',
   DARK_CYAN: '#57dbb4',
-  RED: '#fb5d46',
+  RED: '#ff0000',
+  MEDIUM_RED: '#8C454E',
   DARK_RED: '#3D0F0F',
   PURPLE: '#9a58fd',
   DARK_PURPLE: '#61458C',
@@ -45,6 +46,7 @@ export const transitions = {
 
 export const breakpoints = {
   SM: '@media screen and (min-width: 400px)',
+  MAX_SM: '@media screen and (max-width: 400px)',
 }
 
 export const layers = {
@@ -54,4 +56,9 @@ export const layers = {
   INFO_MODAL: 4,
   ONBOARDING: 5,
   SETTINGS: 6,
+}
+
+export const fonts = {
+  TITLES: '"Greywall", Arial, Helvetica, sans-serif',
+  CORPUS: '"Azo Sans", Arial, Helvetica, sans-serif',
 }

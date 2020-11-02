@@ -1,5 +1,5 @@
 import { css } from '@emotion/core'
-import { shadows } from '../../../config/theme'
+import { fonts, shadows } from '../../../config/theme'
 import { greenBox, textColor } from '../../../styles/base'
 import upgradeArrowUrl from '../../../assets/images/icons/cyan-arrow.png'
 import { cyanSquareButton } from '../../../styles/buttons'
@@ -17,7 +17,7 @@ export const buildingTitle = [
     textAlign: 'center',
     fontSize: '1.2rem',
     textShadow: shadows.TEXT_SOLID,
-    fontFamily: '"Greywall"',
+    fontFamily: fonts.TITLES,
     fontWeight: 'normal',
   }),
   textColor('CYAN'),
@@ -28,7 +28,7 @@ export const buildingLevel = css({
   textAlign: 'center',
   fontSize: '1.2rem',
   textShadow: shadows.TEXT_SOLID,
-  fontFamily: '"Greywall"',
+  fontFamily: fonts.TITLES,
   fontWeight: 'normal',
 })
 

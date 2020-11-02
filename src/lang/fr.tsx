@@ -1,13 +1,36 @@
 import React, { Fragment, ReactNode } from 'react'
 import { plural } from './i18nHelpers'
 import { noBreak, textColor } from '../styles/base'
-import { BuildingType, ResourceType, Spell, UndeadTalent, UndeadType } from '../config/constants'
+import {
+  BuildingType,
+  LA_MOTTE_DEFENSE_BONUS,
+  ResourceType,
+  Spell,
+  UndeadTalent,
+  UndeadType,
+} from '../config/constants'
 import { TalentIcon } from '../components/talents/TalentIcon'
 import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
 import { frEvents } from './frEvents'
 import { ResourceIcon } from '../components/resources/ResourceIcon'
 import { frMenu } from './frMenu'
+
+const undeadAbilities: Record<UndeadType, ReactNode> = {
+  [UndeadType.Valet]: "obtient +1 dans 1 Talent aléatoire à chaque fin d'Excursion.",
+  [UndeadType.Brikoler]: 'aucune.',
+  [UndeadType.LaMotte]: (
+    <>
+      confère <span css={textColor('LIME')}>+{LA_MOTTE_DEFENSE_BONUS}&nbsp;Défense</span>.
+    </>
+  ),
+  [UndeadType.Skeleton]: (
+    <>
+      ne consomme pas de <ResourceIcon type={ResourceType.Meat} />.
+    </>
+  ),
+  [UndeadType.BloodPrince]: 'inconnue.',
+}
 
 export const fr = {
   rip: 'Argh!',
@@ -178,19 +201,7 @@ export const fr = {
   },
   undeadTalents: 'Talents :',
   undeadAbility: 'Capacité :',
-  valetAbility: "obtient +1 dans 1 Talent aléatoire à chaque fin d'Excursion.",
-  brikolerAbility: 'aucune.',
-  laMotteAbility: (defense: number) => (
-    <>
-      confère <span css={textColor('LIME')}>+{defense}&nbsp;Défense</span>.
-    </>
-  ),
-  skeletonAbility: (
-    <>
-      ne consomme pas de <ResourceIcon type={ResourceType.Meat} />.
-    </>
-  ),
-  bloodPrinceAbility: 'inconnue.',
+  undeadAbilityDescription: (type: UndeadType) => undeadAbilities[type],
   reanimatedUndeadTitle: 'Réanimation',
   reanimatedUndeadOk: 'Ok',
 

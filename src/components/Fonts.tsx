@@ -3,7 +3,7 @@ import { css, Global } from '@emotion/core'
 import greywallNormalUrl from '../assets/fonts/greywall-webfont.woff2'
 import azoSansBoldUrl from '../assets/fonts/azo-sans-bold.woff2'
 
-const fonts = [
+const injectedFonts = [
   css({
     '@font-face': {
       fontFamily: 'Greywall',
@@ -22,4 +22,4 @@ const fonts = [
   }),
 ]
 
-export const Fonts = () => <Global styles={fonts} />
+export const Fonts = () => <Global styles={injectedFonts} />

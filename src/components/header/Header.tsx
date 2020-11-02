@@ -1,21 +1,15 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { css } from '@emotion/core'
-import settingsImageUrl from '../../assets/images/header/settings.png'
-import spellImageUrl from '../../assets/images/header/spells.png'
-import { buttonBase } from '../../styles/buttons'
-import { breakpoints, layers } from '../../config/theme'
+import { breakpoints, fonts } from '../../config/theme'
 import { TurnCounter } from './TurnCounter'
-import { SettingsModal } from './SettingsModal'
-import { useModalState } from '../ui/Modal/Modal'
 import { getResources } from '../../data/resources/selectors'
 import { getTurn } from '../../data/turn/selectors'
 import { OnboardingStep, ResourceType } from '../../config/constants'
-import { SpellsModal } from '../spells/SpellsModal'
-import { Image } from '../images/Image'
-import { getHasSpells } from '../../data/spells/selectors'
 import { OnboardingHighlight } from '../../screens/onboarding/components/OnboardingHighlight'
 import { ResourceButton } from '../resources/ResourceButton'
+import { SettingsButton } from './SettingsButton'
+import { SpellsButton } from './SpellsButton'
 
 const headerContainer = css({
   display: 'flex',
@@ -25,7 +19,7 @@ const headerContainer = css({
   padding: '0 0.5rem',
   width: '100%',
   height: '8rem',
-  fontFamily: '"Greywall", Arial, Helvetica, sans-serif',
+  fontFamily: fonts.TITLES,
   fontWeight: 'normal',
 })
 
@@ -52,16 +46,9 @@ const headerButtons = css({
   },
 })
 
-const settingsButton = [buttonBase, css({ zIndex: layers.SETTINGS })]
-
-const spellsButton = [buttonBase, css({ zIndex: layers.SPELLS_MODAL })]
-
 export const Header = () => {
-  const { isOpen: isSettingsModalOpen, close: closeSettings, open: openSettings } = useModalState()
-  const { isOpen: isSpellsModalOpen, close: closeSpells, open: openSpells } = useModalState()
   const resources = useSelector(getResources)
   const turn = useSelector(getTurn)
-  const hasSpells = useSelector(getHasSpells)
 
   return (
     <div css={headerContainer}>
@@ -93,14 +80,8 @@ export const Header = () => {
         <ResourceButton type={ResourceType.Bones} color="#CDC59C" text={resources.bones} />
       </div>
       <div css={headerButtons}>
-        <button type="button" css={settingsButton} onClick={openSettings}>
-          <Image src={settingsImageUrl} size="80%" />
-        </button>
-        <SettingsModal isOpen={isSettingsModalOpen} onClose={closeSettings} />
-        <button type="button" css={spellsButton} disabled={!hasSpells} onClick={openSpells}>
-          <Image src={spellImageUrl} size="100%" />
-        </button>
-        <SpellsModal isOpen={isSpellsModalOpen} onClose={closeSpells} />
+        <SettingsButton size="80%" />
+        <SpellsButton size="100%" />
       </div>
     </div>
   )
