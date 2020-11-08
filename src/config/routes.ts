@@ -13,3 +13,4 @@ export const PALADINS_ASSAULT = '/paladins-assault'
 export const PALADINS_ASSAULT_REVEAL = `${PALADINS_ASSAULT}/${PaladinsAssaultPhase.Revealing}`
 export const PALADINS_ASSAULT_PREPARE = `${PALADINS_ASSAULT}/${PaladinsAssaultPhase.Preparing}`
 export const PALADINS_ASSAULT_FIGHT = `${PALADINS_ASSAULT}/${PaladinsAssaultPhase.Fighting}`
+export const PALADINS_ASSAULT_RESULTS = `${PALADINS_ASSAULT}/${PaladinsAssaultPhase.Result}`

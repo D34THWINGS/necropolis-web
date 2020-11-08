@@ -1,8 +1,18 @@
 import React, { ReactNode } from 'react'
 import { textColor } from '../styles/base'
 import { ResourceIcon } from '../components/resources/ResourceIcon'
-import { BuildingType, PaladinType, ResourceType, TrapType, UndeadTalent } from '../config/constants'
+import {
+  BuildingType,
+  PaladinType,
+  PUTRID_PITCH_MALUS,
+  ResourceType,
+  TrapType,
+  UndeadTalent,
+} from '../config/constants'
 import { TalentIcon } from '../components/talents/TalentIcon'
+import paladinDamageIcon from '../assets/images/paladins/paladin-damage.png'
+import trapDamageIcon from '../assets/images/traps/trap-damages.png'
+import { Image } from '../components/images/Image'
 
 const paladinNames: Record<PaladinType, string> = {
   [PaladinType.Vanguard]: 'Avant-Garde',
@@ -11,19 +21,35 @@ const paladinNames: Record<PaladinType, string> = {
 const paladinAbilities: Record<PaladinType, ReactNode> = {
   [PaladinType.Vanguard]: (
     <>
-      <span css={textColor('PURPLE')}>Bouclier&nbsp;:</span> Protège des dégâts
+      <span css={textColor('PURPLE')}>Bouclier&nbsp;:</span>&nbsp;Protège des dégâts
     </>
   ),
 }
 
 const trapNames: Record<TrapType, string> = {
   [TrapType.Impaler]: 'Empaleur',
+  [TrapType.Chakrams]: 'Chakrâmes',
+  [TrapType.Profaner]: 'Profanatrice',
+  [TrapType.PutridPitch]: 'Poix putride',
 }
 
 const trapDescriptions: Record<TrapType, ReactNode> = {
   [TrapType.Impaler]: (
     <>
       Brise les&nbsp;<span css={textColor('PURPLE')}>Bouclier</span>
+    </>
+  ),
+  [TrapType.Chakrams]: <>Si le premier tir tue sa cible, le second tir touche le prochain paladin et ansi de suite.</>,
+  [TrapType.Profaner]: (
+    <>
+      <span css={textColor('PURPLE')}>Purge</span> l&apos;effet <span css={textColor('PURPLE')}>Pureté</span> et change
+      le type du paladin. Si le type choisi est magique, le paladin subit les <Image src={trapDamageIcon} /> de ce
+      piège.
+    </>
+  ),
+  [TrapType.PutridPitch]: (
+    <>
+      <span css={textColor('RED')}>{PUTRID_PITCH_MALUS}</span> <Image src={paladinDamageIcon} /> au paladin en jeu.
     </>
   ),
 }
@@ -67,7 +93,7 @@ export const frEvents = {
   paladinsAssaultNext: 'Suite',
   paladinName: (type: PaladinType) => paladinNames[type],
   paladinAbility: (type: PaladinType) => paladinAbilities[type],
-  paladinType: 'Types:',
+  paladinType: 'Types\u00A0:\u00A0',
   paladinHealth: 'PV',
   paladinsAssaultPrepare: 'Pose de pièges',
   paladinsAssaultPlacedTraps: (count: number, max: number) => (
@@ -82,6 +108,23 @@ export const frEvents = {
   undeadDetailsAbility: 'Capacité de',
   undeadDetailsUse: 'Utiliser',
   paladinsAssaultBattle: 'Combat',
+  paladinsAssaultResults: 'Bilan',
+  paladinsKilled: (killed: number, deckSize: number) => (
+    <>
+      Tués : <span css={textColor('WHITE')}>{killed}</span> / {deckSize}
+    </>
+  ),
+  healthLost: (amount: number) => (
+    <>
+      Perdus : <span css={textColor('WHITE')}>{amount}</span>
+    </>
+  ),
+  healthRemaining: (current: number, max: number) => (
+    <>
+      Restant : <span css={textColor('WHITE')}>{current}</span> / {max}
+    </>
+  ),
+  paladinsAssaultEnd: "Fin de l'assaut",
 
   collapsingTitle: "L'Éffondrement",
   collapsingStep1: (buildingName: ReactNode) => (

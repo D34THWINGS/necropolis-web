@@ -9,6 +9,8 @@ import { ModalColor } from '../../../components/ui/Modal/modalStyles'
 import { h2Title, redBox } from '../../../styles/base'
 import { colors } from '../../../config/theme'
 import damageIcon from '../../../assets/images/paladins/paladin-damage.png'
+import { PALADINS_DAMAGES_MAP } from '../../../config/constants'
+import { paladinCategoryImagesMap } from '../helpers/paladinCategoryImagesMap'
 
 const paladinImage = css({
   margin: '-4rem -1rem 1rem',
@@ -69,11 +71,18 @@ export const PaladinDetailsModal = ({ card, onClose }: PaladinDetailsModalProps)
           <h2 css={h2Title}>{t('paladinName', card.type)}</h2>
           <Image css={paladinImage} src={paladinsImageMap[card.type]} size="calc(100% + 2rem)" />
           <div css={paladinDetailsHeader}>
-            <div css={paladinHealth}>2&nbsp;{t('paladinHealth')}</div>
-            <div css={paladinTypes}>{t('paladinType')}</div>
+            <div css={paladinHealth}>
+              {card.health}&nbsp;{t('paladinHealth')}
+            </div>
+            <div css={paladinTypes}>
+              {t('paladinType')}
+              {card.categories.map(category => (
+                <Image key={category} src={paladinCategoryImagesMap[category]} marginRight="0.5rem" />
+              ))}
+            </div>
           </div>
           <div css={paladinDamages}>
-            5&nbsp;
+            {PALADINS_DAMAGES_MAP[card.type]}&nbsp;
             <Image src={damageIcon} />
           </div>
           <div css={detailsBox}>{t('paladinAbility', card.type)}</div>

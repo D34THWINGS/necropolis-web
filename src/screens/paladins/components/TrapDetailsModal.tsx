@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/core'
-import { TRAP_DAMAGES_MAP, TRAP_NEMESIS_MAP, TrapType } from '../../../config/constants'
+import { TRAP_DAMAGES_MAP, TRAP_NEMESIS_MAP, TRAP_TARGET_CATEGORIES_MAP, TrapType } from '../../../config/constants'
 import { Modal } from '../../../components/ui/Modal/Modal'
 import { ModalColor } from '../../../components/ui/Modal/modalStyles'
 import { Image } from '../../../components/images/Image'
@@ -9,6 +9,7 @@ import { greenBox, h2Title, textColor } from '../../../styles/base'
 import { useTranslation } from '../../../lang/useTranslation'
 import damageIcon from '../../../assets/images/traps/trap-damages.png'
 import { colors } from '../../../config/theme'
+import { paladinCategoryImagesMap } from '../helpers/paladinCategoryImagesMap'
 
 const trapImage = css({
   margin: '-4rem -1rem 1rem',
@@ -58,6 +59,10 @@ export type TrapDetailsModalProps = {
 
 export const TrapDetailsModal = ({ type, onClose }: TrapDetailsModalProps) => {
   const { t } = useTranslation()
+
+  const nemesis = type !== null ? TRAP_NEMESIS_MAP[type] : null
+  const damages = type !== null ? TRAP_DAMAGES_MAP[type] : 0
+
   return (
     <Modal isOpen={!!type} onClose={onClose} color={ModalColor.GREEN}>
       {type && (
@@ -66,15 +71,24 @@ export const TrapDetailsModal = ({ type, onClose }: TrapDetailsModalProps) => {
           <Image css={trapImage} src={trapsImageMap[type]} size="calc(100% + 2rem)" />
           <div css={trapDetailsHeader}>
             <div css={trapDamages}>
-              {TRAP_DAMAGES_MAP[type]}&nbsp;
+              {Array.isArray(damages) ? damages.join('-') : damages}&nbsp;
               <Image src={damageIcon} />
             </div>
-            <div css={trapType}>{t('paladinType')}</div>
+            <div css={trapType}>
+              {t('paladinType')}
+              {TRAP_TARGET_CATEGORIES_MAP[type].map(category => (
+                <Image key={category} src={paladinCategoryImagesMap[category]} marginRight="0.5rem" />
+              ))}
+            </div>
           </div>
-          <div css={trapNemesis}>
-            <span css={textColor('RED')}>{t('trapNemesis')}</span>&nbsp;{t('paladinName', TRAP_NEMESIS_MAP[type])}
+          {nemesis && (
+            <div css={trapNemesis}>
+              <span css={textColor('RED')}>{t('trapNemesis')}</span>&nbsp;{t('paladinName', nemesis)}
+            </div>
+          )}
+          <div css={trapDetailsBox}>
+            <p>{t('trapDescription', type)}</p>
           </div>
-          <div css={trapDetailsBox}>{t('trapDescription', type)}</div>
         </>
       )}
     </Modal>

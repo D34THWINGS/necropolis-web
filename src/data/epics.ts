@@ -5,6 +5,7 @@ import { repairBuildingEpic, upgradeBuildingEpic, upgradeBuildingRewardsEpic } f
 import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
 import { looseUndeadEpic, raiseUndeadEpic, valetEpic } from './undeads/epics'
 import { resetGameEpic } from './settings/epics'
+import { displayAssaultResultsEpic } from './paladins/epics'
 
 export const rootEpic = combineEpics(
   upgradeBuildingEpic,
@@ -21,4 +22,5 @@ export const rootEpic = combineEpics(
   fleeExpeditionEpic,
   soulStormEpic,
   resetGameEpic,
+  displayAssaultResultsEpic,
 )

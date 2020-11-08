@@ -24,6 +24,7 @@ import paladinsStrengthIcon from '../../assets/images/paladins/paladins-strengh.
 import materialsIcon from '../../assets/images/resources/materials.png'
 import { buttonDisabled, resetButton } from '../../styles/buttons'
 import { useTrap } from '../../data/paladins/actions'
+import { paladinCategoryImagesMap } from './helpers/paladinCategoryImagesMap'
 
 const fightPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
 
@@ -69,6 +70,8 @@ const activePaladinName = css({
   color: colors.RED,
   textShadow: shadows.TEXT_SOLID,
 })
+
+const activePaladinHeaderRight = css({ flex: 1 })
 
 const activePaladinHeaderText = css({
   display: 'flex',
@@ -158,6 +161,7 @@ export const PaladinsAssaultFight = () => {
 
   const { deck, traps } = assault
   const remainingPaladins = deck.filter(card => card.health > 0)
+  const remainingTraps = traps.filter(trap => !trap.used)
 
   if (remainingPaladins.length === 0) {
     return null
@@ -175,14 +179,20 @@ export const PaladinsAssaultFight = () => {
         <div css={activePaladinsDetails}>
           <div css={activePaladinHeader}>
             <div css={paladinAvatar(activePaladin.type)} />
-            <div>
+            <div css={activePaladinHeaderRight}>
               <div css={activePaladinName}>{t('paladinName', activePaladin.type)}</div>
               <div css={activePaladinHeaderText}>
                 <span css={textColor('RED')}>
                   {PALADINS_DAMAGES_MAP[activePaladin.type]}&nbsp;
                   <Image src={damageIcon} />
                 </span>
-                <span>{t('paladinType')}</span>
+                <span>
+                  {t('paladinType')}
+                  {activePaladin.categories.map(category => (
+                    <Image key={category} src={paladinCategoryImagesMap[category]} marginRight="0.5rem" />
+                  ))}
+                </span>
+                <span />
               </div>
             </div>
           </div>
@@ -206,17 +216,17 @@ export const PaladinsAssaultFight = () => {
             <Image src={paladinsStrengthIcon} marginLeft="0.3rem" />
           </div>
           <div css={fightStatusCounter}>
-            8&nbsp;<span css={textColor('CYAN')}>/&nbsp;{NECROPOLIS_STRUCTURE_POINTS}</span>
+            {assault.structureHealth}&nbsp;<span css={textColor('CYAN')}>/&nbsp;{NECROPOLIS_STRUCTURE_POINTS}</span>
             <Image css={structurePointsIcon} src={materialsIcon} marginLeft="0.3rem" />
           </div>
         </div>
         <div css={trapPool}>
-          {traps.map(trap => (
+          {remainingTraps.map(trap => (
             <button
               key={trap.id}
               type="button"
               css={trapUseButton(trap.type)}
-              disabled={trap.used}
+              disabled={!trap.targetsCategories.some(category => activePaladin.categories.indexOf(category) >= 0)}
               onClick={handleUseTrap(trap.id)}
             >
               {t('trapName', trap.type)}

@@ -171,10 +171,17 @@ export enum PaladinsAssaultPhase {
   Revealing = 'reveal',
   Preparing = 'prepare',
   Fighting = 'fight',
+  Result = 'result',
 }
 
 export enum PaladinType {
   Vanguard = 'vanguard',
+}
+
+export enum PaladinCategory {
+  Physical = 'physical',
+  Magical = 'magical',
+  Ethereal = 'ethereal',
 }
 
 export const PALADINS_HEALTH_MAP: Record<PaladinType, number> = {
@@ -185,16 +192,37 @@ export const PALADINS_DAMAGES_MAP: Record<PaladinType, number> = {
   [PaladinType.Vanguard]: 2,
 }
 
+export const PALADINS_CATEGORIES_MAP: Record<PaladinType, PaladinCategory[]> = {
+  [PaladinType.Vanguard]: [PaladinCategory.Physical, PaladinCategory.Magical],
+}
+
 export enum TrapType {
   Impaler = 'impaler',
+  Chakrams = 'chakrams',
+  Profaner = 'profaner',
+  PutridPitch = 'putridPitch',
 }
 
-export const TRAP_NEMESIS_MAP: Record<TrapType, PaladinType> = {
+export const TRAP_NEMESIS_MAP: Record<TrapType, PaladinType | null> = {
   [TrapType.Impaler]: PaladinType.Vanguard,
+  [TrapType.Chakrams]: null,
+  [TrapType.Profaner]: null,
+  [TrapType.PutridPitch]: null,
 }
 
-export const TRAP_DAMAGES_MAP: Record<TrapType, number> = {
+export const TRAP_DAMAGES_MAP: Record<TrapType, number | number[]> = {
   [TrapType.Impaler]: 2,
+  [TrapType.Chakrams]: [1, 1, 1],
+  [TrapType.Profaner]: 2,
+  [TrapType.PutridPitch]: 1,
 }
 
+export const TRAP_TARGET_CATEGORIES_MAP: Record<TrapType, PaladinCategory[]> = {
+  [TrapType.Impaler]: [PaladinCategory.Physical],
+  [TrapType.Chakrams]: [PaladinCategory.Ethereal],
+  [TrapType.Profaner]: [PaladinCategory.Magical],
+  [TrapType.PutridPitch]: [PaladinCategory.Physical, PaladinCategory.Magical, PaladinCategory.Ethereal],
+}
+
+export const PUTRID_PITCH_MALUS = -1
 export const NECROPOLIS_STRUCTURE_POINTS = 8

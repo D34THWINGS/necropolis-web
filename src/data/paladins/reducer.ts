@@ -13,8 +13,23 @@ import {
   triggerPaladinsAttack,
   useTrap,
 } from './actions'
-import { Assault, createPaladinsAssault, createTrap } from './helpers'
+import { Assault, createPaladinsAssault, createTrap, PaladinCard } from './helpers'
 import { PALADINS_ATTACK_THRESHOLD, TRAP_DAMAGES_MAP } from '../../config/constants'
+
+const doDamages = (deck: PaladinCard[], damages: number) => {
+  const activePaladin = deck.find(paladin => paladin.health > 0)
+
+  if (!activePaladin) {
+    return deck
+  }
+
+  const activePaladinIndex = deck.indexOf(activePaladin)
+  return [
+    ...deck.slice(0, activePaladinIndex),
+    { ...activePaladin, health: Math.max(0, activePaladin.health - damages) },
+    ...deck.slice(activePaladinIndex + 1),
+  ]
+}
 
 export const paladins = createReducer({
   strength: 0,
@@ -34,7 +49,7 @@ export const paladins = createReducer({
   .handleAction(killPaladins, state => ({ ...state, calledToArms: false }))
   .handleAction(resetPaladinsCounter, state => ({ ...state, counter: 0 }))
   .handleAction(beginPaladinsAssault, state => ({ ...state, assault: createPaladinsAssault(state.strength) }))
-  .handleAction(endPaladinsAssault, state => ({ ...state, assault: null }))
+  .handleAction(endPaladinsAssault, state => ({ ...state, assault: null, counter: 0 }))
   .handleAction(changeAssaultPhase, (state, { payload }) => {
     if (state.assault) {
       return { ...state, assault: { ...state.assault, phase: payload.phase } }
@@ -78,17 +93,13 @@ export const paladins = createReducer({
       return state
     }
     const trapIndex = traps.indexOf(trap)
-    const activePaladinIndex = deck.indexOf(activePaladin)
+    const trapDamages = TRAP_DAMAGES_MAP[trap.type]
     return {
       ...state,
       assault: {
         ...state.assault,
         traps: [...traps.slice(0, trapIndex), { ...trap, used: true }, ...traps.slice(trapIndex + 1)],
-        deck: [
-          ...deck.slice(0, activePaladinIndex),
-          { ...activePaladin, health: Math.max(0, activePaladin.health - TRAP_DAMAGES_MAP[trap.type]) },
-          ...deck.slice(activePaladinIndex + 1),
-        ],
+        deck: Array.isArray(trapDamages) ? trapDamages.reduce(doDamages, deck) : doDamages(deck, trapDamages),
       },
     }
   })

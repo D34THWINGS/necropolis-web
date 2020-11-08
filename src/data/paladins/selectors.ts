@@ -23,6 +23,15 @@ export const getPaladinsAssault = (state: RootState) => state.paladins.assault
 
 export const getPaladinsAssaultOngoing = (state: RootState) => !!getPaladinsAssault(state)
 
-export const getPaladinsAssaultPhase = (state: RootState) => getPaladinsAssault(state)?.phase ?? null
-
 export const getTraps = (state: RootState) => getPaladinsAssault(state)?.traps ?? []
+
+export const isAssaultFinished = (state: RootState) => {
+  const assault = getPaladinsAssault(state)
+  if (!assault) {
+    return false
+  }
+  if (!assault.deck.some(card => card.health > 0)) {
+    return true
+  }
+  return !assault.traps.some(trap => !trap.used)
+}
