@@ -1,6 +1,7 @@
 import { RootState } from '../../store/mainReducer'
 import { getTurn } from '../turn/selectors'
 import { PALADINS_ATTACK_THRESHOLD, PALADINS_INCREASE_SPACING } from '../../config/constants'
+import { isPaladinAlive, Trap } from './helpers'
 
 export const getPaladinsStrength = (state: RootState) => state.paladins.strength
 
@@ -24,6 +25,15 @@ export const getPaladinsAssault = (state: RootState) => state.paladins.assault
 export const getPaladinsAssaultOngoing = (state: RootState) => !!getPaladinsAssault(state)
 
 export const getTraps = (state: RootState) => getPaladinsAssault(state)?.traps ?? []
+
+export const getTrapById = (id: Trap['id']) => (state: RootState) => getTraps(state).find(trap => trap.id === id)
+
+export const getIsChangingPaladinCategory = (state: RootState) =>
+  getPaladinsAssault(state)?.changingPaladinCategory ?? false
+
+export const getRemainingPaladins = (state: RootState) => getPaladinsAssault(state)?.deck.filter(isPaladinAlive) ?? []
+
+export const getActivePaladin = (state: RootState) => getRemainingPaladins(state)[0]
 
 export const isAssaultFinished = (state: RootState) => {
   const assault = getPaladinsAssault(state)

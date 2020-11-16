@@ -1,3 +1,22 @@
+export const setInArray = <T>(array: T[], index: number, value: T) => [
+  ...array.slice(0, index),
+  value,
+  ...array.slice(index + 1),
+]
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const recursiveSet = (obj: any, path: (string | number)[], value: any): any => {
+  if (Array.isArray(obj)) {
+    const index = typeof path[0] === 'string' ? parseInt(path[0], 10) : path[0]
+    return setInArray(obj, index, path.length > 1 ? recursiveSet(obj[index], path.slice(1), value) : value)
+  }
+
+  return {
+    ...obj,
+    [path[0]]: path.length > 1 ? recursiveSet(obj[path[0]], path.slice(1), value) : value,
+  }
+}
+
 type Setter<TValue, TReturn> = (value: TValue) => TReturn
 
 type DeepSetter<TObj, TBase> = {
@@ -5,20 +24,6 @@ type DeepSetter<TObj, TBase> = {
   <TKey extends keyof TObj>(key: TKey): TObj[TKey] extends Record<string, unknown>
     ? DeepSetter<TObj[TKey], TBase>
     : () => Setter<TObj[TKey], TBase>
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const recursiveSet = <TObj>(obj: TObj, path: string[], value: any): TObj => {
-  if (path.length > 1) {
-    return {
-      ...obj,
-      [path[0]]: recursiveSet(obj[path[0] as keyof TObj], path.slice(1), value),
-    }
-  }
-  return {
-    ...obj,
-    [path[0]]: value,
-  }
 }
 
 export const deepSet = <TObj>(obj: TObj): DeepSetter<TObj, TObj> => {

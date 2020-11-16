@@ -3,6 +3,7 @@ import { textColor } from '../styles/base'
 import { ResourceIcon } from '../components/resources/ResourceIcon'
 import {
   BuildingType,
+  EXTRA_CHAKRAM_DAMAGE,
   PaladinType,
   PUTRID_PITCH_MALUS,
   ResourceType,
@@ -13,6 +14,7 @@ import { TalentIcon } from '../components/talents/TalentIcon'
 import paladinDamageIcon from '../assets/images/paladins/paladin-damage.png'
 import trapDamageIcon from '../assets/images/traps/trap-damages.png'
 import { Image } from '../components/images/Image'
+import magicalIcon from '../assets/images/paladins/magical-category.png'
 
 const paladinNames: Record<PaladinType, string> = {
   [PaladinType.Vanguard]: 'Avant-Garde',
@@ -39,12 +41,17 @@ const trapDescriptions: Record<TrapType, ReactNode> = {
       Brise les&nbsp;<span css={textColor('PURPLE')}>Bouclier</span>
     </>
   ),
-  [TrapType.Chakrams]: <>Si le premier tir tue sa cible, le second tir touche le prochain paladin et ansi de suite.</>,
+  [TrapType.Chakrams]: (
+    <>
+      Tire un second chakrâme qui inflige <span css={textColor('CYAN')}>{EXTRA_CHAKRAM_DAMAGE}</span>{' '}
+      <Image src={trapDamageIcon} />, peu importe le type du paladin en jeu.
+    </>
+  ),
   [TrapType.Profaner]: (
     <>
       <span css={textColor('PURPLE')}>Purge</span> l&apos;effet <span css={textColor('PURPLE')}>Pureté</span> et change
-      le type du paladin. Si le type choisi est magique, le paladin subit les <Image src={trapDamageIcon} /> de ce
-      piège.
+      le type du paladin. Si le type choisi est <Image src={magicalIcon} />, le paladin subit les{' '}
+      <Image src={trapDamageIcon} /> de ce piège.
     </>
   ),
   [TrapType.PutridPitch]: (
@@ -108,6 +115,8 @@ export const frEvents = {
   undeadDetailsAbility: 'Capacité de',
   undeadDetailsUse: 'Utiliser',
   paladinsAssaultBattle: 'Combat',
+  changePaladinType: 'Changement de type',
+  changePaladinTypeSubmit: 'Confirmer',
   paladinsAssaultResults: 'Bilan',
   paladinsKilled: (killed: number, deckSize: number) => (
     <>

@@ -71,7 +71,7 @@ export const TrapDetailsModal = ({ type, onClose }: TrapDetailsModalProps) => {
           <Image css={trapImage} src={trapsImageMap[type]} size="calc(100% + 2rem)" />
           <div css={trapDetailsHeader}>
             <div css={trapDamages}>
-              {Array.isArray(damages) ? damages.join('-') : damages}&nbsp;
+              {damages}&nbsp;
               <Image src={damageIcon} />
             </div>
             <div css={trapType}>

@@ -210,9 +210,9 @@ export const TRAP_NEMESIS_MAP: Record<TrapType, PaladinType | null> = {
   [TrapType.PutridPitch]: null,
 }
 
-export const TRAP_DAMAGES_MAP: Record<TrapType, number | number[]> = {
+export const TRAP_DAMAGES_MAP: Record<TrapType, number> = {
   [TrapType.Impaler]: 2,
-  [TrapType.Chakrams]: [1, 1, 1],
+  [TrapType.Chakrams]: 2,
   [TrapType.Profaner]: 2,
   [TrapType.PutridPitch]: 1,
 }
@@ -224,5 +224,6 @@ export const TRAP_TARGET_CATEGORIES_MAP: Record<TrapType, PaladinCategory[]> = {
   [TrapType.PutridPitch]: [PaladinCategory.Physical, PaladinCategory.Magical, PaladinCategory.Ethereal],
 }
 
+export const EXTRA_CHAKRAM_DAMAGE = 1
 export const PUTRID_PITCH_MALUS = -1
 export const NECROPOLIS_STRUCTURE_POINTS = 8

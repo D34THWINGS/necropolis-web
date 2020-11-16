@@ -6,13 +6,7 @@ import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/mo
 import { paladinAssaultPanel, paladinAssaultPanelInner } from './helpers/paladinAssaultStyles'
 import { darkRedBox, greenBox, h2Title, redBox, smallMarginTop, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
-import {
-  NECROPOLIS_STRUCTURE_POINTS,
-  PALADINS_DAMAGES_MAP,
-  PALADINS_HEALTH_MAP,
-  PaladinType,
-  TrapType,
-} from '../../config/constants'
+import { NECROPOLIS_STRUCTURE_POINTS, PALADINS_HEALTH_MAP, PaladinType, TrapType } from '../../config/constants'
 import { paladinsImageMap } from './helpers/paladinsImageMap'
 import { breakpoints, colors, fonts, shadows } from '../../config/theme'
 import { getPaladinsAssault } from '../../data/paladins/selectors'
@@ -25,6 +19,7 @@ import materialsIcon from '../../assets/images/resources/materials.png'
 import { buttonDisabled, resetButton } from '../../styles/buttons'
 import { useTrap } from '../../data/paladins/actions'
 import { paladinCategoryImagesMap } from './helpers/paladinCategoryImagesMap'
+import { ChangePaladinCategoryModal } from './components/ChangePaladinCategoryModal'
 
 const fightPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
 
@@ -183,7 +178,7 @@ export const PaladinsAssaultFight = () => {
               <div css={activePaladinName}>{t('paladinName', activePaladin.type)}</div>
               <div css={activePaladinHeaderText}>
                 <span css={textColor('RED')}>
-                  {PALADINS_DAMAGES_MAP[activePaladin.type]}&nbsp;
+                  {activePaladin.damages}&nbsp;
                   <Image src={damageIcon} />
                 </span>
                 <span>
@@ -226,13 +221,17 @@ export const PaladinsAssaultFight = () => {
               key={trap.id}
               type="button"
               css={trapUseButton(trap.type)}
-              disabled={!trap.targetsCategories.some(category => activePaladin.categories.indexOf(category) >= 0)}
+              disabled={
+                trap.type !== TrapType.Profaner &&
+                !trap.targetsCategories.some(category => activePaladin.categories.indexOf(category) >= 0)
+              }
               onClick={handleUseTrap(trap.id)}
             >
               {t('trapName', trap.type)}
             </button>
           ))}
         </div>
+        <ChangePaladinCategoryModal activePaladin={activePaladin} />
       </div>
     </div>
   )
