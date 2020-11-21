@@ -176,25 +176,67 @@ export enum PaladinsAssaultPhase {
 
 export enum PaladinType {
   Vanguard = 'vanguard',
+  Healer = 'healer',
+  Zealot = 'zealot',
+  Wizard = 'wizard',
+  Dreadnought = 'dreadnought',
+  Commander = 'commander',
+  Guardian = 'guardian',
+  Provost = 'provost',
+  Avenger = 'avenger',
 }
 
 export enum PaladinCategory {
   Physical = 'physical',
   Magical = 'magical',
   Ethereal = 'ethereal',
+  Pure = 'pure',
 }
 
 export const PALADINS_HEALTH_MAP: Record<PaladinType, number> = {
   [PaladinType.Vanguard]: 2,
+  [PaladinType.Healer]: 2,
+  [PaladinType.Zealot]: 2,
+  [PaladinType.Wizard]: 1,
+  [PaladinType.Dreadnought]: 3,
+  [PaladinType.Commander]: 2,
+  [PaladinType.Guardian]: 3,
+  [PaladinType.Provost]: 1,
+  [PaladinType.Avenger]: 2,
 }
 
 export const PALADINS_DAMAGES_MAP: Record<PaladinType, number> = {
   [PaladinType.Vanguard]: 2,
+  [PaladinType.Healer]: 1,
+  [PaladinType.Zealot]: 2,
+  [PaladinType.Wizard]: 2,
+  [PaladinType.Dreadnought]: 3,
+  [PaladinType.Commander]: 2,
+  [PaladinType.Guardian]: 1,
+  [PaladinType.Provost]: 3,
+  [PaladinType.Avenger]: 2,
 }
 
 export const PALADINS_CATEGORIES_MAP: Record<PaladinType, PaladinCategory[]> = {
   [PaladinType.Vanguard]: [PaladinCategory.Physical, PaladinCategory.Magical],
+  [PaladinType.Healer]: [PaladinCategory.Physical, PaladinCategory.Ethereal],
+  [PaladinType.Zealot]: [PaladinCategory.Pure],
+  [PaladinType.Wizard]: [PaladinCategory.Ethereal],
+  [PaladinType.Dreadnought]: [PaladinCategory.Physical],
+  [PaladinType.Commander]: [PaladinCategory.Magical],
+  [PaladinType.Guardian]: [PaladinCategory.Physical, PaladinCategory.Ethereal],
+  [PaladinType.Provost]: [PaladinCategory.Ethereal, PaladinCategory.Magical],
+  [PaladinType.Avenger]: [PaladinCategory.Physical, PaladinCategory.Magical],
 }
+
+export const PALADINS_WITH_SHIELD: PaladinType[] = [PaladinType.Vanguard, PaladinType.Avenger]
+
+export const HEALER_BONUS_HP = 1
+export const HEALER_TARGETS_COUNT = 1
+export const WIZARD_BONUS_DAMAGES = 1
+export const WIZARD_TARGETS_COUNT = 3
+export const GUARDIAN_TARGETS_COUNT = 1
+export const PROVOST_TARGETS_COUNT = 1
 
 export enum TrapType {
   Impaler = 'impaler',

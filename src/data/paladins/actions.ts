@@ -49,3 +49,5 @@ export const changePaladinCategories = createAction(
   'paladins/CHANGE_CATEGORIES',
   (paladinId: number, categories: PaladinCategory[]) => ({ paladinId, categories }),
 )()
+
+export const markPaladinRevealed = createAction('paladins/MARK_REVEALED', (paladinId: number) => ({ paladinId }))()

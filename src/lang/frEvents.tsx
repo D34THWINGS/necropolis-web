@@ -4,11 +4,17 @@ import { ResourceIcon } from '../components/resources/ResourceIcon'
 import {
   BuildingType,
   EXTRA_CHAKRAM_DAMAGE,
+  GUARDIAN_TARGETS_COUNT,
+  HEALER_BONUS_HP,
+  HEALER_TARGETS_COUNT,
   PaladinType,
+  PROVOST_TARGETS_COUNT,
   PUTRID_PITCH_MALUS,
   ResourceType,
   TrapType,
   UndeadTalent,
+  WIZARD_BONUS_DAMAGES,
+  WIZARD_TARGETS_COUNT,
 } from '../config/constants'
 import { TalentIcon } from '../components/talents/TalentIcon'
 import paladinDamageIcon from '../assets/images/paladins/paladin-damage.png'
@@ -18,12 +24,63 @@ import magicalIcon from '../assets/images/paladins/magical-category.png'
 
 const paladinNames: Record<PaladinType, string> = {
   [PaladinType.Vanguard]: 'Avant-Garde',
+  [PaladinType.Healer]: 'Soigneur',
+  [PaladinType.Zealot]: 'Zélote',
+  [PaladinType.Wizard]: 'Enchanteur',
+  [PaladinType.Dreadnought]: 'Dreadnought',
+  [PaladinType.Commander]: 'Commandant',
+  [PaladinType.Guardian]: 'Gardien',
+  [PaladinType.Provost]: 'Prévot',
+  [PaladinType.Avenger]: 'Vengeur',
 }
 
 const paladinAbilities: Record<PaladinType, ReactNode> = {
   [PaladinType.Vanguard]: (
     <>
       <span css={textColor('PURPLE')}>Bouclier&nbsp;:</span>&nbsp;Protège des dégâts
+    </>
+  ),
+  [PaladinType.Healer]: (
+    <>
+      <span css={textColor('LIME')}>+{HEALER_BONUS_HP} PV</span>&nbsp;à {HEALER_TARGETS_COUNT} Paladin
+    </>
+  ),
+  [PaladinType.Zealot]: (
+    <>
+      <span css={textColor('PURPLE')}>Pureté&nbsp;:</span>&nbsp;le ou les Types de la carte sont tirés aléatoirement et
+      ne sont révélés que lorsqu&apos;elle se fait attaquer.
+    </>
+  ),
+  [PaladinType.Wizard]: (
+    <>
+      <span css={textColor('RED')}>
+        +{WIZARD_BONUS_DAMAGES}&nbsp;
+        <Image src={paladinDamageIcon} />
+      </span>
+      &nbsp;à {WIZARD_TARGETS_COUNT} Paladins
+    </>
+  ),
+  [PaladinType.Dreadnought]: '',
+  [PaladinType.Commander]: (
+    <>
+      Lorsqu&apos;il doit subir des dégâts pour la première fois, il échange sa place avec un autre Paladin dans le deck
+    </>
+  ),
+  [PaladinType.Guardian]: (
+    <>
+      Confère <span css={textColor('PURPLE')}>Bouclier</span> à {GUARDIAN_TARGETS_COUNT} Paladin
+    </>
+  ),
+  [PaladinType.Provost]: (
+    <>
+      Confère <span css={textColor('PURPLE')}>Pureté</span> à {PROVOST_TARGETS_COUNT} Paladin
+    </>
+  ),
+  [PaladinType.Avenger]: (
+    <>
+      <span css={textColor('PURPLE')}>Bouclier</span>
+      <br />
+      Inflige ses <Image src={paladinDamageIcon} /> quand il meurt
     </>
   ),
 }

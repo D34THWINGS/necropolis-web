@@ -12,6 +12,7 @@ import {
   increasePaladinsCounter,
   increasePaladinsStrength,
   killPaladins,
+  markPaladinRevealed,
   reducePaladinDamages,
   removeTrap,
   resetPaladinsCounter,
@@ -118,9 +119,11 @@ export const paladins = createReducer<PaladinState>({
   .handleAction(damageActivePaladin, (state, { payload: { damages } }) =>
     updateAssault(state, assault => {
       const activePaladinIndex = assault.deck.findIndex(isPaladinAlive)
-      return {
-        deck: updatePaladinByIndex(assault.deck, activePaladinIndex, applyDamagesToPaladin(damages)),
-      }
+      return activePaladinIndex === -1
+        ? null
+        : {
+            deck: updatePaladinByIndex(assault.deck, activePaladinIndex, applyDamagesToPaladin(damages)),
+          }
     }),
   )
   .handleAction(setChangingPaladinCategories, state => updateAssault(state, () => ({ changingPaladinCategory: true })))
@@ -146,6 +149,14 @@ export const paladins = createReducer<PaladinState>({
       deck: updatePaladinById(assault.deck, paladinId, paladin => ({
         ...paladin,
         damages: Math.max(paladin.damages - 1, 0),
+      })),
+    })),
+  )
+  .handleAction(markPaladinRevealed, (state, { payload: { paladinId } }) =>
+    updateAssault(state, assault => ({
+      deck: updatePaladinById(assault.deck, paladinId, paladin => ({
+        ...paladin,
+        revealed: true,
       })),
     })),
   )

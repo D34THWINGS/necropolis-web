@@ -12,8 +12,8 @@ import { paladinCategoryImagesMap } from '../helpers/paladinCategoryImagesMap'
 import arrowUrl from '../../../assets/images/onboarding/next-step-arrow.png'
 import { buttonBase, greenSquareButton } from '../../../styles/buttons'
 import { colors, transitions } from '../../../config/theme'
-import { PaladinCategory } from '../../../config/constants'
-import { changePaladinCategories } from '../../../data/paladins/actions'
+import { PaladinCategory, TRAP_DAMAGES_MAP, TrapType } from '../../../config/constants'
+import { changePaladinCategories, doDamagesToPaladin } from '../../../data/paladins/actions'
 
 const changeCategoryWrapper = css({
   display: 'flex',
@@ -50,7 +50,9 @@ const getPossibleDestinationCategories = (
   sourceCategories: PaladinCategory[],
 ) =>
   Object.values(PaladinCategory).filter(
-    category => sourceCategories.indexOf(category) === -1 || selectedSourceCategory === category,
+    category =>
+      category !== PaladinCategory.Pure &&
+      (sourceCategories.indexOf(category) === -1 || selectedSourceCategory === category),
   )
 
 export type ChangePaladinCategoryModalProps = {
@@ -86,6 +88,7 @@ export const ChangePaladinCategoryModal = ({ activePaladin }: ChangePaladinCateg
   const handleSubmit = () => {
     const categories = [...activePaladin.categories.filter(c => c !== sourceCategory), destinationCategory]
     dispatch(changePaladinCategories(activePaladin.id, categories))
+    dispatch(doDamagesToPaladin(activePaladin.id, TRAP_DAMAGES_MAP[TrapType.Profaner]))
   }
 
   return (

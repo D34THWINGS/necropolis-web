@@ -9,6 +9,7 @@ import {
   PALADINS_CATEGORIES_MAP,
   PALADINS_DAMAGES_MAP,
   TRAP_DAMAGES_MAP,
+  PALADINS_WITH_SHIELD,
 } from '../../config/constants'
 
 export type Trap = {
@@ -32,6 +33,7 @@ export type PaladinCard = {
   type: PaladinType
   revealed: boolean
   health: number
+  maxHealth: number
   damages: number
   categories: PaladinCategory[]
   shield: boolean
@@ -40,15 +42,17 @@ export type PaladinCard = {
 export const createPaladinsAssault = (strength: number): Assault => ({
   phase: PaladinsAssaultPhase.Revealing,
   deck: Array.from({ length: strength }).map((_, index) => {
-    const type = PaladinType.Vanguard
+    const possibleTypes = Object.values(PaladinType)
+    const type = possibleTypes[Math.floor(Math.random() * possibleTypes.length)] ?? PaladinType.Vanguard
     return {
       id: index,
       type,
       revealed: index === 0,
       health: PALADINS_HEALTH_MAP[type],
+      maxHealth: PALADINS_HEALTH_MAP[type],
       damages: PALADINS_DAMAGES_MAP[type],
       categories: PALADINS_CATEGORIES_MAP[type],
-      shield: type === PaladinType.Vanguard,
+      shield: PALADINS_WITH_SHIELD.indexOf(type) >= 0,
     }
   }),
   traps: [],

@@ -4,22 +4,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { lighten, transparentize } from 'polished'
 import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/modalStyles'
 import { paladinAssaultPanel, paladinAssaultPanelInner } from './helpers/paladinAssaultStyles'
-import { darkRedBox, greenBox, h2Title, redBox, smallMarginTop, textColor } from '../../styles/base'
+import { greenBox, h2Title, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
-import { NECROPOLIS_STRUCTURE_POINTS, PALADINS_HEALTH_MAP, PaladinType, TrapType } from '../../config/constants'
-import { paladinsImageMap } from './helpers/paladinsImageMap'
-import { breakpoints, colors, fonts, shadows } from '../../config/theme'
+import { NECROPOLIS_STRUCTURE_POINTS, TrapType } from '../../config/constants'
+import { breakpoints, colors } from '../../config/theme'
 import { getPaladinsAssault } from '../../data/paladins/selectors'
 import { Image } from '../../components/images/Image'
 import { trapButtonBase } from './components/TrapButton'
-import damageIcon from '../../assets/images/paladins/paladin-damage.png'
-import hpIcon from '../../assets/images/paladins/paladins-hp.png'
 import paladinsStrengthIcon from '../../assets/images/paladins/paladins-strengh.png'
 import materialsIcon from '../../assets/images/resources/materials.png'
 import { buttonDisabled, resetButton } from '../../styles/buttons'
 import { useTrap } from '../../data/paladins/actions'
-import { paladinCategoryImagesMap } from './helpers/paladinCategoryImagesMap'
 import { ChangePaladinCategoryModal } from './components/ChangePaladinCategoryModal'
+import { PaladinFightCard } from './components/PaladinFightCard'
 
 const fightPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
 
@@ -32,61 +29,6 @@ const fightPanelInner = [
     paddingRight: '2rem',
   }),
 ]
-
-const activePaladinsDetails = [
-  redBox,
-  css({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    fontSize: '1.2rem',
-  }),
-]
-
-const paladinAvatar = (type: PaladinType) =>
-  css({
-    marginRight: '0.5rem',
-    borderRadius: '10px',
-    border: `1px solid ${colors.DARK_RED}`,
-    width: '5rem',
-    height: '5rem',
-    backgroundImage: `url(${paladinsImageMap[type]})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  })
-
-const activePaladinHeader = css({
-  display: 'flex',
-})
-
-const activePaladinName = css({
-  fontSize: '1.3rem',
-  fontFamily: fonts.TITLES,
-  color: colors.RED,
-  textShadow: shadows.TEXT_SOLID,
-})
-
-const activePaladinHeaderRight = css({ flex: 1 })
-
-const activePaladinHeaderText = css({
-  display: 'flex',
-  justifyContent: 'space-between',
-})
-
-const activePaladinHealth = [
-  darkRedBox,
-  css({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: '0.5rem',
-    padding: '0.5rem',
-    alignSelf: 'center',
-    minWidth: '10rem',
-  }),
-]
-
-const usedHealthPoint = css({ filter: 'grayscale(1)' })
 
 const trapPool = [
   greenBox,
@@ -163,7 +105,6 @@ export const PaladinsAssaultFight = () => {
   }
 
   const activePaladin = remainingPaladins[0]
-  const maxHealth = PALADINS_HEALTH_MAP[activePaladin.type]
 
   const handleUseTrap = (id: number) => () => dispatch(useTrap(id))
 
@@ -171,40 +112,7 @@ export const PaladinsAssaultFight = () => {
     <div css={fightPanel}>
       <div css={fightPanelInner}>
         <h2 css={h2Title}>{t('paladinsAssaultBattle')}</h2>
-        <div css={activePaladinsDetails}>
-          <div css={activePaladinHeader}>
-            <div css={paladinAvatar(activePaladin.type)} />
-            <div css={activePaladinHeaderRight}>
-              <div css={activePaladinName}>{t('paladinName', activePaladin.type)}</div>
-              <div css={activePaladinHeaderText}>
-                <span css={textColor('RED')}>
-                  {activePaladin.damages}&nbsp;
-                  <Image src={damageIcon} />
-                </span>
-                <span>
-                  {t('paladinType')}
-                  {activePaladin.categories.map(category => (
-                    <Image key={category} src={paladinCategoryImagesMap[category]} marginRight="0.5rem" />
-                  ))}
-                </span>
-                <span />
-              </div>
-            </div>
-          </div>
-          <div css={smallMarginTop}>{t('paladinAbility', activePaladin.type)}</div>
-          <div css={activePaladinHealth}>
-            {Array.from({ length: maxHealth })
-              .map((_, index) => index)
-              .map(index => (
-                <Image
-                  css={index < activePaladin.health ? undefined : usedHealthPoint}
-                  key={index}
-                  src={hpIcon}
-                  marginRight={index < maxHealth - 1 ? '0.5rem' : ''}
-                />
-              ))}
-          </div>
-        </div>
+        <PaladinFightCard paladin={activePaladin} />
         <div css={fightStatus}>
           <div css={fightStatusCounter}>
             {deck.length - remainingPaladins.length + 1}&nbsp;<span css={textColor('RED')}>/&nbsp;{deck.length}</span>

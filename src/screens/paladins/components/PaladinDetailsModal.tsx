@@ -25,14 +25,20 @@ const paladinDetailsHeader = css({
 const detailsBox = [
   redBox,
   css({
-    display: 'flex',
-    alignItems: 'center',
     padding: '0.5rem 1rem',
   }),
 ]
 
-const paladinHealth = [
+const centeredDetailsBox = [
   ...detailsBox,
+  css({
+    display: 'flex',
+    alignItems: 'center',
+  }),
+]
+
+const paladinHealth = [
+  ...centeredDetailsBox,
   css({
     justifyContent: 'center',
     marginRight: '1rem',
@@ -42,14 +48,14 @@ const paladinHealth = [
 ]
 
 const paladinTypes = [
-  ...detailsBox,
+  ...centeredDetailsBox,
   css({
     flex: 1,
   }),
 ]
 
 const paladinDamages = [
-  ...detailsBox,
+  ...centeredDetailsBox,
   css({
     justifyContent: 'center',
     color: colors.RED,

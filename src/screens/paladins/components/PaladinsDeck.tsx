@@ -27,7 +27,8 @@ const assaultCard = [
     margin: '1rem 1rem 0 0',
     borderRadius: '10px',
     border: `solid 1px ${colors.DARK_RED}`,
-    flex: '0 0 calc(33% - 1rem)',
+    flex: '0 0 auto',
+    width: 'calc(33% - 1rem)',
     boxShadow: shadows.ELEVATED,
 
     '&:nth-of-type(3n)': {
@@ -64,6 +65,7 @@ const assaultCardTitle = css({
   margin: 0,
   padding: '0.5rem',
   fontSize: '1.2rem',
+  lineBreak: 'anywhere',
   fontFamily: fonts.TITLES,
   color: colors.RED,
   textShadow: shadows.TEXT_SOLID,
