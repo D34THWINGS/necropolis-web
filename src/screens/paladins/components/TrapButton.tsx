@@ -85,7 +85,13 @@ export const TrapButton = ({ type, disabled, onAddTrap, onOpenDetails }: TrapBut
   const { t } = useTranslation()
   return (
     <div css={trapButtonOuter}>
-      <button type="button" css={addTrapButton(type)} disabled={disabled} onClick={onAddTrap}>
+      <button
+        type="button"
+        css={addTrapButton(type)}
+        disabled={disabled}
+        onClick={onAddTrap}
+        data-test-id="availableTrapButton"
+      >
         {t('trapName', type)}
       </button>
       <button type="button" css={openDetailsButton} onClick={onOpenDetails}>

@@ -13,10 +13,11 @@ import { Image } from '../../components/images/Image'
 import { trapButtonBase } from './components/TrapButton'
 import paladinsStrengthIcon from '../../assets/images/paladins/paladins-strengh.png'
 import materialsIcon from '../../assets/images/resources/materials.png'
-import { buttonDisabled, resetButton } from '../../styles/buttons'
-import { useTrap } from '../../data/paladins/actions'
+import { buttonDisabled, redSquareButton, resetButton } from '../../styles/buttons'
+import { skipPaladin, useTrap } from '../../data/paladins/actions'
 import { ChangePaladinCategoryModal } from './components/ChangePaladinCategoryModal'
 import { PaladinFightCard } from './components/PaladinFightCard'
+import { isPaladinAlive } from '../../data/paladins/helpers'
 
 const fightPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
 
@@ -73,6 +74,13 @@ const trapUseButton = (type: TrapType) => [
   }),
 ]
 
+const skipPaladinButton = [
+  ...redSquareButton,
+  css({
+    margin: '0.25rem 0',
+  }),
+]
+
 const fightStatus = css({
   display: 'flex',
   justifyContent: 'space-around',
@@ -97,7 +105,7 @@ export const PaladinsAssaultFight = () => {
   }
 
   const { deck, traps } = assault
-  const remainingPaladins = deck.filter(card => card.health > 0)
+  const remainingPaladins = deck.filter(isPaladinAlive)
   const remainingTraps = traps.filter(trap => !trap.used)
 
   if (remainingPaladins.length === 0) {
@@ -106,7 +114,8 @@ export const PaladinsAssaultFight = () => {
 
   const activePaladin = remainingPaladins[0]
 
-  const handleUseTrap = (id: number) => () => dispatch(useTrap(id))
+  const handleUseTrap = (trapId: number) => () => dispatch(useTrap(trapId, activePaladin.id))
+  const handleSkipPaladin = () => dispatch(skipPaladin(activePaladin.id))
 
   return (
     <div css={fightPanel}>
@@ -114,30 +123,38 @@ export const PaladinsAssaultFight = () => {
         <h2 css={h2Title}>{t('paladinsAssaultBattle')}</h2>
         <PaladinFightCard paladin={activePaladin} />
         <div css={fightStatus}>
-          <div css={fightStatusCounter}>
+          <div css={fightStatusCounter} data-test-id="paladinCardsCounter">
             {deck.length - remainingPaladins.length + 1}&nbsp;<span css={textColor('RED')}>/&nbsp;{deck.length}</span>
             <Image src={paladinsStrengthIcon} marginLeft="0.3rem" />
           </div>
-          <div css={fightStatusCounter}>
+          <div css={fightStatusCounter} data-test-id="structureHealthCounter">
             {assault.structureHealth}&nbsp;<span css={textColor('CYAN')}>/&nbsp;{NECROPOLIS_STRUCTURE_POINTS}</span>
             <Image css={structurePointsIcon} src={materialsIcon} marginLeft="0.3rem" />
           </div>
         </div>
         <div css={trapPool}>
-          {remainingTraps.map(trap => (
-            <button
-              key={trap.id}
-              type="button"
-              css={trapUseButton(trap.type)}
-              disabled={
-                trap.type !== TrapType.Profaner &&
-                !trap.targetsCategories.some(category => activePaladin.categories.indexOf(category) >= 0)
-              }
-              onClick={handleUseTrap(trap.id)}
-            >
-              {t('trapName', trap.type)}
-            </button>
-          ))}
+          {remainingTraps.map(trap => {
+            const trapEnabled =
+              trap.type === TrapType.Profaner ||
+              (activePaladin.shield && trap.type === TrapType.Impaler) ||
+              trap.targetsCategories.some(category => activePaladin.categories.indexOf(category) >= 0)
+            return (
+              <button
+                key={trap.id}
+                type="button"
+                css={trapUseButton(trap.type)}
+                disabled={!trapEnabled}
+                onClick={handleUseTrap(trap.id)}
+                data-test-id="useTrapButton"
+              >
+                {t('trapName', trap.type)}
+              </button>
+            )
+          })}
+          <button type="button" css={skipPaladinButton} onClick={handleSkipPaladin} data-test-id="skipPaladinButton">
+            {t('skipPaladin')}(<span css={textColor('RED')}>{-activePaladin.damages}</span>
+            <Image css={structurePointsIcon} src={materialsIcon} marginLeft="0.3rem" />)
+          </button>
         </div>
         <ChangePaladinCategoryModal activePaladin={activePaladin} />
       </div>

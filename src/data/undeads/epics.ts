@@ -1,6 +1,6 @@
 import { isActionOf } from 'typesafe-actions'
 import { EMPTY, of } from 'rxjs'
-import { filter, mergeMap } from 'rxjs/operators'
+import { filter, mergeMap, map } from 'rxjs/operators'
 import { Epic } from 'redux-observable'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
@@ -28,10 +28,8 @@ export const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$
 export const valetEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(endExpedition)),
-    mergeMap(() => {
-      const hasValet = getUndeadTypes(state$.value).includes(UndeadType.Valet)
-      return hasValet ? of(upgradeValet()) : EMPTY
-    }),
+    filter(() => getUndeadTypes(state$.value).includes(UndeadType.Valet)),
+    map(() => upgradeValet()),
   )
 
 export const looseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>

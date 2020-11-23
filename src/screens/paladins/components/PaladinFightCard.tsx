@@ -11,8 +11,7 @@ import damageIcon from '../../../assets/images/paladins/paladin-damage.png'
 import hpIcon from '../../../assets/images/paladins/paladins-hp.png'
 import { PaladinCard } from '../../../data/paladins/helpers'
 import { useTranslation } from '../../../lang/useTranslation'
-import { changePaladinCategories, markPaladinRevealed } from '../../../data/paladins/actions'
-import { setInArray } from '../../../data/helpers'
+import { markPaladinRevealed, triggerPaladinBattleCry } from '../../../data/paladins/actions'
 
 const activePaladinsDetails = [
   redBox,
@@ -84,38 +83,45 @@ export const PaladinFightCard = ({ paladin }: PaladinFightCardProps) => {
   }, [paladin.id, paladin.revealed, dispatch])
 
   useEffect(() => {
-    const pureCategoryIndex = paladin.categories.indexOf(PaladinCategory.Pure)
-    if (pureCategoryIndex >= 0) {
-      const possibleNewCategories = Object.values(PaladinCategory).filter(category => category !== PaladinCategory.Pure)
-      const newCategory =
-        possibleNewCategories[Math.floor(Math.random() * possibleNewCategories.length)] ?? PaladinCategory.Physical
-      dispatch(changePaladinCategories(paladin.id, setInArray(paladin.categories, pureCategoryIndex, newCategory)))
+    if (!paladin.battleCryTriggered) {
+      dispatch(triggerPaladinBattleCry(paladin.id))
     }
-  })
+  }, [paladin.id, paladin.battleCryTriggered, dispatch])
 
   return (
     <div css={activePaladinsDetails}>
       <div css={activePaladinHeader}>
         <div css={paladinAvatar(paladin.type)} />
         <div css={activePaladinHeaderRight}>
-          <div css={activePaladinName}>{t('paladinName', paladin.type)}</div>
+          <div css={activePaladinName} data-test-id="paladinName">
+            {t('paladinName', paladin.type)}
+          </div>
           <div css={activePaladinHeaderText}>
-            <span css={textColor('RED')}>
+            <span css={textColor('RED')} data-test-id="paladinDamages">
               {paladin.damages}&nbsp;
               <Image src={damageIcon} />
             </span>
-            <span>
+            <span data-test-id="paladinType">
               {t('paladinType')}
-              {paladin.categories.map(category => (
-                <Image key={category} src={paladinCategoryImagesMap[category]} marginRight="0.5rem" />
+              {paladin.categories.map((category, index) => (
+                <Image
+                  key={category === PaladinCategory.Pure ? category + index : category}
+                  src={paladinCategoryImagesMap[category]}
+                  marginRight="0.5rem"
+                  data-test-id={category}
+                />
               ))}
             </span>
             <span />
           </div>
         </div>
       </div>
-      <div css={smallMarginTop}>{t('paladinAbility', paladin.type)}</div>
-      <div css={activePaladinHealth}>
+      <div css={smallMarginTop} data-test-id="paladinAbility">
+        {paladin.shield && t('paladinShielded')}
+        <br />
+        {t('paladinAbility', paladin.type)}
+      </div>
+      <div css={activePaladinHealth} data-test-id="paladinHealth">
         {Array.from({ length: paladin.maxHealth })
           .map((_, index) => index)
           .map(index => (
@@ -124,6 +130,7 @@ export const PaladinFightCard = ({ paladin }: PaladinFightCardProps) => {
               key={index}
               src={hpIcon}
               marginRight={index < paladin.maxHealth - 1 ? '0.5rem' : ''}
+              data-test-id={index < paladin.health ? 'remainingHealthPoint' : 'missingHealthPoint'}
             />
           ))}
       </div>

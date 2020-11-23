@@ -56,7 +56,7 @@ export const PaladinsAssault = () => {
         <br />
         <span css={textColor('LIME')}>{t('currentDefense', defense)}</span>
       </div>
-      <button type="button" css={redSquareButton} onClick={handleBeginAssault}>
+      <button type="button" css={redSquareButton} onClick={handleBeginAssault} data-test-id="startPaladinAssaultButton">
         {t('paladinsAssaultAction1')}
       </button>
     </>

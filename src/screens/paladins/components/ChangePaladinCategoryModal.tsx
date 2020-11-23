@@ -88,7 +88,9 @@ export const ChangePaladinCategoryModal = ({ activePaladin }: ChangePaladinCateg
   const handleSubmit = () => {
     const categories = [...activePaladin.categories.filter(c => c !== sourceCategory), destinationCategory]
     dispatch(changePaladinCategories(activePaladin.id, categories))
-    dispatch(doDamagesToPaladin(activePaladin.id, TRAP_DAMAGES_MAP[TrapType.Profaner]))
+    if (categories.indexOf(PaladinCategory.Magical) >= 0) {
+      dispatch(doDamagesToPaladin(activePaladin.id, TRAP_DAMAGES_MAP[TrapType.Profaner]))
+    }
   }
 
   return (
@@ -102,6 +104,7 @@ export const ChangePaladinCategoryModal = ({ activePaladin }: ChangePaladinCateg
               css={categoryButton(category === sourceCategory)}
               type="button"
               onClick={handleSourceClick(category)}
+              data-test-id="sourceCategoryButton"
             >
               <Image src={paladinCategoryImagesMap[category]} size="3rem" />
             </button>
@@ -115,13 +118,14 @@ export const ChangePaladinCategoryModal = ({ activePaladin }: ChangePaladinCateg
               css={categoryButton(category === destinationCategory)}
               type="button"
               onClick={handleDestinationClick(category)}
+              data-test-id="targetCategoryButton"
             >
               <Image src={paladinCategoryImagesMap[category]} size="3rem" />
             </button>
           ))}
         </div>
       </div>
-      <button css={greenSquareButton} type="button" onClick={handleSubmit}>
+      <button css={greenSquareButton} type="button" onClick={handleSubmit} data-test-id="categoryChangeSubmit">
         {t('changePaladinTypeSubmit')}
       </button>
     </Modal>

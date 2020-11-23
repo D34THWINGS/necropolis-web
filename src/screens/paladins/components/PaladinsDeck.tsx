@@ -84,7 +84,7 @@ export const PaladinsDeck = ({ className, deck }: PaladinsDeckProps) => {
   const handleCloseDetails = () => setOpenedCard(null)
 
   return (
-    <div css={assaultDeckWrapper} className={className}>
+    <div css={assaultDeckWrapper} className={className} data-test-id="paladinsDeck">
       {deck.map(card =>
         card.revealed ? (
           <button
@@ -92,11 +92,18 @@ export const PaladinsDeck = ({ className, deck }: PaladinsDeckProps) => {
             type="button"
             css={[assaultCardRevealed(card.type), assaultCard]}
             onClick={handleCardClick(card)}
+            data-test-id="paladinRevealedCard"
           >
             <h3 css={assaultCardTitle}>{t('paladinName', card.type)}</h3>
           </button>
         ) : (
-          <button key={card.id} type="button" disabled css={[resetButton, assaultCard, assaultCardHidden]}>
+          <button
+            key={card.id}
+            type="button"
+            disabled
+            css={[resetButton, assaultCard, assaultCardHidden]}
+            data-test-id="paladinHiddenCard"
+          >
             <Image src={cardBackImage} size="70%" />
           </button>
         ),

@@ -114,6 +114,7 @@ export const PaladinsAssaultPrepare = () => {
                   css={placedTrapButton(trap.type)}
                   type="button"
                   onClick={handleRemoveTrap(trap.id)}
+                  data-test-id="equippedTrap"
                 >
                   {t('trapName', trap.type)}
                 </button>
@@ -132,7 +133,13 @@ export const PaladinsAssaultPrepare = () => {
             ))}
           </div>
         </div>
-        <button type="button" css={assaultNextButton} disabled={traps.length === 0} onClick={handleStartFighting}>
+        <button
+          type="button"
+          css={assaultNextButton}
+          disabled={traps.length === 0}
+          onClick={handleStartFighting}
+          data-test-id="beginFightPhaseButton"
+        >
           {t('paladinsAssaultFight')}
         </button>
         <TrapDetailsModal type={openedTrap} onClose={handleCloseDetails} />

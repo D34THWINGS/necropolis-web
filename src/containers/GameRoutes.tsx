@@ -18,15 +18,15 @@ export const GameRoutes = () => {
   const gameState = useSelector(getGameState)
   const isIntroActive = useSelector(getIsIntroActive)
 
-  if (!hasActiveGame) {
-    return <Redirect to={MAIN_MENU} />
-  }
-
   if (gameState === GameState.Win) {
     return <GameWon />
   }
   if (gameState === GameState.Loose) {
     return <GameLost />
+  }
+
+  if (!hasActiveGame) {
+    return <Redirect to={MAIN_MENU} />
   }
 
   if (isIntroActive) {

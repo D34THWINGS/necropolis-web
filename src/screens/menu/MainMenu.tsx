@@ -46,10 +46,21 @@ export const MainMenu = () => {
     <div css={mainMenuWrapper}>
       <Image css={titleImage} src={titleImageUrl} />
       <div css={separator} />
-      <button type="button" css={cyanSquareButton} onClick={handleContinue} disabled={!hasActiveGame}>
+      <button
+        type="button"
+        css={cyanSquareButton}
+        onClick={handleContinue}
+        disabled={!hasActiveGame}
+        data-test-id="continueGameButton"
+      >
         {t('continueGame')}
       </button>
-      <button type="button" css={[cyanSquareButton, largeMarginTop]} onClick={handleNewGame}>
+      <button
+        type="button"
+        css={[cyanSquareButton, largeMarginTop]}
+        onClick={handleNewGame}
+        data-test-id="newGameButton"
+      >
         {t('newGame')}
       </button>
     </div>

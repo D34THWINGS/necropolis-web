@@ -75,7 +75,7 @@ export const PaladinsAssaultReveal = () => {
         </div>
         <PaladinsDeck css={assaultDeck} deck={assault.deck} />
       </div>
-      <button type="button" css={assaultNextButton} onClick={handleNextPhase}>
+      <button type="button" css={assaultNextButton} onClick={handleNextPhase} data-test-id="beginPreparePhaseButton">
         {t('paladinsAssaultNext')}
       </button>
     </div>

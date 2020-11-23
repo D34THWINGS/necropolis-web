@@ -5,7 +5,13 @@ import { repairBuildingEpic, upgradeBuildingEpic, upgradeBuildingRewardsEpic } f
 import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
 import { looseUndeadEpic, raiseUndeadEpic, valetEpic } from './undeads/epics'
 import { resetGameEpic } from './settings/epics'
-import { displayAssaultResultsEpic, trapsEpic } from './paladins/epics'
+import {
+  displayAssaultResultsEpic,
+  paladinTriggerAttackEpic,
+  paladinDeathRattleEpic,
+  paladinBattleCryEpic,
+  trapsEpic,
+} from './paladins/epics'
 
 export const rootEpic = combineEpics(
   upgradeBuildingEpic,
@@ -24,4 +30,7 @@ export const rootEpic = combineEpics(
   resetGameEpic,
   displayAssaultResultsEpic,
   trapsEpic,
+  paladinBattleCryEpic,
+  paladinTriggerAttackEpic,
+  paladinDeathRattleEpic,
 )

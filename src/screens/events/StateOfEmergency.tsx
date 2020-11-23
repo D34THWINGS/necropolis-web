@@ -5,7 +5,7 @@ import { useTranslation } from '../../lang/useTranslation'
 import { PaladinsIcon } from '../../components/images/PaladinsIcon'
 import { getPaladinsStrength } from '../../data/paladins/selectors'
 import { EventModalContentProps } from './helpers/eventModalContentProps'
-import { triggerPaladinsAttack, increasePaladinsStrength } from '../../data/paladins/actions'
+import { triggerPaladinsAssault, increasePaladinsStrength } from '../../data/paladins/actions'
 import { preventSelectorUpdate } from '../../data/helpers'
 import stateOfEmergencyImageUrl from '../../assets/images/events/state-of-emergency.jpg'
 import { EventImage } from './components/EventImage'
@@ -20,7 +20,7 @@ export const StateOfEmergency = ({ renderStep }: EventModalContentProps) => {
 
   const handleAcknowledge = () => {
     dispatch(increasePaladinsStrength())
-    dispatch(triggerPaladinsAttack())
+    dispatch(triggerPaladinsAssault())
   }
 
   return (

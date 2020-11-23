@@ -5,7 +5,7 @@ export const increasePaladinsStrength = createAction('paladins/INCREASE_STRENGTH
 
 export const increasePaladinsCounter = createAction('paladins/INCREASE_COUNTER')()
 
-export const triggerPaladinsAttack = createAction('paladins/TRIGGER_PALADINS_ATTACK')()
+export const triggerPaladinsAssault = createAction('paladins/TRIGGER_PALADINS_ASSAULT')()
 
 export const resetPaladinsCounter = createAction('paladins/RESET_COUNTER')()
 
@@ -25,7 +25,14 @@ export const addTrap = createAction('paladins/ADD_TRAP', (type: TrapType) => ({ 
 
 export const removeTrap = createAction('paladins/REMOVE_TRAP', (id: number) => ({ id }))()
 
-export const useTrap = createAction('paladins/USE_TRAP', (id: number) => ({ id }))()
+export const useTrap = createAction('paladins/USE_TRAP', (trapId: number, paladinId: number) => ({
+  trapId,
+  paladinId,
+}))()
+
+export const triggerPaladinBattleCry = createAction('paladins/TRIGGER_BATTLE_CRY', (paladinId: number) => ({
+  paladinId,
+}))()
 
 export const doDamagesToPaladin = createAction(
   'paladins/DO_DAMAGES_TO_PALADIN',
@@ -34,9 +41,9 @@ export const doDamagesToPaladin = createAction(
 
 export const damageActivePaladin = createAction('paladins/DAMAGE_ACTIVE_PALADIN', (damages: number) => ({ damages }))()
 
-export const reducePaladinDamages = createAction(
-  'paladins/REDUCE_PALADIN_DAMAGES',
-  (paladinId: number, damageDebuff: number) => ({ paladinId, damageDebuff }),
+export const changePaladinsDamages = createAction(
+  'paladins/CHANGE_PALADIN_DAMAGES',
+  (paladinIds: number[], changeValue: number) => ({ paladinIds, changeValue }),
 )()
 
 export const breakPaladinShield = createAction('paladins/BREAK_PALADIN_SHIELD', (paladinId: number) => ({
@@ -51,3 +58,28 @@ export const changePaladinCategories = createAction(
 )()
 
 export const markPaladinRevealed = createAction('paladins/MARK_REVEALED', (paladinId: number) => ({ paladinId }))()
+
+export const increasePaladinHealth = createAction(
+  'paladins/INCREASE_PALADIN_HEALTH',
+  (paladinId: number, amount: number) => ({ paladinId, amount }),
+)()
+
+export const shieldPaladin = createAction('paladins/SHIELD_PALADIN', (paladinId: number) => ({
+  paladinId,
+}))()
+
+export const skipPaladin = createAction('paladins/SKIP_PALADIN', (paladinId: number) => ({
+  paladinId,
+}))()
+
+export const triggerPaladinAttack = createAction('paladins/TRIGGER_PALADIN_ATTACK', (paladinId: number) => ({
+  paladinId,
+}))()
+
+export const swapPaladinPostions = createAction(
+  'paladins/SWAP_POSITIONS',
+  (paladinId: number, swappedPaladinId: number) => ({
+    paladinId,
+    swappedPaladinId,
+  }),
+)()

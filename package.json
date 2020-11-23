@@ -7,7 +7,9 @@
     "build": "rm -rf dist && parcel build ./src/index.html && imagemin dist/* --out-dir=dist --plugin=mozjpeg --plugin=pngquant && workbox injectManifest workbox-config.js && cp src/assets/icons/android-icon-*.png dist/",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
     "lint:cache": "yarn lint --cache",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "e2e": "SERVE_APP=true cypress run",
+    "e2e:open": "cypress open"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -15,6 +17,7 @@
     "@babel/preset-typescript": "^7.9.0",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@types/node": "^14.0.14",
+    "@types/random-seed": "^0.3.3",
     "@types/react": "^16.9.25",
     "@types/react-dom": "^16.9.5",
     "@types/react-modal": "^3.10.5",
@@ -25,6 +28,7 @@
     "@typescript-eslint/eslint-plugin": "^3.5.0",
     "@typescript-eslint/parser": "^3.5.0",
     "babel-plugin-emotion": "^10.0.29",
+    "cypress": "^5.6.0",
     "eslint": "^7.3.1",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-plugin-import": "^2.20.2",
@@ -42,8 +46,10 @@
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@sentry/react": "^5.21.1",
+    "express": "^4.17.1",
     "history": "^4.10.1",
     "polished": "^4.0.3",
+    "random-seed": "^0.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-modal": "^3.11.2",

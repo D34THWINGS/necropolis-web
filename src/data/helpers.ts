@@ -1,8 +1,19 @@
+import { random } from './seeder'
+
 export const setInArray = <T>(array: T[], index: number, value: T) => [
   ...array.slice(0, index),
   value,
   ...array.slice(index + 1),
 ]
+
+export const shuffleArray = <T>(array: T[]) => {
+  const arrayCopy = [...array]
+  for (let i = arrayCopy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(random() * (i + 1))
+    ;[arrayCopy[i], arrayCopy[j]] = [arrayCopy[j], arrayCopy[i]]
+  }
+  return arrayCopy
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const recursiveSet = (obj: any, path: (string | number)[], value: any): any => {

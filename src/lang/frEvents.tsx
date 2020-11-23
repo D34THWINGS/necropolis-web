@@ -35,11 +35,7 @@ const paladinNames: Record<PaladinType, string> = {
 }
 
 const paladinAbilities: Record<PaladinType, ReactNode> = {
-  [PaladinType.Vanguard]: (
-    <>
-      <span css={textColor('PURPLE')}>Bouclier&nbsp;:</span>&nbsp;Protège des dégâts
-    </>
-  ),
+  [PaladinType.Vanguard]: null,
   [PaladinType.Healer]: (
     <>
       <span css={textColor('LIME')}>+{HEALER_BONUS_HP} PV</span>&nbsp;à {HEALER_TARGETS_COUNT} Paladin
@@ -78,8 +74,6 @@ const paladinAbilities: Record<PaladinType, ReactNode> = {
   ),
   [PaladinType.Avenger]: (
     <>
-      <span css={textColor('PURPLE')}>Bouclier</span>
-      <br />
       Inflige ses <Image src={paladinDamageIcon} /> quand il meurt
     </>
   ),
@@ -172,12 +166,18 @@ export const frEvents = {
   undeadDetailsAbility: 'Capacité de',
   undeadDetailsUse: 'Utiliser',
   paladinsAssaultBattle: 'Combat',
+  skipPaladin: 'Passer',
+  paladinShielded: (
+    <>
+      <span css={textColor('PURPLE')}>Bouclier&nbsp;:</span>&nbsp;Protège des dégâts
+    </>
+  ),
   changePaladinType: 'Changement de type',
   changePaladinTypeSubmit: 'Confirmer',
   paladinsAssaultResults: 'Bilan',
   paladinsKilled: (killed: number, deckSize: number) => (
     <>
-      Tués : <span css={textColor('WHITE')}>{killed}</span> / {deckSize}
+      Tués : <span css={textColor('WHITE')}>{killed}</span>&nbsp;/&nbsp;{deckSize}
     </>
   ),
   healthLost: (amount: number) => (
@@ -187,7 +187,7 @@ export const frEvents = {
   ),
   healthRemaining: (current: number, max: number) => (
     <>
-      Restant : <span css={textColor('WHITE')}>{current}</span> / {max}
+      Restant : <span css={textColor('WHITE')}>{current}</span>&nbsp;/&nbsp;{max}
     </>
   ),
   paladinsAssaultEnd: "Fin de l'assaut",

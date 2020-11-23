@@ -8,9 +8,18 @@ export type IconProps = {
   size?: string | number
   marginLeft?: string | number
   marginRight?: string | number
+  'data-test-id'?: string
 }
 
-export const Image = ({ className, marginLeft, marginRight, size = '1.5rem', src, block }: IconProps) => (
+export const Image = ({
+  className,
+  marginLeft,
+  marginRight,
+  size = '1.5rem',
+  src,
+  block,
+  'data-test-id': testId,
+}: IconProps) => (
   <img
     className={className}
     src={src}
@@ -22,5 +31,6 @@ export const Image = ({ className, marginLeft, marginRight, size = '1.5rem', src
       display: block ? 'block' : 'inline-block',
       verticalAlign: 'middle',
     })}
+    data-test-id={testId}
   />
 )

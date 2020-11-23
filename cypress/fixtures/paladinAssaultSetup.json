@@ -1,0 +1,161 @@
+{
+  "resources": { "meat": 18, "souls": 6, "bones": 6, "materials": 3 },
+  "buildings": {
+    "ossuary": { "level": 0, "collapsed": false },
+    "soulWell": { "level": 2, "collapsed": false },
+    "battlements": { "level": 2, "collapsed": false },
+    "catacombs": { "level": 3, "collapsed": false },
+    "charnelHouse": { "level": 1, "collapsed": false }
+  },
+  "turn": { "currentTurn": 17, "phase": 2, "gameState": 0, "looseReason": null },
+  "undeads": {
+    "list": [
+      {
+        "type": "valet",
+        "talents": [
+          ["muscles", 2],
+          ["lethality", 1]
+        ],
+        "raised": false,
+        "maxHealth": 3,
+        "health": 3
+      },
+      {
+        "type": "brikoler",
+        "talents": [
+          ["muscles", 2],
+          ["lethality", 1]
+        ],
+        "raised": false,
+        "maxHealth": 3,
+        "health": 3
+      },
+      {
+        "type": "skeleton",
+        "talents": [
+          ["lethality", 3],
+          ["muscles", 1]
+        ],
+        "raised": true,
+        "maxHealth": 3,
+        "health": 3
+      },
+      { "type": "bloodPrince", "talents": [["lethality", 3]], "raised": true, "maxHealth": 3, "health": 3 },
+      {
+        "type": "laMotte",
+        "talents": [
+          ["lethality", 3],
+          ["muscles", 1]
+        ],
+        "raised": true,
+        "maxHealth": 4,
+        "health": 4
+      }
+    ],
+    "requiredSacrifices": 0,
+    "killed": [],
+    "banned": []
+  },
+  "paladins": {
+    "calledToArms": 3,
+    "counter": 3,
+    "strength": 6,
+    "assault": {
+      "phase": "reveal",
+      "deck": [
+        {
+          "id": 0,
+          "type": "commander",
+          "revealed": true,
+          "battleCryTriggered": false,
+          "health": 2,
+          "maxHealth": 2,
+          "damages": 2,
+          "categories": ["magical"],
+          "shield": false
+        },
+        {
+          "id": 1,
+          "type": "wizard",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 1,
+          "maxHealth": 1,
+          "damages": 2,
+          "categories": ["ethereal"],
+          "shield": false
+        },
+        {
+          "id": 2,
+          "type": "healer",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 2,
+          "maxHealth": 2,
+          "damages": 1,
+          "categories": ["physical", "ethereal"],
+          "shield": false
+        },
+        {
+          "id": 3,
+          "type": "avenger",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 2,
+          "maxHealth": 2,
+          "damages": 2,
+          "categories": ["physical", "magical"],
+          "shield": true
+        },
+        {
+          "id": 4,
+          "type": "vanguard",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 2,
+          "maxHealth": 2,
+          "damages": 2,
+          "categories": ["physical", "magical"],
+          "shield": false
+        },
+        {
+          "id": 5,
+          "type": "guardian",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 3,
+          "maxHealth": 3,
+          "damages": 1,
+          "categories": ["physical", "ethereal"],
+          "shield": false
+        },
+        {
+          "id": 6,
+          "type": "healer",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 2,
+          "maxHealth": 2,
+          "damages": 1,
+          "categories": ["physical", "ethereal"],
+          "shield": false
+        }
+      ],
+      "traps": [],
+      "structureHealth": 8,
+      "changingPaladinCategory": false
+    }
+  },
+  "spells": { "list": ["soulStorm"], "soulStormActive": false },
+  "onboarding": { "active": false, "step": 0, "flags": ["paladinsExplained"] },
+  "expeditions": {
+    "done": [0, 1],
+    "active": [{ "type": 2, "step": 2 }],
+    "opened": null,
+    "carnage": true,
+    "cancelledReinforcements": false
+  },
+  "events": { "pastEvents": [0, 2, 3, 1, 5, 1, 4, 1], "currentEvent": null, "hasArtifact": true },
+  "settings": { "hasActiveGame": true },
+  "_persist": { "version": -1, "rehydrated": true }
+}

@@ -17,6 +17,7 @@ import { layers } from '../config/theme'
 declare global {
   interface Window {
     cheats: () => void
+    injectState: (state: unknown) => void
   }
 }
 
@@ -40,6 +41,7 @@ export const CheatsModal = () => {
 
   useEffect(() => {
     window.cheats = open
+    window.injectState = state => dispatch(loadGameState(state))
   }, [])
 
   const handleAddResources = () => {

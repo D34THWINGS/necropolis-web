@@ -1,7 +1,7 @@
 import { RootState } from '../../store/mainReducer'
 import { getTurn } from '../turn/selectors'
 import { PALADINS_ATTACK_THRESHOLD, PALADINS_INCREASE_SPACING } from '../../config/constants'
-import { isPaladinAlive, Trap } from './helpers'
+import { isPaladinAlive, PaladinCard, Trap } from './helpers'
 
 export const getPaladinsStrength = (state: RootState) => state.paladins.strength
 
@@ -24,6 +24,8 @@ export const getPaladinsAssault = (state: RootState) => state.paladins.assault
 
 export const getPaladinsAssaultOngoing = (state: RootState) => !!getPaladinsAssault(state)
 
+export const getPaladinsAssaultPhase = (state: RootState) => getPaladinsAssault(state)?.phase ?? null
+
 export const getTraps = (state: RootState) => getPaladinsAssault(state)?.traps ?? []
 
 export const getTrapById = (id: Trap['id']) => (state: RootState) => getTraps(state).find(trap => trap.id === id)
@@ -33,15 +35,17 @@ export const getIsChangingPaladinCategory = (state: RootState) =>
 
 export const getRemainingPaladins = (state: RootState) => getPaladinsAssault(state)?.deck.filter(isPaladinAlive) ?? []
 
-export const getActivePaladin = (state: RootState) => getRemainingPaladins(state)[0]
+export const getPaladinsDeck = (state: RootState) => getPaladinsAssault(state)?.deck ?? []
+
+export const getPaladinById = (id: PaladinCard['id']) => (state: RootState) =>
+  getPaladinsDeck(state).find(paladin => paladin.id === id)
 
 export const isAssaultFinished = (state: RootState) => {
   const assault = getPaladinsAssault(state)
   if (!assault) {
     return false
   }
-  if (!assault.deck.some(card => card.health > 0)) {
-    return true
-  }
-  return !assault.traps.some(trap => !trap.used)
+  return !assault.deck.some(isPaladinAlive) || assault.structureHealth === 0
 }
+
+export const getLostPaladinAssault = (state: RootState) => getPaladinsAssault(state)?.structureHealth === 0

@@ -51,7 +51,7 @@ export const GameLost = () => {
   }
 
   return (
-    <div css={gameLostContainer}>
+    <div css={gameLostContainer} data-test-id="gameLostScreen">
       <Image css={gameEndImage} src={gameLostImageUrl} size="80%" />
       <div css={gameLostText}>{getLooseText()}</div>
       <button type="button" css={gameLostButton} onClick={handleRetry}>

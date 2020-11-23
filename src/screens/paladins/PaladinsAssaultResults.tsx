@@ -12,11 +12,12 @@ import { useTranslation } from '../../lang/useTranslation'
 import { Image } from '../../components/images/Image'
 import { ResourceLoot } from '../../components/resources/ResourceLoot'
 import { ResourceIcon } from '../../components/resources/ResourceIcon'
-import { NECROPOLIS_STRUCTURE_POINTS, ResourceType } from '../../config/constants'
+import { LooseReason, NECROPOLIS_STRUCTURE_POINTS, ResourceType } from '../../config/constants'
 import { fonts } from '../../config/theme'
 import { endPaladinsAssault } from '../../data/paladins/actions'
 import { getPaladinsAssault } from '../../data/paladins/selectors'
 import { gainResources } from '../../data/resources/actions'
+import { loose } from '../../data/turn/actions'
 
 const resultsPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
 
@@ -69,6 +70,10 @@ export const PaladinsAssaultResults = () => {
   const killedPaladins = assault.deck.filter(card => card.health === 0).length
 
   const handleEndAssault = () => {
+    if (assault.structureHealth === 0) {
+      dispatch(loose(LooseReason.PaladinsAssault))
+      return
+    }
     dispatch(gainResources({ [ResourceType.Bones]: killedPaladins }))
     dispatch(endPaladinsAssault())
   }
@@ -79,7 +84,7 @@ export const PaladinsAssaultResults = () => {
         <h2 css={h2Title}>{t('paladinsAssaultResults')}</h2>
         <div css={expander} />
         <div css={resultBox}>
-          <div css={textColor('RED')}>
+          <div css={textColor('RED')} data-test-id="killedPaladins">
             <Image src={paladinsStrengthIcon} marginRight="0.5rem" size="2.5rem" />
             {t('paladinsKilled', killedPaladins, assault.deck.length)}
           </div>
@@ -87,7 +92,7 @@ export const PaladinsAssaultResults = () => {
             <Image src={materialsIcon} css={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
             {t('healthLost', NECROPOLIS_STRUCTURE_POINTS - assault.structureHealth)}
           </div>
-          <div css={textColor('DARK_CYAN')}>
+          <div css={textColor('DARK_CYAN')} data-test-id="remainingStructureHealth">
             <Image src={materialsIcon} css={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
             {t('healthRemaining', assault.structureHealth, NECROPOLIS_STRUCTURE_POINTS)}
           </div>
@@ -95,7 +100,12 @@ export const PaladinsAssaultResults = () => {
             <ResourceIcon type={ResourceType.Bones} text={killedPaladins} />
           </ResourceLoot>
         </div>
-        <button type="button" css={leaveAssaultButton} onClick={handleEndAssault}>
+        <button
+          type="button"
+          css={leaveAssaultButton}
+          onClick={handleEndAssault}
+          data-test-id="endPaladinAssaultButton"
+        >
           {t('paladinsAssaultEnd')}
         </button>
       </div>
