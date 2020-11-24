@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
-    "@sentry/react": "^5.21.1",
+    "@sentry/react": "^5.27.6",
     "express": "^4.17.1",
     "history": "^4.10.1",
     "polished": "^4.0.3",
