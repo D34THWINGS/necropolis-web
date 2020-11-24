@@ -11,12 +11,10 @@ import {
   OSSUARY_UPGRADE_BONUS_BONES,
   OSSUARY_UPGRADE_BONUS_MEAT,
   ResourceType,
-  Spell,
 } from '../../config/constants'
 import { getBuildingUpgradeCost } from './helpers'
 import { nextPhase, win } from '../turn/actions'
 import { getBuildingLevel, getIsBuildingsFullyUpgraded } from './selectors'
-import { addSpell } from '../spells/actions'
 
 export const upgradeBuildingEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
@@ -33,10 +31,6 @@ export const upgradeBuildingRewardsEpic: Epic<RootAction, RootAction, RootState>
     mergeMap(({ payload: { type } }) => {
       const level = getBuildingLevel(type)(state$.value)
       const actions: RootAction[] = []
-
-      if (type === BuildingType.SoulWell && level === 2) {
-        actions.push(addSpell(Spell.SoulStorm))
-      }
 
       if (type === BuildingType.Ossuary && level >= 2) {
         actions.push(

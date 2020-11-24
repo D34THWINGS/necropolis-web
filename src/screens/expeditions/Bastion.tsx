@@ -1,14 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ExpeditionModal } from './components/ExpeditionModal'
-import {
-  ExpeditionType,
-  LooseReason,
-  ResourceType,
-  Spell,
-  SPELLS_SOUL_COSTS,
-  UndeadTalent,
-} from '../../config/constants'
+import { ExpeditionType, LooseReason, ResourceType, UndeadTalent } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
 import { ResourceIcon } from '../../components/resources/ResourceIcon'
@@ -24,6 +17,8 @@ import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
 import { getUndeadArmyMuscles } from '../../data/undeads/selectors'
 import { loose } from '../../data/turn/actions'
+import { useSpells } from '../../hooks/useSpells'
+import { canCast } from '../../config/constants/spellConstants'
 
 enum BastionStep {
   Setup,
@@ -54,6 +49,7 @@ export const Bastion = () => {
   const muscles = useSelector(getUndeadArmyMuscles)
   const hasCancelledReinforcements = useSelector(getHasCancelledReinforcements)
   const dispatch = useDispatch()
+  const { theKey } = useSpells()
 
   return (
     <ExpeditionModal<BastionStep>
@@ -65,7 +61,7 @@ export const Bastion = () => {
         switch (step) {
           case BastionStep.Setup: {
             const handleCastTheKey = () => {
-              dispatch(castSpell(Spell.TheKey))
+              dispatch(castSpell(theKey))
               goToStep(BastionStep.DoorOpens)()
             }
             return (
@@ -73,8 +69,8 @@ export const Bastion = () => {
                 <ExpeditionImage src={bastionImageUrl} />
                 <div css={expeditionStepDescription}>{t('bastionStep1')}</div>
                 <ExpeditionAction
-                  disabled={souls < SPELLS_SOUL_COSTS[Spell.TheKey]}
-                  cost={<ResourceIcon type={ResourceType.Souls} text={SPELLS_SOUL_COSTS[Spell.TheKey]} size="1rem" />}
+                  disabled={canCast(theKey, souls)}
+                  cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1rem" />}
                   onClick={handleCastTheKey}
                 >
                   {t('bastionAction1')}

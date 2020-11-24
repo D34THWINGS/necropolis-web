@@ -1,12 +1,9 @@
 import React, { ReactNode } from 'react'
 import { css } from '@emotion/core'
 
-import { SOUL_STORM_DEFENSE_BONUS, SOUL_STORM_LETHALITY_BONUS, Spell } from '../../config/constants'
-import soulStormBackgroundUrl from '../../assets/images/spells/soul-storm.jpg'
-import theKeyBackgroundUrl from '../../assets/images/spells/the-key.jpg'
-import { useTranslation } from '../../lang/useTranslation'
 import { blueBox } from '../../styles/base'
 import { colors, fonts, shadows } from '../../config/theme'
+import { SpellView } from '../../config/constants/spellConstants'
 
 const spellBox = (backgroundUrl: string) => [
   blueBox,
@@ -40,37 +37,17 @@ const spellDescription = css({
   fontSize: '0.9rem',
 })
 
-const spellsBackgroundMap: Record<Spell, string> = {
-  [Spell.SoulStorm]: soulStormBackgroundUrl,
-  [Spell.TheKey]: theKeyBackgroundUrl,
-}
-
 export type SpellBoxProps = {
-  spell: Spell
+  spell: SpellView
   children?: ReactNode
 }
 
-export const SpellBox = ({ spell, children }: SpellBoxProps) => {
-  const { t } = useTranslation()
-
-  const getSpellDescription = () => {
-    switch (spell) {
-      case Spell.SoulStorm:
-        return t('soulStormDescription', SOUL_STORM_DEFENSE_BONUS, SOUL_STORM_LETHALITY_BONUS)
-      case Spell.TheKey:
-        return t('theKeyDescription')
-      default:
-        throw new Error('Unknown spell')
-    }
-  }
-
-  return (
-    <div css={spellBox(spellsBackgroundMap[spell])}>
-      <h3 css={spellName}>{t('spellName', spell)}</h3>
-      <div css={spellDetails}>
-        <div css={spellDescription}>{getSpellDescription()}</div>
-        {children}
-      </div>
+export const SpellBox = ({ spell, children }: SpellBoxProps) => (
+  <div css={spellBox(spell.imageUrl)}>
+    <h3 css={spellName}>{spell.label}</h3>
+    <div css={spellDetails}>
+      <div css={spellDescription}>{spell.description}</div>
+      {children}
     </div>
-  )
-}
+  </div>
+)

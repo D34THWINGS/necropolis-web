@@ -1,14 +1,7 @@
-import React, { Fragment, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { plural } from './i18nHelpers'
 import { noBreak, textColor } from '../styles/base'
-import {
-  BuildingType,
-  LA_MOTTE_DEFENSE_BONUS,
-  ResourceType,
-  Spell,
-  UndeadTalent,
-  UndeadType,
-} from '../config/constants'
+import { BuildingType, LA_MOTTE_DEFENSE_BONUS, ResourceType, UndeadTalent, UndeadType } from '../config/constants'
 import { TalentIcon } from '../components/talents/TalentIcon'
 import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
@@ -279,23 +272,17 @@ export const fr = {
   ),
 
   spells: 'Sorts',
-  spellName: (type: Spell) => {
-    switch (type) {
-      case Spell.SoulStorm:
-        return 'Déluge des âmes'
-      case Spell.TheKey:
-        return 'La clé'
-      default:
-        throw new Error('Unknown spell')
-    }
-  },
-  soulStormDescription: (defenseBonus: number, lethalityBonus: number) => (
+  soulStormLabel: 'Déluge des âmes',
+  soulStormDescription: (lethalityBonus: number) => (
     <>
-      Confère <span css={textColor('LIME')}>+{defenseBonus}&nbsp;défense</span> et{' '}
-      <TalentIcon type={UndeadTalent.Lethality} size="1.2rem" text={`+${lethalityBonus}`} /> pour le combat en cours.
+      Confère <TalentIcon type={UndeadTalent.Lethality} size="1.2rem" text={`+${lethalityBonus}`} /> pour le combat en
+      cours.
     </>
   ),
+  theKeyLabel: 'La clé',
   theKeyDescription: 'Ouvre tout type de porte.',
+  predictionLabel: 'Prédiction',
+  predictionDescription: "Révèle les 4 premiers paladins de l'assaut",
 
   discoverSpellTitle: 'Découverte',
   discoverSpellOk: 'Ok',

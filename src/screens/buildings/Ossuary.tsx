@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
 import researchIconUrl from '../../assets/images/icons/research.png'
 import lockIconUrl from '../../assets/images/icons/lock.png'
@@ -11,7 +11,6 @@ import {
   getOssuaryUpgradeBonusMeat,
 } from '../../data/buildings/helpers'
 import { Image } from '../../components/images/Image'
-import { discoverSpell } from '../../data/spells/actions'
 import { getHasDiscoverableSpells } from '../../data/spells/selectors'
 import { BuildingDetails } from './components/BuildingDetails'
 import { BuildingAction } from './components/BuildingAction'
@@ -21,8 +20,6 @@ export const Ossuary = () => {
   const { t } = useTranslation()
   const bones = useSelector(getBones)
   const hasDiscoverableSpells = useSelector(getHasDiscoverableSpells)
-  const dispatch = useDispatch()
-  const handleDiscoverSpell = () => dispatch(discoverSpell())
 
   return (
     <BuildingDetails
@@ -34,7 +31,9 @@ export const Ossuary = () => {
             action={
               isCollapsed ? <Image src={lockIconUrl} size="2.5rem" /> : <Image src={researchIconUrl} size="2.5rem" />
             }
-            onClick={handleDiscoverSpell}
+            onClick={() => {
+              /* TODO: Rectify this */
+            }}
           >
             {t('ossuaryDescription')}
             <br />
