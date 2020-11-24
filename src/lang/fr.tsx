@@ -141,15 +141,15 @@ export const fr = {
     </>
   ),
 
-  [BuildingType.Battlements]: 'Remparts',
-  battlementDescription: (defenseBonus: number) => (
+  [BuildingType.Arsenal]: 'Arsenal',
+  arsenalDescription: (trapsAmount: number) => (
     <>
-      Confère <span css={textColor('LIME')}>+{defenseBonus} Défense</span> contre les attaques de paladins.
+      <span css={textColor('LIME')}>{trapsAmount} Piège</span> par assaut.
     </>
   ),
-  battlementUpgrade: (defenseBonus: number) => (
+  arsenalUpgrade: (trapsAmount: number) => (
     <>
-      Confère <span css={textColor('LIME')}>+{defenseBonus} Défense</span> contre les attaques de paladins.
+      <span css={textColor('LIME')}>{trapsAmount} Piège</span> par assaut.
     </>
   ),
 

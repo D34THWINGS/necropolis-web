@@ -11,8 +11,8 @@ import {
   SOUL_STORM_LETHALITY_BONUS,
   UndeadType,
 } from '../config/constants'
-import { getBattlementsDefenseBonus } from './buildings/helpers'
-import { getBattlements, getConstructedBuildings } from './buildings/selectors'
+import { getArsenalTrapsCount } from './buildings/helpers'
+import { getArsenal, getConstructedBuildings } from './buildings/selectors'
 import { getHasArtifact, getIsEventPast, getPastEvents } from './events/selectors'
 import { getTurn } from './turn/selectors'
 import { getCarnage } from './expeditions/selectors'
@@ -22,7 +22,7 @@ export const getLethality = (state: RootState) =>
   getUndeadArmyLethality(state) + (getIsSoulStormActive(state) ? SOUL_STORM_LETHALITY_BONUS : 0)
 
 export const getDefense = (state: RootState) =>
-  getBattlementsDefenseBonus(getBattlements(state).level) +
+  getArsenalTrapsCount(getArsenal(state).level) +
   (getIsSoulStormActive(state) ? SOUL_STORM_DEFENSE_BONUS : 0) +
   (getHasArtifact(state) ? ARTIFACT_DEFENSE_BONUS : 0) +
   (getUndeadTypes(state).includes(UndeadType.LaMotte) ? LA_MOTTE_DEFENSE_BONUS : 0)

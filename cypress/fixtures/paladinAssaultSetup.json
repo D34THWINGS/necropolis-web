@@ -3,7 +3,7 @@
   "buildings": {
     "ossuary": { "level": 0, "collapsed": false },
     "soulWell": { "level": 2, "collapsed": false },
-    "battlements": { "level": 2, "collapsed": false },
+    "arsenal": { "level": 2, "collapsed": false },
     "catacombs": { "level": 3, "collapsed": false },
     "charnelHouse": { "level": 1, "collapsed": false }
   },

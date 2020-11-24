@@ -17,15 +17,15 @@ export const buildings = createReducer<BuildingsState>({
     level: 0,
     collapsed: false,
   },
-  [BuildingType.Battlements]: {
-    level: 0,
-    collapsed: false,
-  },
   [BuildingType.Catacombs]: {
     level: 0,
     collapsed: false,
   },
   [BuildingType.CharnelHouse]: {
+    level: 0,
+    collapsed: false,
+  },
+  [BuildingType.Arsenal]: {
     level: 0,
     collapsed: false,
   },

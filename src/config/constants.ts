@@ -22,9 +22,9 @@ export const OSSUARY_UPGRADE_BONUS_BONES = [0, 0, 3, 3]
 export const OSSUARY_UPGRADE_COST = [0, 2, 2, 2]
 export const OSSUARY_MAX_LEVEL = 3
 
-export const BATTLEMENTS_DEFENSE_BONUS = [0, 3, 5, 7]
-export const BATTLEMENTS_UPGRADE_COST = [0, 5, 3, 3]
-export const BATTLEMENTS_MAX_LEVEL = 3
+export const ARSENAL_TRAPS_COUNT = [0, 3, 5, 7]
+export const ARSENAL_UPGRADE_COST = [0, 5, 3, 3]
+export const ARSENAL_MAX_LEVEL = 3
 
 export const EVENTS_TURN_SPACING = 3
 export const PALADINS_STRENGTH_INCREASE = 1
@@ -49,9 +49,9 @@ export enum UndeadTalent {
 export enum BuildingType {
   CharnelHouse = 'charnelHouse',
   Ossuary = 'ossuary',
-  Battlements = 'battlements',
   SoulWell = 'soulWell',
   Catacombs = 'catacombs',
+  Arsenal = 'arsenal',
 }
 
 export enum ResourceType {

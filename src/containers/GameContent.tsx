@@ -5,7 +5,6 @@ import { Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-route
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'
 import {
-  BATTLEMENTS,
   MAIN_HUB,
   CATACOMBS,
   CHARNEL_HOUSE,
@@ -13,6 +12,7 @@ import {
   OSSUARY,
   SOUL_WELL,
   PALADINS_ASSAULT,
+  ARSENAL,
 } from '../config/routes'
 import { Header } from '../components/header/Header'
 import { MainHub } from '../screens/mainHub/MainHub'
@@ -20,7 +20,6 @@ import { Expeditions } from '../screens/expeditions/Expeditions'
 import { Catacombs } from '../screens/buildings/Catacombs'
 import { Ossuary } from '../screens/buildings/Ossuary'
 import { SoulWell } from '../screens/buildings/SoulWell'
-import { Battlements } from '../screens/buildings/Battlements'
 import { CharnelHouse } from '../screens/buildings/CharnelHouse'
 import { NavigationBar } from '../components/NavigationBar'
 import { UndeadOverlay } from '../components/undeads/UndeadOverlay'
@@ -35,6 +34,7 @@ import { PhaseOverlay } from '../components/PhaseOverlay'
 import { OnboardingModal } from '../screens/onboarding/components/OnboardingModal'
 import { OnboardingHighlightStyles } from '../screens/onboarding/components/OnboardingHighlight'
 import { getPaladinsAssaultOngoing } from '../data/paladins/selectors'
+import { Arsenal } from '../screens/buildings/Arsenal'
 
 const gameContent = css({
   position: 'relative',
@@ -71,8 +71,8 @@ export const GameContent = () => {
               <Route path={CATACOMBS} exact component={Catacombs} />
               <Route path={OSSUARY} exact component={Ossuary} />
               <Route path={SOUL_WELL} exact component={SoulWell} />
-              <Route path={BATTLEMENTS} exact component={Battlements} />
               <Route path={CHARNEL_HOUSE} exact component={CharnelHouse} />
+              <Route path={ARSENAL} exact component={Arsenal} />
             </Switch>
           </CSSTransition>
         </TransitionGroup>
