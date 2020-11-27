@@ -25,7 +25,6 @@ export type Assault = {
   phase: PaladinsAssaultPhase
   deck: PaladinCard[]
   traps: Trap[]
-  structureHealth: number
   changingPaladinCategory: boolean
 }
 
@@ -70,7 +69,6 @@ export const createPaladinsAssault = (strength: number): Assault => ({
     return type === PaladinType.Commander ? [paladin, ...deck] : [...deck, paladin]
   }, []),
   traps: [],
-  structureHealth: NECROPOLIS_STRUCTURE_POINTS,
   changingPaladinCategory: false,
 })
 

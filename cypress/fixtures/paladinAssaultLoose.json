@@ -60,6 +60,7 @@
     "calledToArms": 3,
     "counter": 3,
     "strength": 6,
+    "structureHealth": 8,
     "assault": {
       "phase": "reveal",
       "deck": [
@@ -76,7 +77,6 @@
         }
       ],
       "traps": [],
-      "structureHealth": 8,
       "changingPaladinCategory": false
     }
   },

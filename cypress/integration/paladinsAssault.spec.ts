@@ -9,7 +9,7 @@ const assaultSetup = (fixtureName: string) => {
 }
 
 describe('Paladins assault', () => {
-  it.only('Run full assault', () => {
+  it('Run full assault', () => {
     cy.loadPage('/')
     cy.useStateFixture('paladinAssaultSetup')
     cy.getByTestId('continueGameButton').click()
