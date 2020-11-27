@@ -1,5 +1,5 @@
 import { createAction } from 'typesafe-actions'
-import { SpellView } from '../../config/constants/spellConstants'
+import { SpellView } from './helpers'
 
 export const disableSoulStorm = createAction('spells/DISABLE_SOUL_STORM', (active: boolean) => ({ active }))()
 

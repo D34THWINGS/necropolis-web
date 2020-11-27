@@ -12,8 +12,9 @@ import { castSpell } from '../../data/spells/actions'
 import { SpellBox } from './SpellBox'
 import { getSouls } from '../../data/resources/selectors'
 import { layers } from '../../config/theme'
-import { SpellView } from '../../config/constants/spellConstants'
-import { useSpells } from '../../hooks/useSpells'
+import { canCast, prediction, soulStorm, SpellView, theKey } from '../../data/spells/helpers'
+import soulStormBackgroundUrl from '../../assets/images/spells/soul-storm.jpg'
+import theKeyBackgroundUrl from '../../assets/images/spells/the-key.jpg'
 
 const spellCastButton = [
   ...blueSquareButton,
@@ -29,9 +30,24 @@ export type SpellsModalProps = {
 
 export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
   const { t } = useTranslation()
-  const spells = useSpells()
   const souls = useSelector(getSouls)
   const dispatch = useDispatch()
+
+  const spells = [
+    { ...theKey, label: t('theKeyLabel'), description: t('theKeyDescription'), imageUrl: theKeyBackgroundUrl },
+    {
+      ...soulStorm,
+      label: t('soulStormLabel'),
+      description: t('soulStormDescription', soulStorm.lethalityBonus ?? 0),
+      imageUrl: soulStormBackgroundUrl,
+    },
+    {
+      ...prediction,
+      label: t('predictionLabel'),
+      description: t('predictionDescription'),
+      imageUrl: soulStormBackgroundUrl,
+    },
+  ]
 
   const handleCastSpell = (spell: SpellView) => () => {
     dispatch(castSpell(spell))
@@ -41,10 +57,15 @@ export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} color={ModalColor.BLUE} priority={layers.SPELLS_MODAL}>
       <h2 css={h2Title}>{t('spells')}</h2>
-      {Object.values(spells).map(spell => (
-        <SpellBox key={spell.key} spell={spell}>
+      {spells.map(spell => (
+        <SpellBox key={spell.key} imageUrl={spell.imageUrl} label={spell.label} description={spell.description}>
           {spell.canBeCasted && (
-            <button type="button" css={spellCastButton} disabled={souls < spell.cost} onClick={handleCastSpell(spell)}>
+            <button
+              type="button"
+              css={spellCastButton}
+              disabled={!canCast(spell, souls)}
+              onClick={handleCastSpell(spell)}
+            >
               <ResourceIcon type={ResourceType.Souls} marginRight="0.3rem" />
               {spell.cost}
             </button>

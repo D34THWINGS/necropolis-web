@@ -17,6 +17,8 @@
     "no-confusing-arrow": "off",
     "arrow-parens": "off",
     "indent": "off",
+    "default-case": "off",
+    "consistent-return": "off",
     "newline-per-chained-call": "off",
     "function-paren-newline": "off",
     "operator-linebreak": "off",

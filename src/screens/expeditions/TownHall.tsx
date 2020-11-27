@@ -20,8 +20,7 @@ import townHallImage2Url from '../../assets/images/expeditions/townHall/town-hal
 import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
 import { getLethality } from '../../data/selectors'
-import { useSpells } from '../../hooks/useSpells'
-import { canCast } from '../../config/constants/spellConstants'
+import { canCast, theKey } from '../../data/spells/helpers'
 
 const TOWN_HALL_MUSCLES_REQUIRED = 4
 const TOWN_HALL_FIRE_UNDEAD_COST = 1
@@ -46,7 +45,6 @@ export const TownHall = () => {
   const muscles = useSelector(getUndeadArmyMuscles)
   const lethality = useSelector(getLethality)
   const dispatch = useDispatch()
-  const { theKey } = useSpells()
 
   return (
     <ExpeditionModal<TownHallStep>

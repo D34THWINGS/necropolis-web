@@ -22,6 +22,8 @@ import {
   SOUL_WELL_UPGRADE_COST,
 } from '../../config/constants'
 
+export type Building = { level: number; collapsed: boolean }
+
 const assertUnhandledBuilding = (type: never) => {
   throw new Error(`Unknown building ${type}`)
 }
@@ -79,3 +81,5 @@ export const getOssuaryUpgradeBonusMeat = (level: number) => OSSUARY_UPGRADE_BON
 export const getOssuaryUpgradeBonusBones = (level: number) => OSSUARY_UPGRADE_BONUS_BONES[level]
 
 export const getSoulWellSoulProduction = (level: number) => SOUL_WELL_SOUL_PRODUCTION[level]
+
+export const isBuildingBuilt = (building: Building) => building.level > 0

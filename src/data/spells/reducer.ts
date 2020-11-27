@@ -1,6 +1,6 @@
 import { createReducer } from 'typesafe-actions'
 import { castSpell, disableSoulStorm } from './actions'
-import { isSoulStorm } from '../../config/constants/spellConstants'
+import { isSoulStorm } from './helpers'
 
 export const spells = createReducer({
   soulStormActive: false,

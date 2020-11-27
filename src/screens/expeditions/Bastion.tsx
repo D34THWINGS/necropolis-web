@@ -17,8 +17,7 @@ import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
 import { getUndeadArmyMuscles } from '../../data/undeads/selectors'
 import { loose } from '../../data/turn/actions'
-import { useSpells } from '../../hooks/useSpells'
-import { canCast } from '../../config/constants/spellConstants'
+import { canCast, theKey } from '../../data/spells/helpers'
 
 enum BastionStep {
   Setup,
@@ -49,7 +48,6 @@ export const Bastion = () => {
   const muscles = useSelector(getUndeadArmyMuscles)
   const hasCancelledReinforcements = useSelector(getHasCancelledReinforcements)
   const dispatch = useDispatch()
-  const { theKey } = useSpells()
 
   return (
     <ExpeditionModal<BastionStep>

@@ -3,7 +3,6 @@ import { css } from '@emotion/core'
 
 import { blueBox } from '../../styles/base'
 import { colors, fonts, shadows } from '../../config/theme'
-import { SpellView } from '../../config/constants/spellConstants'
 
 const spellBox = (backgroundUrl: string) => [
   blueBox,
@@ -38,15 +37,17 @@ const spellDescription = css({
 })
 
 export type SpellBoxProps = {
-  spell: SpellView
+  imageUrl: string
+  label: ReactNode
+  description: ReactNode
   children?: ReactNode
 }
 
-export const SpellBox = ({ spell, children }: SpellBoxProps) => (
-  <div css={spellBox(spell.imageUrl)}>
-    <h3 css={spellName}>{spell.label}</h3>
+export const SpellBox = ({ imageUrl, label, description, children }: SpellBoxProps) => (
+  <div css={spellBox(imageUrl)}>
+    <h3 css={spellName}>{label}</h3>
     <div css={spellDetails}>
-      <div css={spellDescription}>{spell.description}</div>
+      <div css={spellDescription}>{description}</div>
       {children}
     </div>
   </div>

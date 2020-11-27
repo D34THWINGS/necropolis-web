@@ -19,8 +19,7 @@ import miseryMarketImageUrl from '../../assets/images/expeditions/miseryMarket/m
 import miseryMarketImage2Url from '../../assets/images/expeditions/miseryMarket/misery-market-2.jpg'
 import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
-import { useSpells } from '../../hooks/useSpells'
-import { canCast } from '../../config/constants/spellConstants'
+import { canCast, theKey } from '../../data/spells/helpers'
 
 const MISERY_MARKET_CATAPULT_COST = 1
 const MISERY_MARKET_STEP1_STRENGTH_REQUIRED = 4
@@ -51,7 +50,6 @@ export const MiseryMarket = () => {
   const hasTheKey = useSelector(getHasTheKey)
   const souls = useSelector(getSouls)
   const dispatch = useDispatch()
-  const { theKey } = useSpells()
 
   return (
     <ExpeditionModal<MiseryMarketStep>

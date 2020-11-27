@@ -2,9 +2,7 @@ import { createReducer } from 'typesafe-actions'
 import { collapseBuilding, freeUpgradeBuilding, repairBuilding, upgradeBuilding } from './actions'
 import { BuildingType } from '../../config/constants'
 import { deepSet } from '../helpers'
-import { getBuildingMaxLevel } from './helpers'
-
-type Building = { level: number; collapsed: boolean }
+import { Building, getBuildingMaxLevel } from './helpers'
 
 type BuildingsState = Record<BuildingType, Building>
 
