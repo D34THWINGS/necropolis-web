@@ -7,11 +7,11 @@ export const CHARNEL_HOUSE_PRODUCTION_TURNS = [0, 0, 2, 2]
 export const CHARNEL_HOUSE_UPGRADE_COST = [0, 4, 1, 3]
 export const CHARNEL_HOUSE_MAX_LEVEL = 3
 
-export const SOUL_WELL_SOUL_PRODUCTION = [0, 1, 1, 2]
+export const SOUL_WELL_SOUL_PRODUCTION = [0, 2, 3, 4]
 export const SOUL_WELL_UPGRADE_COST = [0, 3, 2, 3]
 export const SOUL_WELL_MAX_LEVEL = 3
 
-export const CATACOMBS_SOUL_COST = [0, 2, 2, 2]
+export const CATACOMBS_SOUL_COST = [0, 3, 3, 3]
 export const CATACOMBS_MAX_UNDEAD = [0, 1, 2, 3]
 export const CATACOMBS_UPGRADE_COST = [0, 2, 1, 1]
 export const CATACOMBS_MAX_LEVEL = 3
@@ -72,14 +72,6 @@ export const TURN_PHASES_ORDER = [TurnPhase.Production, TurnPhase.Event, TurnPha
 
 export const RAISABLE_UNDEADS = [UndeadType.Skeleton, UndeadType.LaMotte, UndeadType.BloodPrince]
 export const LA_MOTTE_DEFENSE_BONUS = 1
-
-export enum Spell {
-  SoulStorm = 'soulStorm',
-  TheKey = 'theKey',
-}
-
-export const SOUL_STORM_DEFENSE_BONUS = 3
-export const SOUL_STORM_LETHALITY_BONUS = 3
 
 export const INTRO_STEPS_COUNT = 12
 export const ONBOARDING_STEPS_COUNT = 13

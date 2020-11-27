@@ -5,8 +5,8 @@ enum Spell {
 }
 
 const SPELLS_SOUL_COSTS: Record<Spell, number> = {
-  [Spell.SoulStorm]: 3,
-  [Spell.TheKey]: 2,
+  [Spell.SoulStorm]: 4,
+  [Spell.TheKey]: 3,
   [Spell.Prediction]: 2,
 }
 
@@ -43,5 +43,3 @@ export const prediction = makeSpell(Spell.Prediction, {
 export const canCast = (spell: SpellView, souls: number) => spell.cost <= souls
 
 export const isSoulStorm = (spell: SpellView) => spell.key === Spell.SoulStorm
-
-export const makeSpells = () => [soulStorm, theKey, prediction]

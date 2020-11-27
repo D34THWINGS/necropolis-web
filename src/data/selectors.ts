@@ -7,8 +7,6 @@ import {
   EventType,
   LA_MOTTE_DEFENSE_BONUS,
   PLUNDER_ACTIVATION_TURN,
-  SOUL_STORM_DEFENSE_BONUS,
-  SOUL_STORM_LETHALITY_BONUS,
   UndeadType,
 } from '../config/constants'
 import { getArsenalTrapsCount } from './buildings/helpers'
@@ -17,13 +15,13 @@ import { getHasArtifact, getIsEventPast, getPastEvents } from './events/selector
 import { getTurn } from './turn/selectors'
 import { getCarnage } from './expeditions/selectors'
 import { getPaladinsShouldAttack } from './paladins/selectors'
+import { soulStorm } from './spells/helpers'
 
 export const getLethality = (state: RootState) =>
-  getUndeadArmyLethality(state) + (getIsSoulStormActive(state) ? SOUL_STORM_LETHALITY_BONUS : 0)
+  getUndeadArmyLethality(state) + (getIsSoulStormActive(state) ? soulStorm.lethalityBonus ?? 0 : 0)
 
 export const getDefense = (state: RootState) =>
   getArsenalTrapsCount(getArsenal(state).level) +
-  (getIsSoulStormActive(state) ? SOUL_STORM_DEFENSE_BONUS : 0) +
   (getHasArtifact(state) ? ARTIFACT_DEFENSE_BONUS : 0) +
   (getUndeadTypes(state).includes(UndeadType.LaMotte) ? LA_MOTTE_DEFENSE_BONUS : 0)
 
