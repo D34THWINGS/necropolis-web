@@ -96,11 +96,14 @@ export const paladins = createReducer<PaladinState>({
     ...state,
     calledToArms: turn,
     counter: state.counter + 1,
-    strength: 1,
+    strength: 3,
   }))
   .handleAction(killPaladins, state => ({ ...state, calledToArms: false }))
   .handleAction(resetPaladinsCounter, state => ({ ...state, counter: 0 }))
-  .handleAction(beginPaladinsAssault, state => ({ ...state, assault: createPaladinsAssault(state.strength) }))
+  .handleAction(beginPaladinsAssault, state => ({
+    ...state,
+    assault: createPaladinsAssault(state.strength, state.structureHealth),
+  }))
   .handleAction(endPaladinsAssault, state => ({ ...state, assault: null, counter: 0 }))
   .handleAction(changeAssaultPhase, (state, { payload }) => updateAssault(state, () => ({ phase: payload.phase })))
   .handleAction(addTrap, (state, { payload }) =>

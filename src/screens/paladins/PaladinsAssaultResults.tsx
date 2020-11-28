@@ -91,7 +91,7 @@ export const PaladinsAssaultResults = () => {
           </div>
           <div css={textColor('DARK_CYAN')}>
             <Image src={materialsIcon} css={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
-            {t('healthLost', NECROPOLIS_STRUCTURE_POINTS - structureHealth)}
+            {t('healthLost', assault.startingStructureHealth - structureHealth)}
           </div>
           <div css={textColor('DARK_CYAN')} data-test-id="remainingStructureHealth">
             <Image src={materialsIcon} css={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />

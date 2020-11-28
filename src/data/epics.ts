@@ -7,10 +7,11 @@ import { looseUndeadEpic, raiseUndeadEpic, valetEpic } from './undeads/epics'
 import { resetGameEpic } from './settings/epics'
 import {
   displayAssaultResultsEpic,
-  paladinTriggerAttackEpic,
   paladinDeathRattleEpic,
   paladinBattleCryEpic,
   trapsEpic,
+  paladinIncreaseStrengthEpic,
+  paladinSkipEpic,
 } from './paladins/epics'
 
 export const rootEpic = combineEpics(
@@ -30,6 +31,7 @@ export const rootEpic = combineEpics(
   displayAssaultResultsEpic,
   trapsEpic,
   paladinBattleCryEpic,
-  paladinTriggerAttackEpic,
   paladinDeathRattleEpic,
+  paladinIncreaseStrengthEpic,
+  paladinSkipEpic,
 )

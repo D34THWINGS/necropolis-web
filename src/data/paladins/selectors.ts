@@ -18,7 +18,8 @@ export const getShouldIncreasePaladinsStrength = (state: RootState) => {
   return (turn - calledToArmsTurn) % PALADINS_INCREASE_SPACING === 0
 }
 
-export const getPaladinsShouldAttack = (state: RootState) => getPaladinsCounter(state) >= PALADINS_ATTACK_THRESHOLD
+export const getPaladinsShouldAttack = (state: RootState) =>
+  getPaladinsCalledToArms(state) && getTurn(state) % PALADINS_ATTACK_THRESHOLD === 0
 
 export const getPaladinsAssault = (state: RootState) => state.paladins.assault
 

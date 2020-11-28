@@ -26,6 +26,7 @@ export type Assault = {
   deck: PaladinCard[]
   traps: Trap[]
   changingPaladinCategory: boolean
+  startingStructureHealth: number
 }
 
 export type PaladinCard = {
@@ -41,7 +42,7 @@ export type PaladinCard = {
   skipped: boolean
 }
 
-export const createPaladinsAssault = (strength: number): Assault => ({
+export const createPaladinsAssault = (strength: number, structureHealth: number): Assault => ({
   phase: PaladinsAssaultPhase.Revealing,
   deck: Array.from({ length: strength }).reduce<PaladinCard[]>((deck, _, index) => {
     // Never draw more than 1 commander
@@ -70,6 +71,7 @@ export const createPaladinsAssault = (strength: number): Assault => ({
   }, []),
   traps: [],
   changingPaladinCategory: false,
+  startingStructureHealth: structureHealth,
 })
 
 export const createTrap = (type: TrapType): Trap => ({

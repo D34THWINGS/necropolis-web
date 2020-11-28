@@ -19,12 +19,15 @@ import {
   skipPaladin,
   triggerPaladinAttack,
   swapPaladinPostions,
+  increasePaladinsStrength,
 } from './actions'
 import {
   getPaladinById,
   getPaladinsAssaultPhase,
+  getPaladinsCalledToArms,
   getPaladinsDeck,
   getRemainingPaladins,
+  getShouldIncreasePaladinsStrength,
   getTrapById,
   isAssaultFinished,
 } from './selectors'
@@ -39,9 +42,12 @@ import {
   WIZARD_BONUS_DAMAGES,
   WIZARD_TARGETS_COUNT,
   DELAY_BETWEEN_TRAP_EFFECTS,
+  TurnPhase,
 } from '../../config/constants'
 import { shuffleArray } from '../helpers'
 import { random } from '../seeder'
+import { nextPhase } from '../turn/actions'
+import { getCurrentPhase } from '../turn/selectors'
 
 export const displayAssaultResultsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   state$.pipe(
@@ -174,19 +180,6 @@ export const paladinBattleCryEpic: Epic<RootAction, RootAction, RootState> = (ac
     }),
   )
 
-export const paladinTriggerAttackEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  merge(
-    action$.pipe(
-      filter(isActionOf(doDamagesToPaladin)),
-      delay(0), // Wait for damages to apply
-      filter(({ payload: { paladinId } }) => {
-        const paladin = getPaladinById(paladinId)(state$.value)
-        return !!paladin && paladin.health > 0
-      }),
-    ),
-    action$.pipe(filter(isActionOf(skipPaladin))),
-  ).pipe(map(({ payload: { paladinId } }) => triggerPaladinAttack(paladinId)))
-
 export const paladinDeathRattleEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(doDamagesToPaladin)),
@@ -203,4 +196,22 @@ export const paladinDeathRattleEpic: Epic<RootAction, RootAction, RootState> = (
           return EMPTY
       }
     }),
+  )
+
+export const paladinSkipEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+  action$.pipe(
+    filter(isActionOf(skipPaladin)),
+    map(({ payload: { paladinId } }) => triggerPaladinAttack(paladinId)),
+  )
+
+export const paladinIncreaseStrengthEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+  action$.pipe(
+    filter(isActionOf(nextPhase)),
+    filter(
+      () =>
+        getCurrentPhase(state$.value) === TurnPhase.Event &&
+        getPaladinsCalledToArms(state$.value) &&
+        getShouldIncreasePaladinsStrength(state$.value),
+    ),
+    map(() => increasePaladinsStrength()),
   )
