@@ -43,6 +43,7 @@ jobs:
             yarn-
       - run: yarn lint
       - run: yarn typecheck
+      - run: yarn test
   build:
     name: Build app
     runs-on: ubuntu-latest

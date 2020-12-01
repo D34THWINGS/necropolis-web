@@ -11,5 +11,21 @@
     "@babel/preset-typescript",
     "@emotion/babel-preset-css-prop"
   ],
-  "plugins": ["emotion"]
+  "plugins": ["emotion"],
+  "env": {
+    "test": {
+      "presets": [
+        "@babel/preset-react",
+        [
+          "@babel/preset-env",
+          {
+            "modules": "commonjs",
+            "useBuiltIns": "usage",
+            "corejs": 3,
+            "exclude": ["transform-regenerator"]
+          }
+        ]
+      ]
+    }
+  }
 }
