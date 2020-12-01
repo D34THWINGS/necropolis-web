@@ -1,5 +1,4 @@
 import { castRestorationEpic, castSpellEpic } from '../epics'
-import { RootAction } from '../../actions'
 import { castSpell } from '../actions'
 import { restoration, theKey } from '../helpers'
 import { spendResources } from '../../resources/actions'
@@ -13,10 +12,7 @@ import { beginPaladinsAssault, repairStructure } from '../../paladins/actions'
 
 describe('Spells epics', () => {
   it('should spend souls equal to spell cost when casting', () => {
-    const { action$, actionsInput$, state$ } = buildEpicObservables()
-
-    const actions: RootAction[] = []
-    castSpellEpic(action$, state$, {}).subscribe(value => actions.push(value))
+    const { actionsInput$, actions } = buildEpicObservables(castSpellEpic)
 
     actionsInput$.next(castSpell(theKey))
 
@@ -24,10 +20,7 @@ describe('Spells epics', () => {
   })
 
   it('should heal one undead when casting restoration while in expedition', () => {
-    const { action$, actionsInput$, state$, stateInput$ } = buildEpicObservables()
-
-    const actions: RootAction[] = []
-    castRestorationEpic(action$, state$, {}).subscribe(value => actions.push(value))
+    const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castRestorationEpic)
 
     const undead1 = createUndead(UndeadType.Skeleton)
     undead1.health = applyDamages(undead1.health, 1)
@@ -41,10 +34,7 @@ describe('Spells epics', () => {
   })
 
   it('should repair structure when casting restoration while in assault', () => {
-    const { action$, actionsInput$, state$, stateInput$ } = buildEpicObservables()
-
-    const actions: RootAction[] = []
-    castRestorationEpic(action$, state$, {}).subscribe(value => actions.push(value))
+    const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castRestorationEpic)
 
     stateInput$.next(mainReducer(state$.value, beginPaladinsAssault()))
     actionsInput$.next(castSpell(restoration))
@@ -53,10 +43,7 @@ describe('Spells epics', () => {
   })
 
   it('should do nothing when casting restoration on main hub', () => {
-    const { action$, actionsInput$, state$ } = buildEpicObservables()
-
-    const actions: RootAction[] = []
-    castRestorationEpic(action$, state$, {}).subscribe(value => actions.push(value))
+    const { actionsInput$, actions } = buildEpicObservables(castRestorationEpic)
 
     actionsInput$.next(castSpell(restoration))
 
