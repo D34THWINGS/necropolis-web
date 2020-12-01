@@ -3,11 +3,11 @@ import { css } from '@emotion/core'
 import { useSelector } from 'react-redux'
 import { Building } from './Building'
 import { useTranslation } from '../../lang/useTranslation'
-import { BATTLEMENTS, CATACOMBS, CHARNEL_HOUSE, OSSUARY, SOUL_WELL } from '../../config/routes'
+import { ARSENAL, CATACOMBS, CHARNEL_HOUSE, OSSUARY, SOUL_WELL } from '../../config/routes'
 import { getBuildings } from '../../data/buildings/selectors'
 import { ARTIFACT_DEFENSE_BONUS, BuildingType, OnboardingStep } from '../../config/constants'
 import {
-  getBattlementsDefenseBonus,
+  getArsenalTrapsCount,
   getCharnelHouseBonesProduction,
   getCharnelHouseMeatProduction,
   getCharnelHouseProductionTurns,
@@ -123,10 +123,10 @@ export const MainHub = () => {
         route={OSSUARY}
       />
       <Building
-        name={t(BuildingType.Battlements)}
-        level={buildings.battlements.level}
-        description={t('battlementDescription', getBattlementsDefenseBonus(buildings.battlements.level || 1))}
-        route={BATTLEMENTS}
+        name={t(BuildingType.Arsenal)}
+        level={buildings.arsenal.level}
+        description={t('arsenalDescription', getArsenalTrapsCount(buildings.arsenal.level || 1))}
+        route={ARSENAL}
       />
       {hasArtifact && (
         <Panel css={artifactPanel}>

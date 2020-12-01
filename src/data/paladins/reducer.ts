@@ -27,7 +27,7 @@ import {
   swapPaladinPostions,
 } from './actions'
 import { Assault, createPaladinsAssault, createTrap, isPaladinAlive, PaladinCard } from './helpers'
-import { PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
+import { NECROPOLIS_STRUCTURE_POINTS, PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
 import { setInArray } from '../helpers'
 
 type PaladinState = {
@@ -35,6 +35,7 @@ type PaladinState = {
   counter: number
   calledToArms: false | number
   assault: Assault | null
+  structureHealth: number
 }
 
 const updatePaladinByIndex = (
@@ -86,6 +87,7 @@ export const paladins = createReducer<PaladinState>({
   counter: 0,
   calledToArms: false,
   assault: null,
+  structureHealth: NECROPOLIS_STRUCTURE_POINTS,
 })
   .handleAction(increasePaladinsStrength, state => ({ ...state, strength: state.strength + 1 }))
   .handleAction(increasePaladinsCounter, state => ({ ...state, counter: state.counter + 1 }))
@@ -94,11 +96,14 @@ export const paladins = createReducer<PaladinState>({
     ...state,
     calledToArms: turn,
     counter: state.counter + 1,
-    strength: 1,
+    strength: 3,
   }))
   .handleAction(killPaladins, state => ({ ...state, calledToArms: false }))
   .handleAction(resetPaladinsCounter, state => ({ ...state, counter: 0 }))
-  .handleAction(beginPaladinsAssault, state => ({ ...state, assault: createPaladinsAssault(state.strength) }))
+  .handleAction(beginPaladinsAssault, state => ({
+    ...state,
+    assault: createPaladinsAssault(state.strength, state.structureHealth),
+  }))
   .handleAction(endPaladinsAssault, state => ({ ...state, assault: null, counter: 0 }))
   .handleAction(changeAssaultPhase, (state, { payload }) => updateAssault(state, () => ({ phase: payload.phase })))
   .handleAction(addTrap, (state, { payload }) =>
@@ -125,17 +130,16 @@ export const paladins = createReducer<PaladinState>({
       })),
     })),
   )
-  .handleAction(triggerPaladinAttack, (state, { payload: { paladinId } }) =>
-    updateAssault(state, assault => {
-      const paladin = assault.deck.find(p => p.id === paladinId)
-      if (!paladin) {
-        return null
-      }
-      return {
-        structureHealth: Math.max(assault.structureHealth - paladin.damages, 0),
-      }
-    }),
-  )
+  .handleAction(triggerPaladinAttack, (state, { payload: { paladinId } }) => {
+    const paladin = state.assault?.deck.find(p => p.id === paladinId)
+    if (!paladin) {
+      return state
+    }
+    return {
+      ...state,
+      structureHealth: Math.max(state.structureHealth - paladin.damages, 0),
+    }
+  })
   .handleAction(doDamagesToPaladin, (state, { payload: { paladinId, damages } }) =>
     updateAssault(state, assault => ({
       deck: updatePaladinById(assault.deck, paladinId, applyDamagesToPaladin(damages)),

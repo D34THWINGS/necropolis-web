@@ -1,18 +1,22 @@
 import { isActionOf } from 'typesafe-actions'
-import { EMPTY, of } from 'rxjs'
 import { Epic } from 'redux-observable'
-import { filter, mergeMap, map, mapTo } from 'rxjs/operators'
+import { EMPTY, merge, of } from 'rxjs'
+import { filter, map, mapTo, mergeMap } from 'rxjs/operators'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
 import { nextPhase } from '../turn/actions'
 import { endEvent } from '../events/actions'
 import { setExpeditionStep } from '../expeditions/actions'
-import { getDiscoverableSpells, getIsSoulStormActive } from './selectors'
-import { addSpell, castSpell, disableSoulStorm, discoverSpell } from './actions'
+import { getIsSoulStormActive } from './selectors'
+import { castSpell, disableSoulStorm } from './actions'
 import { spendResources } from '../resources/actions'
-import { ResourceType, SPELLS_SOUL_COSTS } from '../../config/constants'
-import { getOssuaryBonesCost } from '../buildings/helpers'
-import { getOssuary } from '../buildings/selectors'
+import { ResourceType } from '../../config/constants'
+import { isRestoration, restoration } from './helpers'
+import { healUndead } from '../undeads/actions'
+import { getMostInjuredUndead } from '../undeads/selectors'
+import { getIsInExpedition, getOpenedExpedition } from '../expeditions/selectors'
+import { getPaladinsAssaultOngoing } from '../paladins/selectors'
+import { repairStructure } from '../paladins/actions'
 
 export const soulStormEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
@@ -21,27 +25,33 @@ export const soulStormEpic: Epic<RootAction, RootAction, RootState> = (action$, 
     mapTo(disableSoulStorm(false)),
   )
 
-export const discoverSpellEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  action$.pipe(
-    filter(isActionOf(discoverSpell)),
-    mergeMap(() => {
-      const discoverableSpells = getDiscoverableSpells(state$.value)
-
-      if (discoverableSpells.length === 0) {
-        return EMPTY
-      }
-
-      const discoveredSpell = discoverableSpells[Math.round(Math.random() * (discoverableSpells.length - 1))]
-      return of(
-        spendResources({ [ResourceType.Bones]: getOssuaryBonesCost(getOssuary(state$.value).level) }),
-        addSpell(discoveredSpell),
-        nextPhase(),
-      )
-    }),
-  )
-
 export const castSpellEpic: Epic<RootAction, RootAction, RootState> = action$ =>
   action$.pipe(
     filter(isActionOf(castSpell)),
-    map(({ payload: { spell } }) => spendResources({ [ResourceType.Souls]: SPELLS_SOUL_COSTS[spell] })),
+    map(({ payload: { spell } }) => spendResources({ [ResourceType.Souls]: spell.cost })),
   )
+
+export const castRestorationEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
+  const restorationCast$ = action$.pipe(
+    filter(isActionOf(castSpell)),
+    filter(({ payload: { spell } }) => isRestoration(spell)),
+  )
+
+  const restorationCastDuringExpedition$ = restorationCast$.pipe(
+    filter(() => getIsInExpedition(state$.value)),
+    mergeMap(() => {
+      const mostInjuredUndead = getMostInjuredUndead(state$.value)
+      if (mostInjuredUndead) {
+        return of(healUndead(mostInjuredUndead.id, restoration.healthRestored ?? 0))
+      }
+      return EMPTY
+    }),
+  )
+
+  const restorationCastDuringAssault$ = restorationCast$.pipe(
+    filter(() => getPaladinsAssaultOngoing(state$.value)),
+    map(() => repairStructure(restoration.structureRepairAmount ?? 0)),
+  )
+
+  return merge(restorationCastDuringExpedition$, restorationCastDuringAssault$)
+}

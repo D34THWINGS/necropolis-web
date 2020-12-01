@@ -83,3 +83,5 @@ export const swapPaladinPostions = createAction(
     swappedPaladinId,
   }),
 )()
+
+export const repairStructure = createAction('paladins/REPAIR_STRUCTURE', (amount: number) => ({ amount }))()

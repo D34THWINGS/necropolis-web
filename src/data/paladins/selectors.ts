@@ -18,7 +18,8 @@ export const getShouldIncreasePaladinsStrength = (state: RootState) => {
   return (turn - calledToArmsTurn) % PALADINS_INCREASE_SPACING === 0
 }
 
-export const getPaladinsShouldAttack = (state: RootState) => getPaladinsCounter(state) >= PALADINS_ATTACK_THRESHOLD
+export const getPaladinsShouldAttack = (state: RootState) =>
+  getPaladinsCalledToArms(state) && getTurn(state) % PALADINS_ATTACK_THRESHOLD === 0
 
 export const getPaladinsAssault = (state: RootState) => state.paladins.assault
 
@@ -40,12 +41,12 @@ export const getPaladinsDeck = (state: RootState) => getPaladinsAssault(state)?.
 export const getPaladinById = (id: PaladinCard['id']) => (state: RootState) =>
   getPaladinsDeck(state).find(paladin => paladin.id === id)
 
+export const getStructureHealth = (state: RootState) => state.paladins.structureHealth
+
 export const isAssaultFinished = (state: RootState) => {
   const assault = getPaladinsAssault(state)
   if (!assault) {
     return false
   }
-  return !assault.deck.some(isPaladinAlive) || assault.structureHealth === 0
+  return !assault.deck.some(isPaladinAlive) || getStructureHealth(state) === 0
 }
-
-export const getLostPaladinAssault = (state: RootState) => getPaladinsAssault(state)?.structureHealth === 0

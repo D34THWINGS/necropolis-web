@@ -175,7 +175,7 @@ export const frOnboarding = {
       utiliser pour lancer des Sorts&nbsp;! Mais d&apos;abord, je dois en découvrir un en construisant l&apos;Ossuaire .
     </>
   ),
-  onboardingBuildBattlements: (
+  onboardingBuildArsenal: (
     <>
       Mais que nous veulent-ils à la fin, ces fichus Paladins&nbsp;? Construisez des Remparts pour renforcer la{' '}
       <span css={textColor('LIME')}>Défense</span> de notre fortin. Si lorsqu&apos;ils attaquent, cette dernière est

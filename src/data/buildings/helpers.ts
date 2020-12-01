@@ -1,7 +1,7 @@
 import {
-  BATTLEMENTS_DEFENSE_BONUS,
-  BATTLEMENTS_MAX_LEVEL,
-  BATTLEMENTS_UPGRADE_COST,
+  ARSENAL_MAX_LEVEL,
+  ARSENAL_TRAPS_COUNT,
+  ARSENAL_UPGRADE_COST,
   BuildingType,
   CATACOMBS_MAX_LEVEL,
   CATACOMBS_MAX_UNDEAD,
@@ -22,20 +22,26 @@ import {
   SOUL_WELL_UPGRADE_COST,
 } from '../../config/constants'
 
+export type Building = { level: number; collapsed: boolean }
+
+const assertUnhandledBuilding = (type: never) => {
+  throw new Error(`Unknown building ${type}`)
+}
+
 export const getBuildingUpgradeCost = (type: BuildingType, level: number) => {
   switch (type) {
     case BuildingType.CharnelHouse:
       return CHARNEL_HOUSE_UPGRADE_COST[level]
     case BuildingType.Catacombs:
       return CATACOMBS_UPGRADE_COST[level]
-    case BuildingType.Battlements:
-      return BATTLEMENTS_UPGRADE_COST[level]
     case BuildingType.SoulWell:
       return SOUL_WELL_UPGRADE_COST[level]
     case BuildingType.Ossuary:
       return OSSUARY_UPGRADE_COST[level]
+    case BuildingType.Arsenal:
+      return ARSENAL_UPGRADE_COST[level]
     default:
-      throw new Error('Unknown building')
+      return assertUnhandledBuilding(type)
   }
 }
 
@@ -45,21 +51,18 @@ export const getBuildingMaxLevel = (type: BuildingType) => {
       return CHARNEL_HOUSE_MAX_LEVEL
     case BuildingType.Catacombs:
       return CATACOMBS_MAX_LEVEL
-    case BuildingType.Battlements:
-      return BATTLEMENTS_MAX_LEVEL
     case BuildingType.SoulWell:
       return SOUL_WELL_MAX_LEVEL
     case BuildingType.Ossuary:
       return OSSUARY_MAX_LEVEL
+    case BuildingType.Arsenal:
+      return ARSENAL_MAX_LEVEL
     default:
-      throw new Error('Unknown building')
+      return assertUnhandledBuilding(type)
   }
 }
 
-export const getBattlementsDefenseBonus = (level: number) => BATTLEMENTS_DEFENSE_BONUS[level]
-
-export const getBattlementsUpgradeDefenseBonus = (level: number) =>
-  getBattlementsDefenseBonus(level) - getBattlementsDefenseBonus(level - 1)
+export const getArsenalTrapsCount = (level: number) => ARSENAL_TRAPS_COUNT[level]
 
 export const getRaiseUndeadSoulCost = (level: number) => CATACOMBS_SOUL_COST[level]
 
@@ -78,3 +81,5 @@ export const getOssuaryUpgradeBonusMeat = (level: number) => OSSUARY_UPGRADE_BON
 export const getOssuaryUpgradeBonusBones = (level: number) => OSSUARY_UPGRADE_BONUS_BONES[level]
 
 export const getSoulWellSoulProduction = (level: number) => SOUL_WELL_SOUL_PRODUCTION[level]
+
+export const isBuildingBuilt = (building: Building) => building.level > 0

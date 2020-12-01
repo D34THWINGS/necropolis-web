@@ -1,30 +1,30 @@
-export const INITIAL_MATERIALS = 7
-export const INITIAL_MEAT = 2
+export const INITIAL_MATERIALS = 0
+export const INITIAL_MEAT = 8
 
 export const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 3, 5]
 export const CHARNEL_HOUSE_BONES_PRODUCTION = [0, 0, 1, 1]
 export const CHARNEL_HOUSE_PRODUCTION_TURNS = [0, 0, 2, 2]
-export const CHARNEL_HOUSE_UPGRADE_COST = [0, 4, 1, 3]
+export const CHARNEL_HOUSE_UPGRADE_COST = [0, 1, 1, 1]
 export const CHARNEL_HOUSE_MAX_LEVEL = 3
 
-export const SOUL_WELL_SOUL_PRODUCTION = [0, 1, 1, 2]
-export const SOUL_WELL_UPGRADE_COST = [0, 3, 2, 3]
+export const SOUL_WELL_SOUL_PRODUCTION = [0, 2, 3, 4]
+export const SOUL_WELL_UPGRADE_COST = [0, 1, 1, 1]
 export const SOUL_WELL_MAX_LEVEL = 3
 
-export const CATACOMBS_SOUL_COST = [0, 2, 2, 2]
+export const CATACOMBS_SOUL_COST = [0, 3, 3, 3]
 export const CATACOMBS_MAX_UNDEAD = [0, 1, 2, 3]
-export const CATACOMBS_UPGRADE_COST = [0, 2, 1, 1]
+export const CATACOMBS_UPGRADE_COST = [0, 1, 1, 1]
 export const CATACOMBS_MAX_LEVEL = 3
 
 export const OSSUARY_BONES_COST = [0, 3, 3, 3]
 export const OSSUARY_UPGRADE_BONUS_MEAT = [0, 0, 3, 3]
 export const OSSUARY_UPGRADE_BONUS_BONES = [0, 0, 3, 3]
-export const OSSUARY_UPGRADE_COST = [0, 2, 2, 2]
+export const OSSUARY_UPGRADE_COST = [0, 1, 1, 1]
 export const OSSUARY_MAX_LEVEL = 3
 
-export const BATTLEMENTS_DEFENSE_BONUS = [0, 3, 5, 7]
-export const BATTLEMENTS_UPGRADE_COST = [0, 5, 3, 3]
-export const BATTLEMENTS_MAX_LEVEL = 3
+export const ARSENAL_TRAPS_COUNT = [0, 3, 5, 7]
+export const ARSENAL_UPGRADE_COST = [0, 1, 1, 1]
+export const ARSENAL_MAX_LEVEL = 3
 
 export const EVENTS_TURN_SPACING = 3
 export const PALADINS_STRENGTH_INCREASE = 1
@@ -44,14 +44,25 @@ export enum UndeadType {
 export enum UndeadTalent {
   Muscles = 'muscles',
   Lethality = 'lethality',
+  Dexterity = 'dexterity',
+  Subjugation = 'subjugation',
+  Necromancy = 'necromancy',
+}
+
+export enum UndeadAbility {
+  Devotion = 'devotion',
+  Labor = 'labor',
+  Protection = 'protection',
+  Seduction = 'seduction',
+  SectumSempra = 'sectumSempra',
 }
 
 export enum BuildingType {
   CharnelHouse = 'charnelHouse',
   Ossuary = 'ossuary',
-  Battlements = 'battlements',
   SoulWell = 'soulWell',
   Catacombs = 'catacombs',
+  Arsenal = 'arsenal',
 }
 
 export enum ResourceType {
@@ -72,22 +83,6 @@ export const TURN_PHASES_ORDER = [TurnPhase.Production, TurnPhase.Event, TurnPha
 
 export const RAISABLE_UNDEADS = [UndeadType.Skeleton, UndeadType.LaMotte, UndeadType.BloodPrince]
 export const LA_MOTTE_DEFENSE_BONUS = 1
-
-export enum Spell {
-  SoulStorm = 'soulStorm',
-  TheKey = 'theKey',
-}
-
-export const DISCOVERABLE_SPELLS = [Spell.TheKey]
-export const CASTABLE_SPELLS = [Spell.SoulStorm]
-
-export const SPELLS_SOUL_COSTS = {
-  [Spell.SoulStorm]: 3,
-  [Spell.TheKey]: 2,
-}
-
-export const SOUL_STORM_DEFENSE_BONUS = 3
-export const SOUL_STORM_LETHALITY_BONUS = 3
 
 export const INTRO_STEPS_COUNT = 12
 export const ONBOARDING_STEPS_COUNT = 13

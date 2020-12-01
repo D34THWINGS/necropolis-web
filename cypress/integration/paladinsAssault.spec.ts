@@ -9,7 +9,7 @@ const assaultSetup = (fixtureName: string) => {
 }
 
 describe('Paladins assault', () => {
-  it.only('Run full assault', () => {
+  it('Run full assault', () => {
     cy.loadPage('/')
     cy.useStateFixture('paladinAssaultSetup')
     cy.getByTestId('continueGameButton').click()
@@ -68,7 +68,7 @@ describe('Paladins assault', () => {
 
     cy.getByTestId('skipPaladinButton').click()
     cy.assertText('killedPaladins', '6\u00A0/\u00A07')
-    cy.assertText('remainingStructureHealth', '3\u00A0/\u00A08')
+    cy.assertText('remainingStructureHealth', '4\u00A0/\u00A08')
 
     cy.getByTestId('endPaladinAssaultButton').click()
   })
@@ -144,7 +144,7 @@ describe('Paladins assault', () => {
     assaultSetup('paladinAssaultLoose')
     cy.assertText('paladinName', 'Dreadnought')
 
-    cy.getByTestId('useTrapButton').eq(0).click()
+    cy.getByTestId('skipPaladinButton').click()
     cy.getByTestId('endPaladinAssaultButton').click()
     cy.assertVisible('gameLostScreen')
   })

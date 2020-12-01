@@ -15,7 +15,7 @@ import { ResourceIcon } from '../../components/resources/ResourceIcon'
 import { LooseReason, NECROPOLIS_STRUCTURE_POINTS, ResourceType } from '../../config/constants'
 import { fonts } from '../../config/theme'
 import { endPaladinsAssault } from '../../data/paladins/actions'
-import { getPaladinsAssault } from '../../data/paladins/selectors'
+import { getPaladinsAssault, getStructureHealth } from '../../data/paladins/selectors'
 import { gainResources } from '../../data/resources/actions'
 import { loose } from '../../data/turn/actions'
 
@@ -62,6 +62,7 @@ export const PaladinsAssaultResults = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const assault = useSelector(getPaladinsAssault)
+  const structureHealth = useSelector(getStructureHealth)
 
   if (!assault) {
     return null
@@ -70,7 +71,7 @@ export const PaladinsAssaultResults = () => {
   const killedPaladins = assault.deck.filter(card => card.health === 0).length
 
   const handleEndAssault = () => {
-    if (assault.structureHealth === 0) {
+    if (structureHealth === 0) {
       dispatch(loose(LooseReason.PaladinsAssault))
       return
     }
@@ -90,11 +91,11 @@ export const PaladinsAssaultResults = () => {
           </div>
           <div css={textColor('DARK_CYAN')}>
             <Image src={materialsIcon} css={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
-            {t('healthLost', NECROPOLIS_STRUCTURE_POINTS - assault.structureHealth)}
+            {t('healthLost', assault.startingStructureHealth - structureHealth)}
           </div>
           <div css={textColor('DARK_CYAN')} data-test-id="remainingStructureHealth">
             <Image src={materialsIcon} css={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
-            {t('healthRemaining', assault.structureHealth, NECROPOLIS_STRUCTURE_POINTS)}
+            {t('healthRemaining', structureHealth, NECROPOLIS_STRUCTURE_POINTS)}
           </div>
           <ResourceLoot>
             <ResourceIcon type={ResourceType.Bones} text={killedPaladins} />

@@ -5,12 +5,14 @@ export enum SupportedLanguages {
   FR = 'fr',
 }
 
+export type Translation = ReactNode
+
 export type Translator = {
   t: <K extends FrTranslationKey>(
     key: K,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ...args: TranslationBundle[K] extends (...args: any) => any ? Parameters<TranslationBundle[K]> : []
-  ) => ReactNode
+  ) => Translation
   lang: SupportedLanguages
   setLang: (lang: SupportedLanguages) => void
 }

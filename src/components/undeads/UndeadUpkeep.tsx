@@ -2,24 +2,25 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from '../ui/Modal/Modal'
 import { ModalColor } from '../ui/Modal/modalStyles'
-import { getUndeads, getUpkeep } from '../../data/undeads/selectors'
+import { getAliveUndeads, getUpkeep } from '../../data/undeads/selectors'
 import { getMeat } from '../../data/resources/selectors'
 import { h2Title } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { UndeadBox } from './UndeadBox'
-import { killUndead } from '../../data/undeads/actions'
+import { sacrificeUndead } from '../../data/undeads/actions'
 import { getCurrentPhase } from '../../data/turn/selectors'
-import { TurnPhase, UndeadType } from '../../config/constants'
+import { TurnPhase } from '../../config/constants'
+import { Undead } from '../../data/undeads/helpers'
 
 export const UndeadUpkeep = () => {
   const { t } = useTranslation()
   const meat = useSelector(getMeat)
   const upkeep = useSelector(getUpkeep)
-  const undeads = useSelector(getUndeads)
+  const undeads = useSelector(getAliveUndeads)
   const phase = useSelector(getCurrentPhase)
   const dispatch = useDispatch()
 
-  const handleBan = (type: UndeadType) => () => dispatch(killUndead(type))
+  const handleBan = (undeadId: Undead['id']) => () => dispatch(sacrificeUndead(undeadId))
 
   return (
     <Modal isOpen={meat > 0 && upkeep > meat && phase === TurnPhase.Upkeep} color={ModalColor.PURPLE}>
@@ -29,7 +30,7 @@ export const UndeadUpkeep = () => {
         <UndeadBox
           key={undead.type}
           undead={undead}
-          onBan={handleBan(undead.type)}
+          onBan={handleBan(undead.id)}
           renderBanText={name => t('confirmUndeadSacrifice', name)}
         />
       ))}

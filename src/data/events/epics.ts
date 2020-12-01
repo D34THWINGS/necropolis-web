@@ -7,8 +7,6 @@ import { RootState } from '../../store/mainReducer'
 import { nextPhase } from '../turn/actions'
 import { getCurrentPhase, getTurn } from '../turn/selectors'
 import { EVENTS_TURN_SPACING, EventType, PALADINS_CALL_TO_ARMS_TURN, TurnPhase } from '../../config/constants'
-import { getPaladinsCalledToArms, getShouldIncreasePaladinsStrength } from '../paladins/selectors'
-import { increasePaladinsStrength } from '../paladins/actions'
 import { endEvent, startEvent } from './actions'
 import { getQuestEvent, getRandomEventPool } from '../selectors'
 
@@ -31,9 +29,6 @@ export const eventsEpic: Epic<RootAction, RootAction, RootState> = (action$, sta
         actions.push(startEvent(event))
       } else {
         actions.push(nextPhase())
-      }
-      if (getPaladinsCalledToArms(state) && getShouldIncreasePaladinsStrength(state)) {
-        actions.unshift(increasePaladinsStrength())
       }
       return of(...actions)
     }),

@@ -7,7 +7,6 @@ import { greenSquareButton } from '../styles/buttons'
 import { gainResources } from '../data/resources/actions'
 import { BuildingType, ResourceType, UndeadType } from '../config/constants'
 import { freeUpgradeBuilding } from '../data/buildings/actions'
-import { discoverSpell } from '../data/spells/actions'
 import { raiseUndead } from '../data/undeads/actions'
 import { createUndead } from '../data/undeads/helpers'
 import { resetOnboarding } from '../data/onboarding/actions'
@@ -64,7 +63,6 @@ export const CheatsModal = () => {
         [ResourceType.Souls]: 2,
       }),
     )
-    dispatch(discoverSpell())
     dispatch(raiseUndead(createUndead(UndeadType.BloodPrince)))
   }
 

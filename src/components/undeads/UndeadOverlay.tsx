@@ -13,12 +13,12 @@ import { useTranslation } from '../../lang/useTranslation'
 import { getUndeads, getUpkeep } from '../../data/undeads/selectors'
 import { h2Title, purpleBox, textColor } from '../../styles/base'
 import { ResourceIcon } from '../resources/ResourceIcon'
-import { OnboardingStep, ResourceType, UndeadTalent, UndeadType } from '../../config/constants'
+import { OnboardingStep, ResourceType, UndeadTalent } from '../../config/constants'
 import { UndeadBox } from './UndeadBox'
 import { banUndead } from '../../data/undeads/actions'
 import { Image } from '../images/Image'
 import { TalentButton } from '../talents/TalentButton'
-import { getUndeadTalentValue } from '../../data/undeads/helpers'
+import { getUndeadTalentValue, isUndeadAlive, Undead } from '../../data/undeads/helpers'
 import { OnboardingHighlight } from '../../screens/onboarding/components/OnboardingHighlight'
 
 const undeadOverlayContainer = (isOpen: boolean) => [
@@ -80,7 +80,7 @@ export const UndeadOverlay = () => {
   const meatCost = useSelector(getUpkeep)
   const undeads = useSelector(getUndeads)
 
-  const handleBan = (type: UndeadType) => () => dispatch(banUndead(type))
+  const handleBan = (undeadId: Undead['id']) => () => dispatch(banUndead(undeadId))
 
   return (
     <>
@@ -98,16 +98,20 @@ export const UndeadOverlay = () => {
               <TalentButton
                 key={talent}
                 type={talent}
-                text={undeads.reduce((sum, undead) => sum + getUndeadTalentValue(undead, talent), 0)}
+                text={undeads
+                  .filter(isUndeadAlive)
+                  .reduce((sum, undead) => sum + getUndeadTalentValue(undead, talent), 0)}
               />
             ))}
           </div>
           <TransitionGroup>
-            {undeads.map(undead => (
-              <CSSTransition key={undead.type} timeout={transitions.FAST_DURATION}>
-                <UndeadBox undead={undead} disableBan={undeads.length === 1} onBan={handleBan(undead.type)} />
-              </CSSTransition>
-            ))}
+            {undeads
+              .filter(undead => !undead.banned)
+              .map(undead => (
+                <CSSTransition key={undead.id} timeout={transitions.FAST_DURATION}>
+                  <UndeadBox undead={undead} disableBan={undeads.length === 1} onBan={handleBan(undead.id)} />
+                </CSSTransition>
+              ))}
           </TransitionGroup>
         </div>
         <OnboardingHighlight<HTMLButtonElement> step={OnboardingStep.CoffinHelp}>

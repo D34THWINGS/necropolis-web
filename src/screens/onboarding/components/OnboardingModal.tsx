@@ -115,7 +115,7 @@ export const OnboardingModal = () => {
 
   const getContent = () => {
     if (shouldDisplayPaladinsTips) {
-      return t('onboardingBuildBattlements')
+      return t('onboardingBuildArsenal')
     }
 
     switch (onboardingStep) {

@@ -30,7 +30,7 @@ export const TalentsModal = ({ isOpen, onClose }: Pick<ModalProps, 'isOpen' | 'o
       {Object.values(UndeadTalent).map(talent => (
         <div key={talent} css={talentRow}>
           <TalentIcon type={talent} size="2rem" marginRight="0.4rem" />
-          <div>{t(talent)}</div>
+          <div>{t('talentDetails', talent)}</div>
         </div>
       ))}
     </Modal>

@@ -1,14 +1,7 @@
 import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ExpeditionModal } from './components/ExpeditionModal'
-import {
-  ExpeditionType,
-  ResourceType,
-  Spell,
-  SPELLS_SOUL_COSTS,
-  UndeadTalent,
-  UndeadType,
-} from '../../config/constants'
+import { ExpeditionType, ResourceType, UndeadTalent, UndeadType } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
 import { getHasTheKey } from '../../data/spells/selectors'
@@ -27,6 +20,7 @@ import townHallImage2Url from '../../assets/images/expeditions/townHall/town-hal
 import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
 import { getLethality } from '../../data/selectors'
+import { canCast, theKey } from '../../data/spells/helpers'
 
 const TOWN_HALL_MUSCLES_REQUIRED = 4
 const TOWN_HALL_FIRE_UNDEAD_COST = 1
@@ -62,7 +56,7 @@ export const TownHall = () => {
         switch (step as TownHallStep) {
           case TownHallStep.Entrance: {
             const handleCastTheKey = () => {
-              dispatch(castSpell(Spell.TheKey))
+              dispatch(castSpell(theKey))
               goToStep(TownHallStep.BrokenDoor)()
             }
             return (
@@ -72,8 +66,8 @@ export const TownHall = () => {
 
                 {hasTheKey && (
                   <ExpeditionAction
-                    disabled={souls < SPELLS_SOUL_COSTS[Spell.TheKey]}
-                    cost={<ResourceIcon type={ResourceType.Souls} text={SPELLS_SOUL_COSTS[Spell.TheKey]} size="1rem" />}
+                    disabled={!canCast(theKey, souls)}
+                    cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1rem" />}
                     onClick={handleCastTheKey}
                   >
                     {t('townHallAction1')}

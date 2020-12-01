@@ -1,14 +1,7 @@
-import React, { Fragment, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { plural } from './i18nHelpers'
 import { noBreak, textColor } from '../styles/base'
-import {
-  BuildingType,
-  LA_MOTTE_DEFENSE_BONUS,
-  ResourceType,
-  Spell,
-  UndeadTalent,
-  UndeadType,
-} from '../config/constants'
+import { BuildingType, LA_MOTTE_DEFENSE_BONUS, ResourceType, UndeadTalent, UndeadType } from '../config/constants'
 import { TalentIcon } from '../components/talents/TalentIcon'
 import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
@@ -30,6 +23,34 @@ const undeadAbilities: Record<UndeadType, ReactNode> = {
     </>
   ),
   [UndeadType.BloodPrince]: 'inconnue.',
+}
+
+const undeadTalent: Record<UndeadTalent, ReactNode> = {
+  [UndeadTalent.Muscles]: (
+    <>
+      <span css={textColor('CYAN')}>Musculation&nbsp;:</span>&nbsp;Casser ou soulever des choses
+    </>
+  ),
+  [UndeadTalent.Lethality]: (
+    <>
+      <span css={textColor('CYAN')}>Létalité&nbsp;:</span>&nbsp;Tuer des ennemis. Inefficace contre les paladins.
+    </>
+  ),
+  [UndeadTalent.Dexterity]: (
+    <>
+      <span css={textColor('CYAN')}>Dextérité&nbsp;:</span>&nbsp;Se faufiler, escalader, crocheter.
+    </>
+  ),
+  [UndeadTalent.Necromancy]: (
+    <>
+      <span css={textColor('CYAN')}>Subjugation&nbsp;:</span>&nbsp;Manipuler les esprits faibles.
+    </>
+  ),
+  [UndeadTalent.Subjugation]: (
+    <>
+      <span css={textColor('CYAN')}>Subjugation&nbsp;:</span>&nbsp;Manipuler les esprits faibles.
+    </>
+  ),
 }
 
 export const fr = {
@@ -141,15 +162,15 @@ export const fr = {
     </>
   ),
 
-  [BuildingType.Battlements]: 'Remparts',
-  battlementDescription: (defenseBonus: number) => (
+  [BuildingType.Arsenal]: 'Arsenal',
+  arsenalDescription: (trapsAmount: number) => (
     <>
-      Confère <span css={textColor('LIME')}>+{defenseBonus} Défense</span> contre les attaques de paladins.
+      <span css={textColor('LIME')}>{trapsAmount} Piège</span> par assaut.
     </>
   ),
-  battlementUpgrade: (defenseBonus: number) => (
+  arsenalUpgrade: (trapsAmount: number) => (
     <>
-      Confère <span css={textColor('LIME')}>+{defenseBonus} Défense</span> contre les attaques de paladins.
+      <span css={textColor('LIME')}>{trapsAmount} Piège</span> par assaut.
     </>
   ),
 
@@ -207,16 +228,7 @@ export const fr = {
 
   talentsTitle: 'Talents',
   talentsDescription: 'Les talents sont des caractéristiques nécessaires aux excursions et à certains événements.',
-  [UndeadTalent.Muscles]: (
-    <>
-      <span css={textColor('CYAN')}>Musculation&nbsp;:</span>&nbsp;Casser ou soulever des choses
-    </>
-  ),
-  [UndeadTalent.Lethality]: (
-    <>
-      <span css={textColor('CYAN')}>Létalité&nbsp;:</span>&nbsp;Tuer des ennemis. Inefficace contre les paladins.
-    </>
-  ),
+  talentDetails: (talent: UndeadTalent) => undeadTalent[talent],
 
   resourcesTitle: 'Resources',
   resourcesDescription: "Les resources sont nécessaires pour l'expension de la Nécropole",
@@ -279,23 +291,23 @@ export const fr = {
   ),
 
   spells: 'Sorts',
-  spellName: (type: Spell) => {
-    switch (type) {
-      case Spell.SoulStorm:
-        return 'Déluge des âmes'
-      case Spell.TheKey:
-        return 'La clé'
-      default:
-        throw new Error('Unknown spell')
-    }
-  },
-  soulStormDescription: (defenseBonus: number, lethalityBonus: number) => (
+  soulStormLabel: 'Déluge des âmes',
+  soulStormDescription: (lethalityBonus: number) => (
     <>
-      Confère <span css={textColor('LIME')}>+{defenseBonus}&nbsp;défense</span> et{' '}
-      <TalentIcon type={UndeadTalent.Lethality} size="1.2rem" text={`+${lethalityBonus}`} /> pour le combat en cours.
+      Confère <TalentIcon type={UndeadTalent.Lethality} size="1.2rem" text={`+${lethalityBonus}`} /> pour le combat en
+      cours.
     </>
   ),
+  theKeyLabel: 'La clé',
   theKeyDescription: 'Ouvre tout type de porte.',
+  predictionLabel: 'Prédiction',
+  predictionDescription: "Révèle les 4 premiers paladins de l'assaut",
+  restorationLabel: 'Restauration',
+  restorationDescription: (healAmount: number) => (
+    <>
+      Soigne {healAmount}&nbsp;PVs et guérit de la <span css={textColor('PURPLE')}>Maladie</span> 1&nbsp;Mort-Vivant.
+    </>
+  ),
 
   discoverSpellTitle: 'Découverte',
   discoverSpellOk: 'Ok',

@@ -8,7 +8,7 @@ import { greenBox, h2Title, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { NECROPOLIS_STRUCTURE_POINTS, TrapType } from '../../config/constants'
 import { breakpoints, colors } from '../../config/theme'
-import { getPaladinsAssault } from '../../data/paladins/selectors'
+import { getPaladinsAssault, getStructureHealth } from '../../data/paladins/selectors'
 import { Image } from '../../components/images/Image'
 import { trapButtonBase } from './components/TrapButton'
 import paladinsStrengthIcon from '../../assets/images/paladins/paladins-strengh.png'
@@ -99,6 +99,7 @@ export const PaladinsAssaultFight = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const assault = useSelector(getPaladinsAssault)
+  const structureHealth = useSelector(getStructureHealth)
 
   if (!assault) {
     return null
@@ -128,7 +129,7 @@ export const PaladinsAssaultFight = () => {
             <Image src={paladinsStrengthIcon} marginLeft="0.3rem" />
           </div>
           <div css={fightStatusCounter} data-test-id="structureHealthCounter">
-            {assault.structureHealth}&nbsp;<span css={textColor('CYAN')}>/&nbsp;{NECROPOLIS_STRUCTURE_POINTS}</span>
+            {structureHealth}&nbsp;<span css={textColor('CYAN')}>/&nbsp;{NECROPOLIS_STRUCTURE_POINTS}</span>
             <Image css={structurePointsIcon} src={materialsIcon} marginLeft="0.3rem" />
           </div>
         </div>

@@ -7,7 +7,7 @@ import { SpellsModal } from '../spells/SpellsModal'
 import { buttonBase } from '../../styles/buttons'
 import { layers } from '../../config/theme'
 import { useModalState } from '../ui/Modal/Modal'
-import { getHasSpells } from '../../data/spells/selectors'
+import { getCanCastSpells } from '../../data/spells/selectors'
 
 const spellsButton = [buttonBase, css({ zIndex: layers.SPELLS_MODAL })]
 
@@ -18,7 +18,7 @@ export type SpellsButtonProps = {
 
 export const SpellsButton = ({ className, size = '3.5rem' }: SpellsButtonProps) => {
   const { isOpen: isSpellsModalOpen, close: closeSpells, open: openSpells } = useModalState()
-  const hasSpells = useSelector(getHasSpells)
+  const hasSpells = useSelector(getCanCastSpells)
 
   return (
     <>

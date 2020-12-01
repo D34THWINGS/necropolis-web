@@ -1,5 +1,4 @@
 import {
-  NECROPOLIS_STRUCTURE_POINTS,
   PaladinCategory,
   PALADINS_CATEGORIES_MAP,
   PALADINS_DAMAGES_MAP,
@@ -25,8 +24,8 @@ export type Assault = {
   phase: PaladinsAssaultPhase
   deck: PaladinCard[]
   traps: Trap[]
-  structureHealth: number
   changingPaladinCategory: boolean
+  startingStructureHealth: number
 }
 
 export type PaladinCard = {
@@ -42,7 +41,7 @@ export type PaladinCard = {
   skipped: boolean
 }
 
-export const createPaladinsAssault = (strength: number): Assault => ({
+export const createPaladinsAssault = (strength: number, structureHealth: number): Assault => ({
   phase: PaladinsAssaultPhase.Revealing,
   deck: Array.from({ length: strength }).reduce<PaladinCard[]>((deck, _, index) => {
     // Never draw more than 1 commander
@@ -70,8 +69,8 @@ export const createPaladinsAssault = (strength: number): Assault => ({
     return type === PaladinType.Commander ? [paladin, ...deck] : [...deck, paladin]
   }, []),
   traps: [],
-  structureHealth: NECROPOLIS_STRUCTURE_POINTS,
   changingPaladinCategory: false,
+  startingStructureHealth: structureHealth,
 })
 
 export const createTrap = (type: TrapType): Trap => ({

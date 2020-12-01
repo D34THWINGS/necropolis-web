@@ -12,7 +12,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "noImplicitReturns": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

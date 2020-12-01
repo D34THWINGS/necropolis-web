@@ -4,7 +4,7 @@ import { filter, mergeMap, map } from 'rxjs/operators'
 import { Epic } from 'redux-observable'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
-import { addUndead, banUndead, killUndead, raiseUndead, upgradeValet } from './actions'
+import { addUndead, banUndead, sacrificeUndead, raiseUndead, upgradeValet } from './actions'
 import { getUndeadCount, getUndeadTypes } from './selectors'
 import { spendResources } from '../resources/actions'
 import { LooseReason, ResourceType, UndeadType } from '../../config/constants'
@@ -34,7 +34,7 @@ export const valetEpic: Epic<RootAction, RootAction, RootState> = (action$, stat
 
 export const looseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
-    filter(isActionOf([banUndead, killUndead])),
+    filter(isActionOf([banUndead, sacrificeUndead])),
     mergeMap(() => {
       const undeadCount = getUndeadCount(state$.value)
       if (undeadCount === 0) {

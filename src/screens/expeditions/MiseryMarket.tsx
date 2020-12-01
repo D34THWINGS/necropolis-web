@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ExpeditionModal } from './components/ExpeditionModal'
-import { ExpeditionType, ResourceType, Spell, SPELLS_SOUL_COSTS, UndeadTalent } from '../../config/constants'
+import { ExpeditionType, ResourceType, UndeadTalent } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
 import { getUndeadArmyMuscles, getUndeadCount } from '../../data/undeads/selectors'
@@ -19,6 +19,7 @@ import miseryMarketImageUrl from '../../assets/images/expeditions/miseryMarket/m
 import miseryMarketImage2Url from '../../assets/images/expeditions/miseryMarket/misery-market-2.jpg'
 import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
+import { canCast, theKey } from '../../data/spells/helpers'
 
 const MISERY_MARKET_CATAPULT_COST = 1
 const MISERY_MARKET_STEP1_STRENGTH_REQUIRED = 4
@@ -65,7 +66,7 @@ export const MiseryMarket = () => {
         switch (step) {
           case MiseryMarketStep.Doors: {
             const handleCastTheKey = () => {
-              dispatch(castSpell(Spell.TheKey))
+              dispatch(castSpell(theKey))
               goToStep(MiseryMarketStep.DoorsAnnihilated)()
             }
             const handleCatapultUndead = () => {
@@ -96,8 +97,8 @@ export const MiseryMarket = () => {
                 </ExpeditionAction>
                 {hasTheKey && (
                   <ExpeditionAction
-                    disabled={souls < SPELLS_SOUL_COSTS[Spell.TheKey]}
-                    cost={<ResourceIcon type={ResourceType.Souls} text={SPELLS_SOUL_COSTS[Spell.TheKey]} size="1rem" />}
+                    disabled={!canCast(theKey, souls)}
+                    cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1rem" />}
                     onClick={handleCastTheKey}
                   >
                     {t('miseryMarketAction3')}

@@ -1,25 +1,49 @@
 import { createReducer } from 'typesafe-actions'
-import { createUndead } from './helpers'
+import { createUndead, Undead } from './helpers'
 import { UndeadTalent, UndeadType } from '../../config/constants'
-import { addUndead, killUndead, requireSacrifice, banUndead, upgradeValet } from './actions'
+import {
+  addUndead,
+  sacrificeUndead,
+  requireSacrifice,
+  banUndead,
+  upgradeValet,
+  healUndead,
+  damageUndead,
+  curseUndead,
+  cleanseUndead,
+} from './actions'
+import { deepSet } from '../helpers'
 
-export const undeads = createReducer({
+type UndeadsState = {
+  list: Undead[]
+  requiredSacrifices: number
+}
+
+const updateUndeadById = (
+  state: UndeadsState,
+  undeadId: Undead['id'],
+  callback: (undead: Undead) => Partial<Undead>,
+) => {
+  const updatedUndead = state.list.find(undead => undead.id === undeadId)
+  if (!updatedUndead) {
+    return state
+  }
+  return deepSet(state)('list')(state.list.indexOf(updatedUndead))()({
+    ...updatedUndead,
+    ...callback(updatedUndead),
+  })
+}
+
+export const undeads = createReducer<UndeadsState>({
   list: [createUndead(UndeadType.Valet)],
   requiredSacrifices: 0,
-  killed: [] as UndeadType[],
-  banned: [] as UndeadType[],
 })
-  .handleAction(banUndead, (state, { payload: { type } }) => ({
-    ...state,
-    list: state.list.filter(undead => undead.type !== type),
-    killed: type !== UndeadType.BloodPrince ? [...state.killed, type] : state.killed,
-    banned: type === UndeadType.BloodPrince ? [...state.banned, type] : state.banned,
-  }))
-  .handleAction(killUndead, (state, { payload: { type } }) => ({
-    ...state,
-    list: state.list.filter(undead => undead.type !== type),
-    requiredSacrifices: Math.max(state.requiredSacrifices - 1, 0),
-    killed: [...state.killed, type],
+  .handleAction(banUndead, (state, { payload: { undeadId } }) =>
+    updateUndeadById(state, undeadId, () => ({ banned: true })),
+  )
+  .handleAction(sacrificeUndead, (state, { payload: { undeadId } }) => ({
+    ...updateUndeadById(state, undeadId, () => ({ health: 0 })),
+    requiredSacrifices: Math.max(0, state.requiredSacrifices - 1),
   }))
   .handleAction(addUndead, (state, { payload: { undead } }) => ({ ...state, list: [...state.list, undead] }))
   .handleAction(requireSacrifice, (state, { payload: { count } }) => ({
@@ -44,3 +68,19 @@ export const undeads = createReducer({
       ],
     }
   })
+  .handleAction(healUndead, (state, { payload: { undeadId, amount } }) =>
+    updateUndeadById(state, undeadId, undead => ({
+      health: Math.min(undead.maxHealth, undead.health + amount),
+    })),
+  )
+  .handleAction(damageUndead, (state, { payload: { undeadId, amount } }) =>
+    updateUndeadById(state, undeadId, undead => ({
+      health: Math.max(0, undead.health - amount),
+    })),
+  )
+  .handleAction(curseUndead, (state, { payload: { undeadId } }) =>
+    updateUndeadById(state, undeadId, () => ({ cursed: true })),
+  )
+  .handleAction(cleanseUndead, (state, { payload: { undeadId } }) =>
+    updateUndeadById(state, undeadId, () => ({ cursed: false })),
+  )

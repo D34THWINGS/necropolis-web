@@ -3,7 +3,7 @@
   "buildings": {
     "ossuary": { "level": 0, "collapsed": false },
     "soulWell": { "level": 2, "collapsed": false },
-    "battlements": { "level": 2, "collapsed": false },
+    "arsenal": { "level": 2, "collapsed": false },
     "catacombs": { "level": 3, "collapsed": false },
     "charnelHouse": { "level": 1, "collapsed": false }
   },
@@ -60,8 +60,10 @@
     "calledToArms": 3,
     "counter": 3,
     "strength": 6,
+    "structureHealth": 8,
     "assault": {
       "phase": "reveal",
+      "startingStructureHealth": 8,
       "deck": [
         {
           "id": 0,
@@ -76,7 +78,6 @@
         }
       ],
       "traps": [],
-      "structureHealth": 8,
       "changingPaladinCategory": false
     }
   },

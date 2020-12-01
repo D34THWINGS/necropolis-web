@@ -19,7 +19,7 @@ export const getBuildingLevel = (type: BuildingType) => (state: RootState) => ge
 
 export const getOssuary = getBuilding(BuildingType.Ossuary)
 
-export const getBattlements = getBuilding(BuildingType.Battlements)
+export const getArsenal = getBuilding(BuildingType.Arsenal)
 
 export const getSoulWell = getBuilding(BuildingType.SoulWell)
 
