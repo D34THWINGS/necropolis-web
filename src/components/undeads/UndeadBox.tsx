@@ -6,16 +6,14 @@ import checkUrl from '../../assets/images/icons/check.png'
 import { contentCover, purpleBox, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { colors, fonts, shadows, transitions } from '../../config/theme'
-import { Undead } from '../../data/undeads/helpers'
+import { isUndeadAlive, Undead } from '../../data/undeads/helpers'
 import { limeRoundButton, purpleRoundButton } from '../../styles/buttons'
 import { TalentButton } from '../talents/TalentButton'
 import { UndeadPortrait } from './UndeadPortrait'
 
 const undeadBox = (canBeBanned: boolean) => [
-  purpleBox,
   css({
     position: 'relative',
-    paddingBottom: '1.5rem',
     marginBottom: canBeBanned ? '2rem' : '0.4rem',
     transition: `transform ${transitions.FAST}, opacity ${transitions.FAST}`,
     transformOrigin: 'center top',
@@ -28,6 +26,14 @@ const undeadBox = (canBeBanned: boolean) => [
       transform: 'scaleY(0)',
       opacity: 0,
     },
+  }),
+]
+
+const undeadBoxInner = (isDead: boolean) => [
+  purpleBox,
+  css({
+    paddingBottom: '1.5rem',
+    filter: isDead ? 'grayscale(1)' : undefined,
   }),
 ]
 
@@ -142,16 +148,18 @@ export const UndeadBox = ({ undead, disableBan, onBan, renderBanText }: UndeadBo
 
   return (
     <div css={undeadBox(!!onBan)}>
-      <h4 css={undeadName}>{undeadNameText}</h4>
-      <div css={undeadDescription}>
-        <UndeadPortrait type={undead.type} marginRight="0.4rem" />
-        <div>
-          <div css={textColor('CYAN')}>{t('undeadTalents')}</div>
-          {undead.talents.map(([talent, value]) => (
-            <TalentButton key={talent} type={talent} text={value} />
-          ))}
-          <br />
-          <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {t('undeadAbilityDescription', undead.type)}
+      <div css={undeadBoxInner(!isUndeadAlive(undead))}>
+        <h4 css={undeadName}>{undeadNameText}</h4>
+        <div css={undeadDescription}>
+          <UndeadPortrait type={undead.type} marginRight="0.4rem" />
+          <div>
+            <div css={textColor('CYAN')}>{t('undeadTalents')}</div>
+            {undead.talents.map(([talent, value]) => (
+              <TalentButton key={talent} type={talent} text={value} />
+            ))}
+            <br />
+            <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {t('undeadAbilityDescription', undead.type)}
+          </div>
         </div>
       </div>
       {onBan && !showConfirm && (

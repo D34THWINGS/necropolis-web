@@ -1,5 +1,5 @@
-export const INITIAL_MATERIALS = 7
-export const INITIAL_MEAT = 2
+export const INITIAL_MATERIALS = 0
+export const INITIAL_MEAT = 8
 
 export const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 3, 5]
 export const CHARNEL_HOUSE_BONES_PRODUCTION = [0, 0, 1, 1]
@@ -44,6 +44,17 @@ export enum UndeadType {
 export enum UndeadTalent {
   Muscles = 'muscles',
   Lethality = 'lethality',
+  Dexterity = 'dexterity',
+  Subjugation = 'subjugation',
+  Necromancy = 'necromancy',
+}
+
+export enum UndeadAbility {
+  Devotion = 'devotion',
+  Labor = 'labor',
+  Protection = 'protection',
+  Seduction = 'seduction',
+  SectumSempra = 'sectumSempra',
 }
 
 export enum BuildingType {

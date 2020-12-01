@@ -1,5 +1,5 @@
 import { Epic } from 'redux-observable'
-import { EMPTY, of, merge } from 'rxjs'
+import { EMPTY, of } from 'rxjs'
 import { concatMap, delay, filter, map, mergeMap } from 'rxjs/operators'
 import { isActionOf } from 'typesafe-actions'
 import { RootAction } from '../actions'
@@ -198,7 +198,7 @@ export const paladinDeathRattleEpic: Epic<RootAction, RootAction, RootState> = (
     }),
   )
 
-export const paladinSkipEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+export const paladinSkipEpic: Epic<RootAction, RootAction, RootState> = action$ =>
   action$.pipe(
     filter(isActionOf(skipPaladin)),
     map(({ payload: { paladinId } }) => triggerPaladinAttack(paladinId)),

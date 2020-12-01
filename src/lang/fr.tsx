@@ -25,6 +25,34 @@ const undeadAbilities: Record<UndeadType, ReactNode> = {
   [UndeadType.BloodPrince]: 'inconnue.',
 }
 
+const undeadTalent: Record<UndeadTalent, ReactNode> = {
+  [UndeadTalent.Muscles]: (
+    <>
+      <span css={textColor('CYAN')}>Musculation&nbsp;:</span>&nbsp;Casser ou soulever des choses
+    </>
+  ),
+  [UndeadTalent.Lethality]: (
+    <>
+      <span css={textColor('CYAN')}>Létalité&nbsp;:</span>&nbsp;Tuer des ennemis. Inefficace contre les paladins.
+    </>
+  ),
+  [UndeadTalent.Dexterity]: (
+    <>
+      <span css={textColor('CYAN')}>Dextérité&nbsp;:</span>&nbsp;Se faufiler, escalader, crocheter.
+    </>
+  ),
+  [UndeadTalent.Necromancy]: (
+    <>
+      <span css={textColor('CYAN')}>Subjugation&nbsp;:</span>&nbsp;Manipuler les esprits faibles.
+    </>
+  ),
+  [UndeadTalent.Subjugation]: (
+    <>
+      <span css={textColor('CYAN')}>Subjugation&nbsp;:</span>&nbsp;Manipuler les esprits faibles.
+    </>
+  ),
+}
+
 export const fr = {
   rip: 'Argh!',
   resetGame: 'Recommencer la partie',
@@ -200,16 +228,7 @@ export const fr = {
 
   talentsTitle: 'Talents',
   talentsDescription: 'Les talents sont des caractéristiques nécessaires aux excursions et à certains événements.',
-  [UndeadTalent.Muscles]: (
-    <>
-      <span css={textColor('CYAN')}>Musculation&nbsp;:</span>&nbsp;Casser ou soulever des choses
-    </>
-  ),
-  [UndeadTalent.Lethality]: (
-    <>
-      <span css={textColor('CYAN')}>Létalité&nbsp;:</span>&nbsp;Tuer des ennemis. Inefficace contre les paladins.
-    </>
-  ),
+  talentDetails: (talent: UndeadTalent) => undeadTalent[talent],
 
   resourcesTitle: 'Resources',
   resourcesDescription: "Les resources sont nécessaires pour l'expension de la Nécropole",

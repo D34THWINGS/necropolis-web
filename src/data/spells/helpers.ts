@@ -2,18 +2,17 @@ enum Spell {
   SoulStorm = 'soulStorm',
   TheKey = 'theKey',
   Prediction = 'prediction',
+  Restoration = 'restoration',
 }
 
 const SPELLS_SOUL_COSTS: Record<Spell, number> = {
   [Spell.SoulStorm]: 4,
   [Spell.TheKey]: 3,
   [Spell.Prediction]: 2,
+  [Spell.Restoration]: 4,
 }
 
 const CAN_BE_CASTED_SPELLS: Spell[] = [Spell.SoulStorm, Spell.Prediction]
-
-const SOUL_STORM_LETHALITY_BONUS = 5
-const PREDICTION_REVEAL_BONUS = 4
 
 export type SpellView = {
   key: Spell
@@ -21,6 +20,8 @@ export type SpellView = {
   canBeCasted: boolean
   lethalityBonus?: number
   revealBonus?: number
+  healthRestored?: number
+  cleanse?: boolean
 }
 
 const makeSpell = (spell: Spell, extra?: Partial<SpellView>): SpellView => ({
@@ -31,13 +32,18 @@ const makeSpell = (spell: Spell, extra?: Partial<SpellView>): SpellView => ({
 })
 
 export const soulStorm = makeSpell(Spell.SoulStorm, {
-  lethalityBonus: SOUL_STORM_LETHALITY_BONUS,
+  lethalityBonus: 5,
 })
 
 export const theKey = makeSpell(Spell.TheKey)
 
 export const prediction = makeSpell(Spell.Prediction, {
-  revealBonus: PREDICTION_REVEAL_BONUS,
+  revealBonus: 4,
+})
+
+export const restoration = makeSpell(Spell.Restoration, {
+  healthRestored: 3,
+  cleanse: true,
 })
 
 export const canCast = (spell: SpellView, souls: number) => spell.cost <= souls
