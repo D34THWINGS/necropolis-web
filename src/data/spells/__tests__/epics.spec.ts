@@ -51,4 +51,15 @@ describe('Spells epics', () => {
 
     expect(actions).toEqual([repairStructure(restoration.structureRepairAmount ?? 0)])
   })
+
+  it('should do nothing when casting restoration on main hub', () => {
+    const { action$, actionsInput$, state$ } = buildEpicObservables()
+
+    const actions: RootAction[] = []
+    castRestorationEpic(action$, state$, {}).subscribe(value => actions.push(value))
+
+    actionsInput$.next(castSpell(restoration))
+
+    expect(actions).toEqual([])
+  })
 })
