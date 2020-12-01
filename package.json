@@ -50,7 +50,7 @@
     "@emotion/react": "^11.1.1",
     "@sentry/react": "^5.21.1",
     "express": "^4.17.1",
-    "history": "^4.10.1",
+    "history": "^5.0.0",
     "polished": "^4.0.3",
     "random-seed": "^0.3.0",
     "react": "^17.0.1",
