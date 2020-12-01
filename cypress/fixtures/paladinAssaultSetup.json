@@ -63,6 +63,7 @@
     "structureHealth": 8,
     "assault": {
       "phase": "reveal",
+      "startingStructureHealth": 8,
       "deck": [
         {
           "id": 0,
