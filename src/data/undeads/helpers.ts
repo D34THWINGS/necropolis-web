@@ -90,3 +90,12 @@ export const createUndead = (type: UndeadType, raised = false): Undead => ({
 })
 
 export const isUndeadAlive = (undead: Undead) => undead.health > 0 && !undead.banned
+
+export type EntityWithHealth = { health: number; maxHealth: number }
+
+export const getMissingHealth = <T extends EntityWithHealth>(entity: T) => entity.maxHealth - entity.health
+
+export const getMostInjured = <T extends EntityWithHealth>(list: T[]): T | undefined =>
+  Array.from(list).sort((a, b) => getMissingHealth(b) - getMissingHealth(a))[0]
+
+export const applyDamages = (entityHealth: number, damages: number) => Math.max(0, entityHealth - Math.max(0, damages))

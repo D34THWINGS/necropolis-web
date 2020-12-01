@@ -26,7 +26,7 @@ import { UndeadOverlay } from '../components/undeads/UndeadOverlay'
 import { UndeadUpkeep } from '../components/undeads/UndeadUpkeep'
 import { EventModal } from '../screens/events/EventModal'
 import { UndeadSacrifice } from '../components/undeads/UndeadSacrifice'
-import { getOpenedExpedition } from '../data/expeditions/selectors'
+import { getIsInExpedition, getOpenedExpedition } from '../data/expeditions/selectors'
 import { TalentsModalProvider } from '../components/talents/TalentsModalProvider'
 import { transitions } from '../config/theme'
 import { PhaseOverlay } from '../components/PhaseOverlay'
@@ -47,11 +47,11 @@ const middleSection = css({
 
 export const GameContent = () => {
   const expeditionsMatch = useRouteMatch(EXPEDITIONS)
-  const openedExpedition = useSelector(getOpenedExpedition)
+  const isInExpedition = useSelector(getIsInExpedition)
   const isAssaultOngoing = useSelector(getPaladinsAssaultOngoing)
   const location = useLocation()
 
-  if (openedExpedition !== null && !expeditionsMatch) {
+  if (isInExpedition && !expeditionsMatch) {
     return <Redirect to={EXPEDITIONS} />
   }
 

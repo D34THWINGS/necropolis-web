@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../../store/mainReducer'
 import { RAISABLE_UNDEADS, UndeadTalent, UndeadType } from '../../config/constants'
-import { isUndeadAlive, Undead } from './helpers'
+import { getMostInjured, getMissingHealth, isUndeadAlive, Undead } from './helpers'
 
 export const getUndeads = (state: RootState) => state.undeads.list
 
@@ -33,3 +33,5 @@ export const getUndeadArmyLethality = getUndeadArmyTalentTotal(UndeadTalent.Leth
 export const getIsBloodPrinceInJail = (state: RootState) => !getUndeadTypes(state).includes(UndeadType.BloodPrince)
 
 export const getRequiredSacrifices = (state: RootState) => state.undeads.requiredSacrifices
+
+export const getMostInjuredUndead = (state: RootState) => getMostInjured(getUndeads(state))

@@ -67,7 +67,7 @@ export const Bastion = () => {
                 <ExpeditionImage src={bastionImageUrl} />
                 <div css={expeditionStepDescription}>{t('bastionStep1')}</div>
                 <ExpeditionAction
-                  disabled={canCast(theKey, souls)}
+                  disabled={!canCast(theKey, souls)}
                   cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1rem" />}
                   onClick={handleCastTheKey}
                 >

@@ -21,6 +21,7 @@ export type SpellView = {
   lethalityBonus?: number
   revealBonus?: number
   healthRestored?: number
+  structureRepairAmount?: number
   cleanse?: boolean
 }
 
@@ -43,9 +44,12 @@ export const prediction = makeSpell(Spell.Prediction, {
 
 export const restoration = makeSpell(Spell.Restoration, {
   healthRestored: 3,
+  structureRepairAmount: 3,
   cleanse: true,
 })
 
 export const canCast = (spell: SpellView, souls: number) => spell.cost <= souls
 
 export const isSoulStorm = (spell: SpellView) => spell.key === Spell.SoulStorm
+
+export const isRestoration = (spell: SpellView) => spell.key === Spell.Restoration
