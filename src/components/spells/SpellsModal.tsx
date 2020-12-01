@@ -12,7 +12,7 @@ import { castSpell } from '../../data/spells/actions'
 import { SpellBox } from './SpellBox'
 import { getSouls } from '../../data/resources/selectors'
 import { layers } from '../../config/theme'
-import { canCast, prediction, soulStorm, SpellView, theKey } from '../../data/spells/helpers'
+import { canCast, prediction, restoration, soulStorm, SpellView, theKey } from '../../data/spells/helpers'
 import soulStormBackgroundUrl from '../../assets/images/spells/soul-storm.jpg'
 import theKeyBackgroundUrl from '../../assets/images/spells/the-key.jpg'
 
@@ -45,6 +45,12 @@ export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
       ...prediction,
       label: t('predictionLabel'),
       description: t('predictionDescription'),
+      imageUrl: soulStormBackgroundUrl,
+    },
+    {
+      ...restoration,
+      label: t('restorationLabel'),
+      description: t('restorationDescription', restoration.healthRestored ?? 0),
       imageUrl: soulStormBackgroundUrl,
     },
   ]

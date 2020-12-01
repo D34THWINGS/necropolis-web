@@ -302,6 +302,12 @@ export const fr = {
   theKeyDescription: 'Ouvre tout type de porte.',
   predictionLabel: 'Prédiction',
   predictionDescription: "Révèle les 4 premiers paladins de l'assaut",
+  restorationLabel: 'Restauration',
+  restorationDescription: (healAmount: number) => (
+    <>
+      Soigne {healAmount}&nbsp;PVs et guérit de la <span css={textColor('PURPLE')}>Maladie</span> 1&nbsp;Mort-Vivant.
+    </>
+  ),
 
   discoverSpellTitle: 'Découverte',
   discoverSpellOk: 'Ok',

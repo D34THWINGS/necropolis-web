@@ -12,7 +12,7 @@ const SPELLS_SOUL_COSTS: Record<Spell, number> = {
   [Spell.Restoration]: 4,
 }
 
-const CAN_BE_CASTED_SPELLS: Spell[] = [Spell.SoulStorm, Spell.Prediction]
+const CAN_BE_CASTED_SPELLS: Spell[] = [Spell.SoulStorm, Spell.Prediction, Spell.Restoration]
 
 export type SpellView = {
   key: Spell
