@@ -14,7 +14,7 @@ import { ResourceType } from '../../config/constants'
 import { isRestoration, restoration } from './helpers'
 import { healUndead } from '../undeads/actions'
 import { getMostInjuredUndead } from '../undeads/selectors'
-import { getIsInExpedition, getOpenedExpedition } from '../expeditions/selectors'
+import { getIsInExpedition } from '../expeditions/selectors'
 import { getPaladinsAssaultOngoing } from '../paladins/selectors'
 import { repairStructure } from '../paladins/actions'
 

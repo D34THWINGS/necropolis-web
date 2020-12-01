@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../../store/mainReducer'
 import { RAISABLE_UNDEADS, UndeadTalent, UndeadType } from '../../config/constants'
-import { getMostInjured, getMissingHealth, isUndeadAlive, Undead } from './helpers'
+import { getMostInjured, isUndeadAlive, Undead } from './helpers'
 
 export const getUndeads = (state: RootState) => state.undeads.list
 
