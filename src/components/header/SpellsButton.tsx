@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 import { Image } from '../images/Image'
 import spellImageUrl from '../../assets/images/header/spells.png'

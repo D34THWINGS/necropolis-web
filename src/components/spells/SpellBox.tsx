@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 
 import { blueBox } from '../../styles/base'
 import { colors, fonts, shadows } from '../../config/theme'

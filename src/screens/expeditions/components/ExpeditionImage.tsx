@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { darken } from 'polished'
 import { Image } from '../../../components/images/Image'
 import { colors } from '../../../config/theme'

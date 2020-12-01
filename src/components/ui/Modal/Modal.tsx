@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
-import { ClassNames, SerializedStyles } from '@emotion/core'
+import { ClassNames, SerializedStyles } from '@emotion/react'
 import ReactModal from 'react-modal'
 import { blueRoundButton, cyanRoundButton, purpleRoundButton, redRoundButton } from '../../../styles/buttons'
 import closeIconUrl from '../../../assets/images/icons/close.png'

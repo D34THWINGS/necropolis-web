@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { getUndeads } from '../../../data/undeads/selectors'
 import { UndeadPortrait } from '../../../components/undeads/UndeadPortrait'
 import { buttonBase } from '../../../styles/buttons'

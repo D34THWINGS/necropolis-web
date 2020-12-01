@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 import { SettingsButton } from '../../../components/header/SettingsButton'
 import { SpellsButton } from '../../../components/header/SpellsButton'

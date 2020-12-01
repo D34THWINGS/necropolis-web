@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { lighten, transparentize } from 'polished'
 import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/modalStyles'
 import { paladinAssaultPanel, paladinAssaultPanelInner } from './helpers/paladinAssaultStyles'

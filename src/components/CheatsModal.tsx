@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useRef } from 'react'
 import { useDispatch, useStore } from 'react-redux'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { Modal, useModalState } from './ui/Modal/Modal'
 import { h2Title, smallMarginTop } from '../styles/base'
 import { greenSquareButton } from '../styles/buttons'

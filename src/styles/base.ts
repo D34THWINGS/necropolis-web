@@ -1,4 +1,4 @@
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { colors, fonts, shadows } from '../config/theme'
 import { ModalColor, modalColorsMap } from '../components/ui/Modal/modalStyles'
 

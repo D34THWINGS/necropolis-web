@@ -1,4 +1,4 @@
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { colors, fonts, layers, shadows, transitions } from '../../../config/theme'
 import { fadeIn, slideFromTop } from '../../../styles/animations'
 

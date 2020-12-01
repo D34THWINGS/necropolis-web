@@ -1,4 +1,4 @@
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { fonts, shadows } from '../../../config/theme'
 import { greenBox, textColor } from '../../../styles/base'
 import upgradeArrowUrl from '../../../assets/images/icons/cyan-arrow.png'

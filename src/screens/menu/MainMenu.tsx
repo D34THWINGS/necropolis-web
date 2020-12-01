@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { cyanSquareButton } from '../../styles/buttons'
 import { useTranslation } from '../../lang/useTranslation'
 import { largeMarginTop } from '../../styles/base'

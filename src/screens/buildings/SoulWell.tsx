@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { useTranslation } from '../../lang/useTranslation'
 import { BuildingType } from '../../config/constants'
 import { getSoulWellSoulProduction } from '../../data/buildings/helpers'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { lighten, transparentize } from 'polished'
 import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/modalStyles'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { Route, Switch } from 'react-router'
 import { ResetCSS } from '../components/ResetCSS'
 import { Fonts } from '../components/Fonts'

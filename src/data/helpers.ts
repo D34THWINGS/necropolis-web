@@ -31,7 +31,7 @@ const recursiveSet = (obj: any, path: (string | number)[], value: any): any => {
 type Setter<TValue, TReturn> = (value: TValue) => TReturn
 
 type DeepSetter<TObj, TBase> = {
-  <TKey extends keyof TObj>(): Setter<TObj, TBase>
+  (): Setter<TObj, TBase>
   <TKey extends keyof TObj>(key: TKey): TObj[TKey] extends Record<string, unknown>
     ? DeepSetter<TObj[TKey], TBase>
     : TObj[TKey] extends Array<unknown>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { transparentize, lighten } from 'polished'
 import { buttonDisabled, cyanSquareButton, resetButton } from '../../../styles/buttons'
 import { useTranslation } from '../../../lang/useTranslation'

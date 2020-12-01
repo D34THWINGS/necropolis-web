@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 import { Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-router'
 import TransitionGroup from 'react-transition-group/TransitionGroup'

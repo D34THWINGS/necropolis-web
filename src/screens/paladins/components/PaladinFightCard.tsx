@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { useDispatch } from 'react-redux'
 import { darkRedBox, redBox, smallMarginTop, textColor } from '../../../styles/base'
 import { Image } from '../../../components/images/Image'

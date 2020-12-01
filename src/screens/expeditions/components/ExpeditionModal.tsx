@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from '../../../components/ui/Modal/Modal'
 import { ExpeditionType } from '../../../config/constants'

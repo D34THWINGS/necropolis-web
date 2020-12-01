@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { breakpoints, fonts } from '../../config/theme'
 import { TurnCounter } from './TurnCounter'
 import { getResources } from '../../data/resources/selectors'

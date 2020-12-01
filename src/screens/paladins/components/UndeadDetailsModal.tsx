@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { Modal } from '../../../components/ui/Modal/Modal'
 import { ModalColor } from '../../../components/ui/Modal/modalStyles'
 import { Undead } from '../../../data/undeads/helpers'

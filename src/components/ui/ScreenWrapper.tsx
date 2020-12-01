@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { breakpoints, transitions } from '../../config/theme'
 
 const wrapper = (backgroundUrl?: string) =>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 import skullImageUrl from '../../assets/images/header/skull.png'
 import skullEyesGlowImageUrl from '../../assets/images/header/skull-eyes-glow.png'

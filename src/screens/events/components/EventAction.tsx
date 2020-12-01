@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { Image } from '../../../components/images/Image'
 import actionArrowUrl from '../../../assets/images/icons/red-arrow.png'
 import { redSquareButton } from '../../../styles/buttons'

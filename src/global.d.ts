@@ -1,3 +1,5 @@
+/// <reference types="@emotion/react/types/css-prop" />
+
 declare module '*.jpg' {
   const url: string
   export default url

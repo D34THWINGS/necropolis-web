@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, ReactNode } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { cyanSquareButton } from '../../../styles/buttons'
 import { Image } from '../../../components/images/Image'
 import actionArrowUrl from '../../../assets/images/icons/cyan-arrow.png'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 import { Building } from './Building'
 import { useTranslation } from '../../lang/useTranslation'

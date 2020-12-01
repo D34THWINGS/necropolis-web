@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router'
 import { useSelector } from 'react-redux'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import {
   MAIN_HUB,
   PALADINS_ASSAULT,

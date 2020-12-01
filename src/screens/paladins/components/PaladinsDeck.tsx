@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { buttonBase, resetButton } from '../../../styles/buttons'
 import { Image } from '../../../components/images/Image'
 import cardBackImage from '../../../assets/images/paladins/card-back.png'

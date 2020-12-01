@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react'
-import { css, keyframes } from '@emotion/core'
+import { css, keyframes } from '@emotion/react'
 import { Image } from '../images/Image'
 import undeadBanUrl from '../../assets/images/icons/ban-undead.png'
 import checkUrl from '../../assets/images/icons/check.png'

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { Image, IconProps } from '../images/Image'
 import { UndeadTalent } from '../../config/constants'
 import musclesImageUrl from '../../assets/images/icons/muscles.png'

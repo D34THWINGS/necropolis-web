@@ -1,4 +1,4 @@
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import darken from 'polished/lib/color/darken'
 import lighten from 'polished/lib/color/lighten'
 import { colors, shadows } from '../config/theme'

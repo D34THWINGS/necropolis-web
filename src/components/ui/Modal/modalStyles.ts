@@ -1,4 +1,4 @@
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { fadeIn, fadeOut, wobble } from '../../../styles/animations'
 import { breakpoints, colors, shadows, transitions } from '../../../config/theme'
 

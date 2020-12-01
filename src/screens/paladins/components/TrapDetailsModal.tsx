@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { TRAP_DAMAGES_MAP, TRAP_NEMESIS_MAP, TRAP_TARGET_CATEGORIES_MAP, TrapType } from '../../../config/constants'
 import { Modal } from '../../../components/ui/Modal/Modal'
 import { ModalColor } from '../../../components/ui/Modal/modalStyles'

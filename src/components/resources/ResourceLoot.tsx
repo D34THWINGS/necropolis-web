@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { Image } from '../images/Image'
 import lootUrl from '../../assets/images/expeditions/loot.png'
 

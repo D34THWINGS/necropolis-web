@@ -11,7 +11,7 @@
     "@babel/preset-typescript",
     "@emotion/babel-preset-css-prop"
   ],
-  "plugins": ["emotion"],
+  "plugins": ["@emotion/babel-plugin"],
   "env": {
     "test": {
       "presets": [

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { resetButton } from '../../styles/buttons'
 import { shadows } from '../../config/theme'
 import { UndeadTalent } from '../../config/constants'

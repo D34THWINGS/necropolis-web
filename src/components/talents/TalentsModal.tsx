@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { Modal, ModalProps } from '../ui/Modal/Modal'
 import { ModalColor } from '../ui/Modal/modalStyles'
 import { useTranslation } from '../../lang/useTranslation'

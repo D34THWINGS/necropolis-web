@@ -1,4 +1,4 @@
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { h2Title, redBox } from '../../../styles/base'
 
 export const eventStepDescription = [

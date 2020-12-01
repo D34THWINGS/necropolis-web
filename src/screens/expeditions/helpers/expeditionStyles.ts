@@ -1,4 +1,4 @@
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { greenBox } from '../../../styles/base'
 
 export const expeditionStepDescription = [

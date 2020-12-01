@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
 import {

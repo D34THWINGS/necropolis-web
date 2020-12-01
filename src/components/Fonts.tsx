@@ -1,5 +1,5 @@
 import React from 'react'
-import { css, Global } from '@emotion/core'
+import { css, Global } from '@emotion/react'
 import greywallNormalUrl from '../assets/fonts/greywall-webfont.woff2'
 import azoSansBoldUrl from '../assets/fonts/azo-sans-bold.woff2'
 

@@ -1,4 +1,4 @@
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { breakpoints } from '../../../config/theme'
 
 export const paladinAssaultPanel = css({

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { colors, shadows } from '../../config/theme'
 import { ModalColor, modalColorsMap } from './Modal/modalStyles'
 

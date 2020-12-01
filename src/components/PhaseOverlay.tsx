@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { contentCover, h2Title } from '../styles/base'
 import { getCurrentPhase } from '../data/turn/selectors'

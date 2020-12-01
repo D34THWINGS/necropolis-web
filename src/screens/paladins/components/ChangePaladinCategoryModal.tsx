@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { Modal } from '../../../components/ui/Modal/Modal'
 import { ModalColor } from '../../../components/ui/Modal/modalStyles'
 import { greenBox, h2Title } from '../../../styles/base'

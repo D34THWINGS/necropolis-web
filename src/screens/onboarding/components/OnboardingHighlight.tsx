@@ -1,4 +1,4 @@
-import { css, Global, ClassNames } from '@emotion/core'
+import { css, Global, ClassNames } from '@emotion/react'
 import React, { ReactNode, RefObject, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createPortal } from 'react-dom'
