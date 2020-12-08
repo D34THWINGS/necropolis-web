@@ -71,6 +71,7 @@ export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
               css={spellCastButton}
               disabled={!canCast(spell, souls)}
               onClick={handleCastSpell(spell)}
+              data-test-id="castSpellButton"
             >
               <ResourceIcon type={ResourceType.Souls} marginRight="0.3rem" />
               {spell.cost}

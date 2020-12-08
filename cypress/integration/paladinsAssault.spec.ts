@@ -148,4 +148,18 @@ describe('Paladins assault', () => {
     cy.getByTestId('endPaladinAssaultButton').click()
     cy.assertVisible('gameLostScreen')
   })
+
+  it('Soul storm should apply up to 4 damages to paladins', () => {
+    assaultSetup('paladinAssaultSoulStorm')
+
+    cy.getByTestId('spellsButton').click()
+    cy.getByTestId('castSpellButton').eq(0).click()
+    cy.assertText('paladinName', 'Avant-Garde')
+    cy.assertText('paladinCardsCounter', '3\u00A0/\u00A05')
+
+    cy.getByTestId('spellsButton').click()
+    cy.getByTestId('castSpellButton').eq(0).click()
+    cy.assertText('paladinName', 'Avant-Garde')
+    cy.assertText('paladinCardsCounter', '4\u00A0/\u00A05')
+  })
 })

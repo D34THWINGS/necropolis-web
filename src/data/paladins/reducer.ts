@@ -37,7 +37,7 @@ import {
 import { NECROPOLIS_STRUCTURE_POINTS, PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
 import { setInArray } from '../helpers'
 
-type PaladinState = {
+export type PaladinState = {
   strength: number
   counter: number
   calledToArms: false | number

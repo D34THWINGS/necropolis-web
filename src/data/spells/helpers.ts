@@ -1,3 +1,5 @@
+import { PaladinCategory } from '../../config/constants'
+
 enum Spell {
   SoulStorm = 'soulStorm',
   TheKey = 'theKey',
@@ -22,6 +24,8 @@ export type SpellView = {
   revealBonus?: number
   healthRestored?: number
   structureRepairAmount?: number
+  damages?: number
+  targetCategories?: PaladinCategory[]
   cleanse?: boolean
 }
 
@@ -34,6 +38,8 @@ const makeSpell = (spell: Spell, extra?: Partial<SpellView>): SpellView => ({
 
 export const soulStorm = makeSpell(Spell.SoulStorm, {
   lethalityBonus: 5,
+  damages: 4,
+  targetCategories: [PaladinCategory.Magical, PaladinCategory.Ethereal],
 })
 
 export const theKey = makeSpell(Spell.TheKey)

@@ -1,29 +1,59 @@
-import { isActionOf } from 'typesafe-actions'
 import { Epic } from 'redux-observable'
 import { EMPTY, merge, of } from 'rxjs'
-import { filter, map, mapTo, mergeMap } from 'rxjs/operators'
-import { RootAction } from '../actions'
-import { RootState } from '../../store/mainReducer'
-import { nextPhase } from '../turn/actions'
-import { endEvent } from '../events/actions'
-import { setExpeditionStep } from '../expeditions/actions'
-import { getIsSoulStormActive } from './selectors'
-import { castSpell, disableSoulStorm } from './actions'
-import { spendResources } from '../resources/actions'
+import { filter, map, mergeMap } from 'rxjs/operators'
+import { isActionOf } from 'typesafe-actions'
 import { ResourceType } from '../../config/constants'
-import { isRestoration, restoration } from './helpers'
+import { RootState } from '../../store/mainReducer'
+import { RootAction } from '../actions'
+import { getIsInExpedition } from '../expeditions/selectors'
+import { damageActivePaladin, repairStructure } from '../paladins/actions'
+import { getPaladinsAssaultOngoing, getRemainingPaladins } from '../paladins/selectors'
+import { spendResources } from '../resources/actions'
 import { healUndead } from '../undeads/actions'
 import { getMostInjuredUndead } from '../undeads/selectors'
-import { getIsInExpedition } from '../expeditions/selectors'
-import { getPaladinsAssaultOngoing } from '../paladins/selectors'
-import { repairStructure } from '../paladins/actions'
+import { castSpell, disableSoulStorm } from './actions'
+import { isRestoration, isSoulStorm, restoration, soulStorm } from './helpers'
 
-export const soulStormEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  action$.pipe(
-    filter(isActionOf([nextPhase, endEvent, setExpeditionStep])),
-    filter(() => getIsSoulStormActive(state$.value)),
-    mapTo(disableSoulStorm(false)),
+export const castSoulStormEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
+  const cast$ = action$.pipe(
+    filter(isActionOf(castSpell)),
+    filter(({ payload: { spell } }) => isSoulStorm(spell)),
   )
+
+  const castDuringExpedition$ = cast$.pipe(
+    filter(() => getIsInExpedition(state$.value)),
+    map(() => disableSoulStorm(true)),
+  )
+
+  const castDuringAssault$ = cast$.pipe(
+    filter(() => getPaladinsAssaultOngoing(state$.value)),
+    mergeMap(() => {
+      const remainingPaladins = getRemainingPaladins(state$.value)
+      if (remainingPaladins.length === 0) {
+        return EMPTY
+      }
+      const { actions: finalActions } = remainingPaladins.reduce(
+        ({ leftDamages, actions }, paladinCard) => {
+          if (leftDamages === 0) {
+            return { leftDamages, actions }
+          }
+          const appliedDamages = Math.min(leftDamages, paladinCard.health)
+          return {
+            leftDamages: leftDamages - appliedDamages,
+            actions: [...actions, damageActivePaladin(appliedDamages, soulStorm.targetCategories ?? [])],
+          }
+        },
+        {
+          leftDamages: soulStorm.damages ?? 0,
+          actions: new Array<RootAction>(),
+        },
+      )
+      return of(...finalActions)
+    }),
+  )
+
+  return merge(castDuringExpedition$, castDuringAssault$)
+}
 
 export const castSpellEpic: Epic<RootAction, RootAction, RootState> = action$ =>
   action$.pipe(
@@ -32,12 +62,12 @@ export const castSpellEpic: Epic<RootAction, RootAction, RootState> = action$ =>
   )
 
 export const castRestorationEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
-  const restorationCast$ = action$.pipe(
+  const cast$ = action$.pipe(
     filter(isActionOf(castSpell)),
     filter(({ payload: { spell } }) => isRestoration(spell)),
   )
 
-  const restorationCastDuringExpedition$ = restorationCast$.pipe(
+  const castDuringExpedition$ = cast$.pipe(
     filter(() => getIsInExpedition(state$.value)),
     mergeMap(() => {
       const mostInjuredUndead = getMostInjuredUndead(state$.value)
@@ -48,10 +78,10 @@ export const castRestorationEpic: Epic<RootAction, RootAction, RootState> = (act
     }),
   )
 
-  const restorationCastDuringAssault$ = restorationCast$.pipe(
+  const castDuringAssault$ = cast$.pipe(
     filter(() => getPaladinsAssaultOngoing(state$.value)),
     map(() => repairStructure(restoration.structureRepairAmount ?? 0)),
   )
 
-  return merge(restorationCastDuringExpedition$, restorationCastDuringAssault$)
+  return merge(castDuringExpedition$, castDuringAssault$)
 }
