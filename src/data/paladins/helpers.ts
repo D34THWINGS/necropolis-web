@@ -41,6 +41,19 @@ export type PaladinCard = {
   skipped: boolean
 }
 
+export const createPaladinCard = (type: PaladinType, revealed = false): PaladinCard => ({
+  id: Date.now(),
+  type,
+  revealed,
+  battleCryTriggered: false,
+  health: PALADINS_HEALTH_MAP[type],
+  maxHealth: PALADINS_HEALTH_MAP[type],
+  damages: PALADINS_DAMAGES_MAP[type],
+  categories: PALADINS_CATEGORIES_MAP[type],
+  shield: PALADINS_WITH_SHIELD.indexOf(type) >= 0,
+  skipped: false,
+})
+
 export const createPaladinsAssault = (strength: number, structureHealth: number): Assault => ({
   phase: PaladinsAssaultPhase.Revealing,
   deck: Array.from({ length: strength }).reduce<PaladinCard[]>((deck, _, index) => {
@@ -52,18 +65,7 @@ export const createPaladinsAssault = (strength: number, structureHealth: number)
 
     const type = possibleTypes[Math.floor(random() * possibleTypes.length)] ?? PaladinType.Vanguard
 
-    const paladin: PaladinCard = {
-      id: index,
-      type,
-      revealed: index === 0,
-      battleCryTriggered: false,
-      health: PALADINS_HEALTH_MAP[type],
-      maxHealth: PALADINS_HEALTH_MAP[type],
-      damages: PALADINS_DAMAGES_MAP[type],
-      categories: PALADINS_CATEGORIES_MAP[type],
-      shield: PALADINS_WITH_SHIELD.indexOf(type) >= 0,
-      skipped: false,
-    }
+    const paladin: PaladinCard = createPaladinCard(type, index === 0)
 
     // Commander always first in deck
     return type === PaladinType.Commander ? [paladin, ...deck] : [...deck, paladin]
