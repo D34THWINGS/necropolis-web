@@ -26,7 +26,14 @@ import {
   triggerPaladinAttack,
   swapPaladinPostions,
 } from './actions'
-import { Assault, createPaladinsAssault, createTrap, isPaladinAlive, PaladinCard } from './helpers'
+import {
+  applyDamagesToPaladin,
+  Assault,
+  createPaladinsAssault,
+  createTrap,
+  isPaladinAlive,
+  PaladinCard,
+} from './helpers'
 import { NECROPOLIS_STRUCTURE_POINTS, PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
 import { setInArray } from '../helpers'
 
@@ -56,14 +63,6 @@ const updatePaladinById = (
 
   return updatePaladinByIndex(deck, paladinIndex, callback)
 }
-
-const applyDamagesToPaladin = (damages: number) => (paladin: PaladinCard) =>
-  paladin.shield
-    ? paladin
-    : {
-        ...paladin,
-        health: Math.max(0, paladin.health - damages),
-      }
 
 const updateAssault = (state: PaladinState, callback: (assault: Assault) => Partial<Assault> | null) => {
   if (!state.assault) {
@@ -140,18 +139,22 @@ export const paladins = createReducer<PaladinState>({
       structureHealth: Math.max(state.structureHealth - paladin.damages, 0),
     }
   })
-  .handleAction(doDamagesToPaladin, (state, { payload: { paladinId, damages } }) =>
+  .handleAction(doDamagesToPaladin, (state, { payload: { paladinId, damages, targetCategories } }) =>
     updateAssault(state, assault => ({
-      deck: updatePaladinById(assault.deck, paladinId, applyDamagesToPaladin(damages)),
+      deck: updatePaladinById(assault.deck, paladinId, applyDamagesToPaladin(damages, targetCategories)),
     })),
   )
-  .handleAction(damageActivePaladin, (state, { payload: { damages } }) =>
+  .handleAction(damageActivePaladin, (state, { payload: { damages, targetCategories } }) =>
     updateAssault(state, assault => {
       const activePaladinIndex = assault.deck.findIndex(isPaladinAlive)
       return activePaladinIndex === -1
         ? null
         : {
-            deck: updatePaladinByIndex(assault.deck, activePaladinIndex, applyDamagesToPaladin(damages)),
+            deck: updatePaladinByIndex(
+              assault.deck,
+              activePaladinIndex,
+              applyDamagesToPaladin(damages, targetCategories),
+            ),
           }
     }),
   )

@@ -11,6 +11,7 @@ import {
   TrapType,
 } from '../../config/constants'
 import { random } from '../seeder'
+import { applyDamages } from '../undeads/helpers'
 
 export type Trap = {
   id: number
@@ -84,3 +85,15 @@ export const createTrap = (type: TrapType): Trap => ({
 })
 
 export const isPaladinAlive = (paladin: PaladinCard) => paladin.health > 0 && !paladin.skipped
+
+export const canTargetPaladin = (paladin: PaladinCard, targetsCategories: PaladinCategory[]) =>
+  targetsCategories.some(category => paladin.categories.indexOf(category) >= 0)
+
+export const applyDamagesToPaladin = (damages: number, targetCategories: PaladinCategory[]) => (
+  paladin: PaladinCard,
+) => {
+  if (paladin.shield || !canTargetPaladin(paladin, targetCategories)) {
+    return paladin
+  }
+  return { ...paladin, health: applyDamages(paladin.health, damages) }
+}

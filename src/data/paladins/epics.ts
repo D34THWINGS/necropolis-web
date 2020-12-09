@@ -86,10 +86,13 @@ export const trapsEpic: Epic<RootAction, RootAction, RootState> = (action$, stat
           if (activePaladin.shield) {
             actions.push(breakPaladinShield(activePaladin.id))
           }
-          actions.push(doDamagesToPaladin(activePaladin.id, trap.damages))
+          actions.push(doDamagesToPaladin(activePaladin.id, trap.damages, trap.targetsCategories))
           break
         case TrapType.Chakrams:
-          actions.push(doDamagesToPaladin(activePaladin.id, trap.damages), damageActivePaladin(EXTRA_CHAKRAM_DAMAGE))
+          actions.push(
+            doDamagesToPaladin(activePaladin.id, trap.damages, trap.targetsCategories),
+            damageActivePaladin(EXTRA_CHAKRAM_DAMAGE, Object.values(PaladinCategory)),
+          )
           break
         case TrapType.Profaner:
           actions.push(setChangingPaladinCategories())
@@ -97,7 +100,7 @@ export const trapsEpic: Epic<RootAction, RootAction, RootState> = (action$, stat
         case TrapType.PutridPitch:
           actions.push(
             changePaladinsDamages([activePaladin.id], PUTRID_PITCH_MALUS),
-            doDamagesToPaladin(activePaladin.id, trap.damages),
+            doDamagesToPaladin(activePaladin.id, trap.damages, trap.targetsCategories),
           )
           break
         default:

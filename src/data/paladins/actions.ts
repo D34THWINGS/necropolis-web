@@ -36,10 +36,17 @@ export const triggerPaladinBattleCry = createAction('paladins/TRIGGER_BATTLE_CRY
 
 export const doDamagesToPaladin = createAction(
   'paladins/DO_DAMAGES_TO_PALADIN',
-  (paladinId: number, damages: number) => ({ paladinId, damages }),
+  (paladinId: number, damages: number, targetCategories: PaladinCategory[]) => ({
+    paladinId,
+    damages,
+    targetCategories,
+  }),
 )()
 
-export const damageActivePaladin = createAction('paladins/DAMAGE_ACTIVE_PALADIN', (damages: number) => ({ damages }))()
+export const damageActivePaladin = createAction(
+  'paladins/DAMAGE_ACTIVE_PALADIN',
+  (damages: number, targetCategories: PaladinCategory[]) => ({ damages, targetCategories }),
+)()
 
 export const changePaladinsDamages = createAction(
   'paladins/CHANGE_PALADIN_DAMAGES',
