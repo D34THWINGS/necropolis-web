@@ -4,7 +4,7 @@ import { ExpeditionModal } from './components/ExpeditionModal'
 import { ExpeditionType, ResourceType, UndeadTalent, UndeadType } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
-import { getHasTheKey } from '../../data/spells/selectors'
+import { getTheKey } from '../../data/spells/selectors'
 import { ResourceIcon } from '../../components/resources/ResourceIcon'
 import { getSouls } from '../../data/resources/selectors'
 import { gainResources } from '../../data/resources/actions'
@@ -20,7 +20,7 @@ import townHallImage2Url from '../../assets/images/expeditions/townHall/town-hal
 import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
 import { getLethality } from '../../data/selectors'
-import { canCast, theKey } from '../../data/spells/helpers'
+import { canCast } from '../../data/spells/helpers'
 
 const TOWN_HALL_MUSCLES_REQUIRED = 4
 const TOWN_HALL_FIRE_UNDEAD_COST = 1
@@ -38,7 +38,7 @@ enum TownHallStep {
 
 export const TownHall = () => {
   const { t } = useTranslation()
-  const hasTheKey = useSelector(getHasTheKey)
+  const theKey = useSelector(getTheKey)
   const isBloodPrinceInJail = useSelector(getIsBloodPrinceInJail)
   const souls = useSelector(getSouls)
   const undeadCount = useSelector(getUndeadCount)
@@ -54,21 +54,20 @@ export const TownHall = () => {
       renderTreasure={() => t('townHallRewardOverview')}
       renderStep={(step, { goToStep, renderFleeButton, renderContinueButton, renderEndButton, renderLoot }) => {
         switch (step as TownHallStep) {
-          case TownHallStep.Entrance: {
-            const handleCastTheKey = () => {
-              dispatch(castSpell(theKey))
-              goToStep(TownHallStep.BrokenDoor)()
-            }
+          case TownHallStep.Entrance:
             return (
               <>
                 <ExpeditionImage src={townHallImageUrl} />
                 <div css={expeditionStepDescription}>{t('townHallStep1')}</div>
 
-                {hasTheKey && (
+                {theKey && (
                   <ExpeditionAction
                     disabled={!canCast(theKey, souls)}
                     cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1rem" />}
-                    onClick={handleCastTheKey}
+                    onClick={() => {
+                      dispatch(castSpell(theKey))
+                      goToStep(TownHallStep.BrokenDoor)()
+                    }}
                   >
                     {t('townHallAction1')}
                   </ExpeditionAction>
@@ -83,7 +82,6 @@ export const TownHall = () => {
                 {renderFleeButton()}
               </>
             )
-          }
           case TownHallStep.BrokenDoor:
             return (
               <>

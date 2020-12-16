@@ -1,14 +1,22 @@
 import { createReducer } from 'typesafe-actions'
-import { castSpell, disableSoulStorm } from './actions'
-import { isSoulStorm } from './helpers'
+import { applyEffects, blurEffects } from './actions'
+import { Spell } from './helpers'
+import { SpellEffect } from './effects'
 
-export const spells = createReducer({
-  soulStormActive: false,
+type SpellsState = {
+  spellBook: Spell[]
+  activeEffects: SpellEffect[]
+}
+
+export const spells = createReducer<SpellsState>({
+  spellBook: [],
+  activeEffects: [],
 })
-  .handleAction(disableSoulStorm, (state, { payload: { active } }) => ({
+  .handleAction(applyEffects, (state, { payload: { effects } }) => ({
     ...state,
-    soulStormActive: active,
+    activeEffects: [...state.activeEffects, ...effects],
   }))
-  .handleAction(castSpell, (state, { payload: { spell } }) =>
-    isSoulStorm(spell) ? { ...state, soulStormActive: true } : state,
-  )
+  .handleAction(blurEffects, (state, { payload: { effects } }) => ({
+    ...state,
+    activeEffects: state.activeEffects.filter(activeEffect => effects.indexOf(activeEffect) === -1),
+  }))

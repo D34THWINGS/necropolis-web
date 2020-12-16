@@ -1,7 +1,7 @@
 import { Epic } from 'redux-observable'
 import { EMPTY, merge, of } from 'rxjs'
 import { filter, map, mergeMap } from 'rxjs/operators'
-import { isActionOf } from 'typesafe-actions'
+import { ActionType, isActionOf } from 'typesafe-actions'
 import { ResourceType } from '../../config/constants'
 import { RootState } from '../../store/mainReducer'
 import { RootAction } from '../actions'
@@ -11,23 +11,25 @@ import { getPaladinsAssaultOngoing, getRemainingPaladins } from '../paladins/sel
 import { spendResources } from '../resources/actions'
 import { healUndead } from '../undeads/actions'
 import { getMostInjuredUndead } from '../undeads/selectors'
-import { castSpell, disableSoulStorm } from './actions'
-import { isRestoration, isSoulStorm, restoration, soulStorm } from './helpers'
+import { applyEffects, blurEffects, castSpell } from './actions'
+import { isRestoration, isSoulStorm } from './helpers'
+import { fleeExpedition, setExpeditionStep } from '../expeditions/actions'
+import { getEffectsBlurringOnStepChange } from './effects'
+import { getActiveSpellEffects } from './selectors'
+
+const mapToSpell = map(({ payload: { spell } }: ActionType<typeof castSpell>) => spell)
 
 export const castSoulStormEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
-  const cast$ = action$.pipe(
-    filter(isActionOf(castSpell)),
-    filter(({ payload: { spell } }) => isSoulStorm(spell)),
-  )
+  const cast$ = action$.pipe(filter(isActionOf(castSpell)), mapToSpell, filter(isSoulStorm))
 
   const castDuringExpedition$ = cast$.pipe(
     filter(() => getIsInExpedition(state$.value)),
-    map(() => disableSoulStorm(true)),
+    map(soulStorm => applyEffects(soulStorm.effects)),
   )
 
   const castDuringAssault$ = cast$.pipe(
     filter(() => getPaladinsAssaultOngoing(state$.value)),
-    mergeMap(() => {
+    mergeMap(soulStorm => {
       const remainingPaladins = getRemainingPaladins(state$.value)
       if (remainingPaladins.length === 0) {
         return EMPTY
@@ -40,11 +42,11 @@ export const castSoulStormEpic: Epic<RootAction, RootAction, RootState> = (actio
           const appliedDamages = Math.min(leftDamages, paladinCard.health)
           return {
             leftDamages: leftDamages - appliedDamages,
-            actions: [...actions, damageActivePaladin(appliedDamages, soulStorm.targetCategories ?? [])],
+            actions: [...actions, damageActivePaladin(appliedDamages, soulStorm.targetCategories)],
           }
         },
         {
-          leftDamages: soulStorm.damages ?? 0,
+          leftDamages: soulStorm.damages,
           actions: new Array<RootAction>(),
         },
       )
@@ -62,17 +64,14 @@ export const castSpellEpic: Epic<RootAction, RootAction, RootState> = action$ =>
   )
 
 export const castRestorationEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
-  const cast$ = action$.pipe(
-    filter(isActionOf(castSpell)),
-    filter(({ payload: { spell } }) => isRestoration(spell)),
-  )
+  const cast$ = action$.pipe(filter(isActionOf(castSpell)), mapToSpell, filter(isRestoration))
 
   const castDuringExpedition$ = cast$.pipe(
     filter(() => getIsInExpedition(state$.value)),
-    mergeMap(() => {
+    mergeMap(restoration => {
       const mostInjuredUndead = getMostInjuredUndead(state$.value)
       if (mostInjuredUndead) {
-        return of(healUndead(mostInjuredUndead.id, restoration.healthRestored ?? 0))
+        return of(healUndead(mostInjuredUndead.id, restoration.healthRestored))
       }
       return EMPTY
     }),
@@ -80,8 +79,20 @@ export const castRestorationEpic: Epic<RootAction, RootAction, RootState> = (act
 
   const castDuringAssault$ = cast$.pipe(
     filter(() => getPaladinsAssaultOngoing(state$.value)),
-    map(() => repairStructure(restoration.structureRepairAmount ?? 0)),
+    map(restoration => repairStructure(restoration.structureRepairAmount)),
   )
 
   return merge(castDuringExpedition$, castDuringAssault$)
+}
+
+export const blurEffectsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
+  const blurOnExpeditionStep$ = action$.pipe(
+    filter(isActionOf([setExpeditionStep, fleeExpedition])),
+    map(() => getEffectsBlurringOnStepChange(getActiveSpellEffects(state$.value))),
+  )
+
+  return merge(blurOnExpeditionStep$).pipe(
+    filter(effects => effects.length > 0),
+    map(blurEffects),
+  )
 }

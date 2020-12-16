@@ -1,61 +1,84 @@
 import { PaladinCategory } from '../../config/constants'
+import { makeLethalityBuffEffect, SpellEffect } from './effects'
 
-enum Spell {
+enum SpellKey {
   SoulStorm = 'soulStorm',
   TheKey = 'theKey',
   Prediction = 'prediction',
   Restoration = 'restoration',
 }
 
-const SPELLS_SOUL_COSTS: Record<Spell, number> = {
-  [Spell.SoulStorm]: 4,
-  [Spell.TheKey]: 3,
-  [Spell.Prediction]: 2,
-  [Spell.Restoration]: 4,
-}
-
-const CAN_BE_CASTED_SPELLS: Spell[] = [Spell.SoulStorm, Spell.Prediction, Spell.Restoration]
-
-export type SpellView = {
-  key: Spell
+type BaseSpell = {
   cost: number
   canBeCasted: boolean
-  lethalityBonus?: number
-  revealBonus?: number
-  healthRestored?: number
-  structureRepairAmount?: number
-  damages?: number
-  targetCategories?: PaladinCategory[]
-  cleanse?: boolean
 }
 
-const makeSpell = (spell: Spell, extra?: Partial<SpellView>): SpellView => ({
-  ...extra,
-  key: spell,
-  cost: SPELLS_SOUL_COSTS[spell],
-  canBeCasted: CAN_BE_CASTED_SPELLS.indexOf(spell) >= 0,
-})
+type SpellWithEffects = {
+  effects: SpellEffect[]
+}
 
-export const soulStorm = makeSpell(Spell.SoulStorm, {
-  lethalityBonus: 5,
+export type SoulStorm = BaseSpell &
+  SpellWithEffects & {
+    key: SpellKey.SoulStorm
+    damages: number
+    targetCategories: PaladinCategory[]
+  }
+
+export const makeSoulStorm = (): SoulStorm => ({
+  key: SpellKey.SoulStorm,
+  canBeCasted: true,
+  cost: 4,
   damages: 4,
   targetCategories: [PaladinCategory.Magical, PaladinCategory.Ethereal],
+  effects: [makeLethalityBuffEffect(5)],
 })
 
-export const theKey = makeSpell(Spell.TheKey)
+type TheKey = BaseSpell & {
+  key: SpellKey.TheKey
+}
 
-export const prediction = makeSpell(Spell.Prediction, {
+export const makeTheKey = (): TheKey => ({
+  key: SpellKey.TheKey,
+  cost: 3,
+  canBeCasted: false,
+})
+
+type Prediction = BaseSpell & {
+  key: SpellKey.Prediction
+  revealBonus: number
+}
+
+export const makePrediction = (): Prediction => ({
+  key: SpellKey.Prediction,
+  cost: 2,
+  canBeCasted: true,
   revealBonus: 4,
 })
 
-export const restoration = makeSpell(Spell.Restoration, {
+type Restoration = BaseSpell & {
+  key: SpellKey.Restoration
+  healthRestored: number
+  structureRepairAmount: number
+  cleanse: boolean
+}
+
+export const makeRestoration = (): Restoration => ({
+  key: SpellKey.Restoration,
+  cost: 4,
+  canBeCasted: true,
   healthRestored: 3,
   structureRepairAmount: 3,
   cleanse: true,
 })
 
-export const canCast = (spell: SpellView, souls: number) => spell.cost <= souls
+export type Spell = SoulStorm | TheKey | Restoration | Prediction
 
-export const isSoulStorm = (spell: SpellView) => spell.key === Spell.SoulStorm
+export const canCast = (spell: Spell, souls: number) => spell.cost <= souls
 
-export const isRestoration = (spell: SpellView) => spell.key === Spell.Restoration
+export const isSoulStorm = (spell: Spell): spell is SoulStorm => spell.key === SpellKey.SoulStorm
+
+export const isRestoration = (spell: Spell): spell is Restoration => spell.key === SpellKey.Restoration
+
+export const isTheKey = (spell: Spell): spell is TheKey => spell.key === SpellKey.TheKey
+
+export const isPrediction = (spell: Spell): spell is Prediction => spell.key === SpellKey.Prediction

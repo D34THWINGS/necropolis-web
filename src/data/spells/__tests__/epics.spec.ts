@@ -1,21 +1,23 @@
 import { buildEpicObservables } from '../../../../tests/helpers'
 import { ExpeditionType, PaladinType, ResourceType, UndeadType } from '../../../config/constants'
 import { mainReducer } from '../../../store/mainReducer'
-import { openExpedition } from '../../expeditions/actions'
+import { openExpedition, setExpeditionStep } from '../../expeditions/actions'
 import { beginPaladinsAssault, damageActivePaladin, repairStructure } from '../../paladins/actions'
 import { spendResources } from '../../resources/actions'
 import { addUndead, healUndead } from '../../undeads/actions'
 import { applyDamages, createUndead } from '../../undeads/helpers'
-import { castSpell, disableSoulStorm } from '../actions'
-import { castRestorationEpic, castSoulStormEpic, castSpellEpic } from '../epics'
-import { restoration, soulStorm, theKey } from '../helpers'
+import { applyEffects, blurEffects, castSpell } from '../actions'
+import { blurEffectsEpic, castRestorationEpic, castSoulStormEpic, castSpellEpic } from '../epics'
 import { init } from '../../settings/actions'
 import { createPaladinCard, createPaladinsAssault } from '../../paladins/helpers'
+import { makeRestoration, makeSoulStorm, makeTheKey } from '../helpers'
+import { makeLethalityBuffEffect } from '../effects'
 
 describe('Spells epics', () => {
   it('should spend souls equal to spell cost when casting', () => {
     const { actionsInput$, actions } = buildEpicObservables(castSpellEpic)
 
+    const theKey = makeTheKey()
     actionsInput$.next(castSpell(theKey))
 
     expect(actions).toEqual([spendResources({ [ResourceType.Souls]: theKey.cost })])
@@ -25,15 +27,17 @@ describe('Spells epics', () => {
     it('Active soul storm bonus during expedition', () => {
       const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castSoulStormEpic)
 
+      const soulStorm = makeSoulStorm()
       stateInput$.next(mainReducer(state$.value, openExpedition(ExpeditionType.OldCoffin)))
       actionsInput$.next(castSpell(soulStorm))
 
-      expect(actions).toEqual([disableSoulStorm(true)])
+      expect(actions).toEqual([applyEffects(soulStorm.effects)])
     })
 
     it('Active soul storm bonus during expedition', () => {
       const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castSoulStormEpic)
 
+      const soulStorm = makeSoulStorm()
       const initialState = mainReducer(state$.value, init())
       stateInput$.next({
         ...initialState,
@@ -48,8 +52,8 @@ describe('Spells epics', () => {
       actionsInput$.next(castSpell(soulStorm))
 
       expect(actions).toEqual([
-        damageActivePaladin(2 ?? 0, soulStorm.targetCategories ?? []),
-        damageActivePaladin(2 ?? 0, soulStorm.targetCategories ?? []),
+        damageActivePaladin(2, soulStorm.targetCategories),
+        damageActivePaladin(2, soulStorm.targetCategories),
       ])
     })
   })
@@ -58,6 +62,7 @@ describe('Spells epics', () => {
     it('should heal one undead when casting restoration while in expedition', () => {
       const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castRestorationEpic)
 
+      const restoration = makeRestoration()
       const undead1 = createUndead(UndeadType.Skeleton)
       undead1.health = applyDamages(undead1.health, 1)
       stateInput$.next(mainReducer(state$.value, addUndead(undead1)))
@@ -66,22 +71,43 @@ describe('Spells epics', () => {
       stateInput$.next(mainReducer(state$.value, openExpedition(ExpeditionType.OldCoffin)))
       actionsInput$.next(castSpell(restoration))
 
-      expect(actions).toEqual([healUndead(undead1.id, restoration.healthRestored ?? 0)])
+      expect(actions).toEqual([healUndead(undead1.id, restoration.healthRestored)])
     })
 
     it('should repair structure when casting restoration while in assault', () => {
       const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castRestorationEpic)
 
+      const restoration = makeRestoration()
       stateInput$.next(mainReducer(state$.value, beginPaladinsAssault()))
       actionsInput$.next(castSpell(restoration))
 
-      expect(actions).toEqual([repairStructure(restoration.structureRepairAmount ?? 0)])
+      expect(actions).toEqual([repairStructure(restoration.structureRepairAmount)])
     })
 
     it('should do nothing when casting restoration on main hub', () => {
       const { actionsInput$, actions } = buildEpicObservables(castRestorationEpic)
 
-      actionsInput$.next(castSpell(restoration))
+      actionsInput$.next(castSpell(makeRestoration()))
+
+      expect(actions).toEqual([])
+    })
+  })
+
+  describe('Effects blurring', () => {
+    it('should blur effects on expedition step change', () => {
+      const { actionsInput$, actions, stateInput$, state$ } = buildEpicObservables(blurEffectsEpic)
+
+      const effects = [makeLethalityBuffEffect(8)]
+      stateInput$.next(mainReducer(state$.value, applyEffects(effects)))
+      actionsInput$.next(setExpeditionStep(ExpeditionType.Bastion, 8))
+
+      expect(actions).toEqual([blurEffects(effects)])
+    })
+
+    it('should do nothing when no effects to blur', () => {
+      const { actionsInput$, actions } = buildEpicObservables(blurEffectsEpic)
+
+      actionsInput$.next(setExpeditionStep(ExpeditionType.Bastion, 8))
 
       expect(actions).toEqual([])
     })

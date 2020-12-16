@@ -7,7 +7,7 @@ import { ExpeditionAction } from './components/ExpeditionAction'
 import { getUndeadArmyMuscles, getUndeadCount } from '../../data/undeads/selectors'
 import { textColor } from '../../styles/base'
 import { TalentIcon } from '../../components/talents/TalentIcon'
-import { getHasTheKey } from '../../data/spells/selectors'
+import { getTheKey } from '../../data/spells/selectors'
 import { ResourceIcon } from '../../components/resources/ResourceIcon'
 import { gainResources } from '../../data/resources/actions'
 import { getSouls } from '../../data/resources/selectors'
@@ -19,7 +19,7 @@ import miseryMarketImageUrl from '../../assets/images/expeditions/miseryMarket/m
 import miseryMarketImage2Url from '../../assets/images/expeditions/miseryMarket/misery-market-2.jpg'
 import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
-import { canCast, theKey } from '../../data/spells/helpers'
+import { canCast } from '../../data/spells/helpers'
 
 const MISERY_MARKET_CATAPULT_COST = 1
 const MISERY_MARKET_STEP1_STRENGTH_REQUIRED = 4
@@ -47,8 +47,8 @@ export const MiseryMarket = () => {
   const undeadCount = useSelector(getUndeadCount)
   const muscles = useSelector(getUndeadArmyMuscles)
   const lethality = useSelector(getLethality)
-  const hasTheKey = useSelector(getHasTheKey)
   const souls = useSelector(getSouls)
+  const theKey = useSelector(getTheKey)
   const dispatch = useDispatch()
 
   return (
@@ -65,10 +65,6 @@ export const MiseryMarket = () => {
       renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderContinueButton, renderLoot }) => {
         switch (step) {
           case MiseryMarketStep.Doors: {
-            const handleCastTheKey = () => {
-              dispatch(castSpell(theKey))
-              goToStep(MiseryMarketStep.DoorsAnnihilated)()
-            }
             const handleCatapultUndead = () => {
               dispatch(requireSacrifice(MISERY_MARKET_CATAPULT_COST))
               goToStep(MiseryMarketStep.Catapulted)()
@@ -95,11 +91,14 @@ export const MiseryMarket = () => {
                 >
                   {t('miseryMarketAction2')}
                 </ExpeditionAction>
-                {hasTheKey && (
+                {theKey && (
                   <ExpeditionAction
                     disabled={!canCast(theKey, souls)}
                     cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1rem" />}
-                    onClick={handleCastTheKey}
+                    onClick={() => {
+                      dispatch(castSpell(theKey))
+                      goToStep(MiseryMarketStep.DoorsAnnihilated)()
+                    }}
                   >
                     {t('miseryMarketAction3')}
                   </ExpeditionAction>
