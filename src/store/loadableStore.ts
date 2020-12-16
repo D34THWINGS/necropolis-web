@@ -8,8 +8,8 @@ export const loadReducer = (reducer: Reducer<RootState, RootAction>) => (
   state: RootState | undefined,
   action: RootAction,
 ) => {
-  if (!isActionOf(loadGameState, action)) {
-    return reducer(state, action)
+  if (isActionOf(loadGameState, action)) {
+    return reducer(action.payload.gameState as RootState, action)
   }
-  return reducer(action.payload.gameState as RootState, action)
+  return reducer(state, action)
 }

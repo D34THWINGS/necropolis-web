@@ -125,7 +125,25 @@
       "changingPaladinCategory": false
     }
   },
-  "spells": { "list": ["soulStorm"], "soulStormActive": false },
+  "spells": {
+    "spellBook": [
+      {
+        "key": "soulStorm",
+        "cost": 4,
+        "canBeCasted": true,
+        "damages": 4,
+        "targetCategories": ["ethereal", "magical"],
+        "effects": [
+          {
+            "key": "lethalityBuff",
+            "lethalityBonus": 5,
+            "blurEvent": "expeditionStepChange"
+          }
+        ]
+      }
+    ],
+    "soulStormActive": false
+  },
   "onboarding": { "active": false, "step": 0, "flags": ["paladinsExplained"] },
   "expeditions": {
     "done": [0, 1],

@@ -6,7 +6,7 @@ type PartialState<TState> = TState extends Record<string, unknown>
   : TState
 type PartialRootState = { [K in keyof RootState]?: PartialState<RootState[K]> }
 
-type PersistedRootState = PersistedState & PartialRootState
+export type PersistedRootState = PersistedState & PartialRootState
 
 const migrationsRecord: Record<number, (state: PersistedRootState) => PersistedRootState> = {
   1: state => ({
