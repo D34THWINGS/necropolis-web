@@ -1,5 +1,9 @@
 {
   "presets": [
+    "@babel/preset-typescript",
+    ["@babel/preset-react", {
+      "runtime": "automatic"
+    }],
     [
       "@babel/preset-env",
       {
@@ -8,14 +12,12 @@
         "corejs": 3
       }
     ],
-    "@babel/preset-typescript",
     "@emotion/babel-preset-css-prop"
   ],
   "plugins": ["@emotion/babel-plugin"],
   "env": {
     "test": {
       "presets": [
-        "@babel/preset-react",
         [
           "@babel/preset-env",
           {

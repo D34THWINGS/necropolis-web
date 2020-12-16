@@ -64,6 +64,15 @@ jobs:
         with:
           name: build
           path: dist/
+      - name: Restore Cypress binary
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache
+          key: cypress-binary-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            cypress-binary-${{ hashFiles('**/yarn.lock') }}
+            cypress-binary-
+      - run: yarn cypress install
       - run: yarn e2e
       - name: Upload build
         uses: actions/upload-artifact@v2
