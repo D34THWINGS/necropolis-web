@@ -1,7 +1,7 @@
 import { History } from 'history'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
-import { persistStore, persistReducer } from 'redux-persist'
+import { persistStore, persistReducer, PersistConfig, createMigrate } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import * as Sentry from '@sentry/react'
 import { mainReducer, RootState } from './mainReducer'
@@ -9,6 +9,7 @@ import { rootEpic } from '../data/epics'
 import { RootAction } from '../data/actions'
 import { resetReducer } from './resetableStore'
 import { loadReducer } from './loadableStore'
+import { stateMigrations } from './migrations'
 
 declare global {
   interface Window {
@@ -21,9 +22,11 @@ declare global {
   }
 }
 
-const persistConfig = {
+const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   storage,
+  version: 1,
+  migrate: createMigrate(stateMigrations, { debug: true }),
 }
 
 export const createAppStore = (history: History) => {
