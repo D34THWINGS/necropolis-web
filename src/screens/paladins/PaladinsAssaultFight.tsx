@@ -17,7 +17,7 @@ import { buttonDisabled, redSquareButton, resetButton } from '../../styles/butto
 import { skipPaladin, useTrap } from '../../data/paladins/actions'
 import { ChangePaladinCategoryModal } from './components/ChangePaladinCategoryModal'
 import { PaladinFightCard } from './components/PaladinFightCard'
-import { isPaladinAlive } from '../../data/paladins/helpers'
+import { canTargetPaladin, isPaladinAlive } from '../../data/paladins/helpers'
 
 const fightPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
 
@@ -138,7 +138,7 @@ export const PaladinsAssaultFight = () => {
             const trapEnabled =
               trap.type === TrapType.Profaner ||
               (activePaladin.shield && trap.type === TrapType.Impaler) ||
-              trap.targetsCategories.some(category => activePaladin.categories.indexOf(category) >= 0)
+              canTargetPaladin(activePaladin, trap.targetsCategories)
             return (
               <button
                 key={trap.id}

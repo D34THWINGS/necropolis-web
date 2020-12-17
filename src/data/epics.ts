@@ -1,6 +1,6 @@
 import { combineEpics } from 'redux-observable'
 import { endEventEpic, eventsEpic } from './events/epics'
-import { castRestorationEpic, castSpellEpic, soulStormEpic } from './spells/epics'
+import { castRestorationEpic, castSpellEpic, castSoulStormEpic, blurEffectsEpic } from './spells/epics'
 import { repairBuildingEpic, upgradeBuildingEpic, upgradeBuildingRewardsEpic } from './buildings/epics'
 import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
 import { looseUndeadEpic, raiseUndeadEpic, valetEpic } from './undeads/epics'
@@ -25,9 +25,10 @@ export const rootEpic = combineEpics(
   endEventEpic,
   castSpellEpic,
   castRestorationEpic,
+  blurEffectsEpic,
   endExpeditionEpic,
   fleeExpeditionEpic,
-  soulStormEpic,
+  castSoulStormEpic,
   resetGameEpic,
   displayAssaultResultsEpic,
   trapsEpic,

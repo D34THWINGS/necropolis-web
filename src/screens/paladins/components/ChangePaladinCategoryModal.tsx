@@ -12,7 +12,7 @@ import { paladinCategoryImagesMap } from '../helpers/paladinCategoryImagesMap'
 import arrowUrl from '../../../assets/images/onboarding/next-step-arrow.png'
 import { buttonBase, greenSquareButton } from '../../../styles/buttons'
 import { colors, transitions } from '../../../config/theme'
-import { PaladinCategory, TRAP_DAMAGES_MAP, TrapType } from '../../../config/constants'
+import { PaladinCategory, TRAP_DAMAGES_MAP, TRAP_TARGET_CATEGORIES_MAP, TrapType } from '../../../config/constants'
 import { changePaladinCategories, doDamagesToPaladin } from '../../../data/paladins/actions'
 
 const changeCategoryWrapper = css({
@@ -89,7 +89,13 @@ export const ChangePaladinCategoryModal = ({ activePaladin }: ChangePaladinCateg
     const categories = [...activePaladin.categories.filter(c => c !== sourceCategory), destinationCategory]
     dispatch(changePaladinCategories(activePaladin.id, categories))
     if (categories.indexOf(PaladinCategory.Magical) >= 0) {
-      dispatch(doDamagesToPaladin(activePaladin.id, TRAP_DAMAGES_MAP[TrapType.Profaner]))
+      dispatch(
+        doDamagesToPaladin(
+          activePaladin.id,
+          TRAP_DAMAGES_MAP[TrapType.Profaner],
+          TRAP_TARGET_CATEGORIES_MAP[TrapType.Profaner],
+        ),
+      )
     }
   }
 

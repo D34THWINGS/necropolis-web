@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../store/mainReducer'
 import { getUndeadArmyLethality, getUndeadTypes } from './undeads/selectors'
-import { getIsSoulStormActive } from './spells/selectors'
+import { getSpellsLethalityBonus } from './spells/selectors'
 import {
   ARTIFACT_DEFENSE_BONUS,
   EventType,
@@ -15,10 +15,8 @@ import { getHasArtifact, getIsEventPast, getPastEvents } from './events/selector
 import { getTurn } from './turn/selectors'
 import { getCarnage } from './expeditions/selectors'
 import { getPaladinsShouldAttack } from './paladins/selectors'
-import { soulStorm } from './spells/helpers'
 
-export const getLethality = (state: RootState) =>
-  getUndeadArmyLethality(state) + (getIsSoulStormActive(state) ? soulStorm.lethalityBonus ?? 0 : 0)
+export const getLethality = (state: RootState) => getUndeadArmyLethality(state) + getSpellsLethalityBonus(state)
 
 export const getDefense = (state: RootState) =>
   getArsenalTrapsCount(getArsenal(state).level) +

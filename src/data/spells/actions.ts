@@ -1,6 +1,9 @@
 import { createAction } from 'typesafe-actions'
-import { SpellView } from './helpers'
+import { Spell } from './helpers'
+import { SpellEffect } from './effects'
 
-export const disableSoulStorm = createAction('spells/DISABLE_SOUL_STORM', (active: boolean) => ({ active }))()
+export const castSpell = createAction('spells/CAST', (spell: Spell) => ({ spell }))()
 
-export const castSpell = createAction('spells/CAST', (spell: SpellView) => ({ spell }))()
+export const applyEffects = createAction('spells/APPLY_EFFECTS', (effects: SpellEffect[]) => ({ effects }))()
+
+export const blurEffects = createAction('spells/BLUR_EFFECTS', (effects: SpellEffect[]) => ({ effects }))()

@@ -17,7 +17,8 @@ import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
 import { getUndeadArmyMuscles } from '../../data/undeads/selectors'
 import { loose } from '../../data/turn/actions'
-import { canCast, theKey } from '../../data/spells/helpers'
+import { canCast } from '../../data/spells/helpers'
+import { getTheKey } from '../../data/spells/selectors'
 
 enum BastionStep {
   Setup,
@@ -47,6 +48,7 @@ export const Bastion = () => {
   const lethality = useSelector(getLethality)
   const muscles = useSelector(getUndeadArmyMuscles)
   const hasCancelledReinforcements = useSelector(getHasCancelledReinforcements)
+  const theKey = useSelector(getTheKey)
   const dispatch = useDispatch()
 
   return (
@@ -57,22 +59,23 @@ export const Bastion = () => {
       renderTreasure={() => <ResourceIcon type={ResourceType.Materials} />}
       renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderContinueButton, renderLoot }) => {
         switch (step) {
-          case BastionStep.Setup: {
-            const handleCastTheKey = () => {
-              dispatch(castSpell(theKey))
-              goToStep(BastionStep.DoorOpens)()
-            }
+          case BastionStep.Setup:
             return (
               <>
                 <ExpeditionImage src={bastionImageUrl} />
                 <div css={expeditionStepDescription}>{t('bastionStep1')}</div>
-                <ExpeditionAction
-                  disabled={!canCast(theKey, souls)}
-                  cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1rem" />}
-                  onClick={handleCastTheKey}
-                >
-                  {t('bastionAction1')}
-                </ExpeditionAction>
+                {theKey && (
+                  <ExpeditionAction
+                    disabled={!canCast(theKey, souls)}
+                    cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1rem" />}
+                    onClick={() => {
+                      dispatch(castSpell(theKey))
+                      goToStep(BastionStep.DoorOpens)()
+                    }}
+                  >
+                    {t('bastionAction1')}
+                  </ExpeditionAction>
+                )}
                 <ExpeditionAction
                   disabled={muscles < BASTION_MUSCLES_REQUIRED}
                   prerequisites={<TalentIcon type={UndeadTalent.Muscles} text={BASTION_MUSCLES_REQUIRED} />}
@@ -83,7 +86,6 @@ export const Bastion = () => {
                 {renderFleeButton()}
               </>
             )
-          }
           case BastionStep.DoorOpens:
             return (
               <>

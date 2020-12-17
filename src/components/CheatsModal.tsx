@@ -12,6 +12,8 @@ import { createUndead } from '../data/undeads/helpers'
 import { resetOnboarding } from '../data/onboarding/actions'
 import { loadGameState, resetGame } from '../data/settings/actions'
 import { layers } from '../config/theme'
+import { persistConfig } from '../store/persistConfig'
+import { PersistedRootState } from '../store/migrations'
 
 declare global {
   interface Window {
@@ -40,7 +42,13 @@ export const CheatsModal = () => {
 
   useEffect(() => {
     window.cheats = open
-    window.injectState = state => dispatch(loadGameState(state))
+    window.injectState = async state => {
+      const migratedState = await persistConfig.migrate(state as PersistedRootState, persistConfig.version)
+      if (migratedState) {
+        const { _persist, ...gameState } = migratedState
+        dispatch(loadGameState(gameState))
+      }
+    }
   }, [])
 
   const handleAddResources = () => {

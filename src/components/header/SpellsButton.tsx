@@ -22,7 +22,14 @@ export const SpellsButton = ({ className, size = '3.5rem' }: SpellsButtonProps) 
 
   return (
     <>
-      <button type="button" className={className} css={spellsButton} disabled={!hasSpells} onClick={openSpells}>
+      <button
+        type="button"
+        className={className}
+        css={spellsButton}
+        disabled={!hasSpells}
+        onClick={openSpells}
+        data-test-id="spellsButton"
+      >
         <Image src={spellImageUrl} size={size} />
       </button>
       <SpellsModal isOpen={isSpellsModalOpen} onClose={closeSpells} />
