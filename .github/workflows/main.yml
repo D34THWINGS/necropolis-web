@@ -58,7 +58,7 @@ jobs:
           restore-keys: |
             yarn-${{ hashFiles('**/yarn.lock') }}
             yarn-
-      - run: yarn build
+      - run: NODE_ENV=test yarn build:noprecache
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:
@@ -76,6 +76,7 @@ jobs:
       - run: yarn e2e
       - name: Upload build
         uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
         with:
           name: cypress
           path: cypress/videos/

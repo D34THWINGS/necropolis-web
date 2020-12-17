@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "parcel ./src/index.html",
-    "build": "rm -rf dist && parcel build ./src/index.html && imagemin dist/* --out-dir=dist --plugin=mozjpeg --plugin=pngquant && workbox injectManifest workbox-config.js && cp src/assets/icons/android-icon-*.png dist/",
+    "build": "yarn build:noprecache && workbox injectManifest workbox-config.js",
+    "build:noprecache": "rm -rf dist && parcel build ./src/index.html && imagemin dist/* --out-dir=dist --plugin=mozjpeg --plugin=pngquant && cp src/assets/icons/android-icon-*.png dist/",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
     "lint:cache": "yarn lint --cache",
     "typecheck": "tsc",

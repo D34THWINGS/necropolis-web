@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+if (process.env.ENABLE_PRECACHE_SW && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./service-worker.js')
   })
