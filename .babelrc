@@ -1,9 +1,7 @@
 {
   "presets": [
     "@babel/preset-typescript",
-    ["@babel/preset-react", {
-      "runtime": "classic"
-    }],
+    ["@babel/preset-react", { "runtime": "automatic", "importSource": "@emotion/react" }],
     [
       "@babel/preset-env",
       {
@@ -11,8 +9,7 @@
         "useBuiltIns": "usage",
         "corejs": 3
       }
-    ],
-    "@emotion/babel-preset-css-prop"
+    ]
   ],
   "plugins": ["@emotion/babel-plugin"],
   "env": {
