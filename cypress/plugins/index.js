@@ -1,5 +1,5 @@
-import express from 'express'
-import { join } from 'path'
+const express = require('express')
+const { join } = require('path')
 
 if (process.env.SERVE_APP) {
   const app = express()
@@ -7,8 +7,6 @@ if (process.env.SERVE_APP) {
   app.listen(process.env.PORT ?? 1234)
 }
 
-const pluginConfig: Cypress.PluginConfig = () => {
+module.exports = () => {
   // Nothing here for now
 }
-
-export default pluginConfig

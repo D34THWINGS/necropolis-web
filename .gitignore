@@ -8,3 +8,5 @@ lib/
 .merlin
 yarn-error.log
 .eslintcache
+cypress/screenshots/
+cypress/videos/
