@@ -63,7 +63,8 @@ describe('Paladins assault', () => {
     cy.getByTestId('useTrapButton').eq(1).click()
     cy.assertText('paladinCardsCounter', '7\u00A0/\u00A07')
     cy.assertText('paladinName', 'Soigneur')
-    cy.assertContainsCount('paladinHealth', 'remainingHealthPoint', 3)
+    cy.assertContainsCount('paladinHealth', 'remainingHealthPoint', 2)
+    cy.assertContainsCount('paladinHealth', 'extraHealthPoint', 1)
     cy.assertContainsCount('paladinHealth', 'missingHealthPoint', 0)
 
     cy.getByTestId('skipPaladinButton').click()
@@ -125,14 +126,15 @@ describe('Paladins assault', () => {
     cy.assertContains('paladinType', 'magical')
   })
 
-  it('Healer should add health to 1 paladin', () => {
+  it.only('Healer should add health to 1 paladin', () => {
     assaultSetup('paladinAssaultHealer')
     cy.assertText('paladinName', 'Soigneur')
 
     cy.getByTestId('useTrapButton').eq(3).click()
     cy.assertText('paladinName', 'Avant-Garde')
+    cy.assertContainsCount('paladinHealth', 'extraHealthPoint', 1)
     cy.assertContainsCount('paladinHealth', 'remainingHealthPoint', 2)
-    cy.assertContainsCount('paladinHealth', 'missingHealthPoint', 1)
+    cy.assertContainsCount('paladinHealth', 'missingHealthPoint', 0)
 
     cy.getByTestId('useTrapButton').eq(0).click()
     cy.assertText('paladinName', 'Avant-Garde')

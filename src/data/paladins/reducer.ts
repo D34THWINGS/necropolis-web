@@ -209,7 +209,6 @@ export const paladins = createReducer<PaladinState>({
       deck: updatePaladinById(assault.deck, paladinId, paladin => ({
         ...paladin,
         health: paladin.health + amount,
-        maxHealth: paladin.maxHealth + amount,
       })),
     })),
   )
