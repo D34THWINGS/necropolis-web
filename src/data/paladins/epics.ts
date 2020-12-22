@@ -83,10 +83,10 @@ export const trapsEpic: Epic<RootAction, RootAction, RootState> = (action$, stat
 
       switch (trap.type) {
         case TrapType.Impaler:
-          if (activePaladin.shield) {
-            actions.push(breakPaladinShield(activePaladin.id))
-          }
-          actions.push(doDamagesToPaladin(activePaladin.id, trap.damages, trap.targetsCategories))
+          actions.push(
+            breakPaladinShield(activePaladin.id),
+            doDamagesToPaladin(activePaladin.id, trap.damages, trap.targetsCategories),
+          )
           break
         case TrapType.Chakrams:
           actions.push(

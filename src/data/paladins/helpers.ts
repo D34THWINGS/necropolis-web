@@ -43,7 +43,7 @@ export type PaladinCard = {
 }
 
 export const createPaladinCard = (type: PaladinType, revealed = false): PaladinCard => ({
-  id: Date.now(),
+  id: Math.floor(Math.random() * 10000),
   type,
   revealed,
   battleCryTriggered: false,
@@ -59,9 +59,9 @@ export const createPaladinsAssault = (strength: number, structureHealth: number)
   phase: PaladinsAssaultPhase.Revealing,
   deck: Array.from({ length: strength }).reduce<PaladinCard[]>((deck, _, index) => {
     // Never draw more than 1 commander
-    const possibleTypes = Object.values(PaladinType)
+    let possibleTypes = Object.values(PaladinType)
     if (deck.some(paladin => paladin.type === PaladinType.Commander)) {
-      possibleTypes.splice(possibleTypes.indexOf(PaladinType.Commander), 1)
+      possibleTypes = possibleTypes.filter(type => type !== PaladinType.Commander)
     }
 
     const type = possibleTypes[Math.floor(random() * possibleTypes.length)] ?? PaladinType.Vanguard

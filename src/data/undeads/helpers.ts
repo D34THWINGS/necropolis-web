@@ -78,7 +78,7 @@ export const getUndeadTalentValue = (undead: Undead, talent: UndeadTalent) => {
 }
 
 export const createUndead = (type: UndeadType, raised = false): Undead => ({
-  id: Date.now(),
+  id: Math.floor(Math.random() * 10000),
   type,
   talents: getBaseTalents(type),
   raised,
