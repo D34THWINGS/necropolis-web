@@ -13,7 +13,7 @@ import {
   increasePaladinsCounter,
   increasePaladinsStrength,
   killPaladins,
-  markPaladinRevealed,
+  markPaladinsRevealed,
   changePaladinsDamages,
   removeTrap,
   resetPaladinsCounter,
@@ -188,12 +188,16 @@ export const paladins = createReducer<PaladinState>({
       ),
     })),
   )
-  .handleAction(markPaladinRevealed, (state, { payload: { paladinId } }) =>
+  .handleAction(markPaladinsRevealed, (state, { payload: { paladinIds } }) =>
     updateAssault(state, assault => ({
-      deck: updatePaladinById(assault.deck, paladinId, paladin => ({
-        ...paladin,
-        revealed: true,
-      })),
+      deck: paladinIds.reduce(
+        (deck, paladinId) =>
+          updatePaladinById(deck, paladinId, paladin => ({
+            ...paladin,
+            revealed: true,
+          })),
+        assault.deck,
+      ),
     })),
   )
   .handleAction(shieldPaladin, (state, { payload: { paladinId } }) =>

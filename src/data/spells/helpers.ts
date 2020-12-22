@@ -17,11 +17,15 @@ type SpellWithEffects = {
   effects: SpellEffect[]
 }
 
+type SpellWithDamages = {
+  damages: number
+  targetCategories: PaladinCategory[]
+}
+
 export type SoulStorm = BaseSpell &
-  SpellWithEffects & {
+  SpellWithEffects &
+  SpellWithDamages & {
     key: SpellKey.SoulStorm
-    damages: number
-    targetCategories: PaladinCategory[]
   }
 
 export const makeSoulStorm = (): SoulStorm => ({
@@ -33,14 +37,17 @@ export const makeSoulStorm = (): SoulStorm => ({
   effects: [makeLethalityBuffEffect(5)],
 })
 
-type TheKey = BaseSpell & {
-  key: SpellKey.TheKey
-}
+type TheKey = BaseSpell &
+  SpellWithDamages & {
+    key: SpellKey.TheKey
+  }
 
 export const makeTheKey = (): TheKey => ({
   key: SpellKey.TheKey,
   cost: 3,
   canBeCasted: false,
+  damages: 3,
+  targetCategories: [PaladinCategory.Physical, PaladinCategory.Ethereal],
 })
 
 type Prediction = BaseSpell & {
@@ -52,7 +59,7 @@ export const makePrediction = (): Prediction => ({
   key: SpellKey.Prediction,
   cost: 2,
   canBeCasted: true,
-  revealBonus: 4,
+  revealBonus: 3,
 })
 
 type Restoration = BaseSpell & {

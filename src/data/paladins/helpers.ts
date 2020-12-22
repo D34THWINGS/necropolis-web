@@ -57,20 +57,22 @@ export const createPaladinCard = (type: PaladinType, revealed = false): PaladinC
 
 export const createPaladinsAssault = (strength: number, structureHealth: number): Assault => ({
   phase: PaladinsAssaultPhase.Revealing,
-  deck: Array.from({ length: strength }).reduce<PaladinCard[]>((deck, _, index) => {
-    // Never draw more than 1 commander
-    let possibleTypes = Object.values(PaladinType)
-    if (deck.some(paladin => paladin.type === PaladinType.Commander)) {
-      possibleTypes = possibleTypes.filter(type => type !== PaladinType.Commander)
-    }
+  deck: Array.from({ length: strength })
+    .reduce<PaladinCard[]>(deck => {
+      // Never draw more than 1 commander
+      let possibleTypes = Object.values(PaladinType)
+      if (deck.some(paladin => paladin.type === PaladinType.Commander)) {
+        possibleTypes = possibleTypes.filter(type => type !== PaladinType.Commander)
+      }
 
-    const type = possibleTypes[Math.floor(random() * possibleTypes.length)] ?? PaladinType.Vanguard
+      const type = possibleTypes[Math.floor(random() * possibleTypes.length)] ?? PaladinType.Vanguard
 
-    const paladin: PaladinCard = createPaladinCard(type, index === 0)
+      const paladin: PaladinCard = createPaladinCard(type)
 
-    // Commander always first in deck
-    return type === PaladinType.Commander ? [paladin, ...deck] : [...deck, paladin]
-  }, []),
+      // Commander always first in deck
+      return type === PaladinType.Commander ? [paladin, ...deck] : [...deck, paladin]
+    }, [])
+    .map((paladinCard, index) => (index === 0 ? { ...paladinCard, revealed: true } : paladinCard)),
   traps: [],
   changingPaladinCategory: false,
   startingStructureHealth: structureHealth,

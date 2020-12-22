@@ -10,7 +10,7 @@ import { paladinsImageMap } from '../helpers/paladinsImageMap'
 import damageIcon from '../../../assets/images/paladins/paladin-damage.png'
 import { PaladinCard } from '../../../data/paladins/helpers'
 import { useTranslation } from '../../../lang/useTranslation'
-import { markPaladinRevealed, triggerPaladinBattleCry } from '../../../data/paladins/actions'
+import { markPaladinsRevealed, triggerPaladinBattleCry } from '../../../data/paladins/actions'
 import { Health } from '../../../components/images/Health'
 
 const activePaladinsDetails = [
@@ -76,7 +76,7 @@ export const PaladinFightCard = ({ paladin }: PaladinFightCardProps) => {
 
   useEffect(() => {
     if (!paladin.revealed) {
-      dispatch(markPaladinRevealed(paladin.id))
+      dispatch(markPaladinsRevealed([paladin.id]))
     }
   }, [paladin.id, paladin.revealed, dispatch])
 

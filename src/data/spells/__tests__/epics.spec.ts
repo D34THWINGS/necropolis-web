@@ -2,15 +2,29 @@ import { buildEpicObservables } from '../../../../tests/helpers'
 import { ExpeditionType, PaladinType, ResourceType, UndeadType } from '../../../config/constants'
 import { mainReducer } from '../../../store/mainReducer'
 import { openExpedition, setExpeditionStep } from '../../expeditions/actions'
-import { beginPaladinsAssault, damageActivePaladin, repairStructure } from '../../paladins/actions'
+import {
+  beginPaladinsAssault,
+  breakPaladinShield,
+  damageActivePaladin,
+  doDamagesToPaladin,
+  markPaladinsRevealed,
+  repairStructure,
+} from '../../paladins/actions'
 import { spendResources } from '../../resources/actions'
 import { addUndead, healUndead } from '../../undeads/actions'
 import { applyDamages, createUndead } from '../../undeads/helpers'
 import { applyEffects, blurEffects, castSpell } from '../actions'
-import { blurEffectsEpic, castRestorationEpic, castSoulStormEpic, castSpellEpic } from '../epics'
+import {
+  blurEffectsEpic,
+  castPredictionEpic,
+  castRestorationEpic,
+  castSoulStormEpic,
+  castSpellEpic,
+  castTheKeyEpic,
+} from '../epics'
 import { init } from '../../settings/actions'
 import { createPaladinCard, createPaladinsAssault } from '../../paladins/helpers'
-import { makeRestoration, makeSoulStorm, makeTheKey } from '../helpers'
+import { makePrediction, makeRestoration, makeSoulStorm, makeTheKey } from '../helpers'
 import { makeLethalityBuffEffect } from '../effects'
 
 describe('Spells epics', () => {
@@ -90,6 +104,48 @@ describe('Spells epics', () => {
       actionsInput$.next(castSpell(makeRestoration()))
 
       expect(actions).toEqual([])
+    })
+  })
+
+  describe('The Key', () => {
+    it('should break shield and damage paladin while in assault', () => {
+      const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castTheKeyEpic)
+
+      const paladin = createPaladinCard(PaladinType.Vanguard)
+      const theKey = makeTheKey()
+      const initialState = mainReducer(state$.value, init())
+      stateInput$.next({
+        ...initialState,
+        paladins: {
+          ...initialState.paladins,
+          assault: {
+            ...createPaladinsAssault(5, 10),
+            deck: [paladin],
+          },
+        },
+      })
+      actionsInput$.next(castSpell(theKey))
+
+      expect(actions).toEqual([
+        breakPaladinShield(paladin.id),
+        doDamagesToPaladin(paladin.id, theKey.damages, theKey.targetCategories),
+      ])
+    })
+  })
+
+  describe('Prediction', () => {
+    it('should reveal first 3 unrevealed paladins during assaults', () => {
+      const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castPredictionEpic)
+
+      const assault = createPaladinsAssault(5, 10)
+      const prediction = makePrediction()
+      const initialState = mainReducer(state$.value, init())
+      stateInput$.next({ ...initialState, paladins: { ...initialState.paladins, assault } })
+      actionsInput$.next(castSpell(prediction))
+
+      expect(actions).toEqual([
+        markPaladinsRevealed(assault.deck.slice(1, 1 + prediction.revealBonus).map(paladin => paladin.id)),
+      ])
     })
   })
 

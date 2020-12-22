@@ -64,7 +64,7 @@ export const changePaladinCategories = createAction(
   (paladinId: number, categories: PaladinCategory[]) => ({ paladinId, categories }),
 )()
 
-export const markPaladinRevealed = createAction('paladins/MARK_REVEALED', (paladinId: number) => ({ paladinId }))()
+export const markPaladinsRevealed = createAction('paladins/MARK_REVEALED', (paladinIds: number[]) => ({ paladinIds }))()
 
 export const increasePaladinHealth = createAction(
   'paladins/INCREASE_PALADIN_HEALTH',

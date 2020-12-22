@@ -6,16 +6,28 @@ import { ResourceType } from '../../config/constants'
 import { RootState } from '../../store/mainReducer'
 import { RootAction } from '../actions'
 import { getIsInExpedition } from '../expeditions/selectors'
-import { damageActivePaladin, repairStructure } from '../paladins/actions'
-import { getPaladinsAssaultOngoing, getRemainingPaladins } from '../paladins/selectors'
+import {
+  breakPaladinShield,
+  damageActivePaladin,
+  doDamagesToPaladin,
+  markPaladinsRevealed,
+  repairStructure,
+} from '../paladins/actions'
+import { getPaladinsAssaultOngoing, getRemainingPaladins, getUnrevealedPaladins } from '../paladins/selectors'
 import { spendResources } from '../resources/actions'
 import { healUndead } from '../undeads/actions'
 import { getMostInjuredUndead } from '../undeads/selectors'
 import { applyEffects, blurEffects, castSpell } from './actions'
-import { isRestoration, isSoulStorm } from './helpers'
+import { isPrediction, isRestoration, isSoulStorm, isTheKey } from './helpers'
 import { fleeExpedition, setExpeditionStep } from '../expeditions/actions'
 import { getEffectsBlurringOnStepChange } from './effects'
 import { getActiveSpellEffects } from './selectors'
+
+export const castSpellEpic: Epic<RootAction, RootAction, RootState> = action$ =>
+  action$.pipe(
+    filter(isActionOf(castSpell)),
+    map(({ payload: { spell } }) => spendResources({ [ResourceType.Souls]: spell.cost })),
+  )
 
 const mapToSpell = map(({ payload: { spell } }: ActionType<typeof castSpell>) => spell)
 
@@ -57,12 +69,6 @@ export const castSoulStormEpic: Epic<RootAction, RootAction, RootState> = (actio
   return merge(castDuringExpedition$, castDuringAssault$)
 }
 
-export const castSpellEpic: Epic<RootAction, RootAction, RootState> = action$ =>
-  action$.pipe(
-    filter(isActionOf(castSpell)),
-    map(({ payload: { spell } }) => spendResources({ [ResourceType.Souls]: spell.cost })),
-  )
-
 export const castRestorationEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
   const cast$ = action$.pipe(filter(isActionOf(castSpell)), mapToSpell, filter(isRestoration))
 
@@ -84,6 +90,41 @@ export const castRestorationEpic: Epic<RootAction, RootAction, RootState> = (act
 
   return merge(castDuringExpedition$, castDuringAssault$)
 }
+
+export const castTheKeyEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+  action$.pipe(
+    filter(isActionOf(castSpell)),
+    filter(() => getPaladinsAssaultOngoing(state$.value)),
+    mapToSpell,
+    filter(isTheKey),
+    mergeMap(theKey => {
+      const remainingPaladins = getRemainingPaladins(state$.value)
+      const firstRemainingPaladin = remainingPaladins[0]
+      if (!firstRemainingPaladin) {
+        return EMPTY
+      }
+      return of(
+        breakPaladinShield(firstRemainingPaladin.id),
+        doDamagesToPaladin(firstRemainingPaladin.id, theKey.damages, theKey.targetCategories),
+      )
+    }),
+  )
+
+export const castPredictionEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+  action$.pipe(
+    filter(isActionOf(castSpell)),
+    filter(() => getPaladinsAssaultOngoing(state$.value)),
+    mapToSpell,
+    filter(isPrediction),
+    mergeMap(prediction => {
+      const unrevealedPaladins = getUnrevealedPaladins(state$.value)
+      if (unrevealedPaladins.length === 0) {
+        return EMPTY
+      }
+      const paladinIdsToReveal = unrevealedPaladins.slice(0, prediction.revealBonus).map(paladin => paladin.id)
+      return of(markPaladinsRevealed(paladinIdsToReveal))
+    }),
+  )
 
 export const blurEffectsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
   const blurOnExpeditionStep$ = action$.pipe(

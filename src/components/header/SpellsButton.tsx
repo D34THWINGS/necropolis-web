@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
+import { useRouteMatch } from 'react-router-dom'
 import { Image } from '../images/Image'
 import spellImageUrl from '../../assets/images/header/spells.png'
 import { SpellsModal } from '../spells/SpellsModal'
@@ -8,6 +9,8 @@ import { buttonBase } from '../../styles/buttons'
 import { layers } from '../../config/theme'
 import { useModalState } from '../ui/Modal/Modal'
 import { getCanCastSpells } from '../../data/spells/selectors'
+import { getIsInExpedition } from '../../data/expeditions/selectors'
+import { OSSUARY } from '../../config/routes'
 
 const spellsButton = [buttonBase, css({ zIndex: layers.SPELLS_MODAL })]
 
@@ -18,7 +21,14 @@ export type SpellsButtonProps = {
 
 export const SpellsButton = ({ className, size = '3.5rem' }: SpellsButtonProps) => {
   const { isOpen: isSpellsModalOpen, close: closeSpells, open: openSpells } = useModalState()
+  const match = useRouteMatch(OSSUARY)
   const hasSpells = useSelector(getCanCastSpells)
+  const isInExpedition = useSelector(getIsInExpedition)
+
+  const isOnOssuary = match && match.isExact
+  if (!isOnOssuary && !isInExpedition) {
+    return null
+  }
 
   return (
     <>

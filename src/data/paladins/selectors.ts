@@ -36,6 +36,9 @@ export const getIsChangingPaladinCategory = (state: RootState) =>
 
 export const getRemainingPaladins = (state: RootState) => getPaladinsAssault(state)?.deck.filter(isPaladinAlive) ?? []
 
+export const getUnrevealedPaladins = (state: RootState) =>
+  getPaladinsAssault(state)?.deck.filter(paladin => !paladin.revealed) ?? []
+
 export const getPaladinsDeck = (state: RootState) => getPaladinsAssault(state)?.deck ?? []
 
 export const getPaladinById = (id: PaladinCard['id']) => (state: RootState) =>
