@@ -11,10 +11,10 @@ import oldCoffin2ImageUrl from '../../assets/images/expeditions/oldCoffin/old-co
 import { ExpeditionImage } from './components/ExpeditionImage'
 import { ResourceIcon } from '../../components/resources/ResourceIcon'
 import { getMeat } from '../../data/resources/selectors'
-import { spendResources } from '../../data/resources/actions'
+import { gainResources, spendResources } from '../../data/resources/actions'
 import { textColor } from '../../styles/base'
 import { HealthPoint } from '../../components/images/HealthPoint'
-import { damageUndead } from '../../data/undeads/actions'
+import { curseUndead, damageUndead } from '../../data/undeads/actions'
 
 const SAWMILL_DEXTERITY_REQUIRED = 2
 const SAWMILL_MEAT_REQUIRED = 2
@@ -35,6 +35,8 @@ export const Sawmill = () => {
   const dexterity = useSelector(getUndeadArmyDexterity)
   const meat = useSelector(getMeat)
   const valet = useSelector(getValet)
+
+  const handleSawmillReward = () => dispatch(gainResources({ [ResourceType.Materials]: SAWMILL_MATERIALS_REWARD }))
 
   return (
     <ExpeditionModal<OldCoffinStep>
@@ -63,13 +65,19 @@ export const Sawmill = () => {
                 </ExpeditionAction>
               </>
             )
-          case OldCoffinStep.InfectedValet:
+          case OldCoffinStep.InfectedValet: {
+            const handleCurseValet = () => {
+              if (valet) {
+                dispatch(curseUndead(valet.id))
+              }
+            }
             return (
               <>
                 {t('sawmillStep2')}
-                {renderContinueButton(OldCoffinStep.FaceHound)}
+                {renderContinueButton(OldCoffinStep.FaceHound, handleCurseValet)}
               </>
             )
+          }
           case OldCoffinStep.FaceHound: {
             const handleNourish = () => {
               dispatch(spendResources({ [ResourceType.Meat]: SAWMILL_MEAT_REQUIRED }))
@@ -111,7 +119,7 @@ export const Sawmill = () => {
               <>
                 {t('sawmillStep5')}
                 {renderLoot(<ResourceIcon type={ResourceType.Materials} text={SAWMILL_MATERIALS_REWARD} />)}
-                {renderEndButton()}
+                {renderEndButton(handleSawmillReward)}
               </>
             )
           case OldCoffinStep.NourishedHound:
@@ -119,7 +127,7 @@ export const Sawmill = () => {
               <>
                 {t('sawmillStep4')}
                 {renderLoot(<ResourceIcon type={ResourceType.Materials} text={SAWMILL_MATERIALS_REWARD} />)}
-                {renderEndButton()}
+                {renderEndButton(handleSawmillReward)}
               </>
             )
         }
