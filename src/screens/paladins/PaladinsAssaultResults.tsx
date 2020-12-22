@@ -5,7 +5,7 @@ import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/mo
 import { paladinAssaultPanel, paladinAssaultPanelInner } from './helpers/paladinAssaultStyles'
 import resultBg from '../../assets/images/paladins/result-bg.jpg'
 import paladinsStrengthIcon from '../../assets/images/paladins/paladins-strengh.png'
-import materialsIcon from '../../assets/images/resources/materials.png'
+import structurePointsIcon from '../../assets/images/paladins/structure-points.png'
 import { h2Title, redBox, textColor } from '../../styles/base'
 import { cyanSquareButton } from '../../styles/buttons'
 import { useTranslation } from '../../lang/useTranslation'
@@ -48,8 +48,6 @@ const resultBox = [
   }),
 ]
 
-const structurePointsIcon = css({ filter: 'hue-rotate(45deg)' })
-
 const leaveAssaultButton = [
   ...cyanSquareButton,
   css({
@@ -89,12 +87,12 @@ export const PaladinsAssaultResults = () => {
             <Image src={paladinsStrengthIcon} marginRight="0.5rem" size="2.5rem" />
             {t('paladinsKilled', killedPaladins, assault.deck.length)}
           </div>
-          <div css={textColor('DARK_CYAN')}>
-            <Image src={materialsIcon} css={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
+          <div css={textColor('CAMO')}>
+            <Image src={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
             {t('healthLost', assault.startingStructureHealth - structureHealth)}
           </div>
-          <div css={textColor('DARK_CYAN')} data-test-id="remainingStructureHealth">
-            <Image src={materialsIcon} css={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
+          <div css={textColor('CAMO')} data-test-id="remainingStructureHealth">
+            <Image src={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
             {t('healthRemaining', structureHealth, NECROPOLIS_STRUCTURE_POINTS)}
           </div>
           <ResourceLoot>

@@ -18,6 +18,7 @@ export const colors = {
   LIME: '#2bfd02',
   FOREST: '#2F9B47',
   BROWN: '#BA9F8A',
+  CAMO: '#828E70',
 }
 
 // eslint-disable-next-line max-len

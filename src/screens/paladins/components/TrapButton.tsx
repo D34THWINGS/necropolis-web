@@ -34,6 +34,7 @@ const addTrapButton = (type: TrapType) => [
   buttonDisabled,
   trapButtonBase(type),
   css({
+    marginBottom: '0.5rem',
     borderTopLeftRadius: '10px',
     borderBottomLeftRadius: '10px',
     border: `2px solid ${colors.DARK_GREEN}`,

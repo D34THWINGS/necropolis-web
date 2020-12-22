@@ -12,7 +12,7 @@ import { getPaladinsAssault, getStructureHealth } from '../../data/paladins/sele
 import { Image } from '../../components/images/Image'
 import { trapButtonBase } from './components/TrapButton'
 import paladinsStrengthIcon from '../../assets/images/paladins/paladins-strengh.png'
-import materialsIcon from '../../assets/images/resources/materials.png'
+import structurePointsIcon from '../../assets/images/paladins/structure-points.png'
 import { buttonDisabled, redSquareButton, resetButton } from '../../styles/buttons'
 import { skipPaladin, triggerTrap } from '../../data/paladins/actions'
 import { ChangePaladinCategoryModal } from './components/ChangePaladinCategoryModal'
@@ -93,8 +93,6 @@ const fightStatusCounter = css({
   justifyContent: 'center',
 })
 
-const structurePointsIcon = css({ filter: 'hue-rotate(45deg)' })
-
 export const PaladinsAssaultFight = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -129,8 +127,8 @@ export const PaladinsAssaultFight = () => {
             <Image src={paladinsStrengthIcon} marginLeft="0.3rem" />
           </div>
           <div css={fightStatusCounter} data-test-id="structureHealthCounter">
-            {structureHealth}&nbsp;<span css={textColor('CYAN')}>/&nbsp;{NECROPOLIS_STRUCTURE_POINTS}</span>
-            <Image css={structurePointsIcon} src={materialsIcon} marginLeft="0.3rem" />
+            {structureHealth}&nbsp;<span css={textColor('CAMO')}>/&nbsp;{NECROPOLIS_STRUCTURE_POINTS}</span>
+            <Image src={structurePointsIcon} marginLeft="0.3rem" />
           </div>
         </div>
         <div css={trapPool}>
@@ -154,7 +152,7 @@ export const PaladinsAssaultFight = () => {
           })}
           <button type="button" css={skipPaladinButton} onClick={handleSkipPaladin} data-test-id="skipPaladinButton">
             {t('skipPaladin')}(<span css={textColor('RED')}>{-activePaladin.damages}</span>
-            <Image css={structurePointsIcon} src={materialsIcon} marginLeft="0.3rem" />)
+            <Image src={structurePointsIcon} marginLeft="0.3rem" />)
           </button>
         </div>
         <ChangePaladinCategoryModal activePaladin={activePaladin} />
