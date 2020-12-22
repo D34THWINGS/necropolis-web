@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from '../../../components/ui/Modal/Modal'
@@ -84,12 +84,6 @@ export const ExpeditionModal = <TStep extends number = number>({
   const openedExpedition = useSelector(getOpenedExpedition)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if (!openedExpedition && isFleeing) {
-      setIsFleeing(false)
-    }
-  }, [openedExpedition])
-
   const handleBeginExpedition = () => dispatch(beginExpedition(type))
   const handleCloseOverview = () => dispatch(closeExpedition())
 
@@ -112,7 +106,9 @@ export const ExpeditionModal = <TStep extends number = number>({
     }
 
     if (isFleeing) {
-      return <ExpeditionFlee />
+      const handleFleeExpedition = () => setIsFleeing(false)
+
+      return <ExpeditionFlee onFlee={handleFleeExpedition} />
     }
 
     const goToStep = (newStep: TStep) => () => dispatch(setExpeditionStep(type, newStep))

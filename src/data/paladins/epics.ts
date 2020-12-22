@@ -14,7 +14,7 @@ import {
   changePaladinsDamages,
   setChangingPaladinCategories,
   triggerPaladinBattleCry,
-  useTrap,
+  triggerTrap,
   shieldPaladin,
   skipPaladin,
   triggerPaladinAttack,
@@ -57,7 +57,7 @@ export const displayAssaultResultsEpic: Epic<RootAction, RootAction, RootState> 
 
 export const trapsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
-    filter(isActionOf(useTrap)),
+    filter(isActionOf(triggerTrap)),
     mergeMap(({ payload: { trapId, paladinId } }) => {
       let activePaladin = getPaladinById(paladinId)(state$.value)
       const trap = getTrapById(trapId)(state$.value)

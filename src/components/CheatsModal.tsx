@@ -49,7 +49,7 @@ export const CheatsModal = () => {
         dispatch(loadGameState(gameState))
       }
     }
-  }, [])
+  }, [dispatch, open])
 
   const handleAddResources = () => {
     dispatch(

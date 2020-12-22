@@ -18,23 +18,37 @@ export const frExpeditions = {
   expeditionContinue: 'Continuer',
   expeditionTreasure: 'Trésors\u00A0:',
 
-  oldCoffinTitle: 'Vieux cercueil',
-  oldCoffinOverview: (
+  sawmillTitle: 'Scierie',
+  sawmillOverview: <>À la bordure de la forêt se dresse piteusement une scierie.</>,
+  sawmillStep1: (
     <>
-      Parmi les tombes du cimetière repose un vieux cercueil qui n&apos;a jamais connu l&apos;enterrement. Il vous
-      semble avoir remué.
+      Son toit tient à peine, les fenêtres sont brisées et vous ne pensiez pas qu&apos;une porte pouvait être aussi
+      rouillée.
     </>
   ),
-  oldCoffinReward: <span css={textColor('PURPLE')}>Mort-vivant</span>,
-  oldCoffinStep1:
-    // eslint-disable-next-line max-len
-    "Vous trouvez facilement le cercueil. La vigne qui a poussé dessus ainsi que l'humidité ont pourri le bois des planches.",
-  oldCoffinOpen: 'Ouvrir le cercueil',
-  oldCoffinStep2: (
+  sawmillAction1: 'Passer par la porte',
+  sawmillStep2: (
     <>
-      Un être décharné sort du cercueil, le fameux <span css={textColor('PURPLE')}>Jan Brik&apos;Holeur</span> connu
-      pour avoir été un homme à tout faire. En guise de remerciement, il part couper le gigantesque arbre au milieu du
-      cimetière, comme ça.
+      Le <span css={textColor('PURPLE')}>Valet</span> est infecté par une&nbsp;
+      <span css={textColor('PURPLE')}>Maladie</span> (ne peut pas utiliser sa Capacité jusqu&apos;à guérison).
+    </>
+  ),
+  sawmillAction2: 'Passer par la fenêtre',
+  sawmillStep3: (
+    <>À peine vous explorez l&apos;intérieur que vous tombez sur un molosse décharné, probablement le chien de garde.</>
+  ),
+  sawmillAction3: 'Le nourrir',
+  sawmillStep4: (
+    <>
+      Le gardien vous laisse tranquille, trop occupé à engloutir son salaire si bien mérité. Vous en profiter pour
+      récupérer le stock de bois.
+    </>
+  ),
+  sawmillAction4: 'Se faire mordre',
+  sawmillStep5: (
+    <>
+      Le gardien vous laisse passer en échange d&apos;un &quot;prélèvement&quot;. Vous récupérez péniblement le stock de
+      bois.
     </>
   ),
 

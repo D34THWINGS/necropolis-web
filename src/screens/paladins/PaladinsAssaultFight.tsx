@@ -14,7 +14,7 @@ import { trapButtonBase } from './components/TrapButton'
 import paladinsStrengthIcon from '../../assets/images/paladins/paladins-strengh.png'
 import materialsIcon from '../../assets/images/resources/materials.png'
 import { buttonDisabled, redSquareButton, resetButton } from '../../styles/buttons'
-import { skipPaladin, useTrap } from '../../data/paladins/actions'
+import { skipPaladin, triggerTrap } from '../../data/paladins/actions'
 import { ChangePaladinCategoryModal } from './components/ChangePaladinCategoryModal'
 import { PaladinFightCard } from './components/PaladinFightCard'
 import { canTargetPaladin, isPaladinAlive } from '../../data/paladins/helpers'
@@ -115,7 +115,7 @@ export const PaladinsAssaultFight = () => {
 
   const activePaladin = remainingPaladins[0]
 
-  const handleUseTrap = (trapId: number) => () => dispatch(useTrap(trapId, activePaladin.id))
+  const handleUseTrap = (trapId: number) => () => dispatch(triggerTrap(trapId, activePaladin.id))
   const handleSkipPaladin = () => dispatch(skipPaladin(activePaladin.id))
 
   return (

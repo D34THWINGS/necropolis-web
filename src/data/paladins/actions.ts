@@ -25,7 +25,7 @@ export const addTrap = createAction('paladins/ADD_TRAP', (type: TrapType) => ({ 
 
 export const removeTrap = createAction('paladins/REMOVE_TRAP', (id: number) => ({ id }))()
 
-export const useTrap = createAction('paladins/USE_TRAP', (trapId: number, paladinId: number) => ({
+export const triggerTrap = createAction('paladins/TRIGGER_TRAP', (trapId: number, paladinId: number) => ({
   trapId,
   paladinId,
 }))()

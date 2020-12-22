@@ -27,7 +27,7 @@ export const GameLost = () => {
 
   useEffect(() => {
     dispatch(gameEnded())
-  }, [])
+  }, [dispatch])
 
   const handleRetry = () => {
     dispatch(resetGame())

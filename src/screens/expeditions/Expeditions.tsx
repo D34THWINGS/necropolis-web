@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { OldCoffin } from './OldCoffin'
+import { Sawmill } from './Sawmill'
 import { ExpeditionMarker } from './components/ExpeditionMarker'
 import { ExpeditionType, OnboardingStep } from '../../config/constants'
 import { getHasAchievedExpedition } from '../../data/expeditions/selectors'
@@ -32,7 +32,7 @@ export const Expeditions = () => {
           />
         )}
       </OnboardingHighlight>
-      <OldCoffin />
+      <Sawmill />
       <ExpeditionMarker type={ExpeditionType.MiseryMarket} x={5} y={25} shown={!miseryMarketDone && oldCoffinDone} />
       <MiseryMarket />
       <ExpeditionMarker type={ExpeditionType.TownHall} x={-5} y={-20} shown={!townHallDone && miseryMarketDone} />

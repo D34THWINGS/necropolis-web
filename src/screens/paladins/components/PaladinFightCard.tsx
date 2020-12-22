@@ -8,10 +8,10 @@ import { PaladinCategory, PaladinType } from '../../../config/constants'
 import { colors, fonts, shadows } from '../../../config/theme'
 import { paladinsImageMap } from '../helpers/paladinsImageMap'
 import damageIcon from '../../../assets/images/paladins/paladin-damage.png'
-import hpIcon from '../../../assets/images/paladins/paladins-hp.png'
 import { PaladinCard } from '../../../data/paladins/helpers'
 import { useTranslation } from '../../../lang/useTranslation'
 import { markPaladinRevealed, triggerPaladinBattleCry } from '../../../data/paladins/actions'
+import { Health } from '../../../components/images/Health'
 
 const activePaladinsDetails = [
   redBox,
@@ -65,8 +65,6 @@ const activePaladinHealth = [
     minWidth: '10rem',
   }),
 ]
-
-const usedHealthPoint = css({ filter: 'grayscale(1)' })
 
 export type PaladinFightCardProps = {
   paladin: PaladinCard
@@ -122,17 +120,7 @@ export const PaladinFightCard = ({ paladin }: PaladinFightCardProps) => {
         {t('paladinAbility', paladin.type)}
       </div>
       <div css={activePaladinHealth} data-test-id="paladinHealth">
-        {Array.from({ length: paladin.maxHealth })
-          .map((_, index) => index)
-          .map(index => (
-            <Image
-              css={index < paladin.health ? undefined : usedHealthPoint}
-              key={index}
-              src={hpIcon}
-              marginRight={index < paladin.maxHealth - 1 ? '0.5rem' : ''}
-              data-test-id={index < paladin.health ? 'remainingHealthPoint' : 'missingHealthPoint'}
-            />
-          ))}
+        <Health health={paladin.health} maxHealth={paladin.maxHealth} />
       </div>
     </div>
   )

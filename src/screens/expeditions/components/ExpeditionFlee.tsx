@@ -8,12 +8,19 @@ import { greenSquareButton } from '../../../styles/buttons'
 import { getPaladinsCounter } from '../../../data/paladins/selectors'
 import { preventSelectorUpdate } from '../../../data/helpers'
 
-export const ExpeditionFlee = () => {
+export type ExpeditionFleeProps = {
+  onFlee: () => void
+}
+
+export const ExpeditionFlee = ({ onFlee }: ExpeditionFleeProps) => {
   const { t } = useTranslation()
   const paladinsCounter = useSelector(getPaladinsCounter, preventSelectorUpdate)
   const dispatch = useDispatch()
 
-  const handleFlee = () => dispatch(fleeExpedition())
+  const handleFlee = () => {
+    dispatch(fleeExpedition())
+    onFlee()
+  }
 
   return (
     <>

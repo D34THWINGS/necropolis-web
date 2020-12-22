@@ -20,7 +20,7 @@ import {
   setChangingPaladinCategories,
   triggerPaladinBattleCry,
   triggerPaladinsAssault,
-  useTrap,
+  triggerTrap,
   shieldPaladin,
   skipPaladin,
   triggerPaladinAttack,
@@ -111,7 +111,7 @@ export const paladins = createReducer<PaladinState>({
   .handleAction(removeTrap, (state, { payload }) =>
     updateAssault(state, assault => ({ traps: assault.traps.filter(trap => trap.id !== payload.id) })),
   )
-  .handleAction(useTrap, (state, { payload: { trapId } }) =>
+  .handleAction(triggerTrap, (state, { payload: { trapId } }) =>
     updateAssault(state, assault => {
       const trapIndex = assault.traps.findIndex(trap => trap.id === trapId)
       return trapIndex === -1

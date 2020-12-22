@@ -24,7 +24,7 @@ export const GameWon = () => {
 
   useEffect(() => {
     dispatch(gameEnded())
-  }, [])
+  }, [dispatch])
 
   const handleRetry = () => {
     dispatch(resetGame())

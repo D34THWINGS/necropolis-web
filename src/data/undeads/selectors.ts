@@ -28,6 +28,8 @@ export const getUndeadArmyTalentTotal = (talent: UndeadTalent) => (state: RootSt
 
 export const getUndeadArmyMuscles = getUndeadArmyTalentTotal(UndeadTalent.Muscles)
 
+export const getUndeadArmyDexterity = getUndeadArmyTalentTotal(UndeadTalent.Dexterity)
+
 export const getUndeadArmyLethality = getUndeadArmyTalentTotal(UndeadTalent.Lethality)
 
 export const getIsBloodPrinceInJail = (state: RootState) => !getUndeadTypes(state).includes(UndeadType.BloodPrince)
@@ -35,3 +37,5 @@ export const getIsBloodPrinceInJail = (state: RootState) => !getUndeadTypes(stat
 export const getRequiredSacrifices = (state: RootState) => state.undeads.requiredSacrifices
 
 export const getMostInjuredUndead = (state: RootState) => getMostInjured(getUndeads(state))
+
+export const getValet = (state: RootState) => getUndeads(state).find(undead => undead.type === UndeadType.Valet)
