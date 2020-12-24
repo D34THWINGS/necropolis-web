@@ -54,8 +54,6 @@ export const purpleRoundButton = roundButton(colors.PURPLE, 0.2, 0.25)
 
 export const redRoundButton = roundButton(colors.RED, 0.2, 0.2)
 
-export const limeRoundButton = roundButton(colors.LIME, 0.2, 0.2)
-
 const squareButton = (backgroundColor: string, light: number, shade: number) => [
   resetButton,
   buttonDisabled,

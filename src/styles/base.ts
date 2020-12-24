@@ -20,7 +20,7 @@ export const contentCover = css({
   bottom: 0,
 })
 
-const coloredBox = (backgroundColor: string) =>
+export const coloredBox = (backgroundColor: string) =>
   css({
     borderRadius: '10px',
     padding: '0.3rem 0.5rem',

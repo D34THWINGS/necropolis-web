@@ -1,6 +1,7 @@
 export const colors = {
   WHITE: '#ffffff',
   BLACK: '#000000',
+  LIGHT_GREY: '#868686',
   GREY: '#3d3d3d',
   GREEN: '#41837c',
   DARK_GREEN: '#144D49',
@@ -9,6 +10,7 @@ export const colors = {
   RED: '#ff0000',
   MEDIUM_RED: '#8C454E',
   DARK_RED: '#3D0F0F',
+  LIGHT_PURPLE: '#AD8EE8',
   PURPLE: '#9a58fd',
   DARK_PURPLE: '#61458C',
   LIGHT_BLUE: '#80DDF4',

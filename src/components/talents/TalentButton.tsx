@@ -25,7 +25,7 @@ export const TalentButton = ({ type, text, className }: TalentButtonProps) => {
   const { open } = useTalentsModalControls()
   return (
     <button type="button" className={className} css={talentIconButton} onClick={open}>
-      <TalentIcon type={type} text={text} size="1.2rem" marginLeft="0.2rem" marginRight="0.2rem" />
+      <TalentIcon type={type} text={text} size="1.4rem" marginLeft="0.2rem" marginRight="0.2rem" />
     </button>
   )
 }

@@ -13,13 +13,13 @@ import { useTranslation } from '../../lang/useTranslation'
 import { getUndeads, getUpkeep } from '../../data/undeads/selectors'
 import { h2Title, purpleBox, textColor } from '../../styles/base'
 import { ResourceIcon } from '../resources/ResourceIcon'
-import { OnboardingStep, ResourceType, UndeadTalent } from '../../config/constants'
+import { OnboardingStep, ResourceType } from '../../config/constants'
 import { UndeadBox } from './UndeadBox'
 import { banUndead } from '../../data/undeads/actions'
 import { Image } from '../images/Image'
-import { TalentButton } from '../talents/TalentButton'
-import { getUndeadTalentValue, isUndeadAlive, Undead } from '../../data/undeads/helpers'
+import { Undead } from '../../data/undeads/helpers'
 import { OnboardingHighlight } from '../../screens/onboarding/components/OnboardingHighlight'
+import { TalentsList } from '../talents/TalentsList'
 
 const undeadOverlayContainer = (isOpen: boolean) => [
   modalPanel(ModalColor.PURPLE),
@@ -94,15 +94,7 @@ export const UndeadOverlay = () => {
             <ResourceIcon type={ResourceType.Meat} text={meatCost} />
             <br />
             <span css={textColor('CYAN')}>{t('talentsTotal')}</span>
-            {Object.values(UndeadTalent).map(talent => (
-              <TalentButton
-                key={talent}
-                type={talent}
-                text={undeads
-                  .filter(isUndeadAlive)
-                  .reduce((sum, undead) => sum + getUndeadTalentValue(undead, talent), 0)}
-              />
-            ))}
+            <TalentsList values={undeads.map(undead => undead.talents).flat()} />
           </div>
           <TransitionGroup>
             {undeads

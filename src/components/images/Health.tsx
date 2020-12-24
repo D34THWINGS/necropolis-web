@@ -12,12 +12,13 @@ const getTestId = (index: number, health: number, maxHealth: number) => {
 }
 
 export type HealthProps = {
+  className?: string
   health: number
   maxHealth: number
 }
 
-export const Health = ({ health, maxHealth }: HealthProps) => (
-  <>
+export const Health = ({ className, health, maxHealth }: HealthProps) => (
+  <div className={className}>
     {Array.from({ length: Math.max(maxHealth, health) })
       .map((_, index) => index)
       .map((index, _, healthArray) => (
@@ -29,5 +30,5 @@ export const Health = ({ health, maxHealth }: HealthProps) => (
           data-test-id={getTestId(index, health, maxHealth)}
         />
       ))}
-  </>
+  </div>
 )

@@ -220,7 +220,6 @@ export const fr = {
         return ''
     }
   },
-  undeadTalents: 'Talents :',
   undeadAbility: 'Capacité :',
   undeadAbilityDescription: (type: UndeadType) => undeadAbilities[type],
   reanimatedUndeadTitle: 'Réanimation',
