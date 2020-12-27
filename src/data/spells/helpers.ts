@@ -89,3 +89,21 @@ export const isRestoration = (spell: Spell): spell is Restoration => spell.key =
 export const isTheKey = (spell: Spell): spell is TheKey => spell.key === SpellKey.TheKey
 
 export const isPrediction = (spell: Spell): spell is Prediction => spell.key === SpellKey.Prediction
+
+const makeSpellFromKey = (key: SpellKey) => {
+  switch (key) {
+    case SpellKey.SoulStorm:
+      return makeSoulStorm()
+    case SpellKey.Restoration:
+      return makeRestoration()
+    case SpellKey.TheKey:
+      return makeTheKey()
+    case SpellKey.Prediction:
+      return makePrediction()
+  }
+}
+
+export const getSpellsToLearn = (knownSpells: Spell[]) =>
+  Object.values(SpellKey)
+    .filter(key => knownSpells.every(spell => spell.key !== key))
+    .map(makeSpellFromKey)

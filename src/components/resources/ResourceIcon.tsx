@@ -33,7 +33,7 @@ export const ResourceIcon = ({ type, text, className, marginLeft, marginRight, s
     <Image
       src={iconMap[type]}
       className={className}
-      marginLeft={text ? '0.2rem' : marginLeft}
+      marginLeft={text !== undefined ? '0.2rem' : marginLeft}
       marginRight={marginRight}
       size={size}
       block={block}

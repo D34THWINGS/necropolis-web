@@ -1,12 +1,16 @@
-import {
-  ARSENAL_TRAPS_COUNT,
-  BuildingType,
-  CATACOMBS_MAX_UNDEAD,
-  CATACOMBS_SOUL_COST,
-  CHARNEL_HOUSE_MEAT_PRODUCTION,
-  ResourceType,
-  SOUL_WELL_SOUL_PRODUCTION,
-} from '../../config/constants'
+import { BuildingType, ResourceType } from '../../config/constants'
+import { Secret } from './secrets'
+
+const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 3, 5]
+
+const SOUL_WELL_SOUL_PRODUCTION = [0, 2, 3, 4]
+
+const CATACOMBS_SOUL_COST = [0, 3, 3, 3]
+const CATACOMBS_MAX_UNDEAD = [0, 1, 2, 3]
+
+const OSSUARY_SECRETS_AMOUNT = [0, 2, 4, 4]
+
+const ARSENAL_TRAPS_COUNT = [0, 3, 5, 7]
 
 type BaseBuilding = { level: number; maxLevel: number; collapsed: boolean; upgradeCost: number }
 
@@ -19,10 +23,12 @@ const makeBaseBuilding = (level: number): BaseBuilding => ({
   upgradeCost: 1,
 })
 
-export type Ossuary = BaseBuilding & { type: BuildingType.Ossuary }
-export const makeOssuary = (level = 0): Ossuary => ({
+export type Ossuary = BaseBuilding & { type: BuildingType.Ossuary; secrets: Secret[]; secretsAmount: number }
+export const makeOssuary = (level = 0, secrets: Secret[] = []): Ossuary => ({
   ...makeBaseBuilding(level),
   type: BuildingType.Ossuary,
+  secrets,
+  secretsAmount: OSSUARY_SECRETS_AMOUNT[level],
 })
 export const isOssuary = (building: Building): building is Ossuary => building.type === BuildingType.Ossuary
 
@@ -81,7 +87,7 @@ export const makeUpgradedBuilding = <T extends Building>(building: T): T => {
     case BuildingType.CharnelHouse:
       return makeCharnelHouse(building.level + 1) as T
     case BuildingType.Ossuary:
-      return makeOssuary(building.level + 1) as T
+      return makeOssuary(building.level + 1, (building as Ossuary).secrets) as T
     case BuildingType.SoulWell:
       return makeSoulWell(building.level + 1) as T
     case BuildingType.Catacombs:
