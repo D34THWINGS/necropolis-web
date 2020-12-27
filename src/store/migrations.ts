@@ -1,5 +1,7 @@
 import { PersistedState, MigrationManifest } from 'redux-persist'
 import { RootState } from './mainReducer'
+import { Undead } from '../data/undeads/helpers'
+import { makeInitialBuildings } from '../data/buildings/helpers'
 
 type PartialState<TState> = TState extends Record<string, unknown>
   ? { [K in keyof TState]?: PartialState<TState[K]> }
@@ -18,7 +20,13 @@ const migrationsRecord: Record<number, (state: PersistedRootState) => PersistedR
     },
     undeads: {
       ...state.undeads,
-      list: state.undeads?.list?.map(undead => ({ ...undead, id: Math.floor(Math.random() * 1000) })),
+      list: state.undeads?.list?.map((undead: Undead) => ({ ...undead, id: Math.floor(Math.random() * 1000) })),
+    },
+  }),
+  2: state => ({
+    ...state,
+    buildings: {
+      list: makeInitialBuildings(),
     },
   }),
 }

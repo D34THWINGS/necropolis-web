@@ -1,31 +1,27 @@
 import React from 'react'
+import { Redirect } from 'react-router'
+import { useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
-import { BuildingType } from '../../config/constants'
-import {
-  getCharnelHouseBonesProduction,
-  getCharnelHouseMeatProduction,
-  getCharnelHouseProductionTurns,
-} from '../../data/buildings/helpers'
 import { BuildingDetails } from './components/BuildingDetails'
+import { getCharnelHouse } from '../../data/buildings/selectors'
+import { ResourceType } from '../../config/constants'
+import { makeUpgradedBuilding } from '../../data/buildings/helpers'
+import { MAIN_HUB } from '../../config/routes'
 
 export const CharnelHouse = () => {
   const { t } = useTranslation()
+  const charnelHouse = useSelector(getCharnelHouse)
+
+  if (!charnelHouse) {
+    return <Redirect to={MAIN_HUB} />
+  }
 
   return (
     <BuildingDetails
-      type={BuildingType.CharnelHouse}
-      renderDescription={level =>
-        t(
-          'charnelHouseDescription',
-          getCharnelHouseMeatProduction(level),
-          getCharnelHouseBonesProduction(level),
-          getCharnelHouseProductionTurns(level),
-        )
-      }
-      renderUpgradeDescription={level =>
-        level === 1
-          ? t('charnelHouseUnlock', getCharnelHouseMeatProduction(level))
-          : t('charnelHouseUpgrade', getCharnelHouseBonesProduction(level), getCharnelHouseProductionTurns(level))
+      building={charnelHouse}
+      renderDescription={() => t('charnelHouseDescription', charnelHouse.produces[ResourceType.Meat] ?? 0)}
+      renderUpgradeDescription={() =>
+        t('charnelHouseUnlock', makeUpgradedBuilding(charnelHouse).produces[ResourceType.Meat] ?? 0)
       }
     />
   )

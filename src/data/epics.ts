@@ -8,7 +8,7 @@ import {
   castTheKeyEpic,
   castPredictionEpic,
 } from './spells/epics'
-import { repairBuildingEpic, upgradeBuildingEpic, upgradeBuildingRewardsEpic } from './buildings/epics'
+import { repairBuildingEpic, upgradeBuildingEpic, upgradeBuildingWinEpic } from './buildings/epics'
 import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
 import { looseUndeadEpic, raiseUndeadEpic, valetEpic } from './undeads/epics'
 import { resetGameEpic } from './settings/epics'
@@ -23,7 +23,7 @@ import {
 
 export const rootEpic = combineEpics(
   upgradeBuildingEpic,
-  upgradeBuildingRewardsEpic,
+  upgradeBuildingWinEpic,
   repairBuildingEpic,
   valetEpic,
   looseUndeadEpic,

@@ -51,7 +51,7 @@ export const Collapsing = ({ renderStep }: EventModalContentProps) => {
             return (
               <>
                 <EventImage src={collapsingImageUrl} />
-                <div css={eventStepDescription}>{t('collapsingStep1', t(collapsedBuilding))}</div>
+                <div css={eventStepDescription}>{t('collapsingStep1', t(collapsedBuilding.type))}</div>
                 <EventAction
                   extra={t('collapsingAction1Cost')}
                   onClick={hasArtifact ? handleShovel : goToStep(CollapsingStep.Shovel)}

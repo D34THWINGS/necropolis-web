@@ -5,15 +5,7 @@ import { Building } from './Building'
 import { useTranslation } from '../../lang/useTranslation'
 import { ARSENAL, CATACOMBS, CHARNEL_HOUSE, OSSUARY, SOUL_WELL } from '../../config/routes'
 import { getBuildings } from '../../data/buildings/selectors'
-import { ARTIFACT_DEFENSE_BONUS, BuildingType, OnboardingStep } from '../../config/constants'
-import {
-  getArsenalTrapsCount,
-  getCharnelHouseBonesProduction,
-  getCharnelHouseMeatProduction,
-  getCharnelHouseProductionTurns,
-  getMaxUndeadRaising,
-  getSoulWellSoulProduction,
-} from '../../data/buildings/helpers'
+import { ARTIFACT_DEFENSE_BONUS, BuildingType, OnboardingStep, ResourceType } from '../../config/constants'
 import { getRaisedUndeadCount } from '../../data/undeads/selectors'
 import { getHasArtifact } from '../../data/events/selectors'
 import { Panel } from '../../components/ui/Panel'
@@ -22,6 +14,7 @@ import runeImageUrl from '../../assets/images/items/rune.png'
 import { ScreenWrapper } from '../../components/ui/ScreenWrapper'
 import backgroundImageUrl from '../../assets/images/background.jpg'
 import { OnboardingHighlight } from '../onboarding/components/OnboardingHighlight'
+import { isArsenal, isCatacombs, isCharnelHouse, isOssuary, isSoulWell } from '../../data/buildings/helpers'
 
 const mainHubWrapper = css({
   [breakpoints.SM]: {
@@ -77,57 +70,78 @@ export const MainHub = () => {
 
   return (
     <ScreenWrapper css={mainHubWrapper} backgroundUrl={backgroundImageUrl}>
-      <OnboardingHighlight<HTMLAnchorElement> step={charnelHouseHighlight}>
-        {({ className, ref, onClick, step }) => (
-          <Building
-            ref={ref}
-            css={step === OnboardingStep.HighlightProduction ? disabledBuilding : undefined}
-            className={className}
-            name={t(BuildingType.CharnelHouse)}
-            level={buildings.charnelHouse.level}
-            description={t(
-              'charnelHouseDescription',
-              getCharnelHouseMeatProduction(buildings.charnelHouse.level || 1),
-              getCharnelHouseBonesProduction(buildings.charnelHouse.level || 1),
-              getCharnelHouseProductionTurns(buildings.charnelHouse.level || 1),
-            )}
-            route={CHARNEL_HOUSE}
-            onClick={onClick}
-          />
-        )}
-      </OnboardingHighlight>
-      <OnboardingHighlight<HTMLAnchorElement> step={soulWellHighlight}>
-        {({ className, ref, onClick, step }) => (
-          <Building
-            ref={ref}
-            css={step === OnboardingStep.HighlightProduction ? disabledBuilding : undefined}
-            className={className}
-            name={t(BuildingType.SoulWell)}
-            level={buildings.soulWell.level}
-            description={t('soulWellDescription', getSoulWellSoulProduction(buildings.soulWell.level || 1))}
-            route={SOUL_WELL}
-            onClick={onClick}
-          />
-        )}
-      </OnboardingHighlight>
-      <Building
-        name={t(BuildingType.Catacombs)}
-        level={buildings.catacombs.level}
-        description={t('catacombDescription', raisedUndead, getMaxUndeadRaising(buildings.catacombs.level || 1))}
-        route={CATACOMBS}
-      />
-      <Building
-        name={t(BuildingType.Ossuary)}
-        level={buildings.ossuary.level}
-        description={t('ossuaryDescription')}
-        route={OSSUARY}
-      />
-      <Building
-        name={t(BuildingType.Arsenal)}
-        level={buildings.arsenal.level}
-        description={t('arsenalDescription', getArsenalTrapsCount(buildings.arsenal.level || 1))}
-        route={ARSENAL}
-      />
+      {buildings.map(building => {
+        if (isCharnelHouse(building)) {
+          return (
+            <OnboardingHighlight<HTMLAnchorElement> key={building.type} step={charnelHouseHighlight}>
+              {({ className, ref, onClick, step }) => (
+                <Building
+                  ref={ref}
+                  css={step === OnboardingStep.HighlightProduction ? disabledBuilding : undefined}
+                  className={className}
+                  name={t(BuildingType.CharnelHouse)}
+                  level={building.level}
+                  description={t('charnelHouseDescription', building.produces[ResourceType.Meat] ?? 0)}
+                  route={CHARNEL_HOUSE}
+                  onClick={onClick}
+                />
+              )}
+            </OnboardingHighlight>
+          )
+        }
+        if (isSoulWell(building)) {
+          return (
+            <OnboardingHighlight<HTMLAnchorElement> key={building.type} step={soulWellHighlight}>
+              {({ className, ref, onClick, step }) => (
+                <Building
+                  ref={ref}
+                  css={step === OnboardingStep.HighlightProduction ? disabledBuilding : undefined}
+                  className={className}
+                  name={t(BuildingType.SoulWell)}
+                  level={building.level}
+                  description={t('soulWellDescription', building.produces[ResourceType.Souls] ?? 0)}
+                  route={SOUL_WELL}
+                  onClick={onClick}
+                />
+              )}
+            </OnboardingHighlight>
+          )
+        }
+        if (isCatacombs(building)) {
+          return (
+            <Building
+              key={building.type}
+              name={t(building.type)}
+              level={building.level}
+              description={t('catacombDescription', raisedUndead, building.maxRaisedUndead)}
+              route={CATACOMBS}
+            />
+          )
+        }
+        if (isOssuary(building)) {
+          return (
+            <Building
+              key={building.type}
+              name={t(building.type)}
+              level={building.level}
+              description={t('ossuaryDescription')}
+              route={OSSUARY}
+            />
+          )
+        }
+        if (isArsenal(building)) {
+          return (
+            <Building
+              key={building.type}
+              name={t(building.type)}
+              level={building.level}
+              description={t('arsenalDescription', building.trapsPerAssault)}
+              route={ARSENAL}
+            />
+          )
+        }
+        return ((_: never) => _)(building)
+      })}
       {hasArtifact && (
         <Panel css={artifactPanel}>
           <div css={artifactText}>

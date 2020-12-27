@@ -2,7 +2,7 @@ import { createReducer } from 'typesafe-actions'
 import { gainResources, spendResources } from './actions'
 import { ResourceType } from '../../config/constants'
 
-export type ResourcesState = Record<ResourceType, number>
+export type ResourcesState = { [K in ResourceType]: number }
 
 const initialState: ResourcesState = {
   [ResourceType.Meat]: 0,

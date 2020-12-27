@@ -4,32 +4,22 @@ export const INITIAL_MEAT = 8
 export const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 3, 5]
 export const CHARNEL_HOUSE_BONES_PRODUCTION = [0, 0, 1, 1]
 export const CHARNEL_HOUSE_PRODUCTION_TURNS = [0, 0, 2, 2]
-export const CHARNEL_HOUSE_UPGRADE_COST = [0, 1, 1, 1]
-export const CHARNEL_HOUSE_MAX_LEVEL = 3
 
 export const SOUL_WELL_SOUL_PRODUCTION = [0, 2, 3, 4]
-export const SOUL_WELL_UPGRADE_COST = [0, 1, 1, 1]
-export const SOUL_WELL_MAX_LEVEL = 3
 
 export const CATACOMBS_SOUL_COST = [0, 3, 3, 3]
 export const CATACOMBS_MAX_UNDEAD = [0, 1, 2, 3]
-export const CATACOMBS_UPGRADE_COST = [0, 1, 1, 1]
-export const CATACOMBS_MAX_LEVEL = 3
 
 export const OSSUARY_BONES_COST = [0, 3, 3, 3]
 export const OSSUARY_UPGRADE_BONUS_MEAT = [0, 0, 3, 3]
 export const OSSUARY_UPGRADE_BONUS_BONES = [0, 0, 3, 3]
-export const OSSUARY_UPGRADE_COST = [0, 1, 1, 1]
-export const OSSUARY_MAX_LEVEL = 3
 
 export const ARSENAL_TRAPS_COUNT = [0, 3, 5, 7]
-export const ARSENAL_UPGRADE_COST = [0, 1, 1, 1]
-export const ARSENAL_MAX_LEVEL = 3
 
 export const EVENTS_TURN_SPACING = 3
 export const PALADINS_STRENGTH_INCREASE = 1
 export const PALADINS_INCREASE_SPACING = 3
-export const PALADINS_CALL_TO_ARMS_TURN = 3
+export const PALADINS_CALL_TO_ARMS_TURN = 2
 export const PALADINS_ATTACK_THRESHOLD = 3
 export const PALADINS_WARN_THRESHOLD = 2
 

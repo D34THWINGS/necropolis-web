@@ -13,8 +13,8 @@ import { endEvent } from '../../data/events/actions'
 import { redSquareButton } from '../../styles/buttons'
 import { beginPaladinsAssault } from '../../data/paladins/actions'
 
-const PALADINS_ASSAULT_WEAK = 3
-const PALADINS_ASSAULT_MEDIUM = 6
+const PALADINS_ASSAULT_WEAK = 4
+const PALADINS_ASSAULT_MEDIUM = 7
 
 export const PaladinsAssault = () => {
   const { t } = useTranslation()

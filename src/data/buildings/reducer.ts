@@ -1,35 +1,38 @@
 import { createReducer } from 'typesafe-actions'
 import { collapseBuilding, freeUpgradeBuilding, repairBuilding, upgradeBuilding } from './actions'
-import { BuildingType } from '../../config/constants'
-import { deepSet } from '../helpers'
-import { Building, getBuildingMaxLevel } from './helpers'
+import { setInArray } from '../helpers'
+import { Building, makeInitialBuildings, makeUpgradedBuilding } from './helpers'
 
-type BuildingsState = Record<BuildingType, Building>
+const updateBuilding = (state: BuildingsState, { type }: Building, callback: (building: Building) => Building) => {
+  const buildingIndex = state.list.findIndex(building => building.type === type)
+  if (buildingIndex === -1) {
+    return state
+  }
+  return {
+    ...state,
+    list: setInArray(state.list, buildingIndex, callback(state.list[buildingIndex])),
+  }
+}
+
+export type BuildingsState = {
+  list: Building[]
+}
 
 export const buildings = createReducer<BuildingsState>({
-  [BuildingType.Ossuary]: {
-    level: 0,
-    collapsed: false,
-  },
-  [BuildingType.SoulWell]: {
-    level: 0,
-    collapsed: false,
-  },
-  [BuildingType.Catacombs]: {
-    level: 0,
-    collapsed: false,
-  },
-  [BuildingType.CharnelHouse]: {
-    level: 0,
-    collapsed: false,
-  },
-  [BuildingType.Arsenal]: {
-    level: 0,
-    collapsed: false,
-  },
+  list: makeInitialBuildings(),
 })
-  .handleAction([upgradeBuilding, freeUpgradeBuilding], (state, { payload: { type } }) =>
-    deepSet(state)(type)('level')()(Math.min(state[type].level + 1, getBuildingMaxLevel(type))),
+  .handleAction([upgradeBuilding, freeUpgradeBuilding], (state, { payload: { building } }) =>
+    updateBuilding(state, building, makeUpgradedBuilding),
   )
-  .handleAction(collapseBuilding, (state, { payload: { type } }) => deepSet(state)(type)('collapsed')()(true))
-  .handleAction(repairBuilding, (state, { payload: { type } }) => deepSet(state)(type)('collapsed')()(false))
+  .handleAction(collapseBuilding, (state, { payload: { building } }) =>
+    updateBuilding(state, building, buildingToCollapse => ({
+      ...buildingToCollapse,
+      collapsed: true,
+    })),
+  )
+  .handleAction(repairBuilding, (state, { payload: { building } }) =>
+    updateBuilding(state, building, buildingToRepair => ({
+      ...buildingToRepair,
+      collapsed: false,
+    })),
+  )

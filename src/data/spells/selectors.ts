@@ -1,10 +1,13 @@
 import { RootState } from '../../store/mainReducer'
 import { getSoulWell } from '../buildings/selectors'
-import { isBuildingBuilt } from '../buildings/helpers'
+import { isBuildingConstructed } from '../buildings/helpers'
 import { getLethalityBonusFromEffects } from './effects'
 import { isTheKey } from './helpers'
 
-export const getCanCastSpells = (state: RootState) => isBuildingBuilt(getSoulWell(state))
+export const getCanCastSpells = (state: RootState) => {
+  const soulWell = getSoulWell(state)
+  return !!soulWell && isBuildingConstructed(soulWell)
+}
 
 export const getSpellsLethalityBonus = (state: RootState) => getLethalityBonusFromEffects(state.spells.activeEffects)
 

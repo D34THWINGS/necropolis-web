@@ -1,13 +1,17 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { Redirect } from 'react-router'
 import { css } from '@emotion/react'
 import { useTranslation } from '../../lang/useTranslation'
-import { BuildingType } from '../../config/constants'
-import { getSoulWellSoulProduction } from '../../data/buildings/helpers'
 import { BuildingDetails } from './components/BuildingDetails'
 import backgroundImageUrl from '../../assets/images/background.jpg'
 import soulWell1Url from '../../assets/images/buildings/soul-well-1.png'
 import soulWell2Url from '../../assets/images/buildings/soul-well-2.png'
 import soulWell3Url from '../../assets/images/buildings/soul-well-3.png'
+import { getSoulWell } from '../../data/buildings/selectors'
+import { MAIN_HUB } from '../../config/routes'
+import { ResourceType } from '../../config/constants'
+import { makeUpgradedBuilding } from '../../data/buildings/helpers'
 
 const soulWellImages = [soulWell1Url, soulWell2Url, soulWell3Url]
 
@@ -25,20 +29,26 @@ const soulWellImage = (backgroundUrl: string) =>
 
 export const SoulWell = () => {
   const { t } = useTranslation()
+  const soulWell = useSelector(getSoulWell)
+
+  if (!soulWell) {
+    return <Redirect to={MAIN_HUB} />
+  }
 
   return (
     <BuildingDetails
-      type={BuildingType.SoulWell}
+      building={soulWell}
       backgroundUrl={backgroundImageUrl}
-      renderDescription={level => t('soulWellDescription', getSoulWellSoulProduction(level))}
-      renderUpgradeDescription={level => {
-        switch (level) {
+      renderDescription={() => t('soulWellDescription', soulWell.produces[ResourceType.Souls] ?? 0)}
+      renderUpgradeDescription={() => {
+        const upgradedSoulWell = makeUpgradedBuilding(soulWell)
+        switch (soulWell.level) {
+          case 0:
+            return t('soulWellUnlock', upgradedSoulWell.produces[ResourceType.Souls] ?? 0)
           case 1:
-            return t('soulWellUnlock', getSoulWellSoulProduction(level))
-          case 2:
             return t('soulWellUpgradeStorm')
           default:
-            return t('soulWellUpgrade', getSoulWellSoulProduction(level))
+            return t('soulWellUpgrade', upgradedSoulWell.produces[ResourceType.Souls] ?? 0)
         }
       }}
     >

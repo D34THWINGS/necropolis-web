@@ -8,7 +8,6 @@ import { addUndead, banUndead, sacrificeUndead, raiseUndead, upgradeValet } from
 import { getUndeadCount, getUndeadTypes } from './selectors'
 import { spendResources } from '../resources/actions'
 import { LooseReason, ResourceType, UndeadType } from '../../config/constants'
-import { getRaiseUndeadSoulCost } from '../buildings/helpers'
 import { getCatacombs } from '../buildings/selectors'
 import { loose, nextPhase } from '../turn/actions'
 import { endExpedition } from '../expeditions/actions'
@@ -16,13 +15,12 @@ import { endExpedition } from '../expeditions/actions'
 export const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(raiseUndead)),
-    mergeMap(({ payload: { undead } }) =>
-      of(
-        spendResources({ [ResourceType.Souls]: getRaiseUndeadSoulCost(getCatacombs(state$.value).level) }),
-        addUndead(undead),
-        nextPhase(),
-      ),
-    ),
+    mergeMap(({ payload: { undead } }) => {
+      const catacombs = getCatacombs(state$.value)
+      return catacombs
+        ? of(spendResources({ [ResourceType.Souls]: catacombs.raiseUndeadSoulCost }), addUndead(undead), nextPhase())
+        : EMPTY
+    }),
   )
 
 export const valetEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>

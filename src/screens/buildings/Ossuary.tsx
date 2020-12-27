@@ -1,20 +1,18 @@
 import React from 'react'
+import { Redirect } from 'react-router'
+import { useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
-import { BuildingType } from '../../config/constants'
-import { getOssuaryUpgradeBonusBones, getOssuaryUpgradeBonusMeat } from '../../data/buildings/helpers'
 import { BuildingDetails } from './components/BuildingDetails'
+import { getOssuary } from '../../data/buildings/selectors'
+import { MAIN_HUB } from '../../config/routes'
 
 export const Ossuary = () => {
   const { t } = useTranslation()
+  const ossuary = useSelector(getOssuary)
 
-  return (
-    <BuildingDetails
-      type={BuildingType.Ossuary}
-      renderUpgradeDescription={level =>
-        level === 1
-          ? t('ossuaryUnlock')
-          : t('ossuaryUpgrade', getOssuaryUpgradeBonusMeat(level), getOssuaryUpgradeBonusBones(level))
-      }
-    />
-  )
+  if (!ossuary) {
+    return <Redirect to={MAIN_HUB} />
+  }
+
+  return <BuildingDetails building={ossuary} renderUpgradeDescription={() => t('ossuaryUnlock')} />
 }

@@ -19,7 +19,7 @@ import { curseUndead, damageUndead } from '../../data/undeads/actions'
 const SAWMILL_DEXTERITY_REQUIRED = 2
 const SAWMILL_MEAT_REQUIRED = 2
 const SAWMILL_HEALTH_REQUIRED = 2
-const SAWMILL_MATERIALS_REWARD = 5
+const SAWMILL_MATERIALS_REWARD = 3
 
 enum OldCoffinStep {
   Door,

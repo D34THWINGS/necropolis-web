@@ -80,27 +80,14 @@ export const fr = {
   ),
 
   [BuildingType.CharnelHouse]: 'Charnier',
-  charnelHouseDescription: (meat: number, bones: number, turns: number) => (
+  charnelHouseDescription: (meat: number) => (
     <>
       Produit <ResourceIcon type={ResourceType.Meat} text={meat} /> par tour.
-      <br />
-      {bones === 0 ? null : (
-        <>
-          Produit <ResourceIcon type={ResourceType.Bones} text={bones} /> tous les{' '}
-          <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}.
-        </>
-      )}
     </>
   ),
   charnelHouseUnlock: (meat: number) => (
     <>
       Produit <ResourceIcon type={ResourceType.Meat} text={meat} /> par tour.
-    </>
-  ),
-  charnelHouseUpgrade: (bones: number, turns: number) => (
-    <>
-      Produit <ResourceIcon type={ResourceType.Bones} text={bones} /> tous les{' '}
-      <span css={textColor('CYAN')}>{turns}</span> tour{plural(turns, 's')}.
     </>
   ),
 
@@ -153,12 +140,6 @@ export const fr = {
   ossuaryUnlock: (
     <>
       Débloque l&apos;action &quot;<span css={textColor('BROWN')}>Découvrir un sort</span>&quot;
-    </>
-  ),
-  ossuaryUpgrade: (meat: number, bones: number) => (
-    <>
-      Découvre <ResourceIcon type={ResourceType.Meat} text={meat} /> et{' '}
-      <ResourceIcon type={ResourceType.Bones} text={bones} />.
     </>
   ),
 

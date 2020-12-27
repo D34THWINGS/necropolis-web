@@ -9,7 +9,6 @@ import {
   PLUNDER_ACTIVATION_TURN,
   UndeadType,
 } from '../config/constants'
-import { getArsenalTrapsCount } from './buildings/helpers'
 import { getArsenal, getConstructedBuildings } from './buildings/selectors'
 import { getHasArtifact, getIsEventPast, getPastEvents } from './events/selectors'
 import { getTurn } from './turn/selectors'
@@ -19,7 +18,7 @@ import { getPaladinsShouldAttack } from './paladins/selectors'
 export const getLethality = (state: RootState) => getUndeadArmyLethality(state) + getSpellsLethalityBonus(state)
 
 export const getDefense = (state: RootState) =>
-  getArsenalTrapsCount(getArsenal(state).level) +
+  (getArsenal(state)?.trapsPerAssault ?? 0) +
   (getHasArtifact(state) ? ARTIFACT_DEFENSE_BONUS : 0) +
   (getUndeadTypes(state).includes(UndeadType.LaMotte) ? LA_MOTTE_DEFENSE_BONUS : 0)
 

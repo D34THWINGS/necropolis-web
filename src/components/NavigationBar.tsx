@@ -11,8 +11,8 @@ import researchIconUrl from '../assets/images/footer/research.png'
 import { backgroundImage } from '../styles/base'
 import { buttonPress } from '../styles/buttons'
 import { OnboardingHighlight } from '../screens/onboarding/components/OnboardingHighlight'
-import { BuildingType, OnboardingStep } from '../config/constants'
-import { getBuildingLevel } from '../data/buildings/selectors'
+import { OnboardingStep } from '../config/constants'
+import { getIsCatacombsBuilt, getIsOssuaryBuilt } from '../data/buildings/selectors'
 
 const footerContainer = css({
   display: 'flex',
@@ -61,8 +61,8 @@ const buildIcon = css({
 })
 
 export const NavigationBar = () => {
-  const isOssuaryBuilt = useSelector(getBuildingLevel(BuildingType.Ossuary)) > 0
-  const isCatacombsBuilt = useSelector(getBuildingLevel(BuildingType.Catacombs)) > 0
+  const isOssuaryBuilt = useSelector(getIsOssuaryBuilt)
+  const isCatacombsBuilt = useSelector(getIsCatacombsBuilt)
   const [stackSize, setStackSize] = useState(0)
   const match = useRouteMatch({ path: MAIN_HUB, exact: true })
   const history = useHistory()

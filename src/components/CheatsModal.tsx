@@ -5,7 +5,7 @@ import { Modal, useModalState } from './ui/Modal/Modal'
 import { h2Title, smallMarginTop } from '../styles/base'
 import { greenSquareButton } from '../styles/buttons'
 import { gainResources } from '../data/resources/actions'
-import { BuildingType, ResourceType, UndeadType } from '../config/constants'
+import { ResourceType, UndeadType } from '../config/constants'
 import { freeUpgradeBuilding } from '../data/buildings/actions'
 import { raiseUndead } from '../data/undeads/actions'
 import { createUndead } from '../data/undeads/helpers'
@@ -14,6 +14,7 @@ import { loadGameState, resetGame } from '../data/settings/actions'
 import { layers } from '../config/theme'
 import { persistConfig } from '../store/persistConfig'
 import { PersistedRootState } from '../store/migrations'
+import { getBuildings } from '../data/buildings/selectors'
 
 declare global {
   interface Window {
@@ -64,7 +65,9 @@ export const CheatsModal = () => {
   }
 
   const handleBasicSetup = () => {
-    Object.values(BuildingType).forEach(type => dispatch(freeUpgradeBuilding(type)))
+    const state = store.getState()
+    const buildings = getBuildings(state)
+    buildings.forEach(building => dispatch(freeUpgradeBuilding(building)))
     dispatch(
       gainResources({
         [ResourceType.Bones]: 3,

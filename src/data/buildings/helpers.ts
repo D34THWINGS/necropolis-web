@@ -1,85 +1,100 @@
 import {
-  ARSENAL_MAX_LEVEL,
   ARSENAL_TRAPS_COUNT,
-  ARSENAL_UPGRADE_COST,
   BuildingType,
-  CATACOMBS_MAX_LEVEL,
   CATACOMBS_MAX_UNDEAD,
   CATACOMBS_SOUL_COST,
-  CATACOMBS_UPGRADE_COST,
-  CHARNEL_HOUSE_BONES_PRODUCTION,
-  CHARNEL_HOUSE_MAX_LEVEL,
   CHARNEL_HOUSE_MEAT_PRODUCTION,
-  CHARNEL_HOUSE_PRODUCTION_TURNS,
-  CHARNEL_HOUSE_UPGRADE_COST,
-  OSSUARY_BONES_COST,
-  OSSUARY_MAX_LEVEL,
-  OSSUARY_UPGRADE_BONUS_BONES,
-  OSSUARY_UPGRADE_BONUS_MEAT,
-  OSSUARY_UPGRADE_COST,
-  SOUL_WELL_MAX_LEVEL,
+  ResourceType,
   SOUL_WELL_SOUL_PRODUCTION,
-  SOUL_WELL_UPGRADE_COST,
 } from '../../config/constants'
 
-export type Building = { level: number; collapsed: boolean }
+type BaseBuilding = { level: number; maxLevel: number; collapsed: boolean; upgradeCost: number }
 
-const assertUnhandledBuilding = (type: never) => {
-  throw new Error(`Unknown building ${type}`)
+type ProducingBuilding = { produces: { [K in ResourceType]?: number } }
+
+const makeBaseBuilding = (level: number): BaseBuilding => ({
+  collapsed: false,
+  level,
+  maxLevel: 3,
+  upgradeCost: 1,
+})
+
+export type Ossuary = BaseBuilding & { type: BuildingType.Ossuary }
+export const makeOssuary = (level = 0): Ossuary => ({
+  ...makeBaseBuilding(level),
+  type: BuildingType.Ossuary,
+})
+export const isOssuary = (building: Building): building is Ossuary => building.type === BuildingType.Ossuary
+
+export type Catacombs = BaseBuilding & {
+  type: BuildingType.Catacombs
+  raiseUndeadSoulCost: number
+  maxRaisedUndead: number
 }
+export const makeCatacombs = (level = 0): Catacombs => ({
+  ...makeBaseBuilding(level),
+  type: BuildingType.Catacombs,
+  raiseUndeadSoulCost: CATACOMBS_SOUL_COST[level],
+  maxRaisedUndead: CATACOMBS_MAX_UNDEAD[level],
+})
+export const isCatacombs = (building: Building): building is Catacombs => building.type === BuildingType.Catacombs
 
-export const getBuildingUpgradeCost = (type: BuildingType, level: number) => {
-  switch (type) {
-    case BuildingType.CharnelHouse:
-      return CHARNEL_HOUSE_UPGRADE_COST[level]
-    case BuildingType.Catacombs:
-      return CATACOMBS_UPGRADE_COST[level]
-    case BuildingType.SoulWell:
-      return SOUL_WELL_UPGRADE_COST[level]
-    case BuildingType.Ossuary:
-      return OSSUARY_UPGRADE_COST[level]
+export type Arsenal = BaseBuilding & { type: BuildingType.Arsenal; trapsPerAssault: number }
+export const makeArsenal = (level = 0): Arsenal => ({
+  ...makeBaseBuilding(level),
+  type: BuildingType.Arsenal,
+  trapsPerAssault: ARSENAL_TRAPS_COUNT[level],
+})
+export const isArsenal = (building: Building): building is Arsenal => building.type === BuildingType.Arsenal
+
+export type SoulWell = BaseBuilding & ProducingBuilding & { type: BuildingType.SoulWell }
+export const makeSoulWell = (level = 0): SoulWell => ({
+  ...makeBaseBuilding(level),
+  type: BuildingType.SoulWell,
+  produces: { [ResourceType.Souls]: SOUL_WELL_SOUL_PRODUCTION[level] ?? 0 },
+})
+export const isSoulWell = (building: Building): building is SoulWell => building.type === BuildingType.SoulWell
+
+export type CharnelHouse = BaseBuilding & ProducingBuilding & { type: BuildingType.CharnelHouse }
+export const makeCharnelHouse = (level = 0): CharnelHouse => ({
+  ...makeBaseBuilding(level),
+  type: BuildingType.CharnelHouse,
+  produces: { [ResourceType.Meat]: CHARNEL_HOUSE_MEAT_PRODUCTION[level] ?? 0 },
+})
+export const isCharnelHouse = (building: Building): building is CharnelHouse =>
+  building.type === BuildingType.CharnelHouse
+
+export type Building = Ossuary | Catacombs | Arsenal | SoulWell | CharnelHouse
+
+export const makeInitialBuildings = () => [
+  makeCharnelHouse(),
+  makeSoulWell(),
+  makeCatacombs(),
+  makeOssuary(),
+  makeArsenal(),
+]
+
+export const makeUpgradedBuilding = <T extends Building>(building: T): T => {
+  switch (building.type) {
     case BuildingType.Arsenal:
-      return ARSENAL_UPGRADE_COST[level]
-    default:
-      return assertUnhandledBuilding(type)
+      return makeArsenal(building.level + 1) as T
+    case BuildingType.CharnelHouse:
+      return makeCharnelHouse(building.level + 1) as T
+    case BuildingType.Ossuary:
+      return makeOssuary(building.level + 1) as T
+    case BuildingType.SoulWell:
+      return makeSoulWell(building.level + 1) as T
+    case BuildingType.Catacombs:
+      return makeCatacombs(building.level + 1) as T
   }
 }
 
-export const getBuildingMaxLevel = (type: BuildingType) => {
-  switch (type) {
-    case BuildingType.CharnelHouse:
-      return CHARNEL_HOUSE_MAX_LEVEL
-    case BuildingType.Catacombs:
-      return CATACOMBS_MAX_LEVEL
-    case BuildingType.SoulWell:
-      return SOUL_WELL_MAX_LEVEL
-    case BuildingType.Ossuary:
-      return OSSUARY_MAX_LEVEL
-    case BuildingType.Arsenal:
-      return ARSENAL_MAX_LEVEL
-    default:
-      return assertUnhandledBuilding(type)
-  }
-}
+export const isProducingBuilding = (building: unknown): building is ProducingBuilding =>
+  !!(building as ProducingBuilding).produces
 
-export const getArsenalTrapsCount = (level: number) => ARSENAL_TRAPS_COUNT[level]
+export const getProducingBuildings = (buildings: Building[]) =>
+  buildings.filter(isProducingBuilding) as ProducingBuilding[]
 
-export const getRaiseUndeadSoulCost = (level: number) => CATACOMBS_SOUL_COST[level]
+export const isBuildingConstructed = (building: Building) => building.level > 0
 
-export const getMaxUndeadRaising = (level: number) => CATACOMBS_MAX_UNDEAD[level]
-
-export const getCharnelHouseMeatProduction = (level: number) => CHARNEL_HOUSE_MEAT_PRODUCTION[level]
-
-export const getCharnelHouseBonesProduction = (level: number) => CHARNEL_HOUSE_BONES_PRODUCTION[level]
-
-export const getCharnelHouseProductionTurns = (level: number) => CHARNEL_HOUSE_PRODUCTION_TURNS[level]
-
-export const getOssuaryBonesCost = (level: number) => OSSUARY_BONES_COST[level]
-
-export const getOssuaryUpgradeBonusMeat = (level: number) => OSSUARY_UPGRADE_BONUS_MEAT[level]
-
-export const getOssuaryUpgradeBonusBones = (level: number) => OSSUARY_UPGRADE_BONUS_BONES[level]
-
-export const getSoulWellSoulProduction = (level: number) => SOUL_WELL_SOUL_PRODUCTION[level]
-
-export const isBuildingBuilt = (building: Building) => building.level > 0
+export const isBuildingFullyUpgraded = (building: Building) => building.level === building.maxLevel
