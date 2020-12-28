@@ -14,6 +14,7 @@ interface Window {
 
 Cypress.Commands.add('useStateFixture', (fixtureName: string) =>
   cy.fixture(fixtureName).then(state => {
+    cy.wrap(state).as('stateFixture')
     cy.window().then(win => (win as Window).injectState(state))
   }),
 )

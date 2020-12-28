@@ -74,7 +74,7 @@ describe('Paladins assault', () => {
     cy.getByTestId('endPaladinAssaultButton').click()
   })
 
-  it('Wizard should buff 3 paladins', () => {
+  it.only('Wizard should buff 3 paladins', () => {
     assaultSetup('paladinAssaultWizard')
     cy.assertText('paladinName', 'Enchanteur')
 
@@ -83,15 +83,15 @@ describe('Paladins assault', () => {
     cy.assertText('paladinDamages', '3')
 
     cy.getByTestId('useTrapButton').eq(0).click()
-    cy.assertText('paladinName', 'Avant-Garde')
+    cy.assertText('paladinCardsCounter', '3\u00A0/\u00A05')
     cy.assertText('paladinDamages', '3')
 
     cy.getByTestId('useTrapButton').eq(0).click()
-    cy.assertText('paladinName', 'Avant-Garde')
+    cy.assertText('paladinCardsCounter', '4\u00A0/\u00A05')
     cy.assertText('paladinDamages', '3')
 
     cy.getByTestId('useTrapButton').eq(0).click()
-    cy.assertText('paladinName', 'Avant-Garde')
+    cy.assertText('paladinCardsCounter', '5\u00A0/\u00A05')
     cy.assertText('paladinDamages', '2')
   })
 
@@ -126,7 +126,7 @@ describe('Paladins assault', () => {
     cy.assertContains('paladinType', 'magical')
   })
 
-  it.only('Healer should add health to 1 paladin', () => {
+  it('Healer should add health to 1 paladin', () => {
     assaultSetup('paladinAssaultHealer')
     cy.assertText('paladinName', 'Soigneur')
 

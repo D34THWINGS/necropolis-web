@@ -11,6 +11,7 @@ import { useModalState } from '../ui/Modal/Modal'
 import { getCanCastSpells } from '../../data/spells/selectors'
 import { getIsInExpedition } from '../../data/expeditions/selectors'
 import { OSSUARY } from '../../config/routes'
+import { getPaladinsAssaultOngoing } from '../../data/paladins/selectors'
 
 const spellsButton = [buttonBase, css({ zIndex: layers.SPELLS_MODAL })]
 
@@ -24,9 +25,10 @@ export const SpellsButton = ({ className, size = '3.5rem' }: SpellsButtonProps) 
   const match = useRouteMatch(OSSUARY)
   const hasSpells = useSelector(getCanCastSpells)
   const isInExpedition = useSelector(getIsInExpedition)
+  const isPaladinsAssaultOngoing = useSelector(getPaladinsAssaultOngoing)
 
   const isOnOssuary = match && match.isExact
-  if (!isOnOssuary && !isInExpedition) {
+  if (!isOnOssuary && !isInExpedition && !isPaladinsAssaultOngoing) {
     return null
   }
 
