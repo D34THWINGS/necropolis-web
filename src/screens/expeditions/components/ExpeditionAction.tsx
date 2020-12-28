@@ -31,7 +31,13 @@ export type ExpeditionActionProps = {
 export const ExpeditionAction = ({ disabled, onClick, children, prerequisites, cost }: ExpeditionActionProps) => {
   const { t } = useTranslation()
   return (
-    <button type="button" disabled={disabled} css={expeditionActionButton} onClick={onClick}>
+    <button
+      type="button"
+      disabled={disabled}
+      css={expeditionActionButton}
+      onClick={onClick}
+      data-test-id="expeditionActionButton"
+    >
       <Image src={actionArrowUrl} block marginRight="0.4rem" />
       <span css={actionText}>{children}</span>
       {prerequisites && (

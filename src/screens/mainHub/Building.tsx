@@ -48,7 +48,14 @@ export const Building = forwardRef(
   ({ name, description, level, route, className, onClick }: BuildingProps, ref: Ref<HTMLAnchorElement>) => {
     const { t } = useTranslation()
     return (
-      <Link ref={ref} className={className} to={route} css={buildingPanelBorder(level > 0)} onClick={onClick}>
+      <Link
+        ref={ref}
+        className={className}
+        to={route}
+        css={buildingPanelBorder(level > 0)}
+        onClick={onClick}
+        data-test-id="buildingLink"
+      >
         <div css={panelInner}>
           <div css={buildingHeader}>
             <h2 css={buildingName}>{name}</h2>

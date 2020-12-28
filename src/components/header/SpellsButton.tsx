@@ -8,7 +8,7 @@ import { SpellsModal } from '../spells/SpellsModal'
 import { buttonBase } from '../../styles/buttons'
 import { layers } from '../../config/theme'
 import { useModalState } from '../ui/Modal/Modal'
-import { getCanCastSpells } from '../../data/spells/selectors'
+import { getHasSpells } from '../../data/spells/selectors'
 import { getIsInExpedition } from '../../data/expeditions/selectors'
 import { OSSUARY } from '../../config/routes'
 import { getPaladinsAssaultOngoing } from '../../data/paladins/selectors'
@@ -23,9 +23,13 @@ export type SpellsButtonProps = {
 export const SpellsButton = ({ className, size = '3.5rem' }: SpellsButtonProps) => {
   const { isOpen: isSpellsModalOpen, close: closeSpells, open: openSpells } = useModalState()
   const match = useRouteMatch(OSSUARY)
-  const hasSpells = useSelector(getCanCastSpells)
+  const hasSpells = useSelector(getHasSpells)
   const isInExpedition = useSelector(getIsInExpedition)
   const isPaladinsAssaultOngoing = useSelector(getPaladinsAssaultOngoing)
+
+  if (!hasSpells) {
+    return null
+  }
 
   const isOnOssuary = match && match.isExact
   if (!isOnOssuary && !isInExpedition && !isPaladinsAssaultOngoing) {
@@ -34,14 +38,7 @@ export const SpellsButton = ({ className, size = '3.5rem' }: SpellsButtonProps) 
 
   return (
     <>
-      <button
-        type="button"
-        className={className}
-        css={spellsButton}
-        disabled={!hasSpells}
-        onClick={openSpells}
-        data-test-id="spellsButton"
-      >
+      <button type="button" className={className} css={spellsButton} onClick={openSpells} data-test-id="spellsButton">
         <Image src={spellImageUrl} size={size} />
       </button>
       <SpellsModal isOpen={isSpellsModalOpen} onClose={closeSpells} />

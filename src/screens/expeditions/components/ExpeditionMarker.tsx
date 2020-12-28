@@ -83,6 +83,7 @@ export const ExpeditionMarker = forwardRef(
         type="button"
         css={markerWrapper(x, y, shown, shouldAnimateRef.current)}
         onClick={handleClick}
+        data-test-id="expeditionMarker"
       >
         <Image src={expeditionIconMap[type]} size="5rem" block />
         <div css={markerFrame(active)} />

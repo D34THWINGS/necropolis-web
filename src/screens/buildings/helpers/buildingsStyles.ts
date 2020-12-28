@@ -1,7 +1,8 @@
 import { css } from '@emotion/react'
 import { fonts, shadows } from '../../../config/theme'
 import { greenBox, textColor } from '../../../styles/base'
-import upgradeArrowUrl from '../../../assets/images/icons/cyan-arrow.png'
+import upArrowUrl from '../../../assets/images/icons/cyan-arrow.png'
+import upgradeIconUrl from '../../../assets/images/icons/upgrade.png'
 import { cyanSquareButton } from '../../../styles/buttons'
 
 export const buildingWrapper = css({
@@ -56,7 +57,7 @@ export const buildingActionArrow = css({
   flex: '0 0 auto',
   width: '3.2rem',
   height: '3.2rem',
-  backgroundImage: `url(${upgradeArrowUrl})`,
+  backgroundImage: `url(${upArrowUrl})`,
   backgroundSize: 'contain',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
@@ -72,3 +73,18 @@ export const buildingActionButton = [
     minWidth: '5rem',
   }),
 ]
+
+export const buildingUpgradeArrow = css({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '80%',
+  height: '80%',
+  backgroundImage: `url(${upgradeIconUrl})`,
+  backgroundSize: 'contain',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  fontFamily: fonts.TITLES,
+  fontSize: '1.3rem',
+  textShadow: shadows.TEXT_FLAT,
+})

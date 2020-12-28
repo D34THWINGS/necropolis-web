@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid'
 import {
   getSpellsToLearn,
   isPrediction,
@@ -17,7 +18,7 @@ enum SecretType {
   Spell = 'spell',
 }
 
-type BaseSecret = { bonesPrice: number }
+type BaseSecret = { id: string; bonesPrice: number }
 
 type SpellSecret = BaseSecret & {
   type: SecretType.Spell
@@ -42,7 +43,8 @@ const getSpellPrice = (spell: SpellView) => {
   return ((_: never) => _)(spell)
 }
 
-const makeSpellSecret = (spell: SpellView): SpellSecret => ({
+export const makeSpellSecret = (spell: SpellView): SpellSecret => ({
+  id: uuid(),
   type: SecretType.Spell,
   spell,
   bonesPrice: getSpellPrice(spell),

@@ -18,3 +18,5 @@ export const changeSecrets = createAction('buildings/CHANGE_SECRETS', (building:
   building,
   secrets,
 }))()
+
+export const buySecret = createAction('buildings/BUY_SECRET', (secret: Secret) => ({ secret }))()

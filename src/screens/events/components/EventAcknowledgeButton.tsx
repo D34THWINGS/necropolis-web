@@ -28,7 +28,7 @@ export const EventAcknowledgeButton = ({ onClick }: EventAcknowledgeButtonProps)
   }
 
   return (
-    <button type="button" css={eventAcknowledgeButton} onClick={handleClick}>
+    <button type="button" css={eventAcknowledgeButton} onClick={handleClick} data-test-id="acknowledgeEventButton">
       {t('eventAcknowledge')}
     </button>
   )

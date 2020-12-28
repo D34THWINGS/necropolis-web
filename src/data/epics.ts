@@ -8,7 +8,14 @@ import {
   castTheKeyEpic,
   castPredictionEpic,
 } from './spells/epics'
-import { repairBuildingEpic, upgradeBuildingEpic, upgradeBuildingWinEpic, upgradeOssuaryEpic } from './buildings/epics'
+import {
+  buySecretEpic,
+  repairBuildingEpic,
+  reRollSecretsEpic,
+  upgradeBuildingEpic,
+  upgradeBuildingWinEpic,
+  upgradeOssuaryEpic,
+} from './buildings/epics'
 import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
 import { looseUndeadEpic, raiseUndeadEpic, valetEpic } from './undeads/epics'
 import { resetGameEpic } from './settings/epics'
@@ -26,6 +33,8 @@ export const rootEpic = combineEpics(
   upgradeBuildingWinEpic,
   upgradeOssuaryEpic,
   repairBuildingEpic,
+  reRollSecretsEpic,
+  buySecretEpic,
   valetEpic,
   looseUndeadEpic,
   raiseUndeadEpic,

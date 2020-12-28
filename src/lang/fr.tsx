@@ -78,6 +78,7 @@ export const fr = {
       <span css={textColor('CYAN')}>Action</span>
     </>
   ),
+  buildingUpgrade: 'Amélioration',
 
   [BuildingType.CharnelHouse]: 'Charnier',
   charnelHouseDescription: (meat: number) => (
@@ -136,10 +137,22 @@ export const fr = {
   ),
 
   [BuildingType.Ossuary]: 'Ossuaire',
-  ossuaryDescription: <span css={textColor('BLUE')}>Découvrir un Sort</span>,
+  ossuaryDescription: <span css={textColor('BLUE')}>Apprendre un secret</span>,
   ossuaryUnlock: (
     <>
-      Débloque l&apos;action &quot;<span css={textColor('BROWN')}>Découvrir un sort</span>&quot;
+      Permet d&apos;apprendre des secrets auprès d&apos;Omniscience en échange d&apos;
+      <span css={textColor('BROWN')}>Ossements</span>
+      <ResourceIcon type={ResourceType.Bones} marginLeft="0.3rem" />.
+    </>
+  ),
+  ossuaryUpgrade: (secretsAmount: number) => (
+    <>
+      <span css={textColor('BROWN')}>+{secretsAmount} Secrets</span> à apprendre à chaque arrivage.
+    </>
+  ),
+  ossuaryDiscount: (discount: number) => (
+    <>
+      Réduit le prix des secrets de <span css={textColor('BROWN')}>{discount}%</span> arrondi au supérieur
     </>
   ),
 

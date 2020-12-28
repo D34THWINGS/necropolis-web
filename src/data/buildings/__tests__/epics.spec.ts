@@ -1,4 +1,5 @@
 import {
+  buySecretEpic,
   repairBuildingEpic,
   reRollSecretsEpic,
   upgradeBuildingEpic,
@@ -7,12 +8,16 @@ import {
 } from '../epics'
 import { buildEpicObservables } from '../../../../tests/helpers'
 import { makeOssuary, makeUpgradedBuilding } from '../helpers'
-import { nextPhase, nextTurn, win } from '../../turn/actions'
-import { changeSecrets, repairBuilding, upgradeBuilding } from '../actions'
-import { makeSecretsBatch } from '../secrets'
+import { nextPhase, win } from '../../turn/actions'
+import { buySecret, changeSecrets, repairBuilding, upgradeBuilding } from '../actions'
+import { makeSecretsBatch, makeSpellSecret } from '../secrets'
 import { resetTestSeed, restoreDefaultSeeder, useTestSeed } from '../../seeder'
 import { spendResources } from '../../resources/actions'
-import { ResourceType } from '../../../config/constants'
+import { ResourceType, TurnPhase } from '../../../config/constants'
+import { makeSoulStorm } from '../../spells/helpers'
+import { learnSpell } from '../../spells/actions'
+
+jest.mock('uuid')
 
 describe('Buildings epics', () => {
   it('should trigger game win when all buildings are fully upgraded', () => {
@@ -90,7 +95,7 @@ describe('Buildings epics', () => {
     expect(actions).toEqual([nextPhase()])
   })
 
-  it('should re-roll secrets every X turns', () => {
+  it('should re-roll secrets every X turns on event phase', () => {
     useTestSeed()
 
     const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(reRollSecretsEpic)
@@ -100,6 +105,7 @@ describe('Buildings epics', () => {
       ...state$.value,
       turn: {
         ...state$.value.turn,
+        phase: TurnPhase.Event,
         currentTurn: ossuary.reRollSecretsEvery,
       },
       buildings: {
@@ -107,11 +113,25 @@ describe('Buildings epics', () => {
         list: [ossuary],
       },
     })
-    actionsInput$.next(nextTurn())
+    actionsInput$.next(nextPhase())
 
     resetTestSeed()
     expect(actions).toEqual([changeSecrets(ossuary, makeSecretsBatch(ossuary.secretsAmount, []))])
 
     restoreDefaultSeeder()
+  })
+
+  it('should handle spell secrets buying', () => {
+    const { actionsInput$, actions } = buildEpicObservables(buySecretEpic)
+
+    const soulStorm = makeSoulStorm()
+    const soulStormSecret = makeSpellSecret(soulStorm)
+    actionsInput$.next(buySecret(soulStormSecret))
+
+    expect(actions).toEqual([
+      spendResources({ [ResourceType.Bones]: soulStormSecret.bonesPrice }),
+      learnSpell(soulStorm),
+      nextPhase(),
+    ])
   })
 })

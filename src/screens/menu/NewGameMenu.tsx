@@ -135,7 +135,12 @@ export const NewGameMenu = () => {
             </button>
           </div>
           <div css={[greenBox, smallMarginTop]}>{t('marenneDescription')}</div>
-          <button type="button" css={[...cyanSquareButton, smallMarginTop]} onClick={handleBegin}>
+          <button
+            type="button"
+            css={[...cyanSquareButton, smallMarginTop]}
+            onClick={handleBegin}
+            data-test-id="startGameButton"
+          >
             {t('beginGame')}
           </button>
         </div>

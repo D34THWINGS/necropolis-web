@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid'
 import {
   PaladinCategory,
   PALADINS_CATEGORIES_MAP,
@@ -14,7 +15,7 @@ import { random } from '../seeder'
 import { applyDamages } from '../undeads/helpers'
 
 export type Trap = {
-  id: number
+  id: string
   type: TrapType
   used: boolean
   damages: number
@@ -30,7 +31,7 @@ export type Assault = {
 }
 
 export type PaladinCard = {
-  id: number
+  id: string
   type: PaladinType
   revealed: boolean
   battleCryTriggered: boolean
@@ -43,7 +44,7 @@ export type PaladinCard = {
 }
 
 export const createPaladinCard = (type: PaladinType, revealed = false): PaladinCard => ({
-  id: Math.floor(Math.random() * 10000),
+  id: uuid(),
   type,
   revealed,
   battleCryTriggered: false,
@@ -79,7 +80,7 @@ export const createPaladinsAssault = (strength: number, structureHealth: number)
 })
 
 export const createTrap = (type: TrapType): Trap => ({
-  id: Date.now(),
+  id: uuid(),
   type,
   used: false,
   damages: TRAP_DAMAGES_MAP[type],

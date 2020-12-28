@@ -1,7 +1,14 @@
 import { createReducer } from 'typesafe-actions'
-import { changeSecrets, collapseBuilding, freeUpgradeBuilding, repairBuilding, upgradeBuilding } from './actions'
+import {
+  buySecret,
+  changeSecrets,
+  collapseBuilding,
+  freeUpgradeBuilding,
+  repairBuilding,
+  upgradeBuilding,
+} from './actions'
 import { setInArray } from '../helpers'
-import { Building, makeInitialBuildings, makeUpgradedBuilding } from './helpers'
+import { Building, isOssuary, makeInitialBuildings, makeUpgradedBuilding } from './helpers'
 
 const updateBuilding = (state: BuildingsState, { type }: Building, callback: (building: Building) => Building) => {
   const buildingIndex = state.list.findIndex(building => building.type === type)
@@ -42,3 +49,16 @@ export const buildings = createReducer<BuildingsState>({
       secrets,
     })),
   )
+  .handleAction(buySecret, (state, { payload: { secret } }) => {
+    const ossuary = state.list.find(isOssuary)
+    if (!ossuary) {
+      return state
+    }
+    return {
+      ...state,
+      list: setInArray(state.list, state.list.indexOf(ossuary), {
+        ...ossuary,
+        secrets: ossuary.secrets.filter(({ id }) => secret.id !== id),
+      }),
+    }
+  })

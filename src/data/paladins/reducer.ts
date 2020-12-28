@@ -53,7 +53,7 @@ const updatePaladinByIndex = (
 
 const updatePaladinById = (
   deck: PaladinCard[],
-  paladinId: number,
+  paladinId: string,
   callback: (activePaladin: PaladinCard) => PaladinCard,
 ) => {
   const paladinIndex = deck.findIndex(({ id }) => paladinId === id)

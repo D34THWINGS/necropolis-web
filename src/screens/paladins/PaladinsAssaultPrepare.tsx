@@ -95,7 +95,7 @@ export const PaladinsAssaultPrepare = () => {
   const [openedTrap, setOpenedTrap] = useState<TrapType | null>(null)
 
   const handleAddTrap = (type: TrapType) => () => dispatch(addTrap(type))
-  const handleRemoveTrap = (id: number) => () => dispatch(removeTrap(id))
+  const handleRemoveTrap = (id: string) => () => dispatch(removeTrap(id))
   const handleOpenDetails = (type: TrapType) => () => setOpenedTrap(type)
   const handleCloseDetails = () => setOpenedTrap(null)
   const handleStartFighting = () => dispatch(changeAssaultPhase(PaladinsAssaultPhase.Fighting))

@@ -1,16 +1,17 @@
 import { isActionOf } from 'typesafe-actions'
 import { EMPTY, of } from 'rxjs'
 import { filter, mergeMap, mapTo, map } from 'rxjs/operators'
-import { changeSecrets, freeUpgradeBuilding, repairBuilding, upgradeBuilding } from './actions'
+import { buySecret, changeSecrets, freeUpgradeBuilding, repairBuilding, upgradeBuilding } from './actions'
 import { spendResources } from '../resources/actions'
-import { ResourceType } from '../../config/constants'
-import { nextPhase, nextTurn, win } from '../turn/actions'
+import { ResourceType, TurnPhase } from '../../config/constants'
+import { nextPhase, win } from '../turn/actions'
 import { getAreAllBuildingsFullyUpgraded, getOssuary } from './selectors'
 import { isBuildingConstructed, isOssuary } from './helpers'
 import { makeSecretsBatch } from './secrets'
 import { getLearntSpells } from '../spells/selectors'
 import { isDefined, NecropolisEpic } from '../helpers'
-import { getTurn } from '../turn/selectors'
+import { getCurrentPhase, getTurn } from '../turn/selectors'
+import { learnSpell } from '../spells/actions'
 
 export const upgradeBuildingEpic: NecropolisEpic = action$ =>
   action$.pipe(
@@ -51,9 +52,18 @@ export const repairBuildingEpic: NecropolisEpic = action$ =>
 
 export const reRollSecretsEpic: NecropolisEpic = (action$, state$) =>
   action$.pipe(
-    filter(isActionOf(nextTurn)),
+    filter(isActionOf(nextPhase)),
+    filter(() => getCurrentPhase(state$.value) === TurnPhase.Event),
     map(() => getOssuary(state$.value)),
     filter(isDefined),
     filter(ossuary => isBuildingConstructed(ossuary) && getTurn(state$.value) % ossuary.reRollSecretsEvery === 0),
     map(ossuary => changeSecrets(ossuary, makeSecretsBatch(ossuary.secretsAmount, getLearntSpells(state$.value)))),
+  )
+
+export const buySecretEpic: NecropolisEpic = action$ =>
+  action$.pipe(
+    filter(isActionOf(buySecret)),
+    mergeMap(({ payload: { secret } }) =>
+      of(spendResources({ [ResourceType.Bones]: secret.bonesPrice }), learnSpell(secret.spell), nextPhase()),
+    ),
   )

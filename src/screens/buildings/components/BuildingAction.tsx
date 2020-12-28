@@ -42,6 +42,7 @@ export const BuildingAction = ({ level, children, action, disabled, onClick }: B
                 }
                 onClick()
               }}
+              data-test-id="buildingActionButton"
             >
               {action}
             </button>

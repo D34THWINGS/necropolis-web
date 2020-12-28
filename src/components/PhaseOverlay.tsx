@@ -143,7 +143,7 @@ export const PhaseOverlay = () => {
     }
 
     return (
-      <button type="button" css={nextPhaseButton} onClick={handleNextPhase}>
+      <button type="button" css={nextPhaseButton} onClick={handleNextPhase} data-test-id="nextPhaseButton">
         <Image src={arrowUrl} marginRight="0.4rem" />
         {t('nextPhase')}
       </button>

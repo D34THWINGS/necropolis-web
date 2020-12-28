@@ -12,11 +12,9 @@ import { castSpell } from '../../data/spells/actions'
 import { SpellBox } from './SpellBox'
 import { getSouls } from '../../data/resources/selectors'
 import { layers } from '../../config/theme'
-import { canCast, isPrediction, isRestoration, isSoulStorm, isTheKey, Spell } from '../../data/spells/helpers'
-import soulStormBackgroundUrl from '../../assets/images/spells/soul-storm.jpg'
-import theKeyBackgroundUrl from '../../assets/images/spells/the-key.jpg'
+import { canCast, Spell } from '../../data/spells/helpers'
 import { getLearntSpells } from '../../data/spells/selectors'
-import { getLethalityBonusFromEffects } from '../../data/spells/effects'
+import { useGetSpellDetails } from './useGetSpellDetails'
 
 const spellCastButton = [
   ...blueSquareButton,
@@ -35,32 +33,7 @@ export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
   const souls = useSelector(getSouls)
   const spells = useSelector(getLearntSpells)
   const dispatch = useDispatch()
-
-  const getSpellDetails = (spell: Spell) => {
-    if (isSoulStorm(spell)) {
-      return {
-        label: t('soulStormLabel'),
-        description: t('soulStormDescription', getLethalityBonusFromEffects(spell.effects)),
-        imageUrl: soulStormBackgroundUrl,
-      }
-    }
-    if (isRestoration(spell)) {
-      return {
-        label: t('restorationLabel'),
-        description: t('restorationDescription', spell.healthRestored),
-        imageUrl: soulStormBackgroundUrl,
-      }
-    }
-    if (isTheKey(spell)) {
-      return { label: t('theKeyLabel'), description: t('theKeyDescription'), imageUrl: theKeyBackgroundUrl }
-    }
-    if (isPrediction(spell)) {
-      return { label: t('predictionLabel'), description: t('predictionDescription'), imageUrl: soulStormBackgroundUrl }
-    }
-
-    // This is a safeguard because TS is stupid
-    return ((_: never) => _)(spell)
-  }
+  const getSpellDetails = useGetSpellDetails()
 
   const handleCastSpell = (spell: Spell) => () => {
     dispatch(castSpell(spell))

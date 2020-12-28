@@ -7,3 +7,5 @@ export const castSpell = createAction('spells/CAST', (spell: Spell) => ({ spell 
 export const applyEffects = createAction('spells/APPLY_EFFECTS', (effects: SpellEffect[]) => ({ effects }))()
 
 export const blurEffects = createAction('spells/BLUR_EFFECTS', (effects: SpellEffect[]) => ({ effects }))()
+
+export const learnSpell = createAction('spells/LEARN', (spell: Spell) => ({ spell }))()

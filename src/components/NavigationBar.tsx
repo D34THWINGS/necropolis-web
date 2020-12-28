@@ -90,7 +90,7 @@ export const NavigationBar = () => {
 
   return (
     <div css={footerContainer}>
-      <Link to={MAIN_HUB} replace css={footerButton} onClick={handleHackNavigation}>
+      <Link to={MAIN_HUB} replace css={footerButton} onClick={handleHackNavigation} data-test-id="mainHubLink">
         <span css={[footerButtonIcon, buildIcon, backgroundImage(buildIconUrl)]} />
       </Link>
       <OnboardingHighlight<HTMLAnchorElement> step={OnboardingStep.LetsExplore}>
@@ -102,6 +102,7 @@ export const NavigationBar = () => {
             replace={!isOnBuildPage}
             css={footerButton}
             onClick={onClick}
+            data-test-id="expeditionsLink"
           >
             <span css={[footerButtonIcon, backgroundImage(expeditionsIconUrl)]} />
           </Link>

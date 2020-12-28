@@ -28,6 +28,7 @@ export type Ossuary = BaseBuilding & {
   secrets: Secret[]
   secretsAmount: number
   reRollSecretsEvery: number
+  bonesCostMultiplier: number
 }
 export const makeOssuary = (level = 0, secrets: Secret[] = []): Ossuary => ({
   ...makeBaseBuilding(level),
@@ -35,6 +36,7 @@ export const makeOssuary = (level = 0, secrets: Secret[] = []): Ossuary => ({
   secrets,
   secretsAmount: OSSUARY_SECRETS_AMOUNT[level],
   reRollSecretsEvery: 3,
+  bonesCostMultiplier: level < 3 ? 1 : 0.5,
 })
 export const isOssuary = (building: Building): building is Ossuary => building.type === BuildingType.Ossuary
 

@@ -98,7 +98,12 @@ export const ExpeditionModal = <TStep extends number = number>({
               <span css={textColor('CYAN')}>{t('expeditionTreasure')}</span> {renderTreasure()}
             </div>
           </div>
-          <button type="button" css={expeditionButton} onClick={handleBeginExpedition}>
+          <button
+            type="button"
+            css={expeditionButton}
+            onClick={handleBeginExpedition}
+            data-test-id="beginExpeditionButton"
+          >
             {t('beginExpedition')}
           </button>
         </>
@@ -133,7 +138,12 @@ export const ExpeditionModal = <TStep extends number = number>({
               dispatch(endExpedition(type))
             }
             return (
-              <button type="button" css={expeditionButton} onClick={handleEndExpedition}>
+              <button
+                type="button"
+                css={expeditionButton}
+                onClick={handleEndExpedition}
+                data-test-id="endExpeditionButton"
+              >
                 {t('endExpedition')}
               </button>
             )
