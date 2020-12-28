@@ -23,12 +23,18 @@ const makeBaseBuilding = (level: number): BaseBuilding => ({
   upgradeCost: 1,
 })
 
-export type Ossuary = BaseBuilding & { type: BuildingType.Ossuary; secrets: Secret[]; secretsAmount: number }
+export type Ossuary = BaseBuilding & {
+  type: BuildingType.Ossuary
+  secrets: Secret[]
+  secretsAmount: number
+  reRollSecretsEvery: number
+}
 export const makeOssuary = (level = 0, secrets: Secret[] = []): Ossuary => ({
   ...makeBaseBuilding(level),
   type: BuildingType.Ossuary,
   secrets,
   secretsAmount: OSSUARY_SECRETS_AMOUNT[level],
+  reRollSecretsEvery: 3,
 })
 export const isOssuary = (building: Building): building is Ossuary => building.type === BuildingType.Ossuary
 

@@ -1,10 +1,17 @@
+import { Epic } from 'redux-observable'
 import { random } from './seeder'
+import { RootAction } from './actions'
+import { RootState } from '../store/mainReducer'
+
+export type NecropolisEpic = Epic<RootAction, RootAction, RootState>
 
 export const setInArray = <T>(array: T[], index: number, value: T) => [
   ...array.slice(0, index),
   value,
   ...array.slice(index + 1),
 ]
+
+export const isDefined = <T>(value: T | undefined): value is T => !!value
 
 export const shuffleArray = <T>(array: T[]) => {
   const arrayCopy = [...array]

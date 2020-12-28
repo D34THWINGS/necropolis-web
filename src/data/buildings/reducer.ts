@@ -1,5 +1,5 @@
 import { createReducer } from 'typesafe-actions'
-import { collapseBuilding, freeUpgradeBuilding, repairBuilding, upgradeBuilding } from './actions'
+import { changeSecrets, collapseBuilding, freeUpgradeBuilding, repairBuilding, upgradeBuilding } from './actions'
 import { setInArray } from '../helpers'
 import { Building, makeInitialBuildings, makeUpgradedBuilding } from './helpers'
 
@@ -34,5 +34,11 @@ export const buildings = createReducer<BuildingsState>({
     updateBuilding(state, building, buildingToRepair => ({
       ...buildingToRepair,
       collapsed: false,
+    })),
+  )
+  .handleAction(changeSecrets, (state, { payload: { building, secrets } }) =>
+    updateBuilding(state, building, buildingToUpdate => ({
+      ...buildingToUpdate,
+      secrets,
     })),
   )

@@ -8,8 +8,16 @@ declare global {
 
 let seeder = createSeeder()
 
-window.useTestSeed = () => {
+export const useTestSeed = () => {
   seeder = createSeeder('test1234')
 }
+
+export const resetTestSeed = useTestSeed
+
+export const restoreDefaultSeeder = () => {
+  seeder = createSeeder()
+}
+
+window.useTestSeed = useTestSeed
 
 export const random = () => seeder.random()
