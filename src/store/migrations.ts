@@ -21,7 +21,10 @@ const migrationsRecord: Record<number, (state: PersistedRootState) => PersistedR
     },
     undeads: {
       ...state.undeads,
-      list: state.undeads?.list?.map((undead: Undead) => ({ ...undead, id: Math.floor(Math.random() * 1000) })),
+      list: state.undeads?.list?.map((undead: Undead) => ({
+        ...undead,
+        id: Math.floor(Math.random() * 1000).toString(),
+      })),
     },
   }),
   2: state => ({

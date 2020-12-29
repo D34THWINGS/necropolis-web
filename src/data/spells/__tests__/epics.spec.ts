@@ -1,5 +1,5 @@
 import { buildEpicObservables } from '../../../../tests/helpers'
-import { ExpeditionType, PaladinType, ResourceType, UndeadType } from '../../../config/constants'
+import { ExpeditionType, PaladinType, ResourceType } from '../../../config/constants'
 import { mainReducer } from '../../../store/mainReducer'
 import { openExpedition, setExpeditionStep } from '../../expeditions/actions'
 import {
@@ -12,7 +12,7 @@ import {
 } from '../../paladins/actions'
 import { spendResources } from '../../resources/actions'
 import { addUndead, healUndead } from '../../undeads/actions'
-import { applyDamages, createUndead } from '../../undeads/helpers'
+import { applyDamages, makeSkeleton } from '../../undeads/helpers'
 import { applyEffects, blurEffects, castSpell } from '../actions'
 import {
   blurEffectsEpic,
@@ -77,10 +77,10 @@ describe('Spells epics', () => {
       const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castRestorationEpic)
 
       const restoration = makeRestoration()
-      const undead1 = createUndead(UndeadType.Skeleton)
+      const undead1 = makeSkeleton()
       undead1.health = applyDamages(undead1.health, 1)
       stateInput$.next(mainReducer(state$.value, addUndead(undead1)))
-      const undead2 = createUndead(UndeadType.Skeleton)
+      const undead2 = makeSkeleton()
       stateInput$.next(mainReducer(state$.value, addUndead(undead2)))
       stateInput$.next(mainReducer(state$.value, openExpedition(ExpeditionType.OldCoffin)))
       actionsInput$.next(castSpell(restoration))

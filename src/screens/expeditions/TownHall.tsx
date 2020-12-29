@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ExpeditionModal } from './components/ExpeditionModal'
-import { ExpeditionType, ResourceType, UndeadTalent, UndeadType } from '../../config/constants'
+import { ExpeditionType, ResourceType, UndeadTalent } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
 import { getTheKey } from '../../data/spells/selectors'
@@ -10,7 +10,6 @@ import { getSouls } from '../../data/resources/selectors'
 import { gainResources } from '../../data/resources/actions'
 import { getIsBloodPrinceInJail, getUndeadArmyMuscles, getUndeadCount } from '../../data/undeads/selectors'
 import { addUndead, requireSacrifice } from '../../data/undeads/actions'
-import { createUndead } from '../../data/undeads/helpers'
 import { cancelReinforcements } from '../../data/expeditions/actions'
 import { UndeadBox } from '../../components/undeads/UndeadBox'
 import { castSpell } from '../../data/spells/actions'
@@ -21,6 +20,7 @@ import { ExpeditionImage } from './components/ExpeditionImage'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
 import { getLethality } from '../../data/selectors'
 import { canCast } from '../../data/spells/helpers'
+import { makeBloodPrince } from '../../data/undeads/helpers'
 
 const TOWN_HALL_MUSCLES_REQUIRED = 4
 const TOWN_HALL_FIRE_UNDEAD_COST = 1
@@ -143,7 +143,7 @@ export const TownHall = () => {
             )
           }
           case TownHallStep.Jail: {
-            const bloodPrince = createUndead(UndeadType.BloodPrince, true)
+            const bloodPrince = makeBloodPrince()
             const handleFreeBloodPrince = () => dispatch(addUndead(bloodPrince))
             return (
               <>

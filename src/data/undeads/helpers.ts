@@ -1,10 +1,12 @@
+import { v4 as uuid } from 'uuid'
 import { UndeadAbility, UndeadTalent, UndeadType } from '../../config/constants'
 
+export type UndeadId = string
+
 export type Undead = {
-  id: number
+  id: UndeadId
   type: UndeadType
   talents: [UndeadTalent, number][]
-  raised: boolean
   banned: boolean
   cursed: boolean
   maxHealth: number
@@ -12,77 +14,64 @@ export type Undead = {
   ability: UndeadAbility
 }
 
-const getBaseTalents = (type: UndeadType): Undead['talents'] => {
-  switch (type) {
-    case UndeadType.Valet:
-      return [[UndeadTalent.Dexterity, 2]]
-    case UndeadType.Brikoler:
-      return [
-        [UndeadTalent.Lethality, 1],
-        [UndeadTalent.Muscles, 2],
-        [UndeadTalent.Dexterity, 1],
-      ]
-    case UndeadType.Skeleton:
-      return [
-        [UndeadTalent.Lethality, 2],
-        [UndeadTalent.Subjugation, 2],
-      ]
-    case UndeadType.LaMotte:
-      return [
-        [UndeadTalent.Lethality, 3],
-        [UndeadTalent.Muscles, 1],
-      ]
-    case UndeadType.BloodPrince:
-      return [
-        [UndeadTalent.Subjugation, 1],
-        [UndeadTalent.Necromancy, 3],
-      ]
-    default:
-      throw Error('Unknown undead type')
-  }
-}
-
-const getBaseHealth = (type: UndeadType) => {
-  switch (type) {
-    case UndeadType.Valet:
-      return 3
-    case UndeadType.Brikoler:
-      return 3
-    case UndeadType.LaMotte:
-      return 4
-    case UndeadType.Skeleton:
-      return 3
-    case UndeadType.BloodPrince:
-      return 3
-  }
-}
-
-const getUndeadAbility = (type: UndeadType) => {
-  switch (type) {
-    case UndeadType.Valet:
-      return UndeadAbility.Devotion
-    case UndeadType.Brikoler:
-      return UndeadAbility.Labor
-    case UndeadType.LaMotte:
-      return UndeadAbility.Protection
-    case UndeadType.Skeleton:
-      return UndeadAbility.Seduction
-    case UndeadType.BloodPrince:
-      return UndeadAbility.SectumSempra
-  }
-}
-
-export const createUndead = (type: UndeadType, raised = false): Undead => ({
-  id: Math.floor(Math.random() * 10000),
-  type,
-  talents: getBaseTalents(type),
-  raised,
+const makeBaseUndead = (health: number) => ({
+  id: uuid(),
+  health,
+  maxHealth: health,
   banned: false,
   cursed: false,
-  maxHealth: getBaseHealth(type),
-  health: getBaseHealth(type),
-  ability: getUndeadAbility(type),
 })
+
+export const makeValet = (): Undead => ({
+  ...makeBaseUndead(3),
+  type: UndeadType.Valet,
+  talents: [[UndeadTalent.Dexterity, 2]],
+  ability: UndeadAbility.Devotion,
+})
+export const isValet = (undead: Undead) => undead.type === UndeadType.Valet
+
+export const makeBrikoler = (): Undead => ({
+  ...makeBaseUndead(3),
+  type: UndeadType.Brikoler,
+  talents: [
+    [UndeadTalent.Lethality, 1],
+    [UndeadTalent.Muscles, 2],
+    [UndeadTalent.Dexterity, 1],
+  ],
+  ability: UndeadAbility.Labor,
+})
+
+export const makeSkeleton = (): Undead => ({
+  ...makeBaseUndead(3),
+  type: UndeadType.Skeleton,
+  talents: [
+    [UndeadTalent.Lethality, 2],
+    [UndeadTalent.Subjugation, 2],
+  ],
+  ability: UndeadAbility.Seduction,
+})
+
+export const makeLaMotte = (): Undead => ({
+  ...makeBaseUndead(4),
+  type: UndeadType.LaMotte,
+  talents: [
+    [UndeadTalent.Lethality, 3],
+    [UndeadTalent.Muscles, 1],
+  ],
+  ability: UndeadAbility.Protection,
+})
+export const isLaMotte = (undead: Undead) => undead.type === UndeadType.LaMotte
+
+export const makeBloodPrince = (): Undead => ({
+  ...makeBaseUndead(3),
+  type: UndeadType.BloodPrince,
+  talents: [
+    [UndeadTalent.Subjugation, 1],
+    [UndeadTalent.Necromancy, 3],
+  ],
+  ability: UndeadAbility.SectumSempra,
+})
+export const isBloodPrince = (undead: Undead) => undead.type === UndeadType.BloodPrince
 
 export const isUndeadAlive = (undead: Undead) => undead.health > 0 && !undead.banned
 
@@ -95,7 +84,4 @@ export const getMostInjured = <T extends EntityWithHealth>(list: T[]): T | undef
 
 export const applyDamages = (entityHealth: number, damages: number) => Math.max(0, entityHealth - Math.max(0, damages))
 
-export const makeUndeadPool = () =>
-  Object.values(UndeadType)
-    .filter(type => type !== UndeadType.Valet)
-    .map(type => createUndead(type))
+export const makeUndeadPool = () => [makeBrikoler(), makeSkeleton(), makeLaMotte(), makeBloodPrince()]

@@ -5,13 +5,14 @@ import { Epic } from 'redux-observable'
 import { RootAction } from '../actions'
 import { RootState } from '../../store/mainReducer'
 import { addUndead, banUndead, sacrificeUndead, upgradeValet } from './actions'
-import { getUndeadCount, getUndeadTypes } from './selectors'
+import { getUndeadCount, getUndeads } from './selectors'
 import { spendResources } from '../resources/actions'
-import { LooseReason, ResourceType, UndeadType } from '../../config/constants'
+import { LooseReason, ResourceType } from '../../config/constants'
 import { getCatacombs } from '../buildings/selectors'
 import { loose, nextPhase } from '../turn/actions'
 import { endExpedition } from '../expeditions/actions'
 import { raiseUndead } from '../buildings/actions'
+import { isValet } from './helpers'
 
 export const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
@@ -28,7 +29,7 @@ export const raiseUndeadEpic: Epic<RootAction, RootAction, RootState> = (action$
 export const valetEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(endExpedition)),
-    filter(() => getUndeadTypes(state$.value).includes(UndeadType.Valet)),
+    filter(() => getUndeads(state$.value).some(isValet)),
     map(() => upgradeValet()),
   )
 

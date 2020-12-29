@@ -20,7 +20,6 @@
           ["lethality", 3],
           ["muscles", 1]
         ],
-        "raised": true,
         "maxHealth": 4,
         "health": 4
       }

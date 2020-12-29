@@ -1,26 +1,21 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../store/mainReducer'
-import { getUndeadArmyLethality, getUndeadTypes } from './undeads/selectors'
+import { getUndeadArmyLethality, getUndeads } from './undeads/selectors'
 import { getSpellsLethalityBonus } from './spells/selectors'
-import {
-  ARTIFACT_DEFENSE_BONUS,
-  EventType,
-  LA_MOTTE_DEFENSE_BONUS,
-  PLUNDER_ACTIVATION_TURN,
-  UndeadType,
-} from '../config/constants'
+import { ARTIFACT_DEFENSE_BONUS, EventType, LA_MOTTE_DEFENSE_BONUS, PLUNDER_ACTIVATION_TURN } from '../config/constants'
 import { getArsenal, getConstructedBuildings } from './buildings/selectors'
 import { getHasArtifact, getIsEventPast, getPastEvents } from './events/selectors'
 import { getTurn } from './turn/selectors'
 import { getCarnage } from './expeditions/selectors'
 import { getPaladinsShouldAttack } from './paladins/selectors'
+import { isLaMotte } from './undeads/helpers'
 
 export const getLethality = (state: RootState) => getUndeadArmyLethality(state) + getSpellsLethalityBonus(state)
 
 export const getDefense = (state: RootState) =>
   (getArsenal(state)?.trapsPerAssault ?? 0) +
   (getHasArtifact(state) ? ARTIFACT_DEFENSE_BONUS : 0) +
-  (getUndeadTypes(state).includes(UndeadType.LaMotte) ? LA_MOTTE_DEFENSE_BONUS : 0)
+  (getUndeads(state).some(isLaMotte) ? LA_MOTTE_DEFENSE_BONUS : 0)
 
 export const getRandomEventPool = createSelector(
   getTurn,

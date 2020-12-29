@@ -5,16 +5,16 @@ import { Modal, useModalState } from './ui/Modal/Modal'
 import { h2Title, smallMarginTop } from '../styles/base'
 import { greenSquareButton } from '../styles/buttons'
 import { gainResources } from '../data/resources/actions'
-import { ResourceType, UndeadType } from '../config/constants'
+import { ResourceType } from '../config/constants'
 import { freeUpgradeBuilding } from '../data/buildings/actions'
 import { addUndead } from '../data/undeads/actions'
-import { createUndead } from '../data/undeads/helpers'
 import { resetOnboarding } from '../data/onboarding/actions'
 import { loadGameState, resetGame } from '../data/settings/actions'
 import { layers } from '../config/theme'
 import { persistConfig } from '../store/persistConfig'
 import { PersistedRootState } from '../store/migrations'
 import { getBuildings } from '../data/buildings/selectors'
+import { makeBloodPrince } from '../data/undeads/helpers'
 
 declare global {
   interface Window {
@@ -75,7 +75,7 @@ export const CheatsModal = () => {
         [ResourceType.Souls]: 2,
       }),
     )
-    dispatch(addUndead(createUndead(UndeadType.BloodPrince)))
+    dispatch(addUndead(makeBloodPrince()))
   }
 
   const handleResetOnboarding = () => {

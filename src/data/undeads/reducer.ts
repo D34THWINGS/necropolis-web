@@ -1,6 +1,6 @@
 import { createReducer } from 'typesafe-actions'
-import { createUndead, Undead } from './helpers'
-import { UndeadTalent, UndeadType } from '../../config/constants'
+import { isValet, makeValet, Undead } from './helpers'
+import { UndeadTalent } from '../../config/constants'
 import {
   addUndead,
   sacrificeUndead,
@@ -35,7 +35,7 @@ const updateUndeadById = (
 }
 
 export const undeads = createReducer<UndeadsState>({
-  list: [createUndead(UndeadType.Valet)],
+  list: [makeValet()],
   requiredSacrifices: 0,
 })
   .handleAction(banUndead, (state, { payload: { undeadId } }) =>
@@ -51,7 +51,7 @@ export const undeads = createReducer<UndeadsState>({
     requiredSacrifices: state.requiredSacrifices + count,
   }))
   .handleAction(upgradeValet, state => {
-    const valetIndex = state.list.findIndex(undead => undead.type === UndeadType.Valet)
+    const valetIndex = state.list.findIndex(isValet)
     if (valetIndex < 0) {
       return state
     }
