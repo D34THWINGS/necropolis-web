@@ -58,7 +58,14 @@ export const ResourceButton = forwardRef<HTMLButtonElement, TalentButtonProps>(
   ({ type, text, className, color }: TalentButtonProps, ref) => {
     const { open } = useResourcesModalControls()
     return (
-      <button ref={ref} type="button" className={className} css={resourceIconButton(color)} onClick={open}>
+      <button
+        ref={ref}
+        type="button"
+        className={className}
+        css={resourceIconButton(color)}
+        onClick={open}
+        data-test-id={`${type}Counter`}
+      >
         <ResourceIcon css={resourceIcon} type={type} marginLeft="0.2rem" marginRight="0.2rem" />
         {text}
       </button>

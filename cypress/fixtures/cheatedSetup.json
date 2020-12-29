@@ -1,0 +1,127 @@
+{
+  "resources": { "meat": 108, "souls": 100, "bones": 100, "materials": 100 },
+  "buildings": {
+    "list": [
+      {
+        "collapsed": false,
+        "level": 0,
+        "maxLevel": 3,
+        "upgradeCost": 1,
+        "type": "charnelHouse",
+        "produces": { "meat": 0 }
+      },
+      {
+        "collapsed": false,
+        "level": 0,
+        "maxLevel": 3,
+        "upgradeCost": 1,
+        "type": "soulWell",
+        "produces": { "souls": 0 }
+      },
+      {
+        "collapsed": false,
+        "level": 0,
+        "maxLevel": 3,
+        "upgradeCost": 1,
+        "type": "catacombs",
+        "raiseUndeadSoulCost": 0,
+        "fortifyBonus": 0,
+        "undeadPool": [
+          {
+            "id": 864,
+            "type": "brikoler",
+            "talents": [
+              ["lethality", 1],
+              ["muscles", 2],
+              ["dexterity", 1]
+            ],
+            "raised": false,
+            "banned": false,
+            "cursed": false,
+            "maxHealth": 3,
+            "health": 3,
+            "ability": "labor"
+          },
+          {
+            "id": 4252,
+            "type": "laMotte",
+            "talents": [
+              ["lethality", 3],
+              ["muscles", 1]
+            ],
+            "raised": false,
+            "banned": false,
+            "cursed": false,
+            "maxHealth": 4,
+            "health": 4,
+            "ability": "protection"
+          },
+          {
+            "id": 3393,
+            "type": "skeleton",
+            "talents": [
+              ["lethality", 2],
+              ["subjugation", 2]
+            ],
+            "raised": false,
+            "banned": false,
+            "cursed": false,
+            "maxHealth": 3,
+            "health": 3,
+            "ability": "seduction"
+          },
+          {
+            "id": 844,
+            "type": "bloodPrince",
+            "talents": [
+              ["subjugation", 1],
+              ["necromancy", 3]
+            ],
+            "raised": false,
+            "banned": false,
+            "cursed": false,
+            "maxHealth": 3,
+            "health": 3,
+            "ability": "sectumSempra"
+          }
+        ]
+      },
+      {
+        "collapsed": false,
+        "level": 0,
+        "maxLevel": 3,
+        "upgradeCost": 1,
+        "type": "ossuary",
+        "secrets": [],
+        "secretsAmount": 0,
+        "reRollSecretsEvery": 3,
+        "bonesCostMultiplier": 1
+      },
+      { "collapsed": false, "level": 0, "maxLevel": 3, "upgradeCost": 1, "type": "arsenal", "trapsPerAssault": 0 }
+    ]
+  },
+  "turn": { "currentTurn": 1, "phase": 2, "gameState": 0, "looseReason": null },
+  "undeads": {
+    "list": [
+      {
+        "id": 712,
+        "type": "valet",
+        "talents": [["dexterity", 2]],
+        "raised": false,
+        "banned": false,
+        "cursed": false,
+        "maxHealth": 3,
+        "health": 3,
+        "ability": "devotion"
+      }
+    ],
+    "requiredSacrifices": 0
+  },
+  "paladins": { "strength": 0, "counter": 0, "calledToArms": false, "assault": null, "structureHealth": 8 },
+  "spells": { "spellBook": [], "activeEffects": [] },
+  "onboarding": { "active": false, "step": 0, "flags": ["paladinsExplained"] },
+  "expeditions": { "done": [], "active": [], "opened": null, "carnage": false, "cancelledReinforcements": false },
+  "events": { "pastEvents": [], "currentEvent": null, "hasArtifact": false },
+  "settings": { "hasActiveGame": true },
+  "_persist": { "version": 3, "rehydrated": true }
+}

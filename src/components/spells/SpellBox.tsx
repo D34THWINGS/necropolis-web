@@ -44,7 +44,7 @@ export type SpellBoxProps = {
 }
 
 export const SpellBox = ({ imageUrl, label, description, children }: SpellBoxProps) => (
-  <div css={spellBox(imageUrl)}>
+  <div css={spellBox(imageUrl)} data-test-id="spellBox">
     <h3 css={spellName}>{label}</h3>
     <div css={spellDetails}>
       <div css={spellDescription}>{description}</div>

@@ -74,7 +74,7 @@ describe('Paladins assault', () => {
     cy.getByTestId('endPaladinAssaultButton').click()
   })
 
-  it.only('Wizard should buff 3 paladins', () => {
+  it('Wizard should buff 3 paladins', () => {
     assaultSetup('paladinAssaultWizard')
     cy.assertText('paladinName', 'Enchanteur')
 

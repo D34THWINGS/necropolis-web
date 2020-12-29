@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../../store/mainReducer'
-import { RAISABLE_UNDEADS, UndeadTalent, UndeadType } from '../../config/constants'
+import { UndeadTalent, UndeadType } from '../../config/constants'
 import { getMostInjured, isUndeadAlive, Undead } from './helpers'
 
 export const getUndeads = (state: RootState) => state.undeads.list
@@ -13,12 +13,6 @@ export const getUpkeep = (state: RootState) =>
   getAliveUndeads(state).filter(undead => undead.type !== UndeadType.Skeleton).length
 
 export const getUndeadTypes = createSelector(getUndeads, (undeads): UndeadType[] => undeads.map(undead => undead.type))
-
-export const getRaisedUndeadCount = (state: RootState) =>
-  RAISABLE_UNDEADS.filter(type => getUndeadTypes(state).includes(type)).length
-
-export const getRaisableUndeadTypes = (state: RootState) =>
-  RAISABLE_UNDEADS.filter(type => !getUndeadTypes(state).includes(type))
 
 const getUndeadTalent = (undead: Undead, searchedTalent: UndeadTalent) =>
   (undead.talents.find(([talent]) => talent === searchedTalent) || [])[1] || 0

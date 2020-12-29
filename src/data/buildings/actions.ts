@@ -1,6 +1,7 @@
 import { createAction } from 'typesafe-actions'
-import { Building, Ossuary } from './helpers'
+import { Building } from './helpers'
 import { Secret } from './secrets'
+import { Undead } from '../undeads/helpers'
 
 export const upgradeBuilding = createAction('buildings/UPGRADE', (building: Building) => ({
   building,
@@ -14,9 +15,10 @@ export const collapseBuilding = createAction('buildings/COLLAPSE', (building: Bu
 
 export const repairBuilding = createAction('buildings/REPAIR', (building: Building) => ({ building }))()
 
-export const changeSecrets = createAction('buildings/CHANGE_SECRETS', (building: Ossuary, secrets: Secret[]) => ({
-  building,
+export const changeSecrets = createAction('buildings/CHANGE_SECRETS', (secrets: Secret[]) => ({
   secrets,
 }))()
 
 export const buySecret = createAction('buildings/BUY_SECRET', (secret: Secret) => ({ secret }))()
+
+export const raiseUndead = createAction('buildings/RAISE_UNDEAD', (undead: Undead) => ({ undead }))()

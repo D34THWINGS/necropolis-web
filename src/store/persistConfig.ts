@@ -5,6 +5,6 @@ import { stateMigrations } from './migrations'
 export const persistConfig = {
   key: 'root',
   storage,
-  version: 2,
+  version: 3,
   migrate: createMigrate(stateMigrations),
 }

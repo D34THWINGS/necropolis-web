@@ -97,8 +97,8 @@ export const PhaseOverlay = () => {
                 <div css={productionContainer}>
                   {Object.values(ResourceType)
                     .map(resource =>
-                      production[resource] === 0 ? null : (
-                        <span key={resource} css={productionCell}>
+                      !production[resource] ? null : (
+                        <span key={resource} css={productionCell} data-test-id="productionCell">
                           <ResourceIcon
                             type={resource}
                             text={<>+{production[resource]}</>}
@@ -121,7 +121,7 @@ export const PhaseOverlay = () => {
         return (
           <>
             <h2 css={h2Title}>{t('upkeepPhaseTitle')}</h2>
-            {meat > 0 && <p>{t('upkeepPhaseDescription', upkeep)}</p>}
+            {meat > 0 && <p data-test-id="undeadUpKeep">{t('upkeepPhaseDescription', upkeep)}</p>}
             {meat === 0 && <p>{t('upkeepNoMeat')}</p>}
           </>
         )

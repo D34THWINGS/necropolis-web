@@ -7,7 +7,7 @@ import { greenSquareButton } from '../styles/buttons'
 import { gainResources } from '../data/resources/actions'
 import { ResourceType, UndeadType } from '../config/constants'
 import { freeUpgradeBuilding } from '../data/buildings/actions'
-import { raiseUndead } from '../data/undeads/actions'
+import { addUndead } from '../data/undeads/actions'
 import { createUndead } from '../data/undeads/helpers'
 import { resetOnboarding } from '../data/onboarding/actions'
 import { loadGameState, resetGame } from '../data/settings/actions'
@@ -20,6 +20,7 @@ declare global {
   interface Window {
     cheats: () => void
     injectState: (state: unknown) => void
+    addResources: () => void
   }
 }
 
@@ -74,7 +75,7 @@ export const CheatsModal = () => {
         [ResourceType.Souls]: 2,
       }),
     )
-    dispatch(raiseUndead(createUndead(UndeadType.BloodPrince)))
+    dispatch(addUndead(createUndead(UndeadType.BloodPrince)))
   }
 
   const handleResetOnboarding = () => {

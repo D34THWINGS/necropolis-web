@@ -72,11 +72,6 @@ const getUndeadAbility = (type: UndeadType) => {
   }
 }
 
-export const getUndeadTalentValue = (undead: Undead, talent: UndeadTalent) => {
-  const talentsMap = new Map(undead.talents)
-  return talentsMap.get(talent) || 0
-}
-
 export const createUndead = (type: UndeadType, raised = false): Undead => ({
   id: Math.floor(Math.random() * 10000),
   type,
@@ -99,3 +94,8 @@ export const getMostInjured = <T extends EntityWithHealth>(list: T[]): T | undef
   Array.from(list).sort((a, b) => getMissingHealth(b) - getMissingHealth(a))[0]
 
 export const applyDamages = (entityHealth: number, damages: number) => Math.max(0, entityHealth - Math.max(0, damages))
+
+export const makeUndeadPool = () =>
+  Object.values(UndeadType)
+    .filter(type => type !== UndeadType.Valet)
+    .map(type => createUndead(type))

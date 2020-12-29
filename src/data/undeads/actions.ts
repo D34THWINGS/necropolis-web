@@ -5,8 +5,6 @@ export const banUndead = createAction('undeads/BAN', (undeadId: Undead['id']) =>
 
 export const sacrificeUndead = createAction('undeads/SACRIFICE', (undeadId: Undead['id']) => ({ undeadId }))()
 
-export const raiseUndead = createAction('undeads/RAISE', (undead: Undead) => ({ undead }))()
-
 export const addUndead = createAction('undeads/ADD', (undead: Undead) => ({ undead }))()
 
 export const requireSacrifice = createAction('undeads/REQUIRE_SACRIFICE', (count: number) => ({ count }))()

@@ -1,88 +1,111 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { Redirect } from 'react-router'
+import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
-import reanimateIconUrl from '../../assets/images/icons/reanimate.png'
-import lockIconUrl from '../../assets/images/icons/lock.png'
 import { OnboardingStep, ResourceType } from '../../config/constants'
-import { getSouls } from '../../data/resources/selectors'
-import { getRaisableUndeadTypes, getRaisedUndeadCount } from '../../data/undeads/selectors'
-import { Image } from '../../components/images/Image'
+import { getMaterials, getSouls } from '../../data/resources/selectors'
 import { BuildingDetails } from './components/BuildingDetails'
-import { BuildingAction } from './components/BuildingAction'
 import { ResourceIcon } from '../../components/resources/ResourceIcon'
-import { ReanimatedUndeadModal } from './components/ReanimatedUndeadModal'
-import { useModalState } from '../../components/ui/Modal/Modal'
-import { createUndead, Undead } from '../../data/undeads/helpers'
-import { raiseUndead } from '../../data/undeads/actions'
+import { Undead } from '../../data/undeads/helpers'
 import { getOnboardingStep } from '../../data/onboarding/selectors'
 import { nextOnboardingStep } from '../../data/onboarding/actions'
 import { getCatacombs } from '../../data/buildings/selectors'
-import { isBuildingConstructed, makeUpgradedBuilding } from '../../data/buildings/helpers'
+import { isBuildingConstructed, isBuildingFullyUpgraded, makeUpgradedBuilding } from '../../data/buildings/helpers'
 import { MAIN_HUB } from '../../config/routes'
+import { BuildingShop } from './components/BuildingShop'
+import { BuildingShopRow, buildingShopRowTitle } from './components/BuildingShopRow'
+import { raiseUndead, upgradeBuilding } from '../../data/buildings/actions'
+import { buildingUpgradeArrow } from './helpers/buildingsStyles'
+import { colors } from '../../config/theme'
+import { UndeadPortrait } from '../../components/undeads/UndeadPortrait'
+import { TalentsList } from '../../components/talents/TalentsList'
+import { Health } from '../../components/images/Health'
+import { textColor } from '../../styles/base'
+
+const undeadPortraitCircle = css({
+  display: 'flex',
+  alignItems: 'stretch',
+  justifyContent: 'center',
+  padding: '0.5rem',
+  width: '100%',
+  height: '100%',
+  backgroundColor: colors.DARK_PURPLE,
+
+  '& > img': {
+    height: '100%',
+  },
+})
+
+const undeadStats = css({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-around',
+  marginBottom: '0.3rem',
+})
 
 export const Catacombs = () => {
   const { t } = useTranslation()
   const catacombs = useSelector(getCatacombs)
-  const raisedUndead = useSelector(getRaisedUndeadCount)
   const onboardingStep = useSelector(getOnboardingStep)
   const souls = useSelector(getSouls)
-  const types = useSelector(getRaisableUndeadTypes)
+  const materials = useSelector(getMaterials)
   const dispatch = useDispatch()
-  const raisedUndeadRef = useRef<Undead | null>(null)
-  const { isOpen, open, close } = useModalState()
 
   if (!catacombs) {
     return <Redirect to={MAIN_HUB} />
   }
 
-  const handleRaiseUndead = () => {
-    raisedUndeadRef.current = createUndead(types[Math.round(Math.random() * (types.length - 1))], true)
-    open()
+  if (!isBuildingConstructed(catacombs) || catacombs.collapsed) {
+    return <BuildingDetails building={catacombs} renderUpgradeDescription={() => t('catacombUnlock')} />
   }
 
-  const handleAcknowledge = () => {
-    if (raisedUndeadRef.current) {
-      dispatch(raiseUndead(raisedUndeadRef.current))
-    }
+  const handleRaiseUndead = (undead: Undead) => () => {
+    dispatch(raiseUndead(undead))
     if (onboardingStep === OnboardingStep.AwaitUndeadRaising) {
       dispatch(nextOnboardingStep())
     }
-    close()
   }
 
+  const handleUpgrade = () => dispatch(upgradeBuilding(catacombs))
+
   return (
-    <BuildingDetails
-      building={catacombs}
-      renderSpecialAction={(level, isCollapsed) =>
-        level === 0 ? null : (
-          <>
-            <BuildingAction
-              onClick={handleRaiseUndead}
-              disabled={
-                level === 0 ||
-                catacombs.raiseUndeadSoulCost > souls ||
-                raisedUndead >= catacombs.maxRaisedUndead ||
-                isCollapsed
-              }
-              action={
-                isCollapsed ? <Image src={lockIconUrl} size="2.5rem" /> : <Image src={reanimateIconUrl} size="2.5rem" />
-              }
-            >
-              {t('catacombDescription', raisedUndead, catacombs.maxRaisedUndead)}
-              <br />
-              {t('cost')}&nbsp;
-              <ResourceIcon type={ResourceType.Souls} text={catacombs.raiseUndeadSoulCost} />
-            </BuildingAction>
-            <ReanimatedUndeadModal isOpen={isOpen} onAcknowledge={handleAcknowledge} undead={raisedUndeadRef.current} />
-          </>
-        )
-      }
-      renderUpgradeDescription={() =>
-        isBuildingConstructed(catacombs)
-          ? t('catacombUnlock')
-          : t('catacombUpgrade', makeUpgradedBuilding(catacombs).maxRaisedUndead)
-      }
-    />
+    <BuildingShop title={t(catacombs.type)} level={catacombs.level}>
+      {catacombs.undeadPool.map(undead => (
+        <BuildingShopRow
+          key={undead.id}
+          leftCircleContent={
+            <div css={undeadPortraitCircle}>
+              <UndeadPortrait type={undead.type} size="auto" />
+            </div>
+          }
+          buttonContent={<ResourceIcon type={ResourceType.Souls} text={catacombs.raiseUndeadSoulCost} size="1.1rem" />}
+          disabled={souls < catacombs.raiseUndeadSoulCost}
+          onClick={handleRaiseUndead(undead)}
+        >
+          <h2 css={buildingShopRowTitle}>{t('undeadName', undead.type)}</h2>
+          <div css={undeadStats}>
+            <TalentsList values={undead.talents} />
+            <Health health={undead.health} maxHealth={undead.maxHealth} />
+          </div>
+          <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {t('undeadAbilityDescription', undead.type)}
+        </BuildingShopRow>
+      ))}
+      {!isBuildingFullyUpgraded(catacombs) && (
+        <BuildingShopRow
+          leftCircleContent={<div css={buildingUpgradeArrow}>{catacombs.level + 1}</div>}
+          buttonContent={<ResourceIcon type={ResourceType.Materials} text={catacombs.upgradeCost} size="1.1rem" />}
+          disabled={materials < catacombs.upgradeCost}
+          onClick={handleUpgrade}
+        >
+          <h2 css={buildingShopRowTitle}>{t('buildingUpgrade')}</h2>
+          <div>
+            {catacombs.level === 1
+              ? t('catacombUnlockRevive')
+              : t('catacombFortify', makeUpgradedBuilding(catacombs).fortifyBonus)}
+          </div>
+        </BuildingShopRow>
+      )}
+    </BuildingShop>
   )
 }

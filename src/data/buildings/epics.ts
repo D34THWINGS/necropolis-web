@@ -37,7 +37,7 @@ export const upgradeOssuaryEpic: NecropolisEpic = (action$, state$) =>
     mergeMap(ossuary => {
       if (ossuary && ossuary.secrets.length !== ossuary.secretsAmount) {
         return of(
-          changeSecrets(ossuary, [
+          changeSecrets([
             ...ossuary.secrets,
             ...makeSecretsBatch(ossuary.secretsAmount, getLearntSpells(state$.value)),
           ]),
@@ -57,7 +57,7 @@ export const reRollSecretsEpic: NecropolisEpic = (action$, state$) =>
     map(() => getOssuary(state$.value)),
     filter(isDefined),
     filter(ossuary => isBuildingConstructed(ossuary) && getTurn(state$.value) % ossuary.reRollSecretsEvery === 0),
-    map(ossuary => changeSecrets(ossuary, makeSecretsBatch(ossuary.secretsAmount, getLearntSpells(state$.value)))),
+    map(ossuary => changeSecrets(makeSecretsBatch(ossuary.secretsAmount, getLearntSpells(state$.value)))),
   )
 
 export const buySecretEpic: NecropolisEpic = action$ =>

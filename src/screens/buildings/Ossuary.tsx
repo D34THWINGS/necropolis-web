@@ -13,13 +13,14 @@ import { ResourceType } from '../../config/constants'
 import { buildingUpgradeArrow } from './helpers/buildingsStyles'
 import { useGetSpellDetails } from '../../components/spells/useGetSpellDetails'
 import { textColor } from '../../styles/base'
-import { getBones } from '../../data/resources/selectors'
-import { buySecret } from '../../data/buildings/actions'
+import { getBones, getMaterials } from '../../data/resources/selectors'
+import { buySecret, upgradeBuilding } from '../../data/buildings/actions'
 
 export const Ossuary = () => {
   const { t } = useTranslation()
   const ossuary = useSelector(getOssuary)
   const bones = useSelector(getBones)
+  const materials = useSelector(getMaterials)
   const getSpellDetails = useGetSpellDetails()
   const dispatch = useDispatch()
 
@@ -27,9 +28,11 @@ export const Ossuary = () => {
     return <Redirect to={MAIN_HUB} />
   }
 
-  if (!isBuildingConstructed(ossuary)) {
+  if (!isBuildingConstructed(ossuary) || ossuary.collapsed) {
     return <BuildingDetails building={ossuary} renderUpgradeDescription={() => t('ossuaryUnlock')} />
   }
+
+  const handleUpgrade = () => dispatch(upgradeBuilding(ossuary))
 
   return (
     <BuildingShop title={t(ossuary.type)} level={ossuary.level}>
@@ -54,6 +57,8 @@ export const Ossuary = () => {
         <BuildingShopRow
           leftCircleContent={<div css={buildingUpgradeArrow}>{ossuary.level + 1}</div>}
           buttonContent={<ResourceIcon type={ResourceType.Materials} text={ossuary.upgradeCost} size="1.1rem" />}
+          disabled={materials < ossuary.upgradeCost}
+          onClick={handleUpgrade}
         >
           <h2 css={buildingShopRowTitle}>{t('buildingUpgrade')}</h2>
           <div>

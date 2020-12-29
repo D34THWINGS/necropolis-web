@@ -77,7 +77,12 @@ export const Modal = ({
             {isOpen ? children : lastContent.current}
           </div>
           {onClose && (
-            <button css={[...modalCloseButtonMap[color], modalCloseButton]} onClick={onClose} type="button">
+            <button
+              css={[...modalCloseButtonMap[color], modalCloseButton]}
+              onClick={onClose}
+              type="button"
+              data-test-id="modalCloseButton"
+            >
               <img css={modalCloseIcon} src={closeIconUrl} alt="" />
             </button>
           )}

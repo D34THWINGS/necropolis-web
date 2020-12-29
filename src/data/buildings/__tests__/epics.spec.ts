@@ -54,7 +54,7 @@ describe('Buildings epics', () => {
     actionsInput$.next(upgradeBuilding(ossuary))
 
     resetTestSeed()
-    expect(actions).toEqual([changeSecrets(upgradedOssuary, makeSecretsBatch(2, []))])
+    expect(actions).toEqual([changeSecrets(makeSecretsBatch(2, []))])
 
     restoreDefaultSeeder()
   })
@@ -116,7 +116,7 @@ describe('Buildings epics', () => {
     actionsInput$.next(nextPhase())
 
     resetTestSeed()
-    expect(actions).toEqual([changeSecrets(ossuary, makeSecretsBatch(ossuary.secretsAmount, []))])
+    expect(actions).toEqual([changeSecrets(makeSecretsBatch(ossuary.secretsAmount, []))])
 
     restoreDefaultSeeder()
   })

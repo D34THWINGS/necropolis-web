@@ -110,10 +110,10 @@ export const BuildingShopRow = ({
   disabled,
   onClick,
 }: BuildingShopRowProps) => (
-  <div css={wrapper}>
+  <div css={wrapper} data-test-id="buildingShopRow">
     <div css={leftCircle}>{leftCircleContent}</div>
     <div css={content}>{children}</div>
-    <button type="button" disabled={disabled} onClick={onClick} css={button}>
+    <button type="button" disabled={disabled} onClick={onClick} css={button} data-test-id="buildingShopRowButton">
       {buttonContent}
     </button>
   </div>

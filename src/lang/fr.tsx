@@ -93,22 +93,24 @@ export const fr = {
   ),
 
   [BuildingType.Catacombs]: 'Catacombes',
-  catacombDescription: (current: number, max: number) => (
+  catacombDescription: () => (
     <>
-      <span css={textColor('PURPLE')}>Réanimer un mort-vivant</span> ({current}/{max} réanimés).
+      Action: <span css={textColor('PURPLE')}>Exhumer un mort-vivant</span>.
     </>
   ),
   catacombUnlock: (
     <>
-      Débloque l&apos;action &quot;<span css={textColor('PURPLE')}>Réanimer un mort</span>&quot;
+      Débloque l&apos;action &quot;<span css={textColor('PURPLE')}>Exhumation</span>&quot;
     </>
   ),
-  catacombUpgrade: (count: number) => (
+  catacombUnlockRevive: (
     <>
-      Permet de réanimer{' '}
-      <span css={textColor('PURPLE')}>
-        {count} mort-vivant supplémentaire{plural(count, 's')}
-      </span>
+      Débloque l&apos;action &quot;<span css={textColor('PURPLE')}>Resurrection</span>&quot;
+    </>
+  ),
+  catacombFortify: (bonus: number) => (
+    <>
+      Renforce les Morts-Vivants&nbsp;: <span css={textColor('PURPLE')}>+{bonus} à leur Talent majeur</span>
     </>
   ),
 
@@ -137,7 +139,11 @@ export const fr = {
   ),
 
   [BuildingType.Ossuary]: 'Ossuaire',
-  ossuaryDescription: <span css={textColor('BLUE')}>Apprendre un secret</span>,
+  ossuaryDescription: (
+    <>
+      Action: <span css={textColor('BLUE')}>Apprendre un secret</span>.
+    </>
+  ),
   ossuaryUnlock: (
     <>
       Permet d&apos;apprendre des secrets auprès d&apos;Omniscience en échange d&apos;
@@ -155,7 +161,6 @@ export const fr = {
       Réduit le prix des secrets de <span css={textColor('BROWN')}>{discount}%</span> arrondi au supérieur
     </>
   ),
-
   [BuildingType.Arsenal]: 'Arsenal',
   arsenalDescription: (trapsAmount: number) => (
     <>

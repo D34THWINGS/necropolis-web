@@ -1,7 +1,8 @@
 import { PersistedState, MigrationManifest } from 'redux-persist'
 import { RootState } from './mainReducer'
-import { Undead } from '../data/undeads/helpers'
-import { makeInitialBuildings } from '../data/buildings/helpers'
+import { makeUndeadPool, Undead } from '../data/undeads/helpers'
+import { isCatacombs, makeInitialBuildings } from '../data/buildings/helpers'
+import { setInArray } from '../data/helpers'
 
 type PartialState<TState> = TState extends Record<string, unknown>
   ? { [K in keyof TState]?: PartialState<TState[K]> }
@@ -29,6 +30,25 @@ const migrationsRecord: Record<number, (state: PersistedRootState) => PersistedR
       list: makeInitialBuildings(),
     },
   }),
+  3: state => {
+    if (!state.buildings?.list) {
+      return state
+    }
+    const catacombs = state.buildings.list.find(isCatacombs)
+    if (!catacombs) {
+      return state
+    }
+    return {
+      ...state,
+      buildings: {
+        ...state.buildings,
+        list: setInArray(state.buildings.list, state.buildings.list.indexOf(catacombs), {
+          ...catacombs,
+          undeadPool: makeUndeadPool(),
+        }),
+      },
+    }
+  },
 }
 
 // Ignore undefined states to simplify migrations

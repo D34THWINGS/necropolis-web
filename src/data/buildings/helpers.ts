@@ -1,12 +1,12 @@
 import { BuildingType, ResourceType } from '../../config/constants'
 import { Secret } from './secrets'
+import { makeUndeadPool, Undead } from '../undeads/helpers'
 
 const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 3, 5]
 
 const SOUL_WELL_SOUL_PRODUCTION = [0, 2, 3, 4]
 
 const CATACOMBS_SOUL_COST = [0, 3, 3, 3]
-const CATACOMBS_MAX_UNDEAD = [0, 1, 2, 3]
 
 const OSSUARY_SECRETS_AMOUNT = [0, 2, 4, 4]
 
@@ -43,13 +43,15 @@ export const isOssuary = (building: Building): building is Ossuary => building.t
 export type Catacombs = BaseBuilding & {
   type: BuildingType.Catacombs
   raiseUndeadSoulCost: number
-  maxRaisedUndead: number
+  fortifyBonus: number
+  undeadPool: Undead[]
 }
-export const makeCatacombs = (level = 0): Catacombs => ({
+export const makeCatacombs = (level = 0, undeadPool = makeUndeadPool()): Catacombs => ({
   ...makeBaseBuilding(level),
   type: BuildingType.Catacombs,
   raiseUndeadSoulCost: CATACOMBS_SOUL_COST[level],
-  maxRaisedUndead: CATACOMBS_MAX_UNDEAD[level],
+  fortifyBonus: level < 3 ? 0 : 1,
+  undeadPool,
 })
 export const isCatacombs = (building: Building): building is Catacombs => building.type === BuildingType.Catacombs
 
@@ -99,7 +101,7 @@ export const makeUpgradedBuilding = <T extends Building>(building: T): T => {
     case BuildingType.SoulWell:
       return makeSoulWell(building.level + 1) as T
     case BuildingType.Catacombs:
-      return makeCatacombs(building.level + 1) as T
+      return makeCatacombs(building.level + 1, (building as Catacombs).undeadPool) as T
   }
 }
 

@@ -6,7 +6,6 @@ import { useTranslation } from '../../lang/useTranslation'
 import { ARSENAL, CATACOMBS, CHARNEL_HOUSE, OSSUARY, SOUL_WELL } from '../../config/routes'
 import { getBuildings } from '../../data/buildings/selectors'
 import { ARTIFACT_DEFENSE_BONUS, BuildingType, OnboardingStep, ResourceType } from '../../config/constants'
-import { getRaisedUndeadCount } from '../../data/undeads/selectors'
 import { getHasArtifact } from '../../data/events/selectors'
 import { Panel } from '../../components/ui/Panel'
 import { breakpoints, colors, fonts, shadows } from '../../config/theme'
@@ -65,7 +64,6 @@ const soulWellHighlight = [OnboardingStep.HighlightProduction, OnboardingStep.Bu
 export const MainHub = () => {
   const { t } = useTranslation()
   const buildings = useSelector(getBuildings)
-  const raisedUndead = useSelector(getRaisedUndeadCount)
   const hasArtifact = useSelector(getHasArtifact)
 
   return (
@@ -113,7 +111,7 @@ export const MainHub = () => {
               key={building.type}
               name={t(building.type)}
               level={building.level}
-              description={t('catacombDescription', raisedUndead, building.maxRaisedUndead)}
+              description={t('catacombDescription')}
               route={CATACOMBS}
             />
           )

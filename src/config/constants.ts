@@ -56,11 +56,9 @@ export enum TurnPhase {
 
 export const TURN_PHASES_ORDER = [TurnPhase.Production, TurnPhase.Event, TurnPhase.Action, TurnPhase.Upkeep]
 
-export const RAISABLE_UNDEADS = [UndeadType.Skeleton, UndeadType.LaMotte, UndeadType.BloodPrince]
 export const LA_MOTTE_DEFENSE_BONUS = 1
 
 export const INTRO_STEPS_COUNT = 12
-export const ONBOARDING_STEPS_COUNT = 13
 
 export enum OnboardingStep {
   Step1,
@@ -93,7 +91,6 @@ export enum OnboardingStep {
   LetsExplore,
   StartSmall,
   CoffinHelp,
-  AwaitOldCoffin,
   BuildCatacombs,
   AwaitUndeadRaising,
   BuildOssuary,
