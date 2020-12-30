@@ -25,6 +25,7 @@ import {
   skipPaladin,
   triggerPaladinAttack,
   swapPaladinPostions,
+  repairStructure,
 } from './actions'
 import {
   applyDamagesToPaladin,
@@ -245,3 +246,7 @@ export const paladins = createReducer<PaladinState>({
       }
     }),
   )
+  .handleAction(repairStructure, (state, { payload: { amount } }) => ({
+    ...state,
+    structureHealth: Math.min(state.structureHealth + amount, NECROPOLIS_STRUCTURE_POINTS),
+  }))

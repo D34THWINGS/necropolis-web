@@ -24,14 +24,6 @@ export enum UndeadTalent {
   Necromancy = 'necromancy',
 }
 
-export enum UndeadAbility {
-  Devotion = 'devotion',
-  Labor = 'labor',
-  Protection = 'protection',
-  Seduction = 'seduction',
-  SectumSempra = 'sectumSempra',
-}
-
 export enum BuildingType {
   CharnelHouse = 'charnelHouse',
   Ossuary = 'ossuary',

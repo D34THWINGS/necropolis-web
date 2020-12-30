@@ -164,4 +164,35 @@ describe('Paladins assault', () => {
     cy.assertText('paladinName', 'Avant-Garde')
     cy.assertText('paladinCardsCounter', '4\u00A0/\u00A05')
   })
+
+  it('Restoration should repair structure', () => {
+    assaultSetup('paladinAssaultRestoration')
+
+    cy.getByTestId('useTrapButton').eq(0).click()
+    cy.assertText('structureHealthCounter', '6\u00A0/\u00A08')
+
+    cy.getByTestId('spellsButton').click()
+    cy.getByTestId('castSpellButton').eq(0).click()
+    cy.assertText('structureHealthCounter', '8\u00A0/\u00A08')
+  })
+
+  it('Prediction should reveal first 3 unrevealed paladins', () => {
+    cy.loadPage('/')
+    cy.useStateFixture('paladinAssaultPrediction')
+    cy.getByTestId('continueGameButton').click()
+    cy.assertContainsCount('paladinsDeck', 'paladinRevealedCard', 1)
+    cy.assertContainsCount('paladinsDeck', 'paladinHiddenCard', 6)
+
+    cy.getByTestId('spellsButton').click()
+    cy.getByTestId('castSpellButton').eq(0).click()
+    cy.assertContainsCount('paladinsDeck', 'paladinRevealedCard', 4)
+    cy.assertContainsCount('paladinsDeck', 'paladinHiddenCard', 3)
+  })
+
+  it('The Key should break shield and deal 3 damages', () => {
+    assaultSetup('paladinAssaultTheKey')
+    cy.getByTestId('spellsButton').click()
+    cy.getByTestId('castSpellButton').eq(0).click()
+    cy.assertText('killedPaladins', '1\u00A0/\u00A01')
+  })
 })

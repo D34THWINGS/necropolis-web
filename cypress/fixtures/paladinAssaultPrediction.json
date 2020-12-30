@@ -1,0 +1,141 @@
+{
+  "resources": { "meat": 18, "souls": 10, "bones": 6, "materials": 3 },
+  "buildings": {
+    "list": [
+      {
+        "type": "soulWell",
+        "level": 1,
+        "collapsed": false,
+        "produces": {
+          "souls": 2
+        }
+      },
+      {
+        "type": "arsenal",
+        "level": 2,
+        "collapsed": false,
+        "trapsPerAssault": 5
+      }
+    ]
+  },
+  "turn": { "currentTurn": 17, "phase": 2, "gameState": 0, "looseReason": null },
+  "undeads": {
+    "list": [],
+    "requiredSacrifices": 0,
+    "killed": [],
+    "banned": []
+  },
+  "paladins": {
+    "calledToArms": 3,
+    "counter": 3,
+    "strength": 6,
+    "structureHealth": 8,
+    "assault": {
+      "phase": "reveal",
+      "startingStructureHealth": 8,
+      "deck": [
+        {
+          "id": 0,
+          "type": "commander",
+          "revealed": true,
+          "battleCryTriggered": false,
+          "health": 2,
+          "maxHealth": 2,
+          "damages": 2,
+          "categories": ["magical"],
+          "shield": false
+        },
+        {
+          "id": 1,
+          "type": "wizard",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 1,
+          "maxHealth": 1,
+          "damages": 2,
+          "categories": ["ethereal"],
+          "shield": false
+        },
+        {
+          "id": 2,
+          "type": "healer",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 2,
+          "maxHealth": 2,
+          "damages": 1,
+          "categories": ["physical", "ethereal"],
+          "shield": false
+        },
+        {
+          "id": 3,
+          "type": "avenger",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 2,
+          "maxHealth": 2,
+          "damages": 2,
+          "categories": ["physical", "magical"],
+          "shield": true
+        },
+        {
+          "id": 4,
+          "type": "vanguard",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 2,
+          "maxHealth": 2,
+          "damages": 2,
+          "categories": ["physical", "magical"],
+          "shield": false
+        },
+        {
+          "id": 5,
+          "type": "guardian",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 3,
+          "maxHealth": 3,
+          "damages": 1,
+          "categories": ["physical", "ethereal"],
+          "shield": false
+        },
+        {
+          "id": 6,
+          "type": "healer",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 2,
+          "maxHealth": 2,
+          "damages": 1,
+          "categories": ["physical", "ethereal"],
+          "shield": false
+        }
+      ],
+      "traps": [],
+      "changingPaladinCategory": false
+    }
+  },
+  "spells": {
+    "spellBook": [
+      {
+        "key": "prediction",
+        "cost": 4,
+        "canBeCasted": true,
+        "revealBonus": 3
+      }
+    ],
+    "activeEffects": []
+  },
+  "onboarding": { "active": false, "step": 0, "flags": ["paladinsExplained"] },
+  "expeditions": {
+    "done": [0, 1],
+    "active": [{ "type": 2, "step": 2 }],
+    "opened": null,
+    "carnage": true,
+    "cancelledReinforcements": false
+  },
+  "events": { "pastEvents": [0, 2, 3, 1, 5, 1, 4, 1], "currentEvent": null, "hasArtifact": true },
+  "settings": { "hasActiveGame": true },
+  "_persist": { "version": 2, "rehydrated": true }
+}
