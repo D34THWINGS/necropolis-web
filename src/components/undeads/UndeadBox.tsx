@@ -4,7 +4,7 @@ import lighten from 'polished/lib/color/lighten'
 import darken from 'polished/lib/color/darken'
 import { Image } from '../images/Image'
 import redCheckUrl from '../../assets/images/icons/red-check.png'
-import { coloredBox, contentCover, purpleBox, textColor } from '../../styles/base'
+import { coloredBox, contentCover, purpleBox } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { colors, fonts, shadows, transitions } from '../../config/theme'
 import { isUndeadAlive, Undead } from '../../data/undeads/helpers'
@@ -13,6 +13,7 @@ import { UndeadPortrait } from './UndeadPortrait'
 import { TalentsList } from '../talents/TalentsList'
 import { ModalColor, modalColorsMap } from '../ui/Modal/modalStyles'
 import { Health } from '../images/Health'
+import { UndeadAbilityDescription } from './UndeadAbilityDescription'
 
 const undeadBox = (canBeBanned: boolean) => [
   css({
@@ -199,7 +200,7 @@ export const UndeadBox = ({ undead, disableBan, onBan, renderBanText }: UndeadBo
         </div>
         <Health css={undeadHealth} health={undead.health} maxHealth={undead.maxHealth} />
         <div css={undeadAbility}>
-          <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {t('undeadAbilityDescription', undead.type)}
+          <UndeadAbilityDescription ability={undead.ability} showAssault showExpedition />
         </div>
       </div>
       {onBan && !showConfirm && (

@@ -54,7 +54,6 @@ export const frExpeditions = {
 
   miseryMarketTitle: 'Marché de la Misère',
   miseryMarketOverview:
-    // eslint-disable-next-line max-len
     'Bourg Misère déborde de vie et le marché est son coeur battant. Bruyant, puant, mais enrichissant.',
   miseryMarketStep1: 'Devant vous se dressent les portes de Bourg Misère. Vous n’êtes pas les bienvenues ici.',
   miseryMarketAction1: 'Catapulter un Mort-Vivant derrière les murs afin qu’il ouvre les portes',
@@ -87,7 +86,6 @@ export const frExpeditions = {
     </>
   ),
   miseryMarketStep4:
-    // eslint-disable-next-line max-len
     'Vous vous tenez devant les dernières défenses de la ville : de nombreux Gardes en position derrière leurs barricades.',
   miseryMarketReward: (
     <>
@@ -99,7 +97,6 @@ export const frExpeditions = {
 
   townHallTitle: 'Hôtel de ville',
   townHallOverview:
-    // eslint-disable-next-line max-len
     'Haut lieu du pouvoir des Paladins craints et respectés. C’est ici qu’ils édictent les lois, rendent la justice et enferment leurs prisonniers.',
   townHallRewardOverview: 'variable',
   townHallStep1: 'Une large porte couverte de chaînes vous empêche d’entrer.',
@@ -143,7 +140,6 @@ export const frExpeditions = {
 
   bastionTitle: 'Bastion',
   bastionOverview:
-    // eslint-disable-next-line max-len
     'Ce somptueux fortin est le dernier bastion des Paladins. Toutes ces richesses qu’ils prétendent mériter, vous comptez bien les en déshériter.',
   bastionStep1: 'L’ultime rencontre vous attend au-delà de ce pont-levis.',
   bastionAction1: (
@@ -154,7 +150,6 @@ export const frExpeditions = {
   bastionAction6: <>Soulever la herse</>,
   bastionStep2: 'La porte est grande ouverte, la fin est proche.',
   bastionStep3:
-    // eslint-disable-next-line max-len
     'Vous pénétrez un immense hall magnifiquement décoré. Une horde de molosses enragés vous propose une visite guidée… de leurs estomacs.',
   bastionAction2: 'Combattre',
   bastionAction3: 'Les nourrir',

@@ -23,7 +23,6 @@ export const colors = {
   CAMO: '#828E70',
 }
 
-// eslint-disable-next-line max-len
 const TEXT_FLAT = `0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}`
 const ELEVATED = '0 3px 2px rgba(0, 0, 0, 0.8)'
 

@@ -6,7 +6,6 @@ import { ResourceType } from '../config/constants'
 const introTexts = [
   'Froid.',
   'La sensation parcourt tout votre corps. Est-ce donc cela, la vie après la mort?',
-  // eslint-disable-next-line max-len
   "Le simple fait d’y penser vous fait réaliser que vous n'êtes pas morte, ou plus exactement que vous n'êtes plus morte.",
   "La situation ne s'arrange pas pour autant : vous êtes bloquée dans votre tombeau.",
   <>
@@ -66,9 +65,7 @@ const introTexts = [
     Bienvenue chez vous.
   </>,
   'Des souvenirs vous reviennent. Prospérité est le mot qui décrirait au mieux votre règne en tant qu’humaine.',
-  // eslint-disable-next-line max-len
   "Quand est-il du peuple ?! Le Valet répond qu'il fut emporté avec vous par une terrible maladie, mais que certains sont fraîchement revenus à la vie.",
-  // eslint-disable-next-line max-len
   'Malgré le froid coulant dans vos veines, vous vous sentez poussée par une ardeur nouvelle. Vous ne pouvez pas laisser votre royaume dans ce piteux état, vous devez le restaurer. Pour vous et pour votre peuple.',
   'Créer une société prospère.',
 ]

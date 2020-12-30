@@ -1,5 +1,13 @@
 import { v4 as uuid } from 'uuid'
-import { UndeadAbility, UndeadTalent, UndeadType } from '../../config/constants'
+import { UndeadTalent, UndeadType } from '../../config/constants'
+import {
+  makeDevotionAbility,
+  makeLaborAbility,
+  makeProtectionAbility,
+  makeSectumSempraAbility,
+  makeSeductionAbility,
+  UndeadAbility,
+} from './abilities'
 
 export type UndeadId = string
 
@@ -26,7 +34,7 @@ export const makeValet = (): Undead => ({
   ...makeBaseUndead(3),
   type: UndeadType.Valet,
   talents: [[UndeadTalent.Dexterity, 2]],
-  ability: UndeadAbility.Devotion,
+  ability: makeDevotionAbility(),
 })
 export const isValet = (undead: Undead) => undead.type === UndeadType.Valet
 
@@ -38,7 +46,7 @@ export const makeBrikoler = (): Undead => ({
     [UndeadTalent.Muscles, 2],
     [UndeadTalent.Dexterity, 1],
   ],
-  ability: UndeadAbility.Labor,
+  ability: makeLaborAbility(),
 })
 
 export const makeSkeleton = (): Undead => ({
@@ -48,7 +56,7 @@ export const makeSkeleton = (): Undead => ({
     [UndeadTalent.Lethality, 2],
     [UndeadTalent.Subjugation, 2],
   ],
-  ability: UndeadAbility.Seduction,
+  ability: makeSeductionAbility(),
 })
 
 export const makeLaMotte = (): Undead => ({
@@ -58,7 +66,7 @@ export const makeLaMotte = (): Undead => ({
     [UndeadTalent.Lethality, 3],
     [UndeadTalent.Muscles, 1],
   ],
-  ability: UndeadAbility.Protection,
+  ability: makeProtectionAbility(),
 })
 export const isLaMotte = (undead: Undead) => undead.type === UndeadType.LaMotte
 
@@ -69,7 +77,7 @@ export const makeBloodPrince = (): Undead => ({
     [UndeadTalent.Subjugation, 1],
     [UndeadTalent.Necromancy, 3],
   ],
-  ability: UndeadAbility.SectumSempra,
+  ability: makeSectumSempraAbility(),
 })
 export const isBloodPrince = (undead: Undead) => undead.type === UndeadType.BloodPrince
 

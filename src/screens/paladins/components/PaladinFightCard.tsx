@@ -3,8 +3,7 @@ import { css } from '@emotion/react'
 import { useDispatch } from 'react-redux'
 import { darkRedBox, redBox, smallMarginTop, textColor } from '../../../styles/base'
 import { Image } from '../../../components/images/Image'
-import { paladinCategoryImagesMap } from '../helpers/paladinCategoryImagesMap'
-import { PaladinCategory, PaladinType } from '../../../config/constants'
+import { PaladinType } from '../../../config/constants'
 import { colors, fonts, shadows } from '../../../config/theme'
 import { paladinsImageMap } from '../helpers/paladinsImageMap'
 import damageIcon from '../../../assets/images/paladins/paladin-damage.png'
@@ -12,6 +11,7 @@ import { PaladinCard } from '../../../data/paladins/helpers'
 import { useTranslation } from '../../../lang/useTranslation'
 import { markPaladinsRevealed, triggerPaladinBattleCry } from '../../../data/paladins/actions'
 import { Health } from '../../../components/images/Health'
+import { DamageCategories } from '../../../components/images/DamageCategories'
 
 const activePaladinsDetails = [
   redBox,
@@ -101,14 +101,7 @@ export const PaladinFightCard = ({ paladin }: PaladinFightCardProps) => {
             </span>
             <span data-test-id="paladinType">
               {t('paladinType')}
-              {paladin.categories.map((category, index) => (
-                <Image
-                  key={category === PaladinCategory.Pure ? category + index : category}
-                  src={paladinCategoryImagesMap[category]}
-                  marginRight="0.5rem"
-                  data-test-id={category}
-                />
-              ))}
+              <DamageCategories categories={paladin.categories} />
             </span>
             <span />
           </div>

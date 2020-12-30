@@ -116,7 +116,7 @@ describe('Paladins assault', () => {
     cy.getByTestId('useTrapButton').eq(3).click()
     cy.assertText('paladinName', 'Avant-Garde')
     cy.assertContains('paladinType', 'physical')
-    cy.assertContains('paladinType', 'ethereal')
+    cy.assertNotContains('paladinType', 'ethereal')
     cy.assertNotContains('paladinType', 'magical')
     cy.assertNotContains('paladinType', 'pure')
 

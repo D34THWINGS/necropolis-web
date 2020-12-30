@@ -26,11 +26,12 @@ const undeadOverlayContainer = (isOpen: boolean) => [
   css({
     position: 'absolute',
     top: '50%',
-    left: isOpen ? '50%' : 0,
+    left: '-2rem',
     margin: 0,
-    width: 'calc(100% - 4rem)',
+    width: '100%',
+    maxWidth: 'none',
     transition: `transform ${transitions.SLOW}, left ${transitions.SLOW}`,
-    transform: `translate(${isOpen ? '-50%' : '-100%'}, -50%)`,
+    transform: `translate(${isOpen ? '0%' : 'calc(-100% + 2rem)'}, -50%)`,
     zIndex: layers.UNDEAD_OVERLAY,
 
     [breakpoints.SM]: {
@@ -42,7 +43,12 @@ const undeadOverlayContainer = (isOpen: boolean) => [
 const undeadOverlayInner = [
   modalInner(ModalColor.PURPLE),
   css({
-    maxHeight: '50vh',
+    maxHeight: '70vh',
+    paddingLeft: '2rem',
+
+    [breakpoints.SM]: {
+      maxHeight: '60vh',
+    },
   }),
 ]
 

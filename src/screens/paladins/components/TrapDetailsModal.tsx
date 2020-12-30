@@ -9,7 +9,7 @@ import { greenBox, h2Title, textColor } from '../../../styles/base'
 import { useTranslation } from '../../../lang/useTranslation'
 import damageIcon from '../../../assets/images/traps/trap-damages.png'
 import { colors } from '../../../config/theme'
-import { paladinCategoryImagesMap } from '../helpers/paladinCategoryImagesMap'
+import { DamageCategories } from '../../../components/images/DamageCategories'
 
 const trapImage = css({
   margin: '-4rem -1rem 1rem',
@@ -76,9 +76,7 @@ export const TrapDetailsModal = ({ type, onClose }: TrapDetailsModalProps) => {
             </div>
             <div css={trapType}>
               {t('paladinType')}
-              {TRAP_TARGET_CATEGORIES_MAP[type].map(category => (
-                <Image key={category} src={paladinCategoryImagesMap[category]} marginRight="0.5rem" />
-              ))}
+              <DamageCategories categories={TRAP_TARGET_CATEGORIES_MAP[type]} />
             </div>
           </div>
           {nemesis && (

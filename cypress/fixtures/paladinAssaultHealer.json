@@ -12,18 +12,7 @@
   },
   "turn": { "currentTurn": 17, "phase": 2, "gameState": 0, "looseReason": null },
   "undeads": {
-    "list": [
-      {
-        "id": 1,
-        "type": "laMotte",
-        "talents": [
-          ["lethality", 3],
-          ["muscles", 1]
-        ],
-        "maxHealth": 4,
-        "health": 4
-      }
-    ],
+    "list": [],
     "requiredSacrifices": 0,
     "killed": [],
     "banned": []

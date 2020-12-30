@@ -14,7 +14,7 @@
     "prettier/prettier": "error",
     "semi": ["error", "never"],
     "semi-style": ["error", "first"],
-    "max-len": ["error", 120],
+    "max-len": "off",
     "object-curly-newline": "off",
     "implicit-arrow-linebreak": "off",
     "no-confusing-arrow": "off",
@@ -60,6 +60,7 @@
         "@typescript-eslint/no-explicit-any": "error",
         "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true }],
         "@typescript-eslint/no-shadow": "error",
+        "@typescript-eslint/no-extra-semi": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/member-delimiter-style": [

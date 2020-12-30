@@ -124,7 +124,7 @@ export const paladinBattleCryEpic: Epic<RootAction, RootAction, RootState> = (ac
 
       const actions: RootAction[] = []
 
-      const hasPureCategory = activePaladin.categories.indexOf(PaladinCategory.Pure) >= 0
+      const hasPureCategory = activePaladin.categories.includes(PaladinCategory.Pure)
       if (hasPureCategory) {
         const updatedCategories = activePaladin.categories.reduce<PaladinCategory[]>((acc, existingCategory) => {
           if (existingCategory === PaladinCategory.Pure) {
@@ -171,7 +171,7 @@ export const paladinBattleCryEpic: Epic<RootAction, RootAction, RootState> = (ac
         case PaladinType.Provost: {
           const targetPaladin = remainingPaladins[0]
           if (targetPaladin) {
-            actions.push(changePaladinCategories(targetPaladin.id, targetPaladin.categories.fill(PaladinCategory.Pure)))
+            actions.push(changePaladinCategories(targetPaladin.id, [PaladinCategory.Pure]))
           }
           break
         }

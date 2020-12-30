@@ -21,7 +21,7 @@ import { colors } from '../../config/theme'
 import { UndeadPortrait } from '../../components/undeads/UndeadPortrait'
 import { TalentsList } from '../../components/talents/TalentsList'
 import { Health } from '../../components/images/Health'
-import { textColor } from '../../styles/base'
+import { UndeadAbilityDescription } from '../../components/undeads/UndeadAbilityDescription'
 
 const undeadPortraitCircle = css({
   display: 'flex',
@@ -41,7 +41,7 @@ const undeadStats = css({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-around',
-  marginBottom: '0.3rem',
+  marginBottom: '0.5rem',
 })
 
 export const Catacombs = () => {
@@ -88,7 +88,7 @@ export const Catacombs = () => {
             <TalentsList values={undead.talents} />
             <Health health={undead.health} maxHealth={undead.maxHealth} />
           </div>
-          <span css={textColor('CYAN')}>{t('undeadAbility')}</span> {t('undeadAbilityDescription', undead.type)}
+          <UndeadAbilityDescription ability={undead.ability} showExpedition showAssault />
         </BuildingShopRow>
       ))}
       {!isBuildingFullyUpgraded(catacombs) && (

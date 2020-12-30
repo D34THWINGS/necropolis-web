@@ -8,12 +8,12 @@ import { useTranslation } from '../../../lang/useTranslation'
 import { getIsChangingPaladinCategory } from '../../../data/paladins/selectors'
 import { PaladinCard } from '../../../data/paladins/helpers'
 import { Image } from '../../../components/images/Image'
-import { paladinCategoryImagesMap } from '../helpers/paladinCategoryImagesMap'
 import arrowUrl from '../../../assets/images/onboarding/next-step-arrow.png'
 import { buttonBase, greenSquareButton } from '../../../styles/buttons'
 import { colors, transitions } from '../../../config/theme'
 import { PaladinCategory, TRAP_DAMAGES_MAP, TRAP_TARGET_CATEGORIES_MAP, TrapType } from '../../../config/constants'
 import { changePaladinCategories, doDamagesToPaladin } from '../../../data/paladins/actions'
+import { DamageCategories } from '../../../components/images/DamageCategories'
 
 const changeCategoryWrapper = css({
   display: 'flex',
@@ -69,19 +69,21 @@ export const ChangePaladinCategoryModal = ({ activePaladin }: ChangePaladinCateg
   const [destinationCategory, setDestinationCategory] = useState(possibleDestinationCategories[0])
 
   useEffect(() => {
-    if (
-      isChangingPaladinCategory &&
-      getPossibleDestinationCategories(sourceCategory, activePaladin.categories).indexOf(destinationCategory) === -1
-    ) {
-      setDestinationCategory(sourceCategory)
+    if (!isChangingPaladinCategory) {
+      return
+    }
+    let newSourceCategory = sourceCategory
+    if (!activePaladin.categories.includes(sourceCategory)) {
+      ;[newSourceCategory] = activePaladin.categories
+      setSourceCategory(newSourceCategory)
+    }
+    const newPossibleCategories = getPossibleDestinationCategories(newSourceCategory, activePaladin.categories)
+    if (!newPossibleCategories.includes(destinationCategory)) {
+      setDestinationCategory(
+        newPossibleCategories.includes(PaladinCategory.Magical) ? PaladinCategory.Magical : newSourceCategory,
+      )
     }
   }, [sourceCategory, destinationCategory, activePaladin.categories, isChangingPaladinCategory])
-
-  useEffect(() => {
-    if (isChangingPaladinCategory && activePaladin.categories.indexOf(sourceCategory) === -1) {
-      setDestinationCategory(activePaladin.categories[0])
-    }
-  }, [sourceCategory, activePaladin.categories, isChangingPaladinCategory])
 
   const handleSourceClick = (category: PaladinCategory) => () => setSourceCategory(category)
   const handleDestinationClick = (category: PaladinCategory) => () => setDestinationCategory(category)
@@ -112,7 +114,7 @@ export const ChangePaladinCategoryModal = ({ activePaladin }: ChangePaladinCateg
               onClick={handleSourceClick(category)}
               data-test-id="sourceCategoryButton"
             >
-              <Image src={paladinCategoryImagesMap[category]} size="3rem" />
+              <DamageCategories categories={[category]} size="3rem" />
             </button>
           ))}
         </div>
@@ -126,7 +128,7 @@ export const ChangePaladinCategoryModal = ({ activePaladin }: ChangePaladinCateg
               onClick={handleDestinationClick(category)}
               data-test-id="targetCategoryButton"
             >
-              <Image src={paladinCategoryImagesMap[category]} size="3rem" />
+              <DamageCategories categories={[category]} size="3rem" />
             </button>
           ))}
         </div>

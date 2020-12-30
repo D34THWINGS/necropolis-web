@@ -7,6 +7,7 @@ import {
   GUARDIAN_TARGETS_COUNT,
   HEALER_BONUS_HP,
   HEALER_TARGETS_COUNT,
+  PaladinCategory,
   PaladinType,
   PROVOST_TARGETS_COUNT,
   PUTRID_PITCH_MALUS,
@@ -20,7 +21,7 @@ import { TalentIcon } from '../components/talents/TalentIcon'
 import paladinDamageIcon from '../assets/images/paladins/paladin-damage.png'
 import trapDamageIcon from '../assets/images/traps/trap-damages.png'
 import { Image } from '../components/images/Image'
-import magicalIcon from '../assets/images/paladins/magical-category.png'
+import { DamageCategories } from '../components/images/DamageCategories'
 
 const paladinNames: Record<PaladinType, string> = {
   [PaladinType.Vanguard]: 'Avant-Garde',
@@ -101,8 +102,8 @@ const trapDescriptions: Record<TrapType, ReactNode> = {
   [TrapType.Profaner]: (
     <>
       <span css={textColor('PURPLE')}>Purge</span> l&apos;effet <span css={textColor('PURPLE')}>Pureté</span> et change
-      le type du paladin. Si le type choisi est <Image src={magicalIcon} />, le paladin subit les{' '}
-      <Image src={trapDamageIcon} /> de ce piège.
+      le type du paladin. Si le type choisi est <DamageCategories categories={[PaladinCategory.Magical]} />, le paladin
+      subit les <Image src={trapDamageIcon} /> de ce piège.
     </>
   ),
   [TrapType.PutridPitch]: (

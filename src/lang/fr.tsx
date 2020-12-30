@@ -1,29 +1,18 @@
 import React, { ReactNode } from 'react'
 import { plural } from './i18nHelpers'
 import { noBreak, textColor } from '../styles/base'
-import { BuildingType, LA_MOTTE_DEFENSE_BONUS, ResourceType, UndeadTalent, UndeadType } from '../config/constants'
+import { BuildingType, PaladinCategory, ResourceType, UndeadTalent, UndeadType } from '../config/constants'
 import { TalentIcon } from '../components/talents/TalentIcon'
 import { frOnboarding } from './frOnboarding'
 import { frExpeditions } from './frExpeditions'
 import { frEvents } from './frEvents'
 import { ResourceIcon } from '../components/resources/ResourceIcon'
 import { frMenu } from './frMenu'
-
-const undeadAbilities: Record<UndeadType, ReactNode> = {
-  [UndeadType.Valet]: "obtient +1 dans 1 Talent aléatoire à chaque fin d'Excursion.",
-  [UndeadType.Brikoler]: 'aucune.',
-  [UndeadType.LaMotte]: (
-    <>
-      confère <span css={textColor('LIME')}>+{LA_MOTTE_DEFENSE_BONUS}&nbsp;Défense</span>.
-    </>
-  ),
-  [UndeadType.Skeleton]: (
-    <>
-      ne consomme pas de <ResourceIcon type={ResourceType.Meat} />.
-    </>
-  ),
-  [UndeadType.BloodPrince]: 'inconnue.',
-}
+import { HealthPoint } from '../components/images/HealthPoint'
+import trapDamageIcon from '../assets/images/traps/trap-damages.png'
+import paladinDamageIcon from '../assets/images/paladins/paladin-damage.png'
+import { Image } from '../components/images/Image'
+import { DamageCategories } from '../components/images/DamageCategories'
 
 const undeadTalent: Record<UndeadTalent, ReactNode> = {
   [UndeadTalent.Muscles]: (
@@ -220,7 +209,60 @@ export const fr = {
     }
   },
   undeadAbility: 'Capacité :',
-  undeadAbilityDescription: (type: UndeadType) => undeadAbilities[type],
+  devotionExpedition: (healthCost: number, talentsBonus: number) => (
+    <>
+      perd <span css={textColor('RED')}>{healthCost}</span> <HealthPoint isMissing /> pour obtenir{' '}
+      <span css={textColor('CYAN')}>+{talentsBonus} à tous les Talents</span> durant un obstacle.
+    </>
+  ),
+  devotionAssault: (healthCost: number, damages: number, damageCategories: PaladinCategory[]) => (
+    <>
+      perd <span css={textColor('RED')}>{healthCost}</span> <HealthPoint isMissing /> pour briser le{' '}
+      <span css={textColor('PURPLE')}>Bouclier</span>, purger <span css={textColor('PURPLE')}>Consécration</span> et
+      infliger <span css={textColor('CYAN')}>{damages}</span> <Image src={trapDamageIcon} />. Type&nbsp;:{' '}
+      <DamageCategories categories={damageCategories} />.
+    </>
+  ),
+  laborExpedition: <>résout un obstacle qui implique une tâche d&apos;ouvrier.</>,
+  laborAssault: (
+    <>
+      construit un <span css={textColor('LIME')}>Piège</span> au choix.
+    </>
+  ),
+  protectionExpedition: (damageBuffer: number) => (
+    <>
+      encaisse une perte de jusqu&apos;à <span css={textColor('RED')}>{damageBuffer}</span> <HealthPoint isMissing />{' '}
+      durant un obstacle.
+    </>
+  ),
+  protectionAssault: (shieldValue: number) => (
+    <>
+      bloque <span css={textColor('RED')}>{shieldValue}</span> <Image src={paladinDamageIcon} /> de 1 Paladin
+    </>
+  ),
+  seductionExpedition: (talentBonus: number) => (
+    <>
+      les ennemis subjugués durant un obstacle rejoignent vos rangs. Confère{' '}
+      <span css={textColor('CYAN')}>+{talentBonus} de tous les Talents</span> pour finir l&apos;Excursion.
+    </>
+  ),
+  seductionAssault: (targetMaxHealth: number) => (
+    <>
+      séduit un Paladin auquel il reste <span css={textColor('LIME')}>{targetMaxHealth}</span> <HealthPoint /> et qui
+      n&apos;a pas <span css={textColor('LIME')}>Consécration</span>. Ce dernier inflige ses dégâts au Paladin suivant.
+    </>
+  ),
+  sectumSempraExpedition: (lethalityBonus: number) => (
+    <>
+      <TalentIcon type={UndeadTalent.Lethality} size="1.2rem" text={`+${lethalityBonus}`} /> durant un obstacle.
+    </>
+  ),
+  sectumSempraAssault: (damages: number, targetCategories: PaladinCategory[]) => (
+    <>
+      purge <span css={textColor('LIME')}>Consécration</span> et inflige <span css={textColor('CYAN')}>{damages}</span>{' '}
+      <Image src={trapDamageIcon} />. Type&nbsp;: <DamageCategories categories={targetCategories} />.
+    </>
+  ),
   reanimatedUndeadTitle: 'Réanimation',
   reanimatedUndeadOk: 'Ok',
 
@@ -326,7 +368,6 @@ export const fr = {
   gameLostBastion: 'La Faucheuse a enfin récolté votre âme asservie.',
   gameRetry: 'Recommencer',
   gameWon:
-    // eslint-disable-next-line max-len
     'Vous l’avez fait, atteindre la prospérité\u00A0! Il ne vous reste plus qu’à profiter de la vie jusqu’à la fin des temps...',
 
   errorTitle: 'Oops :(',

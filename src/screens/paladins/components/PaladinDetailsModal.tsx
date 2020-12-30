@@ -10,7 +10,7 @@ import { h2Title, redBox } from '../../../styles/base'
 import { colors } from '../../../config/theme'
 import damageIcon from '../../../assets/images/paladins/paladin-damage.png'
 import { PALADINS_DAMAGES_MAP } from '../../../config/constants'
-import { paladinCategoryImagesMap } from '../helpers/paladinCategoryImagesMap'
+import { DamageCategories } from '../../../components/images/DamageCategories'
 
 const paladinImage = css({
   margin: '-4rem -1rem 1rem',
@@ -82,9 +82,7 @@ export const PaladinDetailsModal = ({ card, onClose }: PaladinDetailsModalProps)
             </div>
             <div css={paladinTypes}>
               {t('paladinType')}
-              {card.categories.map(category => (
-                <Image key={category} src={paladinCategoryImagesMap[category]} marginRight="0.5rem" />
-              ))}
+              <DamageCategories categories={card.categories} />
             </div>
           </div>
           <div css={paladinDamages}>

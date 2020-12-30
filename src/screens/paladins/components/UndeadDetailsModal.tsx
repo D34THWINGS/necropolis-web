@@ -6,8 +6,9 @@ import { Undead } from '../../../data/undeads/helpers'
 import { useTranslation } from '../../../lang/useTranslation'
 import { UndeadPortrait } from '../../../components/undeads/UndeadPortrait'
 import { colors, fonts } from '../../../config/theme'
-import { purpleBox, smallMarginTop, textColor } from '../../../styles/base'
+import { purpleBox, smallMarginTop } from '../../../styles/base'
 import { darkPurpleSquareButton } from '../../../styles/buttons'
+import { UndeadAbilityDescription } from '../../../components/undeads/UndeadAbilityDescription'
 
 const undeadDetailsHeader = css({
   display: 'flex',
@@ -40,7 +41,7 @@ export const UndeadDetailsModal = ({ undead, onClose }: UndeadDetailsModalProps)
             </div>
           </div>
           <div css={purpleBox}>
-            <span css={textColor('PURPLE')}>{t('undeadAbility')}</span> {t('undeadAbilityDescription', undead.type)}
+            <UndeadAbilityDescription ability={undead.ability} showAssault />
           </div>
           <button type="button" css={[...darkPurpleSquareButton, smallMarginTop]}>
             {t('undeadDetailsUse')}

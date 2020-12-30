@@ -8,7 +8,7 @@ enum EffectBlurEvent {
 
 type BaseSpellEffect = { blurEvent: EffectBlurEvent }
 
-type LethalityBuffEffect = BaseSpellEffect & { key: EffectKey.LethalityBuff; lethalityBonus: number }
+export type LethalityBuffEffect = BaseSpellEffect & { key: EffectKey.LethalityBuff; lethalityBonus: number }
 
 export const makeLethalityBuffEffect = (lethalityBonus: number): LethalityBuffEffect => ({
   key: EffectKey.LethalityBuff,
