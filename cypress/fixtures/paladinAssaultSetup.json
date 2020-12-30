@@ -27,14 +27,14 @@
       "startingStructureHealth": 8,
       "deck": [
         {
-          "id": 0,
-          "type": "commander",
+          "id": 2,
+          "type": "healer",
           "revealed": true,
           "battleCryTriggered": false,
           "health": 2,
           "maxHealth": 2,
-          "damages": 2,
-          "categories": ["magical"],
+          "damages": 1,
+          "categories": ["physical", "ethereal"],
           "shield": false
         },
         {
@@ -49,14 +49,14 @@
           "shield": false
         },
         {
-          "id": 2,
-          "type": "healer",
+          "id": 0,
+          "type": "commander",
           "revealed": false,
           "battleCryTriggered": false,
           "health": 2,
           "maxHealth": 2,
-          "damages": 1,
-          "categories": ["physical", "ethereal"],
+          "damages": 2,
+          "categories": ["magical"],
           "shield": false
         },
         {

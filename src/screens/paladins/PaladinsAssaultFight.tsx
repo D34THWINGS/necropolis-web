@@ -112,6 +112,8 @@ export const PaladinsAssaultFight = () => {
   }
 
   const activePaladin = remainingPaladins[0]
+  console.log(deck)
+  console.log(activePaladin)
 
   const handleUseTrap = (trap: Trap) => () => dispatch(triggerTrap(trap, activePaladin.id))
   const handleSkipPaladin = () => dispatch(skipPaladin(activePaladin.id))

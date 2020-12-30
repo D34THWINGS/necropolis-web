@@ -23,7 +23,7 @@
     "strength": 6,
     "structureHealth": 8,
     "assault": {
-      "phase": "reveal",
+      "phase": "prepare",
       "startingStructureHealth": 8,
       "deck": [
         {

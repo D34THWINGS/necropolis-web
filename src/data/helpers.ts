@@ -22,6 +22,17 @@ export const shuffleArray = <T>(array: T[]) => {
   return arrayCopy
 }
 
+export const findAndPutFirstInArray = <T>(array: T[], predicate: (value: T) => boolean) => {
+  const valueToMove = array.find(predicate)
+  const index = valueToMove ? array.indexOf(valueToMove) : -1
+  if (!valueToMove || index <= 0) {
+    return array
+  }
+  return [valueToMove, ...array.slice(0, index), ...array.slice(index + 1)]
+}
+
+export const drawRandomInArray = <T>(array: T[]) => array[Math.floor(random() * array.length)]
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const recursiveSet = (obj: any, path: (string | number)[], value: any): any => {
   if (Array.isArray(obj)) {

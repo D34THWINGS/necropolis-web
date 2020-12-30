@@ -11,8 +11,8 @@ import {
   TRAP_TARGET_CATEGORIES_MAP,
   TrapType,
 } from '../../config/constants'
-import { random } from '../seeder'
 import { applyDamages } from '../undeads/helpers'
+import { drawRandomInArray, findAndPutFirstInArray } from '../helpers'
 
 export type Trap = {
   id: string
@@ -56,28 +56,42 @@ export const createPaladinCard = (type: PaladinType, revealed = false): PaladinC
   skipped: false,
 })
 
-export const createPaladinsAssault = (strength: number, structureHealth: number): Assault => ({
-  phase: PaladinsAssaultPhase.Revealing,
-  deck: Array.from({ length: strength })
-    .reduce<PaladinCard[]>(deck => {
-      // Never draw more than 1 commander
-      let possibleTypes = Object.values(PaladinType)
-      if (deck.some(paladin => paladin.type === PaladinType.Commander)) {
-        possibleTypes = possibleTypes.filter(type => type !== PaladinType.Commander)
-      }
+export const createDeck = (nbOfCards: number, possibleTypes: PaladinType[] = Object.values(PaladinType)) =>
+  Array.from({ length: nbOfCards }).reduce<PaladinCard[]>(tmpDeck => {
+    // Never draw more than 1 commander
+    const hasCommander = tmpDeck.some(paladin => paladin.type === PaladinType.Commander)
+    const adjustedPossibleTypes = hasCommander
+      ? possibleTypes.filter(type => type !== PaladinType.Commander)
+      : possibleTypes
 
-      const type = possibleTypes[Math.floor(random() * possibleTypes.length)] ?? PaladinType.Vanguard
+    return [...tmpDeck, createPaladinCard(drawRandomInArray(adjustedPossibleTypes))]
+  }, [])
 
-      const paladin: PaladinCard = createPaladinCard(type)
+export const getMostPresentTypeInDeck = (deck: PaladinCard[]) =>
+  Array.from(
+    deck
+      .reduce((stats, card) => {
+        stats.set(card.type, (stats.get(card.type) ?? 0) + 1)
+        return stats
+      }, new Map<PaladinType, number>())
+      .entries(),
+  ).sort(([, a], [, b]) => b - a)[0][0]
 
-      // Commander always first in deck
-      return type === PaladinType.Commander ? [paladin, ...deck] : [...deck, paladin]
-    }, [])
-    .map((paladinCard, index) => (index === 0 ? { ...paladinCard, revealed: true } : paladinCard)),
-  traps: [],
-  changingPaladinCategory: false,
-  startingStructureHealth: structureHealth,
-})
+export const createPaladinsAssault = (strength: number, structureHealth: number): Assault => {
+  const unsortedDeck = createDeck(strength)
+  const majorityType = getMostPresentTypeInDeck(unsortedDeck)
+  const deck = findAndPutFirstInArray(unsortedDeck, card => card.type === majorityType).map((paladinCard, index) =>
+    index === 0 ? { ...paladinCard, revealed: true } : paladinCard,
+  )
+
+  return {
+    phase: PaladinsAssaultPhase.Revealing,
+    deck,
+    traps: [],
+    changingPaladinCategory: false,
+    startingStructureHealth: structureHealth,
+  }
+}
 
 export const createTrap = (type: TrapType): Trap => ({
   id: uuid(),
@@ -87,10 +101,9 @@ export const createTrap = (type: TrapType): Trap => ({
   targetsCategories: TRAP_TARGET_CATEGORIES_MAP[type],
 })
 
+export const isCommander = (paladin: PaladinCard) => paladin.type === PaladinType.Commander
 export const isPaladinAlive = (paladin: PaladinCard) => paladin.health > 0 && !paladin.skipped
-
 export const isPaladinConsecrated = (paladin: PaladinCard) => paladin.categories.includes(PaladinCategory.Pure)
-
 export const canTargetPaladin = (paladin: PaladinCard, targetsCategories: PaladinCategory[]) =>
   targetsCategories.some(category => paladin.categories.indexOf(category) >= 0)
 

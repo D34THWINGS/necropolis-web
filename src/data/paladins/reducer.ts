@@ -6,6 +6,7 @@ import {
   callToArms,
   changeAssaultPhase,
   changePaladinCategories,
+  changePaladinsDamages,
   doDamagesToPaladin,
   endPaladinsAssault,
   increasePaladinHealth,
@@ -13,22 +14,21 @@ import {
   increasePaladinsStrength,
   killPaladins,
   markPaladinsRevealed,
-  changePaladinsDamages,
   removeTrap,
+  repairStructure,
   resetPaladinsCounter,
   setChangingPaladinCategories,
+  shieldPaladin,
+  skipPaladin,
+  swapPaladinPostions,
+  triggerPaladinAttack,
   triggerPaladinBattleCry,
   triggerPaladinsAssault,
   triggerTrap,
-  shieldPaladin,
-  skipPaladin,
-  triggerPaladinAttack,
-  swapPaladinPostions,
-  repairStructure,
 } from './actions'
-import { applyDamagesToPaladin, Assault, createPaladinsAssault, createTrap, PaladinCard } from './helpers'
-import { NECROPOLIS_STRUCTURE_POINTS, PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
-import { setInArray } from '../helpers'
+import { applyDamagesToPaladin, Assault, createPaladinsAssault, createTrap, isCommander, PaladinCard } from './helpers'
+import { NECROPOLIS_STRUCTURE_POINTS, PALADINS_ATTACK_THRESHOLD, PaladinsAssaultPhase } from '../../config/constants'
+import { findAndPutFirstInArray, setInArray, shuffleArray } from '../helpers'
 
 export type PaladinState = {
   strength: number
@@ -75,7 +75,7 @@ const updateAssault = (state: PaladinState, callback: (assault: Assault) => Part
 }
 
 export const paladins = createReducer<PaladinState>({
-  strength: 0,
+  strength: 1,
   counter: 0,
   calledToArms: false,
   assault: null,
@@ -97,7 +97,15 @@ export const paladins = createReducer<PaladinState>({
     assault: createPaladinsAssault(state.strength, state.structureHealth),
   }))
   .handleAction(endPaladinsAssault, state => ({ ...state, assault: null, counter: 0 }))
-  .handleAction(changeAssaultPhase, (state, { payload }) => updateAssault(state, () => ({ phase: payload.phase })))
+  .handleAction(changeAssaultPhase, (state, { payload: { phase } }) =>
+    updateAssault(state, assault => {
+      // Shuffle deck when entering prepare phase
+      if (assault.phase === PaladinsAssaultPhase.Revealing && phase === PaladinsAssaultPhase.Preparing) {
+        return { phase, deck: findAndPutFirstInArray(shuffleArray(assault.deck), isCommander) }
+      }
+      return { phase }
+    }),
+  )
   .handleAction(addTrap, (state, { payload }) =>
     updateAssault(state, assault => ({ traps: [...assault.traps, createTrap(payload.type)] })),
   )
