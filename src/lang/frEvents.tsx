@@ -44,8 +44,8 @@ const paladinAbilities: Record<PaladinType, ReactNode> = {
   ),
   [PaladinType.Zealot]: (
     <>
-      <span css={textColor('PURPLE')}>Pureté&nbsp;:</span>&nbsp;le ou les Types de la carte sont tirés aléatoirement et
-      ne sont révélés que lorsqu&apos;elle se fait attaquer.
+      <span css={textColor('PURPLE')}>Consécration</span>&nbsp;:&nbsp;le ou les Types de la carte sont tirés
+      aléatoirement et ne sont révélés que lorsqu&apos;elle se fait attaquer.
     </>
   ),
   [PaladinType.Wizard]: (
@@ -70,7 +70,7 @@ const paladinAbilities: Record<PaladinType, ReactNode> = {
   ),
   [PaladinType.Provost]: (
     <>
-      Confère <span css={textColor('PURPLE')}>Pureté</span> à {PROVOST_TARGETS_COUNT} Paladin
+      Confère <span css={textColor('PURPLE')}>Consécration</span> à {PROVOST_TARGETS_COUNT} Paladin
     </>
   ),
   [PaladinType.Avenger]: (
@@ -101,9 +101,8 @@ const trapDescriptions: Record<TrapType, ReactNode> = {
   ),
   [TrapType.Profaner]: (
     <>
-      <span css={textColor('PURPLE')}>Purge</span> l&apos;effet <span css={textColor('PURPLE')}>Pureté</span> et change
-      le type du paladin. Si le type choisi est <DamageCategories categories={[PaladinCategory.Magical]} />, le paladin
-      subit les <Image src={trapDamageIcon} /> de ce piège.
+      Change le type du paladin. Si le type choisi est <DamageCategories categories={[PaladinCategory.Magical]} />, le
+      paladin subit les <Image src={trapDamageIcon} /> de ce piège.
     </>
   ),
   [TrapType.PutridPitch]: (
@@ -153,7 +152,6 @@ export const frEvents = {
   paladinName: (type: PaladinType) => paladinNames[type],
   paladinAbility: (type: PaladinType) => paladinAbilities[type],
   paladinType: 'Types\u00A0:\u00A0',
-  paladinHealth: 'PV',
   paladinsAssaultPrepare: 'Pose de pièges',
   paladinsAssaultPlacedTraps: (count: number, max: number) => (
     <>
@@ -170,7 +168,7 @@ export const frEvents = {
   skipPaladin: 'Passer',
   paladinShielded: (
     <>
-      <span css={textColor('PURPLE')}>Bouclier&nbsp;:</span>&nbsp;Protège des dégâts
+      <span css={textColor('PURPLE')}>Bouclier</span>&nbsp;:&nbsp;Protège des dégâts
     </>
   ),
   changePaladinType: 'Changement de type',

@@ -228,4 +228,4 @@ export const TRAP_TARGET_CATEGORIES_MAP: Record<TrapType, PaladinCategory[]> = {
 export const EXTRA_CHAKRAM_DAMAGE = 1
 export const PUTRID_PITCH_MALUS = -1
 export const NECROPOLIS_STRUCTURE_POINTS = 8
-export const DELAY_BETWEEN_TRAP_EFFECTS = 500
+export const DELAY_BETWEEN_TRAP_EFFECTS = 300

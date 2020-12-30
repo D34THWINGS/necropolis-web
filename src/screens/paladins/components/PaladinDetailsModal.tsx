@@ -11,6 +11,7 @@ import { colors } from '../../../config/theme'
 import damageIcon from '../../../assets/images/paladins/paladin-damage.png'
 import { PALADINS_DAMAGES_MAP } from '../../../config/constants'
 import { DamageCategories } from '../../../components/images/DamageCategories'
+import { Health } from '../../../components/images/Health'
 
 const paladinImage = css({
   margin: '-4rem -1rem 1rem',
@@ -78,7 +79,7 @@ export const PaladinDetailsModal = ({ card, onClose }: PaladinDetailsModalProps)
           <Image css={paladinImage} src={paladinsImageMap[card.type]} size="calc(100% + 2rem)" />
           <div css={paladinDetailsHeader}>
             <div css={paladinHealth}>
-              {card.health}&nbsp;{t('paladinHealth')}
+              <Health health={card.health} maxHealth={card.health} />
             </div>
             <div css={paladinTypes}>
               {t('paladinType')}

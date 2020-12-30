@@ -6,13 +6,7 @@ import { ResourceType } from '../../config/constants'
 import { RootState } from '../../store/mainReducer'
 import { RootAction } from '../actions'
 import { getIsInExpedition } from '../expeditions/selectors'
-import {
-  breakPaladinShield,
-  damageActivePaladin,
-  doDamagesToPaladin,
-  markPaladinsRevealed,
-  repairStructure,
-} from '../paladins/actions'
+import { breakPaladinShield, doDamagesToPaladin, markPaladinsRevealed, repairStructure } from '../paladins/actions'
 import { getPaladinsAssaultOngoing, getRemainingPaladins, getUnrevealedPaladins } from '../paladins/selectors'
 import { spendResources } from '../resources/actions'
 import { healUndead } from '../undeads/actions'
@@ -57,7 +51,7 @@ export const castSoulStormEpic: Epic<RootAction, RootAction, RootState> = (actio
           const appliedDamages = Math.min(leftDamages, paladinCard.health)
           return {
             leftDamages: leftDamages - appliedDamages,
-            actions: [...actions, damageActivePaladin(appliedDamages, soulStorm.targetCategories)],
+            actions: [...actions, doDamagesToPaladin(paladinCard.id, appliedDamages, soulStorm.targetCategories)],
           }
         },
         {

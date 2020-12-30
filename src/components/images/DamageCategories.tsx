@@ -28,9 +28,9 @@ export type DamageCategoriesProps = {
 
 export const DamageCategories = ({ className, categories, size }: DamageCategoriesProps) => (
   <span css={className}>
-    {categories.map(category => (
+    {categories.map((category, index) => (
       <Image
-        key={category}
+        key={category + index.toString()}
         css={categoryIcon}
         src={paladinCategoryImagesMap[category]}
         size={size}

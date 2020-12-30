@@ -9,6 +9,7 @@ import { RootAction } from '../data/actions'
 import { resetReducer } from './resetableStore'
 import { loadReducer } from './loadableStore'
 import { persistConfig } from './persistConfig'
+import { paladinsDamageEffectsMiddleware } from '../data/paladins/middleware'
 
 declare global {
   interface Window {
@@ -35,7 +36,7 @@ export const createAppStore = (history: History) => {
   })
   const store = createStore(
     persistedReducer,
-    composeEnhancers(applyMiddleware(epicMiddleware), Sentry.createReduxEnhancer()),
+    composeEnhancers(applyMiddleware(paladinsDamageEffectsMiddleware, epicMiddleware), Sentry.createReduxEnhancer()),
   )
   const persistor = persistStore(store)
 

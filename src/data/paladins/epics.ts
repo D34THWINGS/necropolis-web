@@ -1,14 +1,11 @@
-import { Epic } from 'redux-observable'
 import { EMPTY, of } from 'rxjs'
 import { concatMap, delay, filter, map, mergeMap } from 'rxjs/operators'
 import { isActionOf } from 'typesafe-actions'
 import { RootAction } from '../actions'
-import { RootState } from '../../store/mainReducer'
 import {
   breakPaladinShield,
   changeAssaultPhase,
   changePaladinCategories,
-  damageActivePaladin,
   doDamagesToPaladin,
   increasePaladinHealth,
   changePaladinsDamages,
@@ -18,17 +15,14 @@ import {
   shieldPaladin,
   skipPaladin,
   triggerPaladinAttack,
-  swapPaladinPostions,
   increasePaladinsStrength,
 } from './actions'
 import {
   getPaladinById,
   getPaladinsAssaultPhase,
   getPaladinsCalledToArms,
-  getPaladinsDeck,
   getRemainingPaladins,
   getShouldIncreasePaladinsStrength,
-  getTrapById,
   isAssaultFinished,
 } from './selectors'
 import {
@@ -44,67 +38,56 @@ import {
   DELAY_BETWEEN_TRAP_EFFECTS,
   TurnPhase,
 } from '../../config/constants'
-import { shuffleArray } from '../helpers'
-import { random } from '../seeder'
+import { NecropolisEpic, shuffleArray } from '../helpers'
 import { nextPhase } from '../turn/actions'
 import { getCurrentPhase } from '../turn/selectors'
 
-export const displayAssaultResultsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+export const displayAssaultResultsEpic: NecropolisEpic = (action$, state$) =>
   state$.pipe(
     filter(state => getPaladinsAssaultPhase(state) === PaladinsAssaultPhase.Fighting && isAssaultFinished(state)),
     map(() => changeAssaultPhase(PaladinsAssaultPhase.Result)),
   )
 
-export const trapsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+export const trapsEpic = (instantTrigger = false): NecropolisEpic => (action$, state$) =>
   action$.pipe(
     filter(isActionOf(triggerTrap)),
-    mergeMap(({ payload: { trapId, paladinId } }) => {
-      let activePaladin = getPaladinById(paladinId)(state$.value)
-      const trap = getTrapById(trapId)(state$.value)
-
-      if (!trap || !activePaladin) {
-        return EMPTY
-      }
-
+    mergeMap(({ payload: { trap, paladinId } }) => {
       const actions: RootAction[] = []
-
-      if (activePaladin.type === PaladinType.Commander) {
-        const deck = getPaladinsDeck(state$.value)
-        const commanderIndex = deck.indexOf(activePaladin)
-        if (commanderIndex === 0) {
-          const remainingPaladins = getPaladinsDeck(state$.value).slice(commanderIndex + 1)
-          const swappedPaladin = shuffleArray(remainingPaladins)[0]
-          if (swappedPaladin) {
-            actions.push(swapPaladinPostions(activePaladin.id, swappedPaladin.id))
-            activePaladin = swappedPaladin
-          }
-        }
-      }
 
       switch (trap.type) {
         case TrapType.Impaler:
           actions.push(
-            breakPaladinShield(activePaladin.id),
-            doDamagesToPaladin(activePaladin.id, trap.damages, trap.targetsCategories),
+            breakPaladinShield(paladinId),
+            doDamagesToPaladin(paladinId, trap.damages, trap.targetsCategories),
           )
           break
-        case TrapType.Chakrams:
-          actions.push(
-            doDamagesToPaladin(activePaladin.id, trap.damages, trap.targetsCategories),
-            damageActivePaladin(EXTRA_CHAKRAM_DAMAGE, Object.values(PaladinCategory)),
-          )
+        case TrapType.Chakrams: {
+          const remainingPaladins = getRemainingPaladins(state$.value)
+          const secondChakramTargetId =
+            (remainingPaladins[0].health > trap.damages ? paladinId : remainingPaladins[1]?.id) ?? null
+          actions.push(doDamagesToPaladin(paladinId, trap.damages, trap.targetsCategories))
+          if (secondChakramTargetId !== null) {
+            actions.push(
+              doDamagesToPaladin(secondChakramTargetId, EXTRA_CHAKRAM_DAMAGE, Object.values(PaladinCategory)),
+            )
+          }
           break
+        }
         case TrapType.Profaner:
           actions.push(setChangingPaladinCategories())
           break
         case TrapType.PutridPitch:
           actions.push(
-            changePaladinsDamages([activePaladin.id], PUTRID_PITCH_MALUS),
-            doDamagesToPaladin(activePaladin.id, trap.damages, trap.targetsCategories),
+            changePaladinsDamages([paladinId], PUTRID_PITCH_MALUS),
+            doDamagesToPaladin(paladinId, trap.damages, trap.targetsCategories),
           )
           break
         default:
           break
+      }
+
+      if (instantTrigger) {
+        return of(...actions)
       }
 
       return of(...actions).pipe(
@@ -113,7 +96,7 @@ export const trapsEpic: Epic<RootAction, RootAction, RootState> = (action$, stat
     }),
   )
 
-export const paladinBattleCryEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+export const paladinBattleCryEpic: NecropolisEpic = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(triggerPaladinBattleCry)),
     mergeMap(({ payload: { paladinId } }) => {
@@ -123,24 +106,6 @@ export const paladinBattleCryEpic: Epic<RootAction, RootAction, RootState> = (ac
       }
 
       const actions: RootAction[] = []
-
-      const hasPureCategory = activePaladin.categories.includes(PaladinCategory.Pure)
-      if (hasPureCategory) {
-        const updatedCategories = activePaladin.categories.reduce<PaladinCategory[]>((acc, existingCategory) => {
-          if (existingCategory === PaladinCategory.Pure) {
-            const possibleCategories = Object.values(PaladinCategory).filter(
-              category => category !== PaladinCategory.Pure && acc.indexOf(category) === -1,
-            )
-            return [
-              ...acc,
-              possibleCategories[Math.floor(random() * possibleCategories.length)] ?? PaladinCategory.Physical,
-            ]
-          }
-          return [...acc, existingCategory]
-        }, [])
-        actions.push(changePaladinCategories(activePaladin.id, updatedCategories))
-      }
-
       const remainingPaladins = shuffleArray(
         getRemainingPaladins(state$.value).filter(paladin => paladin.id !== activePaladin.id),
       )
@@ -171,7 +136,7 @@ export const paladinBattleCryEpic: Epic<RootAction, RootAction, RootState> = (ac
         case PaladinType.Provost: {
           const targetPaladin = remainingPaladins[0]
           if (targetPaladin) {
-            actions.push(changePaladinCategories(targetPaladin.id, [PaladinCategory.Pure]))
+            actions.push(changePaladinCategories(targetPaladin.id, targetPaladin.categories.fill(PaladinCategory.Pure)))
           }
           break
         }
@@ -183,7 +148,7 @@ export const paladinBattleCryEpic: Epic<RootAction, RootAction, RootState> = (ac
     }),
   )
 
-export const paladinDeathRattleEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+export const paladinDeathRattleEpic: NecropolisEpic = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(doDamagesToPaladin)),
     mergeMap(({ payload: { paladinId } }) => {
@@ -201,13 +166,13 @@ export const paladinDeathRattleEpic: Epic<RootAction, RootAction, RootState> = (
     }),
   )
 
-export const paladinSkipEpic: Epic<RootAction, RootAction, RootState> = action$ =>
+export const paladinSkipEpic: NecropolisEpic = action$ =>
   action$.pipe(
     filter(isActionOf(skipPaladin)),
     map(({ payload: { paladinId } }) => triggerPaladinAttack(paladinId)),
   )
 
-export const paladinIncreaseStrengthEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+export const paladinIncreaseStrengthEpic: NecropolisEpic = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(nextPhase)),
     filter(

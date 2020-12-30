@@ -64,23 +64,23 @@ export const UndeadAbilityDescription = ({ showAssault, showExpedition, ability 
     return ((_: never) => _)(ability)
   }
 
+  if (showExpedition && !showAssault) {
+    return <>{getAbilityExpeditionDescription()}</>
+  }
+
+  if (!showExpedition && showAssault) {
+    return <>{getAbilityAssaultDescription()}</>
+  }
+
   return (
     <>
-      {showExpedition && (
-        <>
-          <Image src={excursionIconUrl} />
-          &nbsp;:&nbsp;
-          {getAbilityExpeditionDescription()}
-        </>
-      )}
-      {showExpedition && showAssault && <div css={descriptionsSeparator} />}
-      {showAssault && (
-        <>
-          <Image src={assaultIconUrl} />
-          &nbsp;:&nbsp;
-          {getAbilityAssaultDescription()}
-        </>
-      )}
+      <Image src={excursionIconUrl} />
+      &nbsp;:&nbsp;
+      {getAbilityExpeditionDescription()}
+      <div css={descriptionsSeparator} />
+      <Image src={assaultIconUrl} />
+      &nbsp;:&nbsp;
+      {getAbilityAssaultDescription()}
     </>
   )
 }

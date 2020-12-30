@@ -50,7 +50,7 @@ export const rootEpic = combineEpics(
   castPredictionEpic,
   resetGameEpic,
   displayAssaultResultsEpic,
-  trapsEpic,
+  trapsEpic(),
   paladinBattleCryEpic,
   paladinDeathRattleEpic,
   paladinIncreaseStrengthEpic,

@@ -2,7 +2,7 @@ import React from 'react'
 import { HealthPoint } from './HealthPoint'
 
 const getTestId = (index: number, health: number, maxHealth: number) => {
-  if (index > health) {
+  if (index >= health) {
     return 'missingHealthPoint'
   }
   if (index >= maxHealth) {

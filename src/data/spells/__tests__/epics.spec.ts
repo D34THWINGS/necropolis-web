@@ -5,7 +5,6 @@ import { openExpedition, setExpeditionStep } from '../../expeditions/actions'
 import {
   beginPaladinsAssault,
   breakPaladinShield,
-  damageActivePaladin,
   doDamagesToPaladin,
   markPaladinsRevealed,
   repairStructure,
@@ -38,7 +37,7 @@ describe('Spells epics', () => {
   })
 
   describe('SoulStorm', () => {
-    it('Active soul storm bonus during expedition', () => {
+    it('should give lethality bonus during expeditions', () => {
       const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castSoulStormEpic)
 
       const soulStorm = makeSoulStorm()
@@ -48,26 +47,28 @@ describe('Spells epics', () => {
       expect(actions).toEqual([applyEffects(soulStorm.effects)])
     })
 
-    it('Active soul storm bonus during expedition', () => {
+    it('should damage paladins recursively during assaults', () => {
       const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castSoulStormEpic)
 
       const soulStorm = makeSoulStorm()
       const initialState = mainReducer(state$.value, init())
+      const paladin1 = createPaladinCard(PaladinType.Healer)
+      const paladin2 = createPaladinCard(PaladinType.Healer)
       stateInput$.next({
         ...initialState,
         paladins: {
           ...initialState.paladins,
           assault: {
             ...createPaladinsAssault(5, 10),
-            deck: [createPaladinCard(PaladinType.Healer), createPaladinCard(PaladinType.Healer)],
+            deck: [paladin1, paladin2],
           },
         },
       })
       actionsInput$.next(castSpell(soulStorm))
 
       expect(actions).toEqual([
-        damageActivePaladin(2, soulStorm.targetCategories),
-        damageActivePaladin(2, soulStorm.targetCategories),
+        doDamagesToPaladin(paladin1.id, 2, soulStorm.targetCategories),
+        doDamagesToPaladin(paladin2.id, 2, soulStorm.targetCategories),
       ])
     })
   })

@@ -115,13 +115,15 @@ describe('Paladins assault', () => {
 
     cy.getByTestId('useTrapButton').eq(3).click()
     cy.assertText('paladinName', 'Avant-Garde')
-    cy.assertContains('paladinType', 'physical')
+    cy.assertNotContains('paladinType', 'physical')
     cy.assertNotContains('paladinType', 'ethereal')
     cy.assertNotContains('paladinType', 'magical')
-    cy.assertNotContains('paladinType', 'pure')
+    cy.assertContainsCount('paladinHealth', 'remainingHealthPoint', 1)
+    cy.assertContainsCount('paladinType', 'pure', 2)
 
     cy.getByTestId('useTrapButton').eq(0).click()
     cy.assertText('paladinName', 'Avant-Garde')
+    cy.assertText('paladinCardsCounter', '3\u00A0/\u00A03')
     cy.assertContains('paladinType', 'physical')
     cy.assertContains('paladinType', 'magical')
   })

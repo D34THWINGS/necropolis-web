@@ -94,6 +94,9 @@ export const canCastInAssaultFight = (spell: Spell) => spell.castPhases.includes
 export const canCastInPaladinsReveal = (spell: Spell) => spell.castPhases.includes(CastPhase.PaladinsReveal)
 export const canCastOnOssuary = (spell: Spell) => spell.castPhases.includes(CastPhase.Ossuary)
 
+export const isSpellWithDamages = (spell: unknown): spell is SpellWithDamages =>
+  (spell as SpellWithDamages).damages !== undefined
+
 const makeSpellFromKey = (key: SpellKey) => {
   switch (key) {
     case SpellKey.SoulStorm:

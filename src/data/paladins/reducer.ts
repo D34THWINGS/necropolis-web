@@ -6,7 +6,6 @@ import {
   callToArms,
   changeAssaultPhase,
   changePaladinCategories,
-  damageActivePaladin,
   doDamagesToPaladin,
   endPaladinsAssault,
   increasePaladinHealth,
@@ -27,14 +26,7 @@ import {
   swapPaladinPostions,
   repairStructure,
 } from './actions'
-import {
-  applyDamagesToPaladin,
-  Assault,
-  createPaladinsAssault,
-  createTrap,
-  isPaladinAlive,
-  PaladinCard,
-} from './helpers'
+import { applyDamagesToPaladin, Assault, createPaladinsAssault, createTrap, PaladinCard } from './helpers'
 import { NECROPOLIS_STRUCTURE_POINTS, PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
 import { setInArray } from '../helpers'
 
@@ -112,9 +104,9 @@ export const paladins = createReducer<PaladinState>({
   .handleAction(removeTrap, (state, { payload }) =>
     updateAssault(state, assault => ({ traps: assault.traps.filter(trap => trap.id !== payload.id) })),
   )
-  .handleAction(triggerTrap, (state, { payload: { trapId } }) =>
+  .handleAction(triggerTrap, (state, { payload: { trap } }) =>
     updateAssault(state, assault => {
-      const trapIndex = assault.traps.findIndex(trap => trap.id === trapId)
+      const trapIndex = assault.traps.findIndex(({ id }) => id === trap.id)
       return trapIndex === -1
         ? null
         : {
@@ -144,20 +136,6 @@ export const paladins = createReducer<PaladinState>({
     updateAssault(state, assault => ({
       deck: updatePaladinById(assault.deck, paladinId, applyDamagesToPaladin(damages, targetCategories)),
     })),
-  )
-  .handleAction(damageActivePaladin, (state, { payload: { damages, targetCategories } }) =>
-    updateAssault(state, assault => {
-      const activePaladinIndex = assault.deck.findIndex(isPaladinAlive)
-      return activePaladinIndex === -1
-        ? null
-        : {
-            deck: updatePaladinByIndex(
-              assault.deck,
-              activePaladinIndex,
-              applyDamagesToPaladin(damages, targetCategories),
-            ),
-          }
-    }),
   )
   .handleAction(setChangingPaladinCategories, state => updateAssault(state, () => ({ changingPaladinCategory: true })))
   .handleAction(changePaladinCategories, (state, { payload: { paladinId, categories } }) =>

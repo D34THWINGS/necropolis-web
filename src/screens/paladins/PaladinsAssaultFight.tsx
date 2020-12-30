@@ -6,7 +6,7 @@ import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/mo
 import { paladinAssaultPanel, paladinAssaultPanelInner } from './helpers/paladinAssaultStyles'
 import { greenBox, h2Title, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
-import { NECROPOLIS_STRUCTURE_POINTS, TrapType } from '../../config/constants'
+import { NECROPOLIS_STRUCTURE_POINTS, PaladinType, TrapType } from '../../config/constants'
 import { breakpoints, colors } from '../../config/theme'
 import { getPaladinsAssault, getStructureHealth } from '../../data/paladins/selectors'
 import { Image } from '../../components/images/Image'
@@ -17,7 +17,7 @@ import { buttonDisabled, redSquareButton, resetButton } from '../../styles/butto
 import { skipPaladin, triggerTrap } from '../../data/paladins/actions'
 import { ChangePaladinCategoryModal } from './components/ChangePaladinCategoryModal'
 import { PaladinFightCard } from './components/PaladinFightCard'
-import { canTargetPaladin, isPaladinAlive } from '../../data/paladins/helpers'
+import { canTargetPaladin, isPaladinAlive, Trap } from '../../data/paladins/helpers'
 
 const fightPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
 
@@ -113,7 +113,7 @@ export const PaladinsAssaultFight = () => {
 
   const activePaladin = remainingPaladins[0]
 
-  const handleUseTrap = (trapId: string) => () => dispatch(triggerTrap(trapId, activePaladin.id))
+  const handleUseTrap = (trap: Trap) => () => dispatch(triggerTrap(trap, activePaladin.id))
   const handleSkipPaladin = () => dispatch(skipPaladin(activePaladin.id))
 
   return (
@@ -132,24 +132,17 @@ export const PaladinsAssaultFight = () => {
           </div>
         </div>
         <div css={trapPool}>
-          {remainingTraps.map(trap => {
-            const trapEnabled =
-              trap.type === TrapType.Profaner ||
-              (activePaladin.shield && trap.type === TrapType.Impaler) ||
-              canTargetPaladin(activePaladin, trap.targetsCategories)
-            return (
-              <button
-                key={trap.id}
-                type="button"
-                css={trapUseButton(trap.type)}
-                disabled={!trapEnabled}
-                onClick={handleUseTrap(trap.id)}
-                data-test-id="useTrapButton"
-              >
-                {t('trapName', trap.type)}
-              </button>
-            )
-          })}
+          {remainingTraps.map(trap => (
+            <button
+              key={trap.id}
+              type="button"
+              css={trapUseButton(trap.type)}
+              onClick={handleUseTrap(trap)}
+              data-test-id="useTrapButton"
+            >
+              {t('trapName', trap.type)}
+            </button>
+          ))}
           <button type="button" css={skipPaladinButton} onClick={handleSkipPaladin} data-test-id="skipPaladinButton">
             {t('skipPaladin')}(<span css={textColor('RED')}>{-activePaladin.damages}</span>
             <Image src={structurePointsIcon} marginLeft="0.3rem" />)

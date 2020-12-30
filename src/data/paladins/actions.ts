@@ -1,5 +1,6 @@
 import { createAction } from 'typesafe-actions'
 import { PaladinCategory, PaladinsAssaultPhase, TrapType } from '../../config/constants'
+import { Trap } from './helpers'
 
 export const increasePaladinsStrength = createAction('paladins/INCREASE_STRENGTH')()
 
@@ -25,8 +26,8 @@ export const addTrap = createAction('paladins/ADD_TRAP', (type: TrapType) => ({ 
 
 export const removeTrap = createAction('paladins/REMOVE_TRAP', (id: string) => ({ id }))()
 
-export const triggerTrap = createAction('paladins/TRIGGER_TRAP', (trapId: string, paladinId: string) => ({
-  trapId,
+export const triggerTrap = createAction('paladins/TRIGGER_TRAP', (trap: Trap, paladinId: string) => ({
+  trap,
   paladinId,
 }))()
 
@@ -41,11 +42,6 @@ export const doDamagesToPaladin = createAction(
     damages,
     targetCategories,
   }),
-)()
-
-export const damageActivePaladin = createAction(
-  'paladins/DAMAGE_ACTIVE_PALADIN',
-  (damages: number, targetCategories: PaladinCategory[]) => ({ damages, targetCategories }),
 )()
 
 export const changePaladinsDamages = createAction(

@@ -211,44 +211,44 @@ export const fr = {
   undeadAbility: 'Capacité :',
   devotionExpedition: (healthCost: number, talentsBonus: number) => (
     <>
-      perd <span css={textColor('RED')}>{healthCost}</span> <HealthPoint isMissing /> pour obtenir{' '}
+      Perd <span css={textColor('RED')}>{healthCost}</span> <HealthPoint isMissing /> pour obtenir{' '}
       <span css={textColor('CYAN')}>+{talentsBonus} à tous les Talents</span> durant un obstacle.
     </>
   ),
   devotionAssault: (healthCost: number, damages: number, damageCategories: PaladinCategory[]) => (
     <>
-      perd <span css={textColor('RED')}>{healthCost}</span> <HealthPoint isMissing /> pour briser le{' '}
+      Perd <span css={textColor('RED')}>{healthCost}</span> <HealthPoint isMissing /> pour briser le{' '}
       <span css={textColor('PURPLE')}>Bouclier</span>, purger <span css={textColor('PURPLE')}>Consécration</span> et
       infliger <span css={textColor('CYAN')}>{damages}</span> <Image src={trapDamageIcon} />. Type&nbsp;:{' '}
       <DamageCategories categories={damageCategories} />.
     </>
   ),
-  laborExpedition: <>résout un obstacle qui implique une tâche d&apos;ouvrier.</>,
+  laborExpedition: <>Résout un obstacle qui implique une tâche d&apos;ouvrier.</>,
   laborAssault: (
     <>
-      construit un <span css={textColor('LIME')}>Piège</span> au choix.
+      Construit un <span css={textColor('LIME')}>Piège</span> au choix.
     </>
   ),
   protectionExpedition: (damageBuffer: number) => (
     <>
-      encaisse une perte de jusqu&apos;à <span css={textColor('RED')}>{damageBuffer}</span> <HealthPoint isMissing />{' '}
+      Encaisse une perte de jusqu&apos;à <span css={textColor('RED')}>{damageBuffer}</span> <HealthPoint isMissing />{' '}
       durant un obstacle.
     </>
   ),
   protectionAssault: (shieldValue: number) => (
     <>
-      bloque <span css={textColor('RED')}>{shieldValue}</span> <Image src={paladinDamageIcon} /> de 1 Paladin
+      Bloque <span css={textColor('RED')}>{shieldValue}</span> <Image src={paladinDamageIcon} /> de 1 Paladin
     </>
   ),
   seductionExpedition: (talentBonus: number) => (
     <>
-      les ennemis subjugués durant un obstacle rejoignent vos rangs. Confère{' '}
+      Les ennemis subjugués durant un obstacle rejoignent vos rangs. Confère{' '}
       <span css={textColor('CYAN')}>+{talentBonus} de tous les Talents</span> pour finir l&apos;Excursion.
     </>
   ),
   seductionAssault: (targetMaxHealth: number) => (
     <>
-      séduit un Paladin auquel il reste <span css={textColor('LIME')}>{targetMaxHealth}</span> <HealthPoint /> et qui
+      Séduit un Paladin auquel il reste <span css={textColor('LIME')}>{targetMaxHealth}</span> <HealthPoint /> et qui
       n&apos;a pas <span css={textColor('LIME')}>Consécration</span>. Ce dernier inflige ses dégâts au Paladin suivant.
     </>
   ),
@@ -259,7 +259,7 @@ export const fr = {
   ),
   sectumSempraAssault: (damages: number, targetCategories: PaladinCategory[]) => (
     <>
-      purge <span css={textColor('LIME')}>Consécration</span> et inflige <span css={textColor('CYAN')}>{damages}</span>{' '}
+      Purge <span css={textColor('LIME')}>Consécration</span> et inflige <span css={textColor('CYAN')}>{damages}</span>{' '}
       <Image src={trapDamageIcon} />. Type&nbsp;: <DamageCategories categories={targetCategories} />.
     </>
   ),
