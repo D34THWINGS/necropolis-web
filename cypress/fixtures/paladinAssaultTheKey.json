@@ -55,7 +55,7 @@
       {
         "key": "theKey",
         "cost": 4,
-        "canBeCasted": true,
+        "castPhases": ["assaultFight"],
         "damages": 3,
         "targetCategories": ["physical", "ethereal"]
       }

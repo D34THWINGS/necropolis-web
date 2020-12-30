@@ -121,7 +121,7 @@
       {
         "key": "prediction",
         "cost": 4,
-        "canBeCasted": true,
+        "castPhases": ["ossuary", "paladinsReveal"],
         "revealBonus": 3
       }
     ],

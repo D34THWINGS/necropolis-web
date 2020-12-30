@@ -14,7 +14,7 @@ describe('Ossuary', () => {
     cy.getByTestId('acknowledgeEventButton').click()
     cy.assertCount('buildingShopRow', 3)
 
-    cy.getByTestId('buildingShopRowButton').eq(1).click()
+    cy.getByTestId('buildingShopRowButton').eq(0).click()
     cy.assertText('bonesCounter', '97')
     cy.assertCount('buildingShopRow', 2)
 
@@ -23,6 +23,12 @@ describe('Ossuary', () => {
 
     cy.getByTestId('modalCloseButton').click()
     cy.getByTestId('nextPhaseButton').click().click()
+    cy.window().then(win => win.skipAssault())
     cy.assertCount('buildingShopRow', 3)
+    cy.getByTestId('buildingShopRow').eq(0).should('contain.text', 'Déluge des âmes')
+
+    cy.getByTestId('spellsButton').click()
+    cy.getByTestId('castSpellButton').click()
+    cy.getByTestId('buildingShopRow').eq(0).should('contain.text', 'Restauration')
   })
 })

@@ -187,6 +187,13 @@ describe('Paladins assault', () => {
     cy.getByTestId('castSpellButton').eq(0).click()
     cy.assertContainsCount('paladinsDeck', 'paladinRevealedCard', 4)
     cy.assertContainsCount('paladinsDeck', 'paladinHiddenCard', 3)
+
+    cy.getByTestId('beginPreparePhaseButton').click()
+    cy.getByTestId('availableTrapButton').eq(0).click().click().click()
+    cy.getByTestId('availableTrapButton').eq(1).click()
+    cy.getByTestId('beginFightPhaseButton').click()
+    cy.getByTestId('spellsButton').click()
+    cy.assertNotExists('castSpellButton')
   })
 
   it('The Key should break shield and deal 3 damages', () => {

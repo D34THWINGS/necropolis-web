@@ -21,7 +21,10 @@ import { applyEffects, blurEffects, castSpell } from './actions'
 import { isPrediction, isRestoration, isSoulStorm, isTheKey } from './helpers'
 import { fleeExpedition, setExpeditionStep } from '../expeditions/actions'
 import { getEffectsBlurringOnStepChange } from './effects'
-import { getActiveSpellEffects } from './selectors'
+import { getActiveSpellEffects, getLearntSpells } from './selectors'
+import { changeSecrets } from '../buildings/actions'
+import { makeSecretsBatch } from '../buildings/secrets'
+import { getOssuary } from '../buildings/selectors'
 
 export const castSpellEpic: Epic<RootAction, RootAction, RootState> = action$ =>
   action$.pipe(
@@ -110,12 +113,10 @@ export const castTheKeyEpic: Epic<RootAction, RootAction, RootState> = (action$,
     }),
   )
 
-export const castPredictionEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
-  action$.pipe(
-    filter(isActionOf(castSpell)),
+export const castPredictionEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
+  const cast$ = action$.pipe(filter(isActionOf(castSpell)), mapToSpell, filter(isPrediction))
+  const castDuringAssault$ = cast$.pipe(
     filter(() => getPaladinsAssaultOngoing(state$.value)),
-    mapToSpell,
-    filter(isPrediction),
     mergeMap(prediction => {
       const unrevealedPaladins = getUnrevealedPaladins(state$.value)
       if (unrevealedPaladins.length === 0) {
@@ -125,6 +126,18 @@ export const castPredictionEpic: Epic<RootAction, RootAction, RootState> = (acti
       return of(markPaladinsRevealed(paladinIdsToReveal))
     }),
   )
+  const castOutsideAssault$ = cast$.pipe(
+    filter(() => !getPaladinsAssaultOngoing(state$.value)),
+    mergeMap(() => {
+      const ossuary = getOssuary(state$.value)
+      if (!ossuary) {
+        return EMPTY
+      }
+      return of(changeSecrets(makeSecretsBatch(ossuary.secretsAmount, getLearntSpells(state$.value))))
+    }),
+  )
+  return merge(castOutsideAssault$, castDuringAssault$)
+}
 
 export const blurEffectsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
   const blurOnExpeditionStep$ = action$.pipe(

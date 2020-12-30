@@ -99,7 +99,7 @@
       {
         "key": "soulStorm",
         "cost": 4,
-        "canBeCasted": true,
+        "castPhases": ["assaultFight", "expeditions"],
         "damages": 4,
         "targetCategories": ["ethereal", "magical"],
         "effects": [

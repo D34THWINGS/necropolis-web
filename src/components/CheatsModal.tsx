@@ -15,12 +15,14 @@ import { persistConfig } from '../store/persistConfig'
 import { PersistedRootState } from '../store/migrations'
 import { getBuildings } from '../data/buildings/selectors'
 import { makeBloodPrince } from '../data/undeads/helpers'
+import { endEvent } from '../data/events/actions'
 
 declare global {
   interface Window {
     cheats: () => void
     injectState: (state: unknown) => void
     addResources: () => void
+    skipAssault: () => void
   }
 }
 
@@ -51,6 +53,7 @@ export const CheatsModal = () => {
         dispatch(loadGameState(gameState))
       }
     }
+    window.skipAssault = () => dispatch(endEvent())
   }, [dispatch, open])
 
   const handleAddResources = () => {

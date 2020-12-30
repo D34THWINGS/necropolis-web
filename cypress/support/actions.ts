@@ -10,6 +10,7 @@ declare namespace Cypress {
 interface Window {
   injectState(state: unknown): void
   useTestSeed(): void
+  skipAssault(): void
 }
 
 Cypress.Commands.add('useStateFixture', (fixtureName: string) =>

@@ -53,7 +53,7 @@ export const repairBuildingEpic: NecropolisEpic = action$ =>
 export const reRollSecretsEpic: NecropolisEpic = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(nextPhase)),
-    filter(() => getCurrentPhase(state$.value) === TurnPhase.Event),
+    filter(() => getCurrentPhase(state$.value) === TurnPhase.Action),
     map(() => getOssuary(state$.value)),
     filter(isDefined),
     filter(ossuary => isBuildingConstructed(ossuary) && getTurn(state$.value) % ossuary.reRollSecretsEvery === 0),
