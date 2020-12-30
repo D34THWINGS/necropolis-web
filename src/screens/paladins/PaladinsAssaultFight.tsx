@@ -6,7 +6,7 @@ import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/mo
 import { paladinAssaultPanel, paladinAssaultPanelInner } from './helpers/paladinAssaultStyles'
 import { greenBox, h2Title, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
-import { NECROPOLIS_STRUCTURE_POINTS, PaladinType, TrapType } from '../../config/constants'
+import { NECROPOLIS_STRUCTURE_POINTS, TrapType } from '../../config/constants'
 import { breakpoints, colors } from '../../config/theme'
 import { getPaladinsAssault, getStructureHealth } from '../../data/paladins/selectors'
 import { Image } from '../../components/images/Image'
@@ -17,7 +17,7 @@ import { buttonDisabled, redSquareButton, resetButton } from '../../styles/butto
 import { skipPaladin, triggerTrap } from '../../data/paladins/actions'
 import { ChangePaladinCategoryModal } from './components/ChangePaladinCategoryModal'
 import { PaladinFightCard } from './components/PaladinFightCard'
-import { canTargetPaladin, isPaladinAlive, Trap } from '../../data/paladins/helpers'
+import { isPaladinAlive, Trap } from '../../data/paladins/helpers'
 
 const fightPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
 

@@ -1,5 +1,5 @@
 import { buildEpicObservables } from '../../../../tests/helpers'
-import { ExpeditionType, PaladinType, ResourceType } from '../../../config/constants'
+import { ExpeditionType, PaladinCategory, PaladinType, ResourceType } from '../../../config/constants'
 import { mainReducer } from '../../../store/mainReducer'
 import { openExpedition, setExpeditionStep } from '../../expeditions/actions'
 import {
@@ -70,6 +70,29 @@ describe('Spells epics', () => {
         doDamagesToPaladin(paladin1.id, 2, soulStorm.targetCategories),
         doDamagesToPaladin(paladin2.id, 2, soulStorm.targetCategories),
       ])
+    })
+
+    it('should break damage chain if paladin cannot be targeted', () => {
+      const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castSoulStormEpic)
+
+      const soulStorm = makeSoulStorm()
+      const initialState = mainReducer(state$.value, init())
+      const paladin1 = createPaladinCard(PaladinType.Wizard)
+      const paladin2 = { ...createPaladinCard(PaladinType.Wizard), categories: [PaladinCategory.Physical] }
+      const paladin3 = createPaladinCard(PaladinType.Wizard)
+      stateInput$.next({
+        ...initialState,
+        paladins: {
+          ...initialState.paladins,
+          assault: {
+            ...createPaladinsAssault(5, 10),
+            deck: [paladin1, paladin2, paladin3],
+          },
+        },
+      })
+      actionsInput$.next(castSpell(soulStorm))
+
+      expect(actions).toEqual([doDamagesToPaladin(paladin1.id, 1, soulStorm.targetCategories)])
     })
   })
 

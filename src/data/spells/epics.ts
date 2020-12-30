@@ -19,6 +19,7 @@ import { getActiveSpellEffects, getLearntSpells } from './selectors'
 import { changeSecrets } from '../buildings/actions'
 import { makeSecretsBatch } from '../buildings/secrets'
 import { getOssuary } from '../buildings/selectors'
+import { canTargetPaladin } from '../paladins/helpers'
 
 export const castSpellEpic: Epic<RootAction, RootAction, RootState> = action$ =>
   action$.pipe(
@@ -43,23 +44,18 @@ export const castSoulStormEpic: Epic<RootAction, RootAction, RootState> = (actio
       if (remainingPaladins.length === 0) {
         return EMPTY
       }
-      const { actions: finalActions } = remainingPaladins.reduce(
-        ({ leftDamages, actions }, paladinCard) => {
-          if (leftDamages === 0) {
-            return { leftDamages, actions }
-          }
-          const appliedDamages = Math.min(leftDamages, paladinCard.health)
-          return {
-            leftDamages: leftDamages - appliedDamages,
-            actions: [...actions, doDamagesToPaladin(paladinCard.id, appliedDamages, soulStorm.targetCategories)],
-          }
-        },
-        {
-          leftDamages: soulStorm.damages,
-          actions: new Array<RootAction>(),
-        },
-      )
-      return of(...finalActions)
+      const actions: RootAction[] = []
+      let leftDamages = soulStorm.damages
+      // eslint-disable-next-line no-restricted-syntax
+      for (const paladinCard of remainingPaladins) {
+        if (leftDamages === 0 || !canTargetPaladin(paladinCard, soulStorm.targetCategories)) {
+          break
+        }
+        const appliedDamages = Math.min(leftDamages, paladinCard.health)
+        actions.push(doDamagesToPaladin(paladinCard.id, appliedDamages, soulStorm.targetCategories))
+        leftDamages -= appliedDamages
+      }
+      return of(...actions)
     }),
   )
 

@@ -41,6 +41,7 @@ import {
 import { NecropolisEpic, shuffleArray } from '../helpers'
 import { nextPhase } from '../turn/actions'
 import { getCurrentPhase } from '../turn/selectors'
+import { canTargetPaladin } from './helpers'
 
 export const displayAssaultResultsEpic: NecropolisEpic = (action$, state$) =>
   state$.pipe(
@@ -62,6 +63,14 @@ export const trapsEpic = (instantTrigger = false): NecropolisEpic => (action$, s
           )
           break
         case TrapType.Chakrams: {
+          const targetPaladin = getPaladinById(paladinId)(state$.value)
+
+          // If paladin cannot be targeted by the chakram, throw only the second one
+          if (!targetPaladin || !canTargetPaladin(targetPaladin, trap.targetsCategories)) {
+            actions.push(doDamagesToPaladin(paladinId, EXTRA_CHAKRAM_DAMAGE, Object.values(PaladinCategory)))
+            break
+          }
+
           const remainingPaladins = getRemainingPaladins(state$.value)
           const secondChakramTargetId =
             (remainingPaladins[0].health > trap.damages ? paladinId : remainingPaladins[1]?.id) ?? null

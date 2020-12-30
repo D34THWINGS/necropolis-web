@@ -47,7 +47,7 @@ describe('Paladins epics', () => {
     const { actionsInput$, actions, stateInput$, state$ } = buildEpicObservables(trapsEpic(true))
 
     const initialState = mainReducer(state$.value, init())
-    const paladin1 = createPaladinCard(PaladinType.Dreadnought)
+    const paladin1 = { ...createPaladinCard(PaladinType.Dreadnought), categories: [PaladinCategory.Ethereal] }
     const paladin2 = createPaladinCard(PaladinType.Healer)
     const chakrams = createTrap(TrapType.Chakrams)
     stateInput$.next({
@@ -66,6 +66,27 @@ describe('Paladins epics', () => {
       doDamagesToPaladin(paladin1.id, chakrams.damages, chakrams.targetsCategories),
       doDamagesToPaladin(paladin1.id, EXTRA_CHAKRAM_DAMAGE, Object.values(PaladinCategory)),
     ])
+  })
+
+  it('should only throw second chakram if target is not ethereal', () => {
+    const { actionsInput$, actions, stateInput$, state$ } = buildEpicObservables(trapsEpic(true))
+
+    const initialState = mainReducer(state$.value, init())
+    const paladin = createPaladinCard(PaladinType.Vanguard)
+    const chakrams = createTrap(TrapType.Chakrams)
+    stateInput$.next({
+      ...initialState,
+      paladins: {
+        ...initialState.paladins,
+        assault: {
+          ...createPaladinsAssault(5, 10),
+          deck: [paladin],
+        },
+      },
+    })
+    actionsInput$.next(triggerTrap(chakrams, paladin.id))
+
+    expect(actions).toEqual([doDamagesToPaladin(paladin.id, EXTRA_CHAKRAM_DAMAGE, Object.values(PaladinCategory))])
   })
 
   it('should throw a second chakram on next target if first is dead', () => {
