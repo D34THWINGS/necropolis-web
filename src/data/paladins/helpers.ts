@@ -89,6 +89,8 @@ export const createTrap = (type: TrapType): Trap => ({
 
 export const isPaladinAlive = (paladin: PaladinCard) => paladin.health > 0 && !paladin.skipped
 
+export const isPaladinConsecrated = (paladin: PaladinCard) => paladin.categories.includes(PaladinCategory.Pure)
+
 export const canTargetPaladin = (paladin: PaladinCard, targetsCategories: PaladinCategory[]) =>
   targetsCategories.some(category => paladin.categories.indexOf(category) >= 0)
 

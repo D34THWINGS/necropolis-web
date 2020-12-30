@@ -22,6 +22,7 @@ import paladinDamageIcon from '../assets/images/paladins/paladin-damage.png'
 import trapDamageIcon from '../assets/images/traps/trap-damages.png'
 import { Image } from '../components/images/Image'
 import { DamageCategories } from '../components/images/DamageCategories'
+import { HealthPoint } from '../components/images/HealthPoint'
 
 const paladinNames: Record<PaladinType, string> = {
   [PaladinType.Vanguard]: 'Avant-Garde',
@@ -39,7 +40,8 @@ const paladinAbilities: Record<PaladinType, ReactNode> = {
   [PaladinType.Vanguard]: null,
   [PaladinType.Healer]: (
     <>
-      <span css={textColor('LIME')}>+{HEALER_BONUS_HP} PV</span>&nbsp;à {HEALER_TARGETS_COUNT} Paladin
+      <span css={textColor('LIME')}>+{HEALER_BONUS_HP}</span>&nbsp;
+      <HealthPoint /> à {HEALER_TARGETS_COUNT} Paladin
     </>
   ),
   [PaladinType.Zealot]: (
@@ -169,6 +171,13 @@ export const frEvents = {
   paladinShielded: (
     <>
       <span css={textColor('PURPLE')}>Bouclier</span>&nbsp;:&nbsp;Protège des dégâts
+    </>
+  ),
+  paladinConsecrated: (
+    <>
+      <span css={textColor('PURPLE')}>Consécration</span>&nbsp;:&nbsp;change le ou les Types du Paladin qui deviennent
+      cachés jusqu&apos;à ce qu&apos;il prenne au moins <span css={textColor('CYAN')}>1</span>&nbsp;
+      <Image src={trapDamageIcon} /> (peu importe le Type).
     </>
   ),
   changePaladinType: 'Changement de type',

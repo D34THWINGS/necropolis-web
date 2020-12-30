@@ -6,7 +6,7 @@ import { shuffleArray } from '../helpers'
 import { changePaladinCategories, swapPaladinPostions, triggerTrap } from './actions'
 import { castSpell } from '../spells/actions'
 import { isSpellWithDamages } from '../spells/helpers'
-import { PaladinCard } from './helpers'
+import { isPaladinConsecrated, PaladinCard } from './helpers'
 import { random } from '../seeder'
 import { RootState } from '../../store/mainReducer'
 
@@ -49,7 +49,7 @@ export const paladinsDamageEffectsMiddleware: Middleware<{}, RootState> = api =>
   }
 
   // Pure category swap
-  if (targetPaladin && targetPaladin.categories.includes(PaladinCategory.Pure)) {
+  if (targetPaladin && isPaladinConsecrated(targetPaladin)) {
     const updatedCategories = targetPaladin.categories.reduce<PaladinCategory[]>((acc, existingCategory) => {
       if (existingCategory === PaladinCategory.Pure) {
         const possibleCategories = Object.values(PaladinCategory).filter(

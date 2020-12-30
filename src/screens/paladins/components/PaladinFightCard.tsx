@@ -7,7 +7,7 @@ import { PaladinType } from '../../../config/constants'
 import { colors, fonts, shadows } from '../../../config/theme'
 import { paladinsImageMap } from '../helpers/paladinsImageMap'
 import damageIcon from '../../../assets/images/paladins/paladin-damage.png'
-import { PaladinCard } from '../../../data/paladins/helpers'
+import { isPaladinConsecrated, PaladinCard } from '../../../data/paladins/helpers'
 import { useTranslation } from '../../../lang/useTranslation'
 import { markPaladinsRevealed, triggerPaladinBattleCry } from '../../../data/paladins/actions'
 import { Health } from '../../../components/images/Health'
@@ -66,6 +66,13 @@ const activePaladinHealth = [
   }),
 ]
 
+const activePaladinAbility = [
+  smallMarginTop,
+  css({
+    fontSize: '1rem',
+  }),
+]
+
 export type PaladinFightCardProps = {
   paladin: PaladinCard
 }
@@ -107,9 +114,19 @@ export const PaladinFightCard = ({ paladin }: PaladinFightCardProps) => {
           </div>
         </div>
       </div>
-      <div css={smallMarginTop} data-test-id="paladinAbility">
-        {paladin.shield && t('paladinShielded')}
-        <br />
+      <div css={activePaladinAbility} data-test-id="paladinAbility">
+        {paladin.shield && (
+          <>
+            {t('paladinShielded')}
+            <br />
+          </>
+        )}
+        {isPaladinConsecrated(paladin) && (
+          <>
+            {t('paladinConsecrated')}
+            <br />
+          </>
+        )}
         {t('paladinAbility', paladin.type)}
       </div>
       <div css={activePaladinHealth} data-test-id="paladinHealth">
