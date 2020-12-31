@@ -24,8 +24,9 @@ import {
   paladinDeathRattleEpic,
   paladinBattleCryEpic,
   trapsEpic,
-  paladinIncreaseStrengthEpic,
+  paladinIncreaseCounterEpic,
   paladinSkipEpic,
+  forwardDamagesEpic,
 } from './paladins/epics'
 
 export const rootEpic = combineEpics(
@@ -51,8 +52,9 @@ export const rootEpic = combineEpics(
   resetGameEpic,
   displayAssaultResultsEpic,
   trapsEpic(),
+  forwardDamagesEpic,
   paladinBattleCryEpic,
   paladinDeathRattleEpic,
-  paladinIncreaseStrengthEpic,
+  paladinIncreaseCounterEpic,
   paladinSkipEpic,
 )

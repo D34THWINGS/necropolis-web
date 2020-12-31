@@ -15,14 +15,14 @@ import {
   shieldPaladin,
   skipPaladin,
   triggerPaladinAttack,
-  increasePaladinsStrength,
+  increasePaladinsCounter,
+  forwardDamages,
 } from './actions'
 import {
   getPaladinById,
   getPaladinsAssaultPhase,
   getPaladinsCalledToArms,
   getRemainingPaladins,
-  getShouldIncreasePaladinsStrength,
   isAssaultFinished,
 } from './selectors'
 import {
@@ -41,7 +41,7 @@ import {
 import { NecropolisEpic, shuffleArray } from '../helpers'
 import { nextPhase } from '../turn/actions'
 import { getCurrentPhase } from '../turn/selectors'
-import { canTargetPaladin } from './helpers'
+import { canTargetPaladin, isPaladinConsecrated } from './helpers'
 
 export const displayAssaultResultsEpic: NecropolisEpic = (action$, state$) =>
   state$.pipe(
@@ -49,7 +49,7 @@ export const displayAssaultResultsEpic: NecropolisEpic = (action$, state$) =>
     map(() => changeAssaultPhase(PaladinsAssaultPhase.Result)),
   )
 
-export const trapsEpic = (instantTrigger = false): NecropolisEpic => (action$, state$) =>
+export const trapsEpic = (instantTrigger = false): NecropolisEpic => action$ =>
   action$.pipe(
     filter(isActionOf(triggerTrap)),
     mergeMap(({ payload: { trap, paladinId } }) => {
@@ -63,23 +63,10 @@ export const trapsEpic = (instantTrigger = false): NecropolisEpic => (action$, s
           )
           break
         case TrapType.Chakrams: {
-          const targetPaladin = getPaladinById(paladinId)(state$.value)
-
-          // If paladin cannot be targeted by the chakram, throw only the second one
-          if (!targetPaladin || !canTargetPaladin(targetPaladin, trap.targetsCategories)) {
-            actions.push(doDamagesToPaladin(paladinId, EXTRA_CHAKRAM_DAMAGE, Object.values(PaladinCategory)))
-            break
-          }
-
-          const remainingPaladins = getRemainingPaladins(state$.value)
-          const secondChakramTargetId =
-            (remainingPaladins[0].health > trap.damages ? paladinId : remainingPaladins[1]?.id) ?? null
-          actions.push(doDamagesToPaladin(paladinId, trap.damages, trap.targetsCategories))
-          if (secondChakramTargetId !== null) {
-            actions.push(
-              doDamagesToPaladin(secondChakramTargetId, EXTRA_CHAKRAM_DAMAGE, Object.values(PaladinCategory)),
-            )
-          }
+          actions.push(
+            doDamagesToPaladin(paladinId, trap.damages, trap.targetsCategories),
+            forwardDamages(EXTRA_CHAKRAM_DAMAGE, Object.values(PaladinCategory)),
+          )
           break
         }
         case TrapType.Profaner:
@@ -181,14 +168,34 @@ export const paladinSkipEpic: NecropolisEpic = action$ =>
     map(({ payload: { paladinId } }) => triggerPaladinAttack(paladinId)),
   )
 
-export const paladinIncreaseStrengthEpic: NecropolisEpic = (action$, state$) =>
+export const paladinIncreaseCounterEpic: NecropolisEpic = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(nextPhase)),
-    filter(
-      () =>
-        getCurrentPhase(state$.value) === TurnPhase.Event &&
-        getPaladinsCalledToArms(state$.value) &&
-        getShouldIncreasePaladinsStrength(state$.value),
-    ),
-    map(() => increasePaladinsStrength()),
+    filter(() => getCurrentPhase(state$.value) === TurnPhase.Production && getPaladinsCalledToArms(state$.value)),
+    map(() => increasePaladinsCounter()),
+  )
+
+export const forwardDamagesEpic: NecropolisEpic = (action$, state$) =>
+  action$.pipe(
+    filter(isActionOf([forwardDamages])),
+    mergeMap(({ payload: { damages, targetCategories } }) => {
+      const activePaladin = getRemainingPaladins(state$.value)[0]
+      if (
+        !activePaladin ||
+        (!canTargetPaladin(activePaladin, targetCategories) && !isPaladinConsecrated(activePaladin))
+      ) {
+        return EMPTY
+      }
+      const doneDamages = Math.min(activePaladin.health, damages)
+      const leftDamages = damages - doneDamages
+      const actions: RootAction[] = [doDamagesToPaladin(activePaladin.id, doneDamages, targetCategories)]
+      if (leftDamages > 0) {
+        actions.push(forwardDamages(leftDamages, targetCategories))
+      }
+      return of(...actions).pipe(
+        concatMap((action, index) =>
+          index === 0 ? of(action) : of(action).pipe(delay(DELAY_BETWEEN_TRAP_EFFECTS * 1.5)),
+        ),
+      )
+    }),
   )

@@ -27,6 +27,7 @@
     "operator-linebreak": "off",
     "no-use-before-define": "off",
     "no-shadow": "off",
+    "no-console": "error",
     "react/jsx-wrap-multilines": "off",
     "react/jsx-curly-newline": "off",
     "react/require-default-props": "off",

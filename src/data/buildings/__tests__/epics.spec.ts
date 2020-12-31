@@ -105,7 +105,7 @@ describe('Buildings epics', () => {
       ...state$.value,
       turn: {
         ...state$.value.turn,
-        phase: TurnPhase.Action,
+        phase: TurnPhase.Production,
         currentTurn: ossuary.reRollSecretsEvery,
       },
       buildings: {

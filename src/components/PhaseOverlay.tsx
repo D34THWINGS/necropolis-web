@@ -18,6 +18,8 @@ import arrowUrl from '../assets/images/onboarding/next-step-arrow.png'
 import { getOnboardingStep } from '../data/onboarding/selectors'
 import { nextOnboardingStep } from '../data/onboarding/actions'
 import { getMeat } from '../data/resources/selectors'
+import { getPaladinsCounter } from '../data/paladins/selectors'
+import { PaladinsIcon } from './images/PaladinsIcon'
 
 const overlay = [
   contentCover,
@@ -51,6 +53,10 @@ const productionCell = css({
   margin: '0 0.5rem',
 })
 
+const productionSeparator = css({
+  height: '2rem',
+})
+
 const nextPhaseButton = [
   ...greenSquareButton,
   css({
@@ -62,6 +68,7 @@ export const PhaseOverlay = () => {
   const { t } = useTranslation()
   const onboardingStep = useSelector(getOnboardingStep)
   const currentPhase = useSelector(getCurrentPhase)
+  const paladinsCounter = useSelector(getPaladinsCounter)
   const production = useSelector(getBuildingsProduction)
   const upkeep = useSelector(getUpkeep)
   const meat = useSelector(getMeat)
@@ -114,6 +121,8 @@ export const PhaseOverlay = () => {
             ) : (
               <p>{t('productionPhaseNoProduction')}</p>
             )}
+            <div css={productionSeparator} />
+            <PaladinsIcon counter={paladinsCounter} />
           </>
         )
       }

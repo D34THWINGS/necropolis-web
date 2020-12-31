@@ -1,9 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
-import { textColor } from '../../styles/base'
 import { getPaladinsStrength } from '../../data/paladins/selectors'
-import { getDefense } from '../../data/selectors'
 import paladinsAssault1ImageUrl from '../../assets/images/events/paladins-assault-1.jpg'
 import paladinsAssault2ImageUrl from '../../assets/images/events/paladins-assault-2.jpg'
 import paladinsAssault3ImageUrl from '../../assets/images/events/paladins-assault-3.jpg'
@@ -19,7 +17,6 @@ const PALADINS_ASSAULT_MEDIUM = 7
 export const PaladinsAssault = () => {
   const { t } = useTranslation()
   const paladinsStrength = useSelector(getPaladinsStrength)
-  const defense = useSelector(getDefense)
   const dispatch = useDispatch()
 
   const getDescription = () => {
@@ -51,11 +48,7 @@ export const PaladinsAssault = () => {
     <>
       <h2 css={eventTitle}>{t('paladinsAssaultTitle')}</h2>
       <EventImage src={getImageUrl()} />
-      <div css={eventStepDescription}>
-        {getDescription()}
-        <br />
-        <span css={textColor('LIME')}>{t('currentDefense', defense)}</span>
-      </div>
+      <div css={eventStepDescription}>{getDescription()}</div>
       <button type="button" css={redSquareButton} onClick={handleBeginAssault} data-test-id="startPaladinAssaultButton">
         {t('paladinsAssaultAction1')}
       </button>

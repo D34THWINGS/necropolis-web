@@ -63,13 +63,14 @@ export const ChangePaladinCategoryModal = ({ activePaladin }: ChangePaladinCateg
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const isChangingPaladinCategory = useSelector(getIsChangingPaladinCategory)
-  const [sourceCategory, setSourceCategory] = useState(activePaladin.categories[0])
+  const [sourceCategory, setSourceCategory] = useState(PaladinCategory.Pure)
 
   const possibleDestinationCategories = getPossibleDestinationCategories(sourceCategory, activePaladin.categories)
-  const [destinationCategory, setDestinationCategory] = useState(possibleDestinationCategories[0])
+  const [destinationCategory, setDestinationCategory] = useState(PaladinCategory.Pure)
 
   useEffect(() => {
     if (!isChangingPaladinCategory) {
+      setDestinationCategory(PaladinCategory.Magical)
       return
     }
     let newSourceCategory = sourceCategory

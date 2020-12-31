@@ -87,7 +87,7 @@ export const paladins = createReducer<PaladinState>({
   .handleAction(callToArms, (state, { payload: { turn } }) => ({
     ...state,
     calledToArms: turn,
-    counter: state.counter + 1,
+    counter: 2,
     strength: 3,
   }))
   .handleAction(killPaladins, state => ({ ...state, calledToArms: false }))
@@ -96,7 +96,7 @@ export const paladins = createReducer<PaladinState>({
     ...state,
     assault: createPaladinsAssault(state.strength, state.structureHealth),
   }))
-  .handleAction(endPaladinsAssault, state => ({ ...state, assault: null, counter: 0 }))
+  .handleAction(endPaladinsAssault, state => ({ ...state, assault: null, counter: 0, strength: state.strength + 1 }))
   .handleAction(changeAssaultPhase, (state, { payload: { phase } }) =>
     updateAssault(state, assault => {
       // Shuffle deck when entering prepare phase

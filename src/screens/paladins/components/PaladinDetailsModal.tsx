@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from '@emotion/react'
 import { Modal } from '../../../components/ui/Modal/Modal'
-import { PaladinCard } from '../../../data/paladins/helpers'
+import { isPaladinConsecrated, PaladinCard } from '../../../data/paladins/helpers'
 import { useTranslation } from '../../../lang/useTranslation'
 import { Image } from '../../../components/images/Image'
 import { paladinsImageMap } from '../helpers/paladinsImageMap'
@@ -90,7 +90,21 @@ export const PaladinDetailsModal = ({ card, onClose }: PaladinDetailsModalProps)
             {PALADINS_DAMAGES_MAP[card.type]}&nbsp;
             <Image src={damageIcon} />
           </div>
-          <div css={detailsBox}>{t('paladinAbility', card.type)}</div>
+          <div css={detailsBox}>
+            {card.shield && (
+              <>
+                {t('paladinShielded')}
+                <br />
+              </>
+            )}
+            {isPaladinConsecrated(card) && (
+              <>
+                {t('paladinConsecrated')}
+                <br />
+              </>
+            )}
+            {t('paladinAbility', card.type)}
+          </div>
         </>
       )}
     </Modal>

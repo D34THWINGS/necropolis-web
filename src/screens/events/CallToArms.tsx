@@ -7,8 +7,6 @@ import { callToArms } from '../../data/paladins/actions'
 import { getTurn } from '../../data/turn/selectors'
 import { EventModalContentProps } from './helpers/eventModalContentProps'
 import { OnboardingStep, PALADINS_ATTACK_THRESHOLD } from '../../config/constants'
-import { getPaladinsCounter } from '../../data/paladins/selectors'
-import { preventSelectorUpdate } from '../../data/helpers'
 import { getOnboardingStep } from '../../data/onboarding/selectors'
 import { nextOnboardingStep } from '../../data/onboarding/actions'
 import callToArmsImageUrl from '../../assets/images/events/call-to-arms.jpg'
@@ -19,7 +17,6 @@ export const CallToArms = ({ renderStep }: EventModalContentProps) => {
   const { t } = useTranslation()
   const onboardingStep = useSelector(getOnboardingStep)
   const turn = useSelector(getTurn)
-  const paladinsCounter = useSelector(getPaladinsCounter, preventSelectorUpdate)
   const dispatch = useDispatch()
 
   const handleAcknowledge = () => {
@@ -36,7 +33,7 @@ export const CallToArms = ({ renderStep }: EventModalContentProps) => {
       <div css={eventStepDescription}>
         {t('callToArmsDescription', PALADINS_ATTACK_THRESHOLD)}
         <p css={textCenter}>
-          <PaladinsIcon counter={paladinsCounter + 1} />
+          <PaladinsIcon counter={2} />
         </p>
       </div>
       {renderStep((_, { renderAcknowledgeButton }) => renderAcknowledgeButton(handleAcknowledge))}

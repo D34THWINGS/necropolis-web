@@ -1,12 +1,15 @@
-import { Epic } from 'redux-observable'
 import { EMPTY, merge, of } from 'rxjs'
 import { filter, map, mergeMap } from 'rxjs/operators'
 import { ActionType, isActionOf } from 'typesafe-actions'
 import { ResourceType } from '../../config/constants'
-import { RootState } from '../../store/mainReducer'
-import { RootAction } from '../actions'
 import { getIsInExpedition } from '../expeditions/selectors'
-import { breakPaladinShield, doDamagesToPaladin, markPaladinsRevealed, repairStructure } from '../paladins/actions'
+import {
+  breakPaladinShield,
+  doDamagesToPaladin,
+  forwardDamages,
+  markPaladinsRevealed,
+  repairStructure,
+} from '../paladins/actions'
 import { getPaladinsAssaultOngoing, getRemainingPaladins, getUnrevealedPaladins } from '../paladins/selectors'
 import { spendResources } from '../resources/actions'
 import { healUndead } from '../undeads/actions'
@@ -19,9 +22,9 @@ import { getActiveSpellEffects, getLearntSpells } from './selectors'
 import { changeSecrets } from '../buildings/actions'
 import { makeSecretsBatch } from '../buildings/secrets'
 import { getOssuary } from '../buildings/selectors'
-import { canTargetPaladin } from '../paladins/helpers'
+import { NecropolisEpic } from '../helpers'
 
-export const castSpellEpic: Epic<RootAction, RootAction, RootState> = action$ =>
+export const castSpellEpic: NecropolisEpic = action$ =>
   action$.pipe(
     filter(isActionOf(castSpell)),
     map(({ payload: { spell } }) => spendResources({ [ResourceType.Souls]: spell.cost })),
@@ -29,7 +32,7 @@ export const castSpellEpic: Epic<RootAction, RootAction, RootState> = action$ =>
 
 const mapToSpell = map(({ payload: { spell } }: ActionType<typeof castSpell>) => spell)
 
-export const castSoulStormEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
+export const castSoulStormEpic: NecropolisEpic = (action$, state$) => {
   const cast$ = action$.pipe(filter(isActionOf(castSpell)), mapToSpell, filter(isSoulStorm))
 
   const castDuringExpedition$ = cast$.pipe(
@@ -39,30 +42,13 @@ export const castSoulStormEpic: Epic<RootAction, RootAction, RootState> = (actio
 
   const castDuringAssault$ = cast$.pipe(
     filter(() => getPaladinsAssaultOngoing(state$.value)),
-    mergeMap(soulStorm => {
-      const remainingPaladins = getRemainingPaladins(state$.value)
-      if (remainingPaladins.length === 0) {
-        return EMPTY
-      }
-      const actions: RootAction[] = []
-      let leftDamages = soulStorm.damages
-      // eslint-disable-next-line no-restricted-syntax
-      for (const paladinCard of remainingPaladins) {
-        if (leftDamages === 0 || !canTargetPaladin(paladinCard, soulStorm.targetCategories)) {
-          break
-        }
-        const appliedDamages = Math.min(leftDamages, paladinCard.health)
-        actions.push(doDamagesToPaladin(paladinCard.id, appliedDamages, soulStorm.targetCategories))
-        leftDamages -= appliedDamages
-      }
-      return of(...actions)
-    }),
+    map(soulStorm => forwardDamages(soulStorm.damages, soulStorm.targetCategories)),
   )
 
   return merge(castDuringExpedition$, castDuringAssault$)
 }
 
-export const castRestorationEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
+export const castRestorationEpic: NecropolisEpic = (action$, state$) => {
   const cast$ = action$.pipe(filter(isActionOf(castSpell)), mapToSpell, filter(isRestoration))
 
   const castDuringExpedition$ = cast$.pipe(
@@ -84,7 +70,7 @@ export const castRestorationEpic: Epic<RootAction, RootAction, RootState> = (act
   return merge(castDuringExpedition$, castDuringAssault$)
 }
 
-export const castTheKeyEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
+export const castTheKeyEpic: NecropolisEpic = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(castSpell)),
     filter(() => getPaladinsAssaultOngoing(state$.value)),
@@ -103,7 +89,7 @@ export const castTheKeyEpic: Epic<RootAction, RootAction, RootState> = (action$,
     }),
   )
 
-export const castPredictionEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
+export const castPredictionEpic: NecropolisEpic = (action$, state$) => {
   const cast$ = action$.pipe(filter(isActionOf(castSpell)), mapToSpell, filter(isPrediction))
   const castDuringAssault$ = cast$.pipe(
     filter(() => getPaladinsAssaultOngoing(state$.value)),
@@ -129,7 +115,7 @@ export const castPredictionEpic: Epic<RootAction, RootAction, RootState> = (acti
   return merge(castOutsideAssault$, castDuringAssault$)
 }
 
-export const blurEffectsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) => {
+export const blurEffectsEpic: NecropolisEpic = (action$, state$) => {
   const blurOnExpeditionStep$ = action$.pipe(
     filter(isActionOf([setExpeditionStep, fleeExpedition])),
     map(() => getEffectsBlurringOnStepChange(getActiveSpellEffects(state$.value))),

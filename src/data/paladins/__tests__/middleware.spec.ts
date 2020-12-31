@@ -1,5 +1,5 @@
 import { paladinsDamageEffectsMiddleware } from '../middleware'
-import { changePaladinCategories, swapPaladinPostions, triggerTrap } from '../actions'
+import { changePaladinCategories, doDamagesToPaladin, swapPaladinPostions, triggerTrap } from '../actions'
 import { createPaladinCard, createPaladinsAssault, createTrap } from '../helpers'
 import { PaladinCategory, PaladinType, TrapType } from '../../../config/constants'
 import { mainReducer, RootState } from '../../../store/mainReducer'
@@ -78,10 +78,31 @@ describe('Paladins middleware', () => {
     paladinsDamageEffectsMiddleware(api)(next)(action)
     jest.runAllTimers()
 
+    expect(api.dispatch).toHaveBeenCalledTimes(2)
     expect(api.dispatch).toHaveBeenCalledWith(
       changePaladinCategories(vanguard.id, [PaladinCategory.Magical, PaladinCategory.Ethereal]),
     )
-    expect(next).toHaveBeenCalledWith(action)
+    expect(api.dispatch).toHaveBeenCalledWith(action)
+    expect(next).not.toHaveBeenCalled()
+    restoreDefaultSeeder()
+  })
+
+  it('should swap pure categories on damages inflicted', () => {
+    useTestSeed()
+    jest.useFakeTimers()
+    const { api, next, vanguard } = setup()
+    vanguard.categories = [PaladinCategory.Pure, PaladinCategory.Pure]
+    const action = doDamagesToPaladin(vanguard.id, 2, [])
+
+    paladinsDamageEffectsMiddleware(api)(next)(action)
+    jest.runAllTimers()
+
+    expect(api.dispatch).toHaveBeenCalledTimes(2)
+    expect(api.dispatch).toHaveBeenCalledWith(
+      changePaladinCategories(vanguard.id, [PaladinCategory.Magical, PaladinCategory.Ethereal]),
+    )
+    expect(api.dispatch).toHaveBeenCalledWith(action)
+    expect(next).not.toHaveBeenCalled()
     restoreDefaultSeeder()
   })
 

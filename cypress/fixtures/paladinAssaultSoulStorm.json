@@ -1,5 +1,5 @@
 {
-  "resources": { "meat": 18, "souls": 10, "bones": 6, "materials": 3 },
+  "resources": { "meat": 18, "souls": 20, "bones": 6, "materials": 3 },
   "buildings": {
     "list": [
       {
@@ -75,7 +75,7 @@
           "health": 2,
           "maxHealth": 2,
           "damages": 2,
-          "categories": ["physical"],
+          "categories": ["pure"],
           "shield": false
         },
         {
@@ -87,6 +87,17 @@
           "maxHealth": 2,
           "damages": 2,
           "categories": ["physical", "magical"],
+          "shield": false
+        },
+        {
+          "id": 5,
+          "type": "vanguard",
+          "revealed": false,
+          "battleCryTriggered": false,
+          "health": 2,
+          "maxHealth": 2,
+          "damages": 2,
+          "categories": ["physical"],
           "shield": false
         }
       ],

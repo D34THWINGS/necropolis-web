@@ -3,7 +3,7 @@ import { isActionOf } from 'typesafe-actions'
 import { DELAY_BETWEEN_TRAP_EFFECTS, PaladinCategory, PaladinType } from '../../config/constants'
 import { getPaladinById, getPaladinsAssaultOngoing, getPaladinsDeck, getRemainingPaladins } from './selectors'
 import { shuffleArray } from '../helpers'
-import { changePaladinCategories, swapPaladinPostions, triggerTrap } from './actions'
+import { changePaladinCategories, doDamagesToPaladin, swapPaladinPostions, triggerTrap } from './actions'
 import { castSpell } from '../spells/actions'
 import { isSpellWithDamages } from '../spells/helpers'
 import { isPaladinConsecrated, PaladinCard } from './helpers'
@@ -11,6 +11,7 @@ import { random } from '../seeder'
 import { RootState } from '../../store/mainReducer'
 
 const isTriggerTrapAction = isActionOf(triggerTrap)
+const isDoDamageAction = isActionOf(doDamagesToPaladin)
 const isCastSpellAction = isActionOf(castSpell)
 
 // We use a middleware instead of an epic because effects need to happen BEFORE the actual action takes
@@ -20,7 +21,7 @@ export const paladinsDamageEffectsMiddleware: Middleware<{}, RootState> = api =>
   const state = api.getState()
 
   let targetPaladin: PaladinCard | null = null
-  if (isTriggerTrapAction(action)) {
+  if (isTriggerTrapAction(action) || isDoDamageAction(action)) {
     targetPaladin = getPaladinById(action.payload.paladinId)(state) ?? null
   }
   if (isCastSpellAction(action) && getPaladinsAssaultOngoing(state) && isSpellWithDamages(action.payload.spell)) {
@@ -62,8 +63,12 @@ export const paladinsDamageEffectsMiddleware: Middleware<{}, RootState> = api =>
       }
       return [...acc, existingCategory]
     }, [])
-    api.dispatch(changePaladinCategories(targetPaladin.id, updatedCategories))
-    setTimeout(() => next(action), DELAY_BETWEEN_TRAP_EFFECTS)
+    const paladinId = targetPaladin.id
+    setTimeout(
+      () => api.dispatch(changePaladinCategories(paladinId, updatedCategories)),
+      DELAY_BETWEEN_TRAP_EFFECTS / 2,
+    )
+    setTimeout(() => api.dispatch(action), DELAY_BETWEEN_TRAP_EFFECTS)
     return
   }
 

@@ -35,6 +35,14 @@ export const triggerPaladinBattleCry = createAction('paladins/TRIGGER_BATTLE_CRY
   paladinId,
 }))()
 
+export const forwardDamages = createAction(
+  'paladins/FORWARD_DAMAGES',
+  (damages: number, targetCategories: PaladinCategory[]) => ({
+    damages,
+    targetCategories,
+  }),
+)()
+
 export const doDamagesToPaladin = createAction(
   'paladins/DO_DAMAGES_TO_PALADIN',
   (paladinId: string, damages: number, targetCategories: PaladinCategory[]) => ({

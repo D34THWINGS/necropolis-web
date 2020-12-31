@@ -19,7 +19,7 @@ export const getShouldIncreasePaladinsStrength = (state: RootState) => {
 }
 
 export const getPaladinsShouldAttack = (state: RootState) =>
-  getPaladinsCalledToArms(state) && getTurn(state) % PALADINS_ATTACK_THRESHOLD === 0
+  getPaladinsCalledToArms(state) && getPaladinsCounter(state) === PALADINS_ATTACK_THRESHOLD
 
 export const getPaladinsAssault = (state: RootState) => state.paladins.assault
 

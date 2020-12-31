@@ -120,8 +120,8 @@ describe('Paladins assault', () => {
     cy.assertNotContains('paladinType', 'physical')
     cy.assertNotContains('paladinType', 'ethereal')
     cy.assertNotContains('paladinType', 'magical')
-    cy.assertContainsCount('paladinHealth', 'remainingHealthPoint', 1)
     cy.assertContainsCount('paladinType', 'pure', 2)
+    cy.assertContainsCount('paladinHealth', 'remainingHealthPoint', 1)
 
     cy.getByTestId('useTrapButton').eq(0).click()
     cy.assertText('paladinName', 'Avant-Garde')
@@ -160,13 +160,22 @@ describe('Paladins assault', () => {
 
     cy.getByTestId('spellsButton').click()
     cy.getByTestId('castSpellButton').eq(0).click()
+    cy.assertText('paladinCardsCounter', '2\u00A0/\u00A06')
     cy.assertText('paladinName', 'Avant-Garde')
-    cy.assertText('paladinCardsCounter', '3\u00A0/\u00A05')
+    cy.assertText('paladinCardsCounter', '3\u00A0/\u00A06')
+    cy.assertContainsCount('paladinHealth', 'missingHealthPoint', 1)
 
     cy.getByTestId('spellsButton').click()
     cy.getByTestId('castSpellButton').eq(0).click()
-    cy.assertText('paladinName', 'Avant-Garde')
-    cy.assertText('paladinCardsCounter', '4\u00A0/\u00A05')
+    cy.assertText('paladinCardsCounter', '4\u00A0/\u00A06')
+    cy.assertContainsCount('paladinType', 'pure', 1)
+    cy.assertContainsCount('paladinType', 'ethereal', 1)
+    cy.assertText('paladinCardsCounter', '5\u00A0/\u00A06')
+    cy.assertContainsCount('paladinHealth', 'missingHealthPoint', 1)
+
+    cy.getByTestId('spellsButton').click()
+    cy.getByTestId('castSpellButton').eq(0).click()
+    cy.assertText('paladinCardsCounter', '6\u00A0/\u00A06')
   })
 
   it('Restoration should repair structure', () => {

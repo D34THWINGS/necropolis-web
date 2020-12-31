@@ -44,12 +44,7 @@ const paladinAbilities: Record<PaladinType, ReactNode> = {
       <HealthPoint /> à {HEALER_TARGETS_COUNT} Paladin
     </>
   ),
-  [PaladinType.Zealot]: (
-    <>
-      <span css={textColor('PURPLE')}>Consécration</span>&nbsp;:&nbsp;le ou les Types de la carte sont tirés
-      aléatoirement et ne sont révélés que lorsqu&apos;elle se fait attaquer.
-    </>
-  ),
+  [PaladinType.Zealot]: null,
   [PaladinType.Wizard]: (
     <>
       <span css={textColor('RED')}>

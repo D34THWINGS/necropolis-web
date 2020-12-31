@@ -16,6 +16,7 @@ import { Assault } from '../../../data/paladins/helpers'
 
 const headerWrapper = css({
   display: 'flex',
+  flexDirection: 'row-reverse',
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '0.5rem 1rem',
@@ -44,6 +45,11 @@ export const PaladinsAssaultHeader = ({ assaultPhase, deck }: PaladinsAssaultHea
 
   return (
     <div css={headerWrapper}>
+      <div css={headerRight}>
+        <ResourceButton type={ResourceType.Souls} color="#83B9D6" text={souls} />
+        <SpellsButton css={buttonSpacing} />
+        <SettingsButton css={buttonSpacing} />
+      </div>
       {(assaultPhase === PaladinsAssaultPhase.Preparing || assaultPhase === PaladinsAssaultPhase.Fighting) && (
         <>
           <button css={buttonBase} type="button" onClick={handleOpenDeck}>
@@ -54,11 +60,6 @@ export const PaladinsAssaultHeader = ({ assaultPhase, deck }: PaladinsAssaultHea
           </Modal>
         </>
       )}
-      <div css={headerRight}>
-        <ResourceButton type={ResourceType.Souls} color="#83B9D6" text={souls} />
-        <SpellsButton css={buttonSpacing} />
-        <SettingsButton css={buttonSpacing} />
-      </div>
     </div>
   )
 }

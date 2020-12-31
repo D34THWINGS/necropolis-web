@@ -15,7 +15,6 @@ import { nextPhase } from '../../data/turn/actions'
 import { getCurrentPhase, getTurn } from '../../data/turn/selectors'
 import { getPaladinsCalledToArms, getPaladinsCounter, getPaladinsStrength } from '../../data/paladins/selectors'
 import { PaladinsIcon } from '../images/PaladinsIcon'
-import { getDefense } from '../../data/selectors'
 
 const smallMarginBottom = css({
   margin: '0 0 0.5rem',
@@ -39,7 +38,6 @@ export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
   const paladinsStrength = useSelector(getPaladinsStrength)
   const paladinsCounter = useSelector(getPaladinsCounter)
   const paladinsCalledToArms = useSelector(getPaladinsCalledToArms)
-  const defense = useSelector(getDefense)
   const dispatch = useDispatch()
 
   const nextEventIn = EVENTS_TURN_SPACING - (turn % EVENTS_TURN_SPACING)
@@ -61,7 +59,6 @@ export const TurnsModal = ({ isOpen, onClose }: TurnsModalProps) => {
           <p css={smallMarginBottom}>{t('paladins', PALADINS_STRENGTH_INCREASE, PALADINS_INCREASE_SPACING)}</p>
           <p css={strengthDefenseText}>
             <span css={textColor('RED')}>{t('paladinsStrength', paladinsStrength)}</span>
-            <span css={textColor('LIME')}>{t('currentDefense', defense)}</span>
           </p>
           <p css={[noMargin, textCenter]}>
             <PaladinsIcon counter={paladinsCounter} />

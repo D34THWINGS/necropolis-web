@@ -1,5 +1,5 @@
 import { createReducer } from 'typesafe-actions'
-import { loose, nextPhase, nextTurn, win } from './actions'
+import { loose, nextPhase, win } from './actions'
 import { GameState, LooseReason, TURN_PHASES_ORDER, TurnPhase } from '../../config/constants'
 
 export const turn = createReducer({
@@ -8,7 +8,6 @@ export const turn = createReducer({
   gameState: GameState.Ongoing,
   looseReason: null as LooseReason | null,
 })
-  .handleAction(nextTurn, state => ({ ...state, currentTurn: state.currentTurn + 1 }))
   .handleAction(nextPhase, state => {
     const currentPhaseIndex = TURN_PHASES_ORDER.indexOf(state.phase)
     const shouldTriggerNextTurn = currentPhaseIndex + 1 >= TURN_PHASES_ORDER.length
