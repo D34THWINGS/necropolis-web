@@ -1,7 +1,8 @@
 import { RootState } from '../../store/mainReducer'
 import { getTurn } from '../turn/selectors'
 import { PALADINS_ATTACK_THRESHOLD, PALADINS_INCREASE_SPACING } from '../../config/constants'
-import { isPaladinAlive, PaladinCard, Trap } from './helpers'
+import { isPaladinAlive, PaladinCard } from './helpers'
+import { Trap } from './traps'
 
 export const getPaladinsStrength = (state: RootState) => state.paladins.strength
 

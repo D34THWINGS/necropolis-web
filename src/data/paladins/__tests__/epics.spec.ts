@@ -2,7 +2,7 @@ import { buildEpicObservables } from '../../../../tests/helpers'
 import { trapsEpic } from '../epics'
 import { mainReducer } from '../../../store/mainReducer'
 import { init } from '../../settings/actions'
-import { createPaladinCard, createPaladinsAssault, createTrap } from '../helpers'
+import { createPaladinCard, createPaladinsAssault } from '../helpers'
 import {
   EXTRA_CHAKRAM_DAMAGE,
   PaladinCategory,
@@ -18,6 +18,7 @@ import {
   setChangingPaladinCategories,
   triggerTrap,
 } from '../actions'
+import { createTrap } from '../traps'
 
 describe('Paladins epics', () => {
   it('should break shields with impaler', () => {

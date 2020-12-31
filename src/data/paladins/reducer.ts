@@ -26,9 +26,10 @@ import {
   triggerPaladinsAssault,
   triggerTrap,
 } from './actions'
-import { applyDamagesToPaladin, Assault, createPaladinsAssault, createTrap, isCommander, PaladinCard } from './helpers'
+import { applyDamagesToPaladin, Assault, createPaladinsAssault, isCommander, PaladinCard } from './helpers'
 import { NECROPOLIS_STRUCTURE_POINTS, PALADINS_ATTACK_THRESHOLD, PaladinsAssaultPhase } from '../../config/constants'
 import { findAndPutFirstInArray, setInArray, shuffleArray } from '../helpers'
+import { createTrap } from './traps'
 
 export type PaladinState = {
   strength: number

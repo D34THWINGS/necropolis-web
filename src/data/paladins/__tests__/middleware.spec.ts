@@ -1,6 +1,6 @@
 import { paladinsDamageEffectsMiddleware } from '../middleware'
 import { changePaladinCategories, doDamagesToPaladin, swapPaladinPostions, triggerTrap } from '../actions'
-import { createPaladinCard, createPaladinsAssault, createTrap } from '../helpers'
+import { createPaladinCard, createPaladinsAssault } from '../helpers'
 import { PaladinCategory, PaladinType, TrapType } from '../../../config/constants'
 import { mainReducer, RootState } from '../../../store/mainReducer'
 import { init } from '../../settings/actions'
@@ -8,6 +8,7 @@ import { castSpell } from '../../spells/actions'
 import { makePrediction, makeSoulStorm } from '../../spells/helpers'
 import { restoreDefaultSeeder, useTestSeed } from '../../seeder'
 import { nextPhase } from '../../turn/actions'
+import { createTrap } from '../traps'
 
 describe('Paladins middleware', () => {
   const setup = () => {

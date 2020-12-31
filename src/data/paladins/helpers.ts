@@ -7,20 +7,10 @@ import {
   PALADINS_WITH_SHIELD,
   PaladinsAssaultPhase,
   PaladinType,
-  TRAP_DAMAGES_MAP,
-  TRAP_TARGET_CATEGORIES_MAP,
-  TrapType,
 } from '../../config/constants'
 import { applyDamages } from '../undeads/helpers'
 import { drawRandomInArray, findAndPutFirstInArray } from '../helpers'
-
-export type Trap = {
-  id: string
-  type: TrapType
-  used: boolean
-  damages: number
-  targetsCategories: PaladinCategory[]
-}
+import { Trap } from './traps'
 
 export type Assault = {
   phase: PaladinsAssaultPhase
@@ -92,14 +82,6 @@ export const createPaladinsAssault = (strength: number, structureHealth: number)
     startingStructureHealth: structureHealth,
   }
 }
-
-export const createTrap = (type: TrapType): Trap => ({
-  id: uuid(),
-  type,
-  used: false,
-  damages: TRAP_DAMAGES_MAP[type],
-  targetsCategories: TRAP_TARGET_CATEGORIES_MAP[type],
-})
 
 export const isCommander = (paladin: PaladinCard) => paladin.type === PaladinType.Commander
 export const isPaladinAlive = (paladin: PaladinCard) => paladin.health > 0 && !paladin.skipped

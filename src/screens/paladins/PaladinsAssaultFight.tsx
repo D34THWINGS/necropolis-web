@@ -17,7 +17,8 @@ import { buttonDisabled, redSquareButton, resetButton } from '../../styles/butto
 import { skipPaladin, triggerTrap } from '../../data/paladins/actions'
 import { ChangePaladinCategoryModal } from './components/ChangePaladinCategoryModal'
 import { PaladinFightCard } from './components/PaladinFightCard'
-import { isPaladinAlive, Trap } from '../../data/paladins/helpers'
+import { isPaladinAlive } from '../../data/paladins/helpers'
+import { Trap } from '../../data/paladins/traps'
 
 const fightPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
 

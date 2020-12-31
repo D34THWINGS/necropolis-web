@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-actions'
 import { PaladinCategory, PaladinsAssaultPhase, TrapType } from '../../config/constants'
-import { Trap } from './helpers'
+import { Trap } from './traps'
 
 export const increasePaladinsStrength = createAction('paladins/INCREASE_STRENGTH')()
 
