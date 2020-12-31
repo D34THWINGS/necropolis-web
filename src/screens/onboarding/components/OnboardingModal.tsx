@@ -195,7 +195,7 @@ export const OnboardingModal = () => {
       </div>
       {content}
       {!stepsWithoutNextButton.includes(onboardingStep) && (
-        <button type="button" css={nextButton} onClick={handleNextStep}>
+        <button type="button" css={nextButton} onClick={handleNextStep} data-test-id="onboardingNextStepButton">
           <Image src={nextStepArrowUrl} marginRight="0.4rem" /> {t('onboardingNext')}
         </button>
       )}

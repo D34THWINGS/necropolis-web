@@ -9,7 +9,7 @@ import {
   PaladinType,
 } from '../../config/constants'
 import { applyDamages } from '../undeads/helpers'
-import { drawRandomInArray, findAndPutFirstInArray } from '../helpers'
+import { countInArray, drawRandomInArray, findAndPutFirstInArray } from '../helpers'
 import { Trap } from './traps'
 
 export type Assault = {
@@ -48,11 +48,21 @@ export const createPaladinCard = (type: PaladinType, revealed = false): PaladinC
 
 export const createDeck = (nbOfCards: number, possibleTypes: PaladinType[] = Object.values(PaladinType)) =>
   Array.from({ length: nbOfCards }).reduce<PaladinCard[]>(tmpDeck => {
+    // Never draw more than 50% identical cards
+    let adjustedPossibleTypes = possibleTypes.filter(
+      type => countInArray(tmpDeck, card => card.type === type) < nbOfCards / 2,
+    )
+
+    // Revert filtering if no types left
+    if (adjustedPossibleTypes.length === 0) {
+      adjustedPossibleTypes = possibleTypes
+    }
+
     // Never draw more than 1 commander
     const hasCommander = tmpDeck.some(paladin => paladin.type === PaladinType.Commander)
-    const adjustedPossibleTypes = hasCommander
-      ? possibleTypes.filter(type => type !== PaladinType.Commander)
-      : possibleTypes
+    if (hasCommander) {
+      adjustedPossibleTypes = adjustedPossibleTypes.filter(type => type !== PaladinType.Commander)
+    }
 
     return [...tmpDeck, createPaladinCard(drawRandomInArray(adjustedPossibleTypes))]
   }, [])
@@ -67,8 +77,12 @@ export const getMostPresentTypeInDeck = (deck: PaladinCard[]) =>
       .entries(),
   ).sort(([, a], [, b]) => b - a)[0][0]
 
-export const createPaladinsAssault = (strength: number, structureHealth: number): Assault => {
-  const unsortedDeck = createDeck(strength)
+export const createPaladinsAssault = (
+  strength: number,
+  structureHealth: number,
+  possibleTypes: PaladinType[] = Object.values(PaladinType),
+): Assault => {
+  const unsortedDeck = createDeck(strength, possibleTypes)
   const majorityType = getMostPresentTypeInDeck(unsortedDeck)
   const deck = findAndPutFirstInArray(unsortedDeck, card => card.type === majorityType).map((paladinCard, index) =>
     index === 0 ? { ...paladinCard, revealed: true } : paladinCard,
@@ -83,6 +97,9 @@ export const createPaladinsAssault = (strength: number, structureHealth: number)
   }
 }
 
+export const isVanguard = (paladin: PaladinCard) => paladin.type === PaladinType.Vanguard
+export const isHealer = (paladin: PaladinCard) => paladin.type === PaladinType.Healer
+export const isZealot = (paladin: PaladinCard) => paladin.type === PaladinType.Zealot
 export const isCommander = (paladin: PaladinCard) => paladin.type === PaladinType.Commander
 export const isPaladinAlive = (paladin: PaladinCard) => paladin.health > 0 && !paladin.skipped
 export const isPaladinConsecrated = (paladin: PaladinCard) => paladin.categories.includes(PaladinCategory.Pure)

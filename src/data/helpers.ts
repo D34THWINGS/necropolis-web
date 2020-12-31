@@ -33,6 +33,8 @@ export const findAndPutFirstInArray = <T>(array: T[], predicate: (value: T) => b
 
 export const drawRandomInArray = <T>(array: T[]) => array[Math.floor(random() * array.length)]
 
+export const countInArray = <T>(array: T[], predicate: (value: T) => boolean) => array.filter(predicate).length
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const recursiveSet = (obj: any, path: (string | number)[], value: any): any => {
   if (Array.isArray(obj)) {

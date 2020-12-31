@@ -27,8 +27,13 @@ import {
   triggerTrap,
 } from './actions'
 import { applyDamagesToPaladin, Assault, createPaladinsAssault, isCommander, PaladinCard } from './helpers'
-import { NECROPOLIS_STRUCTURE_POINTS, PALADINS_ATTACK_THRESHOLD, PaladinsAssaultPhase } from '../../config/constants'
-import { findAndPutFirstInArray, setInArray, shuffleArray } from '../helpers'
+import {
+  NECROPOLIS_STRUCTURE_POINTS,
+  PALADINS_ATTACK_THRESHOLD,
+  PaladinsAssaultPhase,
+  PaladinType,
+} from '../../config/constants'
+import { drawRandomInArray, findAndPutFirstInArray, setInArray, shuffleArray } from '../helpers'
 import { createTrap } from './traps'
 
 export type PaladinState = {
@@ -37,6 +42,7 @@ export type PaladinState = {
   calledToArms: false | number
   assault: Assault | null
   structureHealth: number
+  unlockedPaladins: PaladinType[]
 }
 
 const updatePaladinByIndex = (
@@ -81,6 +87,7 @@ export const paladins = createReducer<PaladinState>({
   calledToArms: false,
   assault: null,
   structureHealth: NECROPOLIS_STRUCTURE_POINTS,
+  unlockedPaladins: [PaladinType.Vanguard, PaladinType.Zealot, PaladinType.Healer],
 })
   .handleAction(increasePaladinsStrength, state => ({ ...state, strength: state.strength + 1 }))
   .handleAction(increasePaladinsCounter, state => ({ ...state, counter: state.counter + 1 }))
@@ -95,9 +102,21 @@ export const paladins = createReducer<PaladinState>({
   .handleAction(resetPaladinsCounter, state => ({ ...state, counter: 0 }))
   .handleAction(beginPaladinsAssault, state => ({
     ...state,
-    assault: createPaladinsAssault(state.strength, state.structureHealth),
+    assault: createPaladinsAssault(state.strength, state.structureHealth, state.unlockedPaladins),
   }))
-  .handleAction(endPaladinsAssault, state => ({ ...state, assault: null, counter: 0, strength: state.strength + 1 }))
+  .handleAction(endPaladinsAssault, state => {
+    const leftPossibleTypes = Object.values(PaladinType).filter(type => !state.unlockedPaladins.includes(type))
+    return {
+      ...state,
+      assault: null,
+      counter: 0,
+      strength: state.strength + 1,
+      unlockedPaladins:
+        leftPossibleTypes.length > 0
+          ? [...state.unlockedPaladins, drawRandomInArray(leftPossibleTypes)]
+          : state.unlockedPaladins,
+    }
+  })
   .handleAction(changeAssaultPhase, (state, { payload: { phase } }) =>
     updateAssault(state, assault => {
       // Shuffle deck when entering prepare phase

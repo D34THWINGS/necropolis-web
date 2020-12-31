@@ -11,6 +11,7 @@ describe('Paladins reducer', () => {
     counter: 3,
     strength: 1,
     structureHealth: 5,
+    unlockedPaladins: [],
   }
 
   it('it should mark paladins as revealed', () => {

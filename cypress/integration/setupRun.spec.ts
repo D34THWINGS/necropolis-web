@@ -11,6 +11,7 @@ describe('Setup run', () => {
     cy.getByTestId('endExpeditionButton').click()
     cy.getByTestId('nextPhaseButton').click().click()
     cy.getByTestId('acknowledgeEventButton').click()
+    cy.getByTestId('onboardingNextStepButton').click()
     cy.getByTestId('mainHubLink').click()
     cy.getByTestId('buildingLink').eq(4).click()
     cy.getByTestId('buildingActionButton').click()
