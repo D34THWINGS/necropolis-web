@@ -194,6 +194,12 @@ export const frEvents = {
     </>
   ),
   paladinsAssaultEnd: "Fin de l'assaut",
+  paladinsAssaultLost: (
+    <>
+      Des Paladins ont ouvert une brèche dans vos défenses et trouvent rapidement votre cachette, la salle du tombeau.
+      C’est ici que vous avez perdu la vie... et c’est ici que vous allez la reperdre.
+    </>
+  ),
 
   collapsingTitle: "L'Éffondrement",
   collapsingStep1: (buildingName: ReactNode) => (

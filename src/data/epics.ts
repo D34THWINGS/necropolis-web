@@ -17,7 +17,7 @@ import {
   upgradeOssuaryEpic,
 } from './buildings/epics'
 import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
-import { looseUndeadEpic, raiseUndeadEpic, valetEpic } from './undeads/epics'
+import { raiseUndeadEpic, valetEpic } from './undeads/epics'
 import { resetGameEpic } from './settings/epics'
 import {
   displayAssaultResultsEpic,
@@ -37,7 +37,6 @@ export const rootEpic = combineEpics(
   reRollSecretsEpic,
   buySecretEpic,
   valetEpic,
-  looseUndeadEpic,
   raiseUndeadEpic,
   eventsEpic,
   endEventEpic,

@@ -17,7 +17,7 @@ import { OnboardingStep, ResourceType } from '../../config/constants'
 import { UndeadBox } from './UndeadBox'
 import { banUndead } from '../../data/undeads/actions'
 import { Image } from '../images/Image'
-import { Undead } from '../../data/undeads/helpers'
+import { isUndeadAlive, Undead } from '../../data/undeads/helpers'
 import { OnboardingHighlight } from '../../screens/onboarding/components/OnboardingHighlight'
 import { TalentsList } from '../talents/TalentsList'
 
@@ -100,7 +100,12 @@ export const UndeadOverlay = () => {
             <ResourceIcon type={ResourceType.Meat} text={meatCost} />
             <br />
             <span css={textColor('CYAN')}>{t('talentsTotal')}</span>
-            <TalentsList values={undeads.map(undead => undead.talents).flat()} />
+            <TalentsList
+              values={undeads
+                .filter(isUndeadAlive)
+                .map(undead => undead.talents)
+                .flat()}
+            />
           </div>
           <TransitionGroup>
             {undeads

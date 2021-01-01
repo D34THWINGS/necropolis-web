@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { css } from '@emotion/react'
-import { getUndeads } from '../../../data/undeads/selectors'
+import { getAliveUndeads } from '../../../data/undeads/selectors'
 import { UndeadPortrait } from '../../../components/undeads/UndeadPortrait'
 import { buttonBase } from '../../../styles/buttons'
 import { breakpoints } from '../../../config/theme'
@@ -20,7 +20,7 @@ const footerWrapper = css({
 })
 
 export const PaladinsAssaultFooter = () => {
-  const undeads = useSelector(getUndeads)
+  const undeads = useSelector(getAliveUndeads)
   const [openedUndead, setOpenedUndead] = useState<Undead | null>(null)
 
   const handleOpenUndeadDetails = (undead: Undead) => () => setOpenedUndead(undead)

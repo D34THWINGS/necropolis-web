@@ -57,7 +57,8 @@ export const layers = {
   SACRIFICE: 3,
   INFO_MODAL: 4,
   ONBOARDING: 5,
-  SETTINGS: 6,
+  LOOSE_REASON: 6,
+  SETTINGS: 7,
 }
 
 export const fonts = {

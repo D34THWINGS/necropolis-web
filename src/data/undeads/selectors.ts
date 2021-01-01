@@ -7,7 +7,7 @@ export const getUndeads = (state: RootState) => state.undeads.list
 
 export const getAliveUndeads = createSelector(getUndeads, undeads => undeads.filter(isUndeadAlive))
 
-export const getUndeadCount = (state: RootState) => getUndeads(state).length
+export const getUndeadCount = (state: RootState) => getAliveUndeads(state).length
 
 export const getUpkeep = (state: RootState) =>
   getAliveUndeads(state).filter(undead => undead.type !== UndeadType.Skeleton).length
@@ -16,7 +16,7 @@ const getUndeadTalent = (undead: Undead, searchedTalent: UndeadTalent) =>
   (undead.talents.find(([talent]) => talent === searchedTalent) || [])[1] || 0
 
 export const getUndeadArmyTalentTotal = (talent: UndeadTalent) => (state: RootState) =>
-  getUndeads(state).reduce((sum, undead) => sum + getUndeadTalent(undead, talent), 0)
+  getAliveUndeads(state).reduce((sum, undead) => sum + getUndeadTalent(undead, talent), 0)
 
 export const getUndeadArmyMuscles = getUndeadArmyTalentTotal(UndeadTalent.Muscles)
 
@@ -28,6 +28,6 @@ export const getIsBloodPrinceInJail = (state: RootState) => !getUndeads(state).s
 
 export const getRequiredSacrifices = (state: RootState) => state.undeads.requiredSacrifices
 
-export const getMostInjuredUndead = (state: RootState) => getMostInjured(getUndeads(state))
+export const getMostInjuredUndead = (state: RootState) => getMostInjured(getAliveUndeads(state))
 
 export const getValet = (state: RootState) => getUndeads(state).find(undead => undead.type === UndeadType.Valet)

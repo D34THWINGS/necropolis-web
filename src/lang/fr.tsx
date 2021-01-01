@@ -175,6 +175,8 @@ export const fr = {
 
   undeadOverlayTitle: 'Morts-vivants',
   undeadUpkeep: 'Consomation par tour :\u00A0',
+  undeadAllDead:
+    'Votre dernier citoyen a trouvé la mort. Sans entretien, la cité tombe rapidement en désuétude. Ce projet meurt avec vous.',
   upkeepNoMeat: (
     <>
       La famine emporte vos citoyens. Sans entretien, la cité tombe rapidement en désuétude, et vous mourrez peu de
@@ -264,8 +266,6 @@ export const fr = {
       <Image src={trapDamageIcon} />. Type&nbsp;: <DamageCategories categories={targetCategories} />.
     </>
   ),
-  reanimatedUndeadTitle: 'Réanimation',
-  reanimatedUndeadOk: 'Ok',
 
   talentsTitle: 'Talents',
   talentsDescription: 'Les talents sont des caractéristiques nécessaires aux excursions et à certains événements.',
@@ -317,7 +317,6 @@ export const fr = {
     </>
   ),
   paladinsStrength: (strength: number) => `Force\u00A0: ${strength}`,
-  currentDefense: (defense: number) => `Defense\u00A0: ${defense}`,
 
   upkeepTitle: 'Ravitaillement',
   upkeepInsufficient: (upkeep: number, meat: number) => (
@@ -389,6 +388,7 @@ export const fr = {
   gameLost: 'La Faucheuse a enfin récolté votre âme désespérée !',
   gameLostAssault: 'La Faucheuse a enfin récolté votre âme meurtrie.',
   gameLostBastion: 'La Faucheuse a enfin récolté votre âme asservie.',
+  gameLostUndeads: 'La Faucheuse a enfin récolté votre âme désespérée.',
   gameRetry: 'Recommencer',
   gameWon:
     'Vous l’avez fait, atteindre la prospérité\u00A0! Il ne vous reste plus qu’à profiter de la vie jusqu’à la fin des temps...',

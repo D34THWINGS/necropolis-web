@@ -34,6 +34,7 @@ import { OnboardingModal } from '../screens/onboarding/components/OnboardingModa
 import { OnboardingHighlightStyles } from '../screens/onboarding/components/OnboardingHighlight'
 import { getPaladinsAssaultOngoing } from '../data/paladins/selectors'
 import { Arsenal } from '../screens/buildings/Arsenal'
+import { LastUndeadDiedModal } from '../components/undeads/LastUndeadDiedModal'
 
 const gameContent = css({
   position: 'relative',
@@ -83,6 +84,7 @@ export const GameContent = () => {
       <EventModal />
       <UndeadOverlay />
       <UndeadSacrifice />
+      <LastUndeadDiedModal />
       <OnboardingModal />
       <OnboardingHighlightStyles />
     </TalentsModalProvider>

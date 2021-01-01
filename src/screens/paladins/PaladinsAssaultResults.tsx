@@ -48,6 +48,15 @@ const resultBox = [
   }),
 ]
 
+const lostBox = [
+  redBox,
+  css({
+    padding: '1rem',
+    width: '100%',
+    maxWidth: '20rem',
+  }),
+]
+
 const leaveAssaultButton = [
   ...cyanSquareButton,
   css({
@@ -82,30 +91,33 @@ export const PaladinsAssaultResults = () => {
       <div css={resultsPanelInner}>
         <h2 css={h2Title}>{t('paladinsAssaultResults')}</h2>
         <div css={expander} />
-        <div css={resultBox}>
-          <div css={textColor('RED')} data-test-id="killedPaladins">
-            <Image src={paladinsStrengthIcon} marginRight="0.5rem" size="2.5rem" />
-            {t('paladinsKilled', killedPaladins, assault.deck.length)}
+        {structureHealth === 0 && <div css={lostBox}>{t('paladinsAssaultLost')}</div>}
+        {structureHealth > 0 && (
+          <div css={resultBox}>
+            <div css={textColor('RED')} data-test-id="killedPaladins">
+              <Image src={paladinsStrengthIcon} marginRight="0.5rem" size="2.5rem" />
+              {t('paladinsKilled', killedPaladins, assault.deck.length)}
+            </div>
+            <div css={textColor('CAMO')}>
+              <Image src={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
+              {t('healthLost', assault.startingStructureHealth - structureHealth)}
+            </div>
+            <div css={textColor('CAMO')} data-test-id="remainingStructureHealth">
+              <Image src={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
+              {t('healthRemaining', structureHealth, NECROPOLIS_STRUCTURE_POINTS)}
+            </div>
+            <ResourceLoot>
+              <ResourceIcon type={ResourceType.Bones} text={killedPaladins} />
+            </ResourceLoot>
           </div>
-          <div css={textColor('CAMO')}>
-            <Image src={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
-            {t('healthLost', assault.startingStructureHealth - structureHealth)}
-          </div>
-          <div css={textColor('CAMO')} data-test-id="remainingStructureHealth">
-            <Image src={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
-            {t('healthRemaining', structureHealth, NECROPOLIS_STRUCTURE_POINTS)}
-          </div>
-          <ResourceLoot>
-            <ResourceIcon type={ResourceType.Bones} text={killedPaladins} />
-          </ResourceLoot>
-        </div>
+        )}
         <button
           type="button"
           css={leaveAssaultButton}
           onClick={handleEndAssault}
           data-test-id="endPaladinAssaultButton"
         >
-          {t('paladinsAssaultEnd')}
+          {t(structureHealth === 0 ? 'rip' : 'paladinsAssaultEnd')}
         </button>
       </div>
     </div>
