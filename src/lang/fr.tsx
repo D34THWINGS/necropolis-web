@@ -13,6 +13,7 @@ import trapDamageIcon from '../assets/images/traps/trap-damages.png'
 import paladinDamageIcon from '../assets/images/paladins/paladin-damage.png'
 import { Image } from '../components/images/Image'
 import { DamageCategories } from '../components/images/DamageCategories'
+import structurePointsIcon from '../assets/images/paladins/structure-points.png'
 
 const undeadTalent: Record<UndeadTalent, ReactNode> = {
   [UndeadTalent.Muscles]: (
@@ -332,20 +333,42 @@ export const fr = {
 
   spells: 'Sorts',
   soulStormLabel: 'Déluge des âmes',
-  soulStormDescription: (lethalityBonus: number) => (
+  soulStormExpedition: (lethalityBonus: number) => (
     <>
-      Confère <TalentIcon type={UndeadTalent.Lethality} size="1.2rem" text={`+${lethalityBonus}`} /> pour le combat en
-      cours.
+      Confère <TalentIcon type={UndeadTalent.Lethality} size="1.2rem" text={`+${lethalityBonus}`} /> durant un obstacle.
+    </>
+  ),
+  soulStormAssault: (damages: number, targetCategories: PaladinCategory[]) => (
+    <>
+      Une puissante vague de type <DamageCategories categories={targetCategories} /> qui inflige{' '}
+      <span css={textColor('CYAN')}>{damages}</span>&nbsp;
+      <Image src={trapDamageIcon} />. Les surplus de dégâts sont infligés aux Paladins suivant.
     </>
   ),
   theKeyLabel: 'La clé',
-  theKeyDescription: 'Ouvre tout type de porte.',
-  predictionLabel: 'Prédiction',
-  predictionDescription: "Révèle les 4 premiers paladins de l'assaut",
-  restorationLabel: 'Restauration',
-  restorationDescription: (healAmount: number) => (
+  theKeyExpedition: '"Ouvre" une porte.',
+  theKeyAssault: (damages: number, targetCategories: PaladinCategory[]) => (
     <>
-      Soigne {healAmount}&nbsp;PVs et guérit de la <span css={textColor('PURPLE')}>Maladie</span> 1&nbsp;Mort-Vivant.
+      Brise les <span css={textColor('PURPLE')}>Bouclier</span> et inflige{' '}
+      <span css={textColor('CYAN')}>{damages}</span>&nbsp;
+      <Image src={trapDamageIcon} />. Type <DamageCategories categories={targetCategories} />
+    </>
+  ),
+  predictionLabel: 'Prédiction',
+  predictionExpedition: 'Donne un nouveau choix de secrets',
+  predictionAssault: (revealAmount: number) => <>Révèle les {revealAmount} premiers paladins de l&apos;assaut</>,
+  restorationLabel: 'Restauration',
+  restorationExpedition: (healAmount: number, cleanseAmount: number) => (
+    <>
+      Soigne <span css={textColor('LIME')}>{healAmount}</span>&nbsp;
+      <HealthPoint /> et guérit de la <span css={textColor('PURPLE')}>Maladie</span> {cleanseAmount}&nbsp;Mort-Vivant
+      {cleanseAmount > 0 && 's'}.
+    </>
+  ),
+  restorationAssault: (repairAmount: number) => (
+    <>
+      Restaure <span css={textColor('CAMO')}>{repairAmount}</span>&nbsp;
+      <Image src={structurePointsIcon} /> perdus contre le dernier paladin.
     </>
   ),
 

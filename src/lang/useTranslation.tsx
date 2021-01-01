@@ -17,6 +17,10 @@ export const TranslationProvider = ({ children }: TranslationProviderProps) => {
     (): Translator => ({
       t: (key, ...args) => {
         const translation = bundlesMap[currentLanguage][key]
+        if (!translation) {
+          // eslint-disable-next-line no-console
+          console.warn(`Missing translation key "${key}"`)
+        }
         return typeof translation === 'function' ? (translation as CallableFunction)(...args) : translation
       },
       lang: currentLanguage,

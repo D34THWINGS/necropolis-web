@@ -14,7 +14,7 @@ import { getCatacombs } from '../../data/buildings/selectors'
 import { isBuildingConstructed, isBuildingFullyUpgraded, makeUpgradedBuilding } from '../../data/buildings/helpers'
 import { MAIN_HUB } from '../../config/routes'
 import { BuildingShop } from './components/BuildingShop'
-import { BuildingShopRow, buildingShopRowTitle } from './components/BuildingShopRow'
+import { ActionBox, buildingShopRowTitle } from '../../components/ui/ActionBox'
 import { raiseUndead, upgradeBuilding } from '../../data/buildings/actions'
 import { buildingUpgradeArrow } from './helpers/buildingsStyles'
 import { colors } from '../../config/theme'
@@ -72,7 +72,7 @@ export const Catacombs = () => {
   return (
     <BuildingShop title={t(catacombs.type)} level={catacombs.level}>
       {catacombs.undeadPool.map(undead => (
-        <BuildingShopRow
+        <ActionBox
           key={undead.id}
           leftCircleContent={
             <div css={undeadPortraitCircle}>
@@ -82,6 +82,8 @@ export const Catacombs = () => {
           buttonContent={<ResourceIcon type={ResourceType.Souls} text={catacombs.raiseUndeadSoulCost} size="1.1rem" />}
           disabled={souls < catacombs.raiseUndeadSoulCost}
           onClick={handleRaiseUndead(undead)}
+          boxTestId="buildingShopRow"
+          buttonTestId="buildingShopRowButton"
         >
           <h2 css={buildingShopRowTitle}>{t('undeadName', undead.type)}</h2>
           <div css={undeadStats}>
@@ -89,14 +91,16 @@ export const Catacombs = () => {
             <Health health={undead.health} maxHealth={undead.maxHealth} />
           </div>
           <UndeadAbilityDescription ability={undead.ability} showExpedition showAssault />
-        </BuildingShopRow>
+        </ActionBox>
       ))}
       {!isBuildingFullyUpgraded(catacombs) && (
-        <BuildingShopRow
+        <ActionBox
           leftCircleContent={<div css={buildingUpgradeArrow}>{catacombs.level + 1}</div>}
           buttonContent={<ResourceIcon type={ResourceType.Materials} text={catacombs.upgradeCost} size="1.1rem" />}
           disabled={materials < catacombs.upgradeCost}
           onClick={handleUpgrade}
+          boxTestId="buildingShopRow"
+          buttonTestId="buildingShopRowButton"
         >
           <h2 css={buildingShopRowTitle}>{t('buildingUpgrade')}</h2>
           <div>
@@ -104,7 +108,7 @@ export const Catacombs = () => {
               ? t('catacombUnlockRevive')
               : t('catacombFortify', makeUpgradedBuilding(catacombs).fortifyBonus)}
           </div>
-        </BuildingShopRow>
+        </ActionBox>
       )}
     </BuildingShop>
   )

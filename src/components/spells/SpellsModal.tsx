@@ -1,14 +1,11 @@
 import React from 'react'
-import { css } from '@emotion/react'
 import { useRouteMatch } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from '../ui/Modal/Modal'
 import { ModalColor } from '../ui/Modal/modalStyles'
 import { useTranslation } from '../../lang/useTranslation'
 import { h2Title } from '../../styles/base'
-import { blueSquareButton } from '../../styles/buttons'
-import { ResourceIcon } from '../resources/ResourceIcon'
-import { PaladinsAssaultPhase, ResourceType } from '../../config/constants'
+import { PaladinsAssaultPhase } from '../../config/constants'
 import { castSpell } from '../../data/spells/actions'
 import { SpellBox } from './SpellBox'
 import { getSouls } from '../../data/resources/selectors'
@@ -26,13 +23,6 @@ import { useGetSpellDetails } from './useGetSpellDetails'
 import { getPaladinsAssaultPhase } from '../../data/paladins/selectors'
 import { getIsInExpedition } from '../../data/expeditions/selectors'
 import { OSSUARY } from '../../config/routes'
-
-const spellCastButton = [
-  ...blueSquareButton,
-  css({
-    width: 'auto',
-  }),
-]
 
 export type SpellsModalProps = {
   isOpen: boolean
@@ -83,20 +73,10 @@ export const SpellsModal = ({ isOpen, onClose }: SpellsModalProps) => {
             imageUrl={spellDetails.imageUrl}
             label={spellDetails.label}
             description={spellDetails.description}
-          >
-            {getCanCastSpell(spell) && (
-              <button
-                type="button"
-                css={spellCastButton}
-                disabled={!canCast(spell, souls)}
-                onClick={handleCastSpell(spell)}
-                data-test-id="castSpellButton"
-              >
-                <ResourceIcon type={ResourceType.Souls} marginRight="0.3rem" />
-                {spell.cost}
-              </button>
-            )}
-          </SpellBox>
+            soulCost={spell.cost}
+            disabled={!canCast(spell, souls)}
+            onClick={getCanCastSpell(spell) ? handleCastSpell(spell) : undefined}
+          />
         )
       })}
     </Modal>

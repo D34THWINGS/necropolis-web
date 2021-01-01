@@ -15,23 +15,21 @@ import { ModalColor, modalColorsMap } from '../ui/Modal/modalStyles'
 import { Health } from '../images/Health'
 import { UndeadAbilityDescription } from './UndeadAbilityDescription'
 
-const undeadBox = (canBeBanned: boolean) => [
-  css({
-    position: 'relative',
-    marginBottom: canBeBanned ? '2rem' : '0.4rem',
-    transition: `transform ${transitions.FAST}, opacity ${transitions.FAST}`,
-    transformOrigin: 'center top',
+const undeadBox = css({
+  position: 'relative',
+  marginBottom: '0.8rem',
+  transition: `transform ${transitions.FAST}, opacity ${transitions.FAST}`,
+  transformOrigin: 'center top',
 
-    ':last-child': {
-      marginBottom: '1rem',
-    },
+  ':last-child': {
+    marginBottom: 0,
+  },
 
-    '&.exit-active': {
-      transform: 'scaleY(0)',
-      opacity: 0,
-    },
-  }),
-]
+  '&.exit-active': {
+    transform: 'scaleY(0)',
+    opacity: 0,
+  },
+})
 
 const undeadBoxInner = (isDead: boolean) => [
   purpleBox,
@@ -192,7 +190,7 @@ export const UndeadBox = ({ undead, disableBan, onBan, renderBanText }: UndeadBo
   const undeadNameText = t('undeadName', undead.type)
 
   return (
-    <div css={undeadBox(!!onBan)}>
+    <div css={undeadBox}>
       <div css={undeadBoxInner(!isUndeadAlive(undead))}>
         <h4 css={undeadName}>{undeadNameText}</h4>
         <div css={undeadTalents}>

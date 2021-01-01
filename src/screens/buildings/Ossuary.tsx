@@ -7,7 +7,7 @@ import { getOssuary } from '../../data/buildings/selectors'
 import { MAIN_HUB } from '../../config/routes'
 import { isBuildingConstructed, isBuildingFullyUpgraded, makeUpgradedBuilding } from '../../data/buildings/helpers'
 import { BuildingShop } from './components/BuildingShop'
-import { BuildingShopRow, buildingShopRowImage, buildingShopRowTitle } from './components/BuildingShopRow'
+import { ActionBox, buildingShopRowImage, buildingShopRowTitle } from '../../components/ui/ActionBox'
 import { ResourceIcon } from '../../components/resources/ResourceIcon'
 import { ResourceType } from '../../config/constants'
 import { buildingUpgradeArrow } from './helpers/buildingsStyles'
@@ -41,24 +41,28 @@ export const Ossuary = () => {
         const handleBuySpell = () => dispatch(buySecret(secret))
 
         return (
-          <BuildingShopRow
+          <ActionBox
             key={secret.id}
             leftCircleContent={<div css={buildingShopRowImage(spellDetails.imageUrl)} />}
             buttonContent={<ResourceIcon type={ResourceType.Bones} text={secret.bonesPrice} size="1.1rem" />}
             disabled={bones < secret.bonesPrice}
             onClick={handleBuySpell}
+            boxTestId="buildingShopRow"
+            buttonTestId="buildingShopRowButton"
           >
             <h2 css={[buildingShopRowTitle, textColor('BLUE')]}>{spellDetails.label}</h2>
             {spellDetails.description}
-          </BuildingShopRow>
+          </ActionBox>
         )
       })}
       {!isBuildingFullyUpgraded(ossuary) && (
-        <BuildingShopRow
+        <ActionBox
           leftCircleContent={<div css={buildingUpgradeArrow}>{ossuary.level + 1}</div>}
           buttonContent={<ResourceIcon type={ResourceType.Materials} text={ossuary.upgradeCost} size="1.1rem" />}
           disabled={materials < ossuary.upgradeCost}
           onClick={handleUpgrade}
+          boxTestId="buildingShopRow"
+          buttonTestId="buildingShopRowButton"
         >
           <h2 css={buildingShopRowTitle}>{t('buildingUpgrade')}</h2>
           <div>
@@ -66,7 +70,7 @@ export const Ossuary = () => {
               ? t('ossuaryUpgrade', makeUpgradedBuilding(ossuary).secretsAmount - ossuary.secretsAmount)
               : t('ossuaryDiscount', ossuary.bonesCostMultiplier * 100)}
           </div>
-        </BuildingShopRow>
+        </ActionBox>
       )}
     </BuildingShop>
   )

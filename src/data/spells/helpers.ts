@@ -73,7 +73,7 @@ type Restoration = BaseSpell & {
   key: SpellKey.Restoration
   healthRestored: number
   structureRepairAmount: number
-  cleanse: boolean
+  targetsCleansed: number
 }
 
 export const makeRestoration = (): Restoration => ({
@@ -82,7 +82,7 @@ export const makeRestoration = (): Restoration => ({
   castPhases: [CastPhase.Expeditions, CastPhase.AssaultFight],
   healthRestored: 3,
   structureRepairAmount: 3,
-  cleanse: true,
+  targetsCleansed: 1,
 })
 export const isRestoration = (spell: Spell): spell is Restoration => spell.key === SpellKey.Restoration
 
