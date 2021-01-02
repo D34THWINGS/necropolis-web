@@ -40,7 +40,7 @@ export const UndeadAbilityDescription = ({ showAssault, showExpedition, ability 
       return t('seductionExpedition', ability.talentBonus)
     }
     if (isSectumSempra(ability)) {
-      return t('sectumSempraExpedition', ability.lethalityBonusEffect.lethalityBonus)
+      return t('sectumSempraExpedition', ability.lethalityBonus)
     }
     return ((_: never) => _)(ability)
   }

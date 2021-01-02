@@ -177,6 +177,7 @@ export const frEvents = {
   ),
   changePaladinType: 'Changement de type',
   changePaladinTypeSubmit: 'Confirmer',
+  buildingExtraTrap: 'Construire un piège',
   paladinsAssaultResults: 'Bilan',
   paladinsKilled: (killed: number, deckSize: number) => (
     <>

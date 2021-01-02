@@ -7,7 +7,7 @@ import { Image } from '../../../components/images/Image'
 import { paladinsImageMap } from '../helpers/paladinsImageMap'
 import { ModalColor } from '../../../components/ui/Modal/modalStyles'
 import { h2Title, redBox } from '../../../styles/base'
-import { colors } from '../../../config/theme'
+import { colors, layers } from '../../../config/theme'
 import damageIcon from '../../../assets/images/paladins/paladin-damage.png'
 import { PALADINS_DAMAGES_MAP } from '../../../config/constants'
 import { DamageCategories } from '../../../components/images/DamageCategories'
@@ -72,7 +72,7 @@ export type PaladinDetailsModalProps = {
 export const PaladinDetailsModal = ({ card, onClose }: PaladinDetailsModalProps) => {
   const { t } = useTranslation()
   return (
-    <Modal isOpen={!!card} onClose={onClose} color={ModalColor.RED}>
+    <Modal isOpen={!!card} onClose={onClose} color={ModalColor.RED} priority={layers.INFO_MODAL}>
       {card && (
         <>
           <h2 css={h2Title}>{t('paladinName', card.type)}</h2>

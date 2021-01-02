@@ -165,7 +165,7 @@ export const paladinDeathRattleEpic: NecropolisEpic = (action$, state$) =>
 export const paladinSkipEpic: NecropolisEpic = action$ =>
   action$.pipe(
     filter(isActionOf(skipPaladin)),
-    map(({ payload: { paladinId } }) => triggerPaladinAttack(paladinId)),
+    map(({ payload: { paladinId, damageReduction } }) => triggerPaladinAttack(paladinId, damageReduction)),
   )
 
 export const paladinIncreaseCounterEpic: NecropolisEpic = (action$, state$) =>

@@ -31,3 +31,6 @@ export const getRequiredSacrifices = (state: RootState) => state.undeads.require
 export const getMostInjuredUndead = (state: RootState) => getMostInjured(getAliveUndeads(state))
 
 export const getValet = (state: RootState) => getUndeads(state).find(undead => undead.type === UndeadType.Valet)
+
+export const getHasEffectToBlur = (state: RootState) =>
+  getUndeads(state).some(undead => undead.activeEffects.length > 0)

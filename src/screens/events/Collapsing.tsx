@@ -16,9 +16,8 @@ import collapsingImageUrl from '../../assets/images/events/collapsing.jpg'
 import artifactImageUrl from '../../assets/images/events/artifact.jpg'
 import { getHasArtifact } from '../../data/events/selectors'
 import { collapseBuilding } from '../../data/buildings/actions'
-import { getTurn } from '../../data/turn/selectors'
 import { getConstructedBuildings } from '../../data/buildings/selectors'
-import { preventSelectorUpdate } from '../../data/helpers'
+import { drawRandomInArray, preventSelectorUpdate } from '../../data/helpers'
 
 enum CollapsingStep {
   Setup,
@@ -29,7 +28,6 @@ export const Collapsing = ({ renderStep }: EventModalContentProps) => {
   const { t } = useTranslation()
   const paladinsCounter = useSelector(getPaladinsCounter, preventSelectorUpdate)
   const hasArtifact = useSelector(getHasArtifact)
-  const turn = useSelector(getTurn)
   const constructedBuildings = useSelector(getConstructedBuildings)
   const dispatch = useDispatch()
 
@@ -39,7 +37,7 @@ export const Collapsing = ({ renderStep }: EventModalContentProps) => {
       {renderStep<CollapsingStep>((step, { renderAcknowledgeButton, goToStep }) => {
         switch (step) {
           case CollapsingStep.Setup: {
-            const collapsedBuilding = constructedBuildings[turn % constructedBuildings.length]
+            const collapsedBuilding = drawRandomInArray(constructedBuildings)
             const handleLeave = () => {
               dispatch(collapseBuilding(collapsedBuilding))
               dispatch(endEvent())

@@ -15,5 +15,9 @@ export const PaladinsIcon = ({ className, counter }: PaladinsIconProps) => {
   if (counter === 0) {
     return null
   }
-  return <Image className={className} src={paladinIcons[Math.min(counter - 1, paladinIcons.length - 1)]} size="8rem" />
+  const iconUrl = paladinIcons[Math.min(counter - 1, paladinIcons.length - 1)]
+  if (!iconUrl) {
+    return null
+  }
+  return <Image className={className} src={iconUrl} size="8rem" />
 }

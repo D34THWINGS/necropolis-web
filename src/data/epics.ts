@@ -17,7 +17,16 @@ import {
   upgradeOssuaryEpic,
 } from './buildings/epics'
 import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
-import { raiseUndeadEpic, valetEpic } from './undeads/epics'
+import {
+  blurAbilityEffectsEpic,
+  castDevotionAbilityEpic,
+  castLaborAbilityEpic,
+  castProtectionAbilityEpic,
+  castSectumSempraAbilityEpic,
+  castSeductionAbilityEpic,
+  raiseUndeadEpic,
+  valetEpic,
+} from './undeads/epics'
 import { resetGameEpic } from './settings/epics'
 import {
   displayAssaultResultsEpic,
@@ -56,4 +65,10 @@ export const rootEpic = combineEpics(
   paladinDeathRattleEpic,
   paladinIncreaseCounterEpic,
   paladinSkipEpic,
+  castDevotionAbilityEpic,
+  castLaborAbilityEpic,
+  castProtectionAbilityEpic,
+  castSeductionAbilityEpic,
+  castSectumSempraAbilityEpic,
+  blurAbilityEffectsEpic,
 )

@@ -23,7 +23,10 @@ describe('Paladins reducer', () => {
   })
 
   it('should shuffle deck on phase change', () => {
-    const state = paladins(initialState, changeAssaultPhase(PaladinsAssaultPhase.Preparing))
+    const state = paladins(
+      { ...initialState, assault: { ...assault, phase: PaladinsAssaultPhase.Preparing } },
+      changeAssaultPhase(PaladinsAssaultPhase.Fighting),
+    )
 
     expect(state.assault?.deck).not.toEqual(initialState.assault?.deck)
   })
@@ -32,9 +35,13 @@ describe('Paladins reducer', () => {
     const state = paladins(
       {
         ...initialState,
-        assault: { ...assault, deck: [...createDeck(4), createPaladinCard(PaladinType.Commander), ...createDeck(3)] },
+        assault: {
+          ...assault,
+          phase: PaladinsAssaultPhase.Preparing,
+          deck: [...createDeck(4), createPaladinCard(PaladinType.Commander), ...createDeck(3)],
+        },
       },
-      changeAssaultPhase(PaladinsAssaultPhase.Preparing),
+      changeAssaultPhase(PaladinsAssaultPhase.Fighting),
     )
 
     expect(state.assault?.deck[0].type).toEqual(PaladinType.Commander)

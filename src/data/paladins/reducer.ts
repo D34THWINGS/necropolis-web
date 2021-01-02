@@ -17,6 +17,7 @@ import {
   removeTrap,
   repairStructure,
   resetPaladinsCounter,
+  setBuildingExtraTrap,
   setChangingPaladinCategories,
   shieldPaladin,
   skipPaladin,
@@ -120,7 +121,7 @@ export const paladins = createReducer<PaladinState>({
   .handleAction(changeAssaultPhase, (state, { payload: { phase } }) =>
     updateAssault(state, assault => {
       // Shuffle deck when entering prepare phase
-      if (assault.phase === PaladinsAssaultPhase.Revealing && phase === PaladinsAssaultPhase.Preparing) {
+      if (assault.phase === PaladinsAssaultPhase.Preparing && phase === PaladinsAssaultPhase.Fighting) {
         return { phase, deck: findAndPutFirstInArray(shuffleArray(assault.deck), isCommander) }
       }
       return { phase }
@@ -150,14 +151,14 @@ export const paladins = createReducer<PaladinState>({
       })),
     })),
   )
-  .handleAction(triggerPaladinAttack, (state, { payload: { paladinId } }) => {
+  .handleAction(triggerPaladinAttack, (state, { payload: { paladinId, damageReduction = 0 } }) => {
     const paladin = state.assault?.deck.find(p => p.id === paladinId)
     if (!paladin) {
       return state
     }
     return {
       ...state,
-      structureHealth: Math.max(state.structureHealth - paladin.damages, 0),
+      structureHealth: Math.max(state.structureHealth - Math.max(0, paladin.damages - damageReduction), 0),
     }
   })
   .handleAction(doDamagesToPaladin, (state, { payload: { paladinId, damages, targetCategories } }) =>
@@ -256,3 +257,6 @@ export const paladins = createReducer<PaladinState>({
     ...state,
     structureHealth: Math.min(state.structureHealth + amount, NECROPOLIS_STRUCTURE_POINTS),
   }))
+  .handleAction(setBuildingExtraTrap, (state, { payload: { value } }) =>
+    updateAssault(state, () => ({ buildingExtraTrap: value })),
+  )

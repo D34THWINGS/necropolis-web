@@ -9,6 +9,7 @@ import { getCurrentPhase, getTurn } from '../turn/selectors'
 import { EVENTS_TURN_SPACING, EventType, PALADINS_CALL_TO_ARMS_TURN, TurnPhase } from '../../config/constants'
 import { endEvent, startEvent } from './actions'
 import { getQuestEvent, getRandomEventPool } from '../selectors'
+import { drawRandomInArray } from '../helpers'
 
 export const eventsEpic: Epic<RootAction, RootAction, RootState> = (action$, state$) =>
   action$.pipe(
@@ -25,7 +26,7 @@ export const eventsEpic: Epic<RootAction, RootAction, RootState> = (action$, sta
       } else if (questEvent !== null) {
         actions.push(startEvent(questEvent))
       } else if (turn % EVENTS_TURN_SPACING === 0 && possibleRandomEvents.length > 0) {
-        const event = possibleRandomEvents[Math.round(Math.random() * (possibleRandomEvents.length - 1))]
+        const event = drawRandomInArray(possibleRandomEvents)
         actions.push(startEvent(event))
       } else {
         actions.push(nextPhase())

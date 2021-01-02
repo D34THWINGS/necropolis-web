@@ -19,6 +19,7 @@ import { ChangePaladinCategoryModal } from './components/ChangePaladinCategoryMo
 import { PaladinFightCard } from './components/PaladinFightCard'
 import { isPaladinAlive } from '../../data/paladins/helpers'
 import { Trap } from '../../data/paladins/traps'
+import { BuildExtraTrapModal } from './components/BuildExtraTrapModal'
 
 const fightPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
 
@@ -95,7 +96,7 @@ export const PaladinsAssaultFight = () => {
     return null
   }
 
-  const { deck, traps } = assault
+  const { deck, traps, buildingExtraTrap } = assault
   const remainingPaladins = deck.filter(isPaladinAlive)
   const remainingTraps = traps.filter(trap => !trap.used)
 
@@ -104,6 +105,9 @@ export const PaladinsAssaultFight = () => {
   }
 
   const activePaladin = remainingPaladins[0]
+  if (!activePaladin) {
+    return null
+  }
 
   const handleUseTrap = (trap: Trap) => () => dispatch(triggerTrap(trap, activePaladin.id))
   const handleSkipPaladin = () => dispatch(skipPaladin(activePaladin.id))
@@ -141,6 +145,7 @@ export const PaladinsAssaultFight = () => {
           </button>
         </div>
         <ChangePaladinCategoryModal activePaladin={activePaladin} />
+        <BuildExtraTrapModal buildingExtraTrap={buildingExtraTrap} />
       </div>
     </div>
   )

@@ -74,7 +74,7 @@ export const ChangePaladinCategoryModal = ({ activePaladin }: ChangePaladinCateg
       return
     }
     let newSourceCategory = sourceCategory
-    if (!activePaladin.categories.includes(sourceCategory)) {
+    if (activePaladin.categories[0] && !activePaladin.categories.includes(sourceCategory)) {
       ;[newSourceCategory] = activePaladin.categories
       setSourceCategory(newSourceCategory)
     }

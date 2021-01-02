@@ -1,6 +1,7 @@
 import { createAction } from 'typesafe-actions'
 import { PaladinCategory, PaladinsAssaultPhase, TrapType } from '../../config/constants'
 import { Trap } from './traps'
+import { BuildingExtraTrap } from './helpers'
 
 export const increasePaladinsStrength = createAction('paladins/INCREASE_STRENGTH')()
 
@@ -79,13 +80,18 @@ export const shieldPaladin = createAction('paladins/SHIELD_PALADIN', (paladinId:
   paladinId,
 }))()
 
-export const skipPaladin = createAction('paladins/SKIP_PALADIN', (paladinId: string) => ({
+export const skipPaladin = createAction('paladins/SKIP_PALADIN', (paladinId: string, damageReduction?: number) => ({
   paladinId,
+  damageReduction,
 }))()
 
-export const triggerPaladinAttack = createAction('paladins/TRIGGER_PALADIN_ATTACK', (paladinId: string) => ({
-  paladinId,
-}))()
+export const triggerPaladinAttack = createAction(
+  'paladins/TRIGGER_PALADIN_ATTACK',
+  (paladinId: string, damageReduction?: number) => ({
+    paladinId,
+    damageReduction,
+  }),
+)()
 
 export const swapPaladinPostions = createAction(
   'paladins/SWAP_POSITIONS',
@@ -96,3 +102,8 @@ export const swapPaladinPostions = createAction(
 )()
 
 export const repairStructure = createAction('paladins/REPAIR_STRUCTURE', (amount: number) => ({ amount }))()
+
+export const setBuildingExtraTrap = createAction(
+  'paladins/SET_BUILDING_EXTRA_TRAP',
+  (value: BuildingExtraTrap | null) => ({ value }),
+)()

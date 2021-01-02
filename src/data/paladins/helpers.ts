@@ -12,12 +12,19 @@ import { applyDamages } from '../undeads/helpers'
 import { countInArray, drawRandomInArray, findAndPutFirstInArray } from '../helpers'
 import { Trap } from './traps'
 
+export enum BuildingExtraTrap {
+  Upgraded = 'upgraded',
+  Normal = 'normal',
+  Off = 'off',
+}
+
 export type Assault = {
   phase: PaladinsAssaultPhase
   deck: PaladinCard[]
   traps: Trap[]
   changingPaladinCategory: boolean
   startingStructureHealth: number
+  buildingExtraTrap: BuildingExtraTrap | null
 }
 
 export type PaladinCard = {
@@ -94,6 +101,7 @@ export const createPaladinsAssault = (
     traps: [],
     changingPaladinCategory: false,
     startingStructureHealth: structureHealth,
+    buildingExtraTrap: null,
   }
 }
 

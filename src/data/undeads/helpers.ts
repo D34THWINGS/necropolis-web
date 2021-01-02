@@ -8,6 +8,7 @@ import {
   makeSeductionAbility,
   UndeadAbility,
 } from './abilities'
+import { AbilityEffect } from './abilityEffects'
 
 export type UndeadId = string
 
@@ -20,6 +21,7 @@ export type Undead = {
   maxHealth: number
   health: number
   ability: UndeadAbility
+  activeEffects: AbilityEffect[]
 }
 
 const makeBaseUndead = (health: number) => ({
@@ -28,6 +30,7 @@ const makeBaseUndead = (health: number) => ({
   maxHealth: health,
   banned: false,
   cursed: false,
+  activeEffects: [],
 })
 
 export const makeValet = (): Undead => ({

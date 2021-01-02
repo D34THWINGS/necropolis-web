@@ -221,9 +221,8 @@ export const fr = {
   devotionAssault: (healthCost: number, damages: number, damageCategories: PaladinCategory[]) => (
     <>
       Perd <span css={textColor('RED')}>{healthCost}</span> <HealthPoint isMissing /> pour briser le{' '}
-      <span css={textColor('PURPLE')}>Bouclier</span>, purger <span css={textColor('PURPLE')}>Consécration</span> et
-      infliger <span css={textColor('CYAN')}>{damages}</span> <Image src={trapDamageIcon} />. Type&nbsp;:{' '}
-      <DamageCategories categories={damageCategories} />.
+      <span css={textColor('PURPLE')}>Bouclier</span> et infliger <span css={textColor('CYAN')}>{damages}</span>{' '}
+      <Image src={trapDamageIcon} />. Type&nbsp;: <DamageCategories categories={damageCategories} />.
     </>
   ),
   laborExpedition: <>Résout un obstacle qui implique une tâche d&apos;ouvrier.</>,
@@ -251,8 +250,9 @@ export const fr = {
   ),
   seductionAssault: (targetMaxHealth: number) => (
     <>
-      Séduit un Paladin auquel il reste <span css={textColor('LIME')}>{targetMaxHealth}</span> <HealthPoint /> et qui
-      n&apos;a pas <span css={textColor('LIME')}>Consécration</span>. Ce dernier inflige ses dégâts au Paladin suivant.
+      Séduit un Paladin auquel il ne reste que <span css={textColor('LIME')}>{targetMaxHealth}</span> <HealthPoint /> et
+      qui n&apos;a pas <span css={textColor('PURPLE')}>Consécration</span>. Ce dernier inflige ses dégâts au Paladin
+      suivant.
     </>
   ),
   sectumSempraExpedition: (lethalityBonus: number) => (

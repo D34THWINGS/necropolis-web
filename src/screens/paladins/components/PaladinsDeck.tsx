@@ -4,18 +4,22 @@ import { buttonBase, resetButton } from '../../../styles/buttons'
 import { Image } from '../../../components/images/Image'
 import cardBackImage from '../../../assets/images/paladins/card-back.png'
 import { PaladinDetailsModal } from './PaladinDetailsModal'
-import { Assault, PaladinCard } from '../../../data/paladins/helpers'
-import { colors, fonts, shadows } from '../../../config/theme'
+import { Assault, isPaladinAlive, PaladinCard } from '../../../data/paladins/helpers'
+import { colors, shadows } from '../../../config/theme'
 import { PaladinType } from '../../../config/constants'
 import { paladinsImageMap } from '../helpers/paladinsImageMap'
-import { DamageCategories } from '../../../components/images/DamageCategories'
 
-const assaultDeckWrapper = css({
-  display: 'grid',
-  gridTemplateColumns: new Array(3).fill('calc(33.3% - 0.66rem)').join(' '),
-  columnGap: '1rem',
-  rowGap: '1rem',
-})
+const assaultDeckWrapper = (columns: number) =>
+  css({
+    display: 'grid',
+    gridTemplateColumns: new Array(columns)
+      .fill(`calc(${(100 / columns).toFixed(1)}% - ${((columns - 1) / columns).toFixed(2)}rem)`)
+      .join(' '),
+    columnGap: '1rem',
+    rowGap: '1rem',
+    width: '78vw',
+    maxWidth: '24rem',
+  })
 
 const assaultCard = css({
   borderRadius: '10px',
@@ -34,7 +38,7 @@ const assaultCard = css({
   },
 })
 
-const assaultCardRevealed = (type: PaladinType) => [
+const assaultCardRevealed = (type: PaladinType, isDead: boolean) => [
   ...buttonBase,
   css({
     position: 'relative',
@@ -42,6 +46,8 @@ const assaultCardRevealed = (type: PaladinType) => [
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
+    filter: isDead ? 'brightness(0.5)' : undefined,
+    textIndent: -9999,
   }),
 ]
 
@@ -51,45 +57,30 @@ const assaultCardHidden = css({
   justifyContent: 'center',
 })
 
-const assaultCardTypes = css({
-  position: 'absolute',
-  bottom: 0,
-  margin: 0,
-  paddingBottom: '0.5rem',
-  width: '100%',
-  fontSize: '1.2rem',
-  lineBreak: 'anywhere',
-  fontFamily: fonts.TITLES,
-  color: colors.RED,
-  textShadow: shadows.TEXT_SOLID,
-  filter: 'drop-shadow(0 0 5px black) drop-shadow(0 0 5px rgba(0,0,0,0.8))',
-})
-
 export type PaladinsDeckProps = {
   className?: string
+  columns?: number
   deck: Assault['deck']
 }
 
-export const PaladinsDeck = ({ className, deck }: PaladinsDeckProps) => {
+export const PaladinsDeck = ({ className, deck, columns = 3 }: PaladinsDeckProps) => {
   const [openedCard, setOpenedCard] = useState<PaladinCard | null>(null)
 
   const handleCardClick = (card: PaladinCard) => () => setOpenedCard(card)
   const handleCloseDetails = () => setOpenedCard(null)
 
   return (
-    <div css={assaultDeckWrapper} className={className} data-test-id="paladinsDeck">
+    <div css={assaultDeckWrapper(columns)} className={className} data-test-id="paladinsDeck">
       {deck.map(card =>
         card.revealed ? (
           <button
             key={card.id}
             type="button"
-            css={[assaultCardRevealed(card.type), assaultCard]}
+            css={[assaultCardRevealed(card.type, !isPaladinAlive(card)), assaultCard]}
             onClick={handleCardClick(card)}
             data-test-id="paladinRevealedCard"
           >
-            <h3 css={assaultCardTypes}>
-              <DamageCategories categories={card.categories} />
-            </h3>
+            {card.type}
           </button>
         ) : (
           <button

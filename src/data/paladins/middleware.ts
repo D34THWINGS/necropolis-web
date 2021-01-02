@@ -9,10 +9,13 @@ import { isSpellWithDamages } from '../spells/helpers'
 import { isPaladinConsecrated, PaladinCard } from './helpers'
 import { random } from '../seeder'
 import { RootState } from '../../store/mainReducer'
+import { castUndeadAbility } from '../undeads/actions'
+import { isAbilityWithDamages } from '../undeads/abilities'
 
 const isTriggerTrapAction = isActionOf(triggerTrap)
 const isDoDamageAction = isActionOf(doDamagesToPaladin)
 const isCastSpellAction = isActionOf(castSpell)
+const isCastAbilityAction = isActionOf(castUndeadAbility)
 
 // We use a middleware instead of an epic because effects need to happen BEFORE the actual action takes
 // effect on the state. This is used for every effect that triggers before applying damaging action to a paladin.
@@ -25,6 +28,9 @@ export const paladinsDamageEffectsMiddleware: Middleware<{}, RootState> = api =>
     targetPaladin = getPaladinById(action.payload.paladinId)(state) ?? null
   }
   if (isCastSpellAction(action) && getPaladinsAssaultOngoing(state) && isSpellWithDamages(action.payload.spell)) {
+    ;[targetPaladin] = getRemainingPaladins(state)
+  }
+  if (isCastAbilityAction(action) && getPaladinsAssaultOngoing(state) && isAbilityWithDamages(action.payload.ability)) {
     ;[targetPaladin] = getRemainingPaladins(state)
   }
 

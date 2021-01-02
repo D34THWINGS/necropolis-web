@@ -2,15 +2,15 @@ import { BuildingType, ResourceType } from '../../config/constants'
 import { Secret } from './secrets'
 import { makeUndeadPool, Undead } from '../undeads/helpers'
 
-const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 3, 5]
+const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 3, 5] as const
 
-const SOUL_WELL_SOUL_PRODUCTION = [0, 2, 3, 4]
+const SOUL_WELL_SOUL_PRODUCTION = [0, 2, 3, 4] as const
 
-const CATACOMBS_SOUL_COST = [0, 3, 3, 3]
+const CATACOMBS_SOUL_COST = [0, 3, 3, 3] as const
 
-const OSSUARY_SECRETS_AMOUNT = [0, 2, 4, 4]
+const OSSUARY_SECRETS_AMOUNT = [0, 2, 4, 4] as const
 
-const ARSENAL_TRAPS_COUNT = [0, 3, 5, 7]
+const ARSENAL_TRAPS_COUNT = [0, 3, 5, 7] as const
 
 type BaseBuilding = { level: number; maxLevel: number; collapsed: boolean; upgradeCost: number }
 

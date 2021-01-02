@@ -11,8 +11,10 @@ import {
   damageUndead,
   curseUndead,
   cleanseUndead,
+  applyAbilityEffect,
+  blurAbilityEffects,
 } from './actions'
-import { deepSet } from '../helpers'
+import { setInArray } from '../helpers'
 
 type UndeadsState = {
   list: Undead[]
@@ -28,10 +30,13 @@ const updateUndeadById = (
   if (!updatedUndead) {
     return state
   }
-  return deepSet(state)('list')(state.list.indexOf(updatedUndead))()({
-    ...updatedUndead,
-    ...callback(updatedUndead),
-  })
+  return {
+    ...state,
+    list: setInArray(state.list, state.list.indexOf(updatedUndead), {
+      ...updatedUndead,
+      ...callback(updatedUndead),
+    }),
+  }
 }
 
 export const undeads = createReducer<UndeadsState>({
@@ -84,3 +89,10 @@ export const undeads = createReducer<UndeadsState>({
   .handleAction(cleanseUndead, (state, { payload: { undeadId } }) =>
     updateUndeadById(state, undeadId, () => ({ cursed: false })),
   )
+  .handleAction(applyAbilityEffect, (state, { payload: { undeadId, abilityEffect } }) =>
+    updateUndeadById(state, undeadId, undead => ({ activeEffects: [...undead.activeEffects, abilityEffect] })),
+  )
+  .handleAction(blurAbilityEffects, state => ({
+    ...state,
+    list: state.list.map(undead => ({ ...undead, activeEffects: [] })),
+  }))

@@ -1,5 +1,4 @@
 import { PaladinCategory } from '../../config/constants'
-import { LethalityBuffEffect, makeLethalityBuffEffect } from '../spells/effects'
 
 enum UndeadAbilityType {
   Devotion = 'devotion',
@@ -64,11 +63,11 @@ export const isSeduction = (ability: UndeadAbility): ability is Seduction =>
 
 type SectumSempra = AbilityWithDamages & {
   type: UndeadAbilityType.SectumSempra
-  lethalityBonusEffect: LethalityBuffEffect
+  lethalityBonus: number
 }
 export const makeSectumSempraAbility = (): SectumSempra => ({
   type: UndeadAbilityType.SectumSempra,
-  lethalityBonusEffect: makeLethalityBuffEffect(2),
+  lethalityBonus: 2,
   damages: 3,
   targetCategories: [PaladinCategory.Magical],
 })
@@ -76,3 +75,6 @@ export const isSectumSempra = (ability: UndeadAbility): ability is SectumSempra 
   ability.type === UndeadAbilityType.SectumSempra
 
 export type UndeadAbility = Devotion | Labor | Protection | Seduction | SectumSempra
+
+export const isAbilityWithDamages = (ability: unknown): ability is AbilityWithDamages =>
+  (ability as AbilityWithDamages).damages !== undefined
