@@ -12,12 +12,9 @@ import { DamageCategories } from '../../../components/images/DamageCategories'
 
 const assaultDeckWrapper = css({
   display: 'grid',
-  gridTemplateColumns: new Array(3).fill('calc(33% - 0.5rem)').join(' '),
+  gridTemplateColumns: new Array(3).fill('calc(33.3% - 0.66rem)').join(' '),
   columnGap: '1rem',
   rowGap: '1rem',
-  flexWrap: 'wrap',
-  alignSelf: 'stretch',
-  justifyContent: 'center',
 })
 
 const assaultCard = css({

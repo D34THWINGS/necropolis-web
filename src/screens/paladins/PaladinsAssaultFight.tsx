@@ -35,9 +35,16 @@ const fightPanelInner = [
 const trapPool = [
   greenBox,
   css({
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: 'grid',
+    gridTemplateColumns: 'calc(50% - 0.33rem) calc(50% - 0.33rem)',
+    rowGap: '0.5rem',
+    columnGap: '0.5rem',
     marginTop: '0.5rem',
+    padding: '0.5rem',
+
+    [breakpoints.SM]: {
+      gridTemplateColumns: 'calc(33% - 0.25rem) calc(33% - 0.25rem) calc(33% - 0.25rem)',
+    },
   }),
 ]
 
@@ -46,10 +53,8 @@ const trapUseButton = (type: TrapType) => [
   buttonDisabled,
   trapButtonBase(type),
   css({
-    margin: '0.25rem 0.5rem 0.25rem 0',
     border: `2px solid ${colors.DARK_GREEN}`,
     borderRadius: '10px',
-    flex: '0 0 calc(50% - 0.25rem)',
     boxShadow: `inset 0px -10px 8px -8px rgba(0, 0, 0, 0.54), inset 0px 10px 8px -8px ${lighten(0.2, colors.CYAN)}`,
 
     '&:active': {
@@ -58,27 +63,13 @@ const trapUseButton = (type: TrapType) => [
         lighten(0.2, colors.CYAN),
       )}`,
     },
-
-    [breakpoints.MAX_SM]: {
-      '&:nth-of-type(2n)': {
-        marginRight: 0,
-      },
-    },
-
-    [breakpoints.SM]: {
-      flex: '0 0 calc(33% - 0.33rem)',
-
-      '&:nth-of-type(3n)': {
-        marginRight: 0,
-      },
-    },
   }),
 ]
 
 const skipPaladinButton = [
   ...redSquareButton,
   css({
-    margin: '0.25rem 0',
+    gridColumn: 'span 3',
   }),
 ]
 

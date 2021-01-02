@@ -82,7 +82,7 @@ export const createPaladinsAssault = (
   structureHealth: number,
   possibleTypes: PaladinType[] = Object.values(PaladinType),
 ): Assault => {
-  const unsortedDeck = createDeck(10, possibleTypes)
+  const unsortedDeck = createDeck(strength, possibleTypes)
   const majorityType = getMostPresentTypeInDeck(unsortedDeck)
   const deck = findAndPutFirstInArray(unsortedDeck, card => card.type === majorityType).map((paladinCard, index) =>
     index === 0 ? { ...paladinCard, revealed: true } : paladinCard,

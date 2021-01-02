@@ -46,10 +46,10 @@ const trapsListTitle = [
 ]
 
 const trapsList = css({
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignItems: 'flex-start',
-  justifyContent: 'flex-start',
+  display: 'grid',
+  gridTemplateColumns: 'calc(50% - 0.33rem) calc(50% - 0.33rem)',
+  rowGap: '0.5rem',
+  columnGap: '0.5rem',
 })
 
 const trapsStashPanel = css({
@@ -60,10 +60,8 @@ const placedTrapButton = (type: TrapType) => [
   resetButton,
   trapButtonBase(type),
   css({
-    margin: '0.5rem 0.5rem 0 0',
     borderRadius: '10px',
     border: `1px solid ${colors.DARK_GREEN}`,
-    flex: '0 0 calc(50% - 0.33rem)',
     boxShadow: `inset 0px -10px 8px -8px rgba(0, 0, 0, 0.54), inset 0px 10px 8px -8px ${lighten(0.2, colors.CYAN)}`,
 
     '&:active': {
@@ -71,10 +69,6 @@ const placedTrapButton = (type: TrapType) => [
         0.4,
         lighten(0.2, colors.CYAN),
       )}`,
-    },
-
-    '&:nth-of-type(2n)': {
-      marginRight: 0,
     },
   }),
 ]
