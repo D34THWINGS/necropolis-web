@@ -13,6 +13,7 @@ import { ModalColor } from '../../../components/ui/Modal/modalStyles'
 import { PaladinsDeck } from './PaladinsDeck'
 import { Modal } from '../../../components/ui/Modal/Modal'
 import { Assault } from '../../../data/paladins/helpers'
+import { layers } from '../../../config/theme'
 
 const headerWrapper = css({
   display: 'flex',
@@ -55,7 +56,7 @@ export const PaladinsAssaultHeader = ({ assaultPhase, deck }: PaladinsAssaultHea
           <button css={buttonBase} type="button" onClick={handleOpenDeck}>
             <Image block src={assaultInfoIcon} size="3.5rem" />
           </button>
-          <Modal color={ModalColor.RED} isOpen={isDeckOpened} onClose={handleCloseDeck}>
+          <Modal color={ModalColor.RED} isOpen={isDeckOpened} onClose={handleCloseDeck} priority={layers.INFO_MODAL}>
             <PaladinsDeck deck={deck} />
           </Modal>
         </>

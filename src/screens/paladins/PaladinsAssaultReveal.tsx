@@ -51,7 +51,7 @@ const assaultNextButton = [
 ]
 
 const assaultDeck = css({
-  paddingBottom: '4rem',
+  padding: '0 1rem 4rem',
 })
 
 export const PaladinsAssaultReveal = () => {

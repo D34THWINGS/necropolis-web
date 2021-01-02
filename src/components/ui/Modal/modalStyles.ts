@@ -104,6 +104,10 @@ export const modalPanel = (color: ModalColor, shouldWobble?: boolean) =>
       margin: '0 1rem',
       minWidth: '22rem',
     },
+
+    '@media screen and (min-height: 960px)': {
+      maxHeight: '50rem',
+    },
   })
 
 export const modalInner = (color: ModalColor) =>
