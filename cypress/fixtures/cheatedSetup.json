@@ -40,7 +40,8 @@
             "cursed": false,
             "maxHealth": 3,
             "health": 3,
-            "ability": "labor"
+            "ability": "labor",
+            "activeEffects": []
           },
           {
             "id": 4252,
@@ -54,7 +55,8 @@
             "cursed": false,
             "maxHealth": 4,
             "health": 4,
-            "ability": "protection"
+            "ability": "protection",
+            "activeEffects": []
           },
           {
             "id": 3393,
@@ -68,7 +70,8 @@
             "cursed": false,
             "maxHealth": 3,
             "health": 3,
-            "ability": "seduction"
+            "ability": "seduction",
+            "activeEffects": []
           },
           {
             "id": 844,
@@ -82,7 +85,8 @@
             "cursed": false,
             "maxHealth": 3,
             "health": 3,
-            "ability": "sectumSempra"
+            "ability": "sectumSempra",
+            "activeEffects": []
           }
         ]
       },
@@ -112,7 +116,8 @@
         "cursed": false,
         "maxHealth": 3,
         "health": 3,
-        "ability": "devotion"
+        "ability": "devotion",
+        "activeEffects": []
       }
     ],
     "requiredSacrifices": 0
