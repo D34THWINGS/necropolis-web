@@ -39,13 +39,14 @@ export const Ossuary = () => {
       {ossuary.secrets.map(secret => {
         const spellDetails = getSpellDetails(secret.spell)
         const handleBuySpell = () => dispatch(buySecret(secret))
+        const price = Math.ceil(secret.bonesPrice * ossuary.bonesCostMultiplier)
 
         return (
           <ActionBox
             key={secret.id}
             leftCircleContent={<div css={buildingShopRowImage(spellDetails.imageUrl)} />}
-            buttonContent={<ResourceIcon type={ResourceType.Bones} text={secret.bonesPrice} size="1.1rem" />}
-            disabled={bones < secret.bonesPrice}
+            buttonContent={<ResourceIcon type={ResourceType.Bones} text={price} size="1.1rem" />}
+            disabled={bones < price}
             onClick={handleBuySpell}
             boxTestId="buildingShopRow"
             buttonTestId="buildingShopRowButton"

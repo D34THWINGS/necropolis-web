@@ -70,10 +70,18 @@ export const reRollSecretsEpic: NecropolisEpic = (action$, state$) =>
     map(ossuary => changeSecrets(makeSecretsBatch(ossuary.secretsAmount, getLearntSpells(state$.value)))),
   )
 
-export const buySecretEpic: NecropolisEpic = action$ =>
+export const buySecretEpic: NecropolisEpic = (action$, state$) =>
   action$.pipe(
     filter(isActionOf(buySecret)),
-    mergeMap(({ payload: { secret } }) =>
-      of(spendResources({ [ResourceType.Bones]: secret.bonesPrice }), learnSpell(secret.spell), nextPhase()),
-    ),
+    mergeMap(({ payload: { secret } }) => {
+      const ossuary = getOssuary(state$.value)
+      if (!ossuary) {
+        return EMPTY
+      }
+      return of(
+        spendResources({ [ResourceType.Bones]: secret.bonesPrice * ossuary.bonesCostMultiplier }),
+        learnSpell(secret.spell),
+        nextPhase(),
+      )
+    }),
   )
