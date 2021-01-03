@@ -11,7 +11,7 @@
       }
     ]
   ],
-  "plugins": ["@emotion/babel-plugin"],
+  "plugins": ["@emotion/babel-plugin", "@babel/plugin-proposal-class-properties"],
   "env": {
     "test": {
       "presets": [

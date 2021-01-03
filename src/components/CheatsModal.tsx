@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useRef } from 'react'
 import { useDispatch, useStore } from 'react-redux'
+import { Dispatch } from 'redux'
 import { css } from '@emotion/react'
 import { Modal, useModalState } from './ui/Modal/Modal'
 import { h2Title, smallMarginTop } from '../styles/base'
@@ -7,7 +8,7 @@ import { greenSquareButton } from '../styles/buttons'
 import { gainResources } from '../data/resources/actions'
 import { ResourceType } from '../config/constants'
 import { freeUpgradeBuilding } from '../data/buildings/actions'
-import { addUndead } from '../data/undeads/actions'
+import { addUndead, readyUpAbilities } from '../data/undeads/actions'
 import { resetOnboarding } from '../data/onboarding/actions'
 import { loadGameState, resetGame } from '../data/settings/actions'
 import { layers } from '../config/theme'
@@ -16,13 +17,39 @@ import { PersistedRootState } from '../store/migrations'
 import { getBuildings } from '../data/buildings/selectors'
 import { makeBloodPrince } from '../data/undeads/helpers'
 import { endEvent } from '../data/events/actions'
+import { readyUpSpells } from '../data/spells/actions'
+
+class CheatsWrapper {
+  private readonly dispatch: Dispatch
+
+  private readonly open: () => void
+
+  constructor(dispatch: Dispatch, onOpen: () => void) {
+    this.dispatch = dispatch
+    this.open = onOpen
+  }
+
+  async injectState(state: unknown) {
+    const migratedState = await persistConfig.migrate(state as PersistedRootState, persistConfig.version)
+    if (migratedState) {
+      const { _persist, ...gameState } = migratedState
+      this.dispatch(loadGameState(gameState))
+    }
+  }
+
+  skipAssault() {
+    this.dispatch(endEvent())
+  }
+
+  readyUp() {
+    this.dispatch(readyUpSpells())
+    this.dispatch(readyUpAbilities())
+  }
+}
 
 declare global {
   interface Window {
-    cheats: () => void
-    injectState: (state: unknown) => void
-    addResources: () => void
-    skipAssault: () => void
+    cheats: CheatsWrapper
   }
 }
 
@@ -45,15 +72,7 @@ export const CheatsModal = () => {
   const linkRef = useRef<HTMLAnchorElement>(null)
 
   useEffect(() => {
-    window.cheats = open
-    window.injectState = async state => {
-      const migratedState = await persistConfig.migrate(state as PersistedRootState, persistConfig.version)
-      if (migratedState) {
-        const { _persist, ...gameState } = migratedState
-        dispatch(loadGameState(gameState))
-      }
-    }
-    window.skipAssault = () => dispatch(endEvent())
+    window.cheats = new CheatsWrapper(dispatch, open)
   }, [dispatch, open])
 
   const handleAddResources = () => {

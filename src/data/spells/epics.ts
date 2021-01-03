@@ -6,6 +6,7 @@ import { getIsInExpedition } from '../expeditions/selectors'
 import {
   breakPaladinShield,
   doDamagesToPaladin,
+  endPaladinsAssault,
   forwardDamages,
   markPaladinsRevealed,
   repairStructure,
@@ -14,9 +15,9 @@ import { getPaladinsAssaultOngoing, getRemainingPaladins, getUnrevealedPaladins 
 import { spendResources } from '../resources/actions'
 import { healUndead } from '../undeads/actions'
 import { getMostInjuredUndead } from '../undeads/selectors'
-import { applyEffects, blurEffects, castSpell } from './actions'
+import { applyEffects, blurEffects, castSpell, readyUpSpells } from './actions'
 import { isPrediction, isRestoration, isSoulStorm, isTheKey } from './helpers'
-import { fleeExpedition, setExpeditionStep } from '../expeditions/actions'
+import { endExpedition, fleeExpedition, setExpeditionStep } from '../expeditions/actions'
 import { getEffectsBlurringOnStepChange } from './effects'
 import { getActiveSpellEffects, getLearntSpells } from './selectors'
 import { changeSecrets } from '../buildings/actions'
@@ -126,3 +127,9 @@ export const blurEffectsEpic: NecropolisEpic = (action$, state$) => {
     map(blurEffects),
   )
 }
+
+export const readyUpSpellsEpic: NecropolisEpic = action$ =>
+  action$.pipe(
+    filter(isActionOf([endPaladinsAssault, endExpedition, fleeExpedition])),
+    map(() => readyUpSpells()),
+  )

@@ -9,3 +9,5 @@ export const applyEffects = createAction('spells/APPLY_EFFECTS', (effects: Spell
 export const blurEffects = createAction('spells/BLUR_EFFECTS', (effects: SpellEffect[]) => ({ effects }))()
 
 export const learnSpell = createAction('spells/LEARN', (spell: Spell) => ({ spell }))()
+
+export const readyUpSpells = createAction('spells/READY_UP_SPELLS')()

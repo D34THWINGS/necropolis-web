@@ -8,8 +8,9 @@ import { Assault, isPaladinAlive, PaladinCard } from '../../../data/paladins/hel
 import { colors, shadows } from '../../../config/theme'
 import { PaladinType } from '../../../config/constants'
 import { paladinsImageMap } from '../helpers/paladinsImageMap'
+import { useTranslation } from '../../../lang/useTranslation'
 
-const assaultDeckWrapper = (columns: number) =>
+const assaultDeckWrapper = (columns: number, limitWidth: boolean) =>
   css({
     display: 'grid',
     gridTemplateColumns: new Array(columns)
@@ -17,8 +18,8 @@ const assaultDeckWrapper = (columns: number) =>
       .join(' '),
     columnGap: '1rem',
     rowGap: '1rem',
-    width: '78vw',
-    maxWidth: '24rem',
+    width: limitWidth ? '78vw' : 'auto',
+    maxWidth: limitWidth ? '24rem' : 'auto',
   })
 
 const assaultCard = css({
@@ -61,16 +62,18 @@ export type PaladinsDeckProps = {
   className?: string
   columns?: number
   deck: Assault['deck']
+  limitWidth?: boolean
 }
 
-export const PaladinsDeck = ({ className, deck, columns = 3 }: PaladinsDeckProps) => {
+export const PaladinsDeck = ({ className, deck, columns = 3, limitWidth = false }: PaladinsDeckProps) => {
+  const { t } = useTranslation()
   const [openedCard, setOpenedCard] = useState<PaladinCard | null>(null)
 
   const handleCardClick = (card: PaladinCard) => () => setOpenedCard(card)
   const handleCloseDetails = () => setOpenedCard(null)
 
   return (
-    <div css={assaultDeckWrapper(columns)} className={className} data-test-id="paladinsDeck">
+    <div css={assaultDeckWrapper(columns, limitWidth)} className={className} data-test-id="paladinsDeck">
       {deck.map(card =>
         card.revealed ? (
           <button
@@ -80,7 +83,7 @@ export const PaladinsDeck = ({ className, deck, columns = 3 }: PaladinsDeckProps
             onClick={handleCardClick(card)}
             data-test-id="paladinRevealedCard"
           >
-            {card.type}
+            {t('paladinName', card.type)}
           </button>
         ) : (
           <button

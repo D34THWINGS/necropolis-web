@@ -7,6 +7,7 @@ import {
   blurEffectsEpic,
   castTheKeyEpic,
   castPredictionEpic,
+  readyUpSpellsEpic,
 } from './spells/epics'
 import {
   buySecretEpic,
@@ -73,4 +74,5 @@ export const rootEpic = combineEpics(
   castSectumSempraAbilityEpic,
   blurAbilityEffectsEpic,
   readyUpAbilitiesEpic,
+  readyUpSpellsEpic,
 )

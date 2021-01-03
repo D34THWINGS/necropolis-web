@@ -51,7 +51,7 @@ export const BuildExtraTrapModal = ({ buildingExtraTrap }: BuildExtraTrapModalPr
   }
 
   return (
-    <Modal isOpen={buildingExtraTrap !== null} color={ModalColor.GREEN}>
+    <Modal isOpen={!!buildingExtraTrap} color={ModalColor.GREEN}>
       <h2 css={h2Title}>{t('buildingExtraTrap')}</h2>
       <div css={trapList}>
         {Object.values(TrapType).map(type => (

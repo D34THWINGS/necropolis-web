@@ -23,7 +23,7 @@
     "strength": 6,
     "structureHealth": 8,
     "assault": {
-      "phase": "prepare",
+      "phase": "fight",
       "startingStructureHealth": 8,
       "deck": [
         {
@@ -60,7 +60,36 @@
           "shield": false
         }
       ],
-      "traps": [],
+      "traps": [
+        {
+          "id": "0530348c-e2b7-4755-807f-d0268c7c40b4",
+          "type": "impaler",
+          "used": false,
+          "damages": 2,
+          "targetsCategories": ["physical"]
+        },
+        {
+          "id": "e598317e-f7b2-4560-854e-3072a3a45c74",
+          "type": "impaler",
+          "used": false,
+          "damages": 2,
+          "targetsCategories": ["physical"]
+        },
+        {
+          "id": "d95fbf01-ba20-45d4-9d6d-9130ef7c15bc",
+          "type": "impaler",
+          "used": false,
+          "damages": 2,
+          "targetsCategories": ["physical"]
+        },
+        {
+          "id": "53cf386e-7492-4051-8073-480549d736bc",
+          "type": "chakrams",
+          "used": false,
+          "damages": 2,
+          "targetsCategories": ["ethereal"]
+        }
+      ],
       "changingPaladinCategory": false
     }
   },

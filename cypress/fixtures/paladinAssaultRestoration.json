@@ -31,7 +31,7 @@
     "strength": 6,
     "structureHealth": 8,
     "assault": {
-      "phase": "prepare",
+      "phase": "fight",
       "startingStructureHealth": 8,
       "deck": [
         {
@@ -57,7 +57,15 @@
           "shield": false
         }
       ],
-      "traps": [],
+      "traps": [
+        {
+          "id": "0530348c-e2b7-4755-807f-d0268c7c40b4",
+          "type": "impaler",
+          "used": false,
+          "damages": 2,
+          "targetsCategories": ["physical"]
+        }
+      ],
       "changingPaladinCategory": false
     }
   },

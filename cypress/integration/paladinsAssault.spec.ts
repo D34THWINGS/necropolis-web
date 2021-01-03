@@ -2,9 +2,6 @@ const assaultSetup = (fixtureName: string) => {
   cy.loadPage('/')
   cy.useStateFixture(fixtureName)
   cy.getByTestId('continueGameButton').click()
-  cy.getByTestId('availableTrapButton').eq(0).click().click().click()
-  cy.getByTestId('availableTrapButton').eq(1).click()
-  cy.getByTestId('beginFightPhaseButton').click()
 }
 
 describe('Paladins assault', () => {
@@ -165,6 +162,7 @@ describe('Paladins assault', () => {
     cy.assertText('paladinCardsCounter', '3\u00A0/\u00A06')
     cy.assertContainsCount('paladinHealth', 'missingHealthPoint', 1)
 
+    cy.useCheat('readyUp')
     cy.getByTestId('spellsButton').click()
     cy.getByTestId('castSpellButton').eq(0).click()
     cy.assertText('paladinCardsCounter', '4\u00A0/\u00A06')
@@ -173,6 +171,7 @@ describe('Paladins assault', () => {
     cy.assertText('paladinCardsCounter', '5\u00A0/\u00A06')
     cy.assertContainsCount('paladinHealth', 'missingHealthPoint', 1)
 
+    cy.useCheat('readyUp')
     cy.getByTestId('spellsButton').click()
     cy.getByTestId('castSpellButton').eq(0).click()
     cy.assertText('paladinCardsCounter', '6\u00A0/\u00A06')

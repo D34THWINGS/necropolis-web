@@ -23,7 +23,7 @@ describe('Ossuary', () => {
 
     cy.getByTestId('modalCloseButton').click()
     cy.getByTestId('nextPhaseButton').click().click()
-    cy.window().then(win => win.skipAssault())
+    cy.useCheat('skipAssault')
     cy.assertCount('buildingShopRow', 3)
     cy.getByTestId('buildingShopRow').eq(0).should('contain.text', 'Déluge des âmes')
 

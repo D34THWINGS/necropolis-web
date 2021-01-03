@@ -18,6 +18,7 @@ enum CastPhase {
 type BaseSpell = {
   cost: number
   castPhases: CastPhase[]
+  used: boolean
 }
 
 type SpellWithEffects = {
@@ -41,6 +42,7 @@ export const makeSoulStorm = (): SoulStorm => ({
   damages: 4,
   targetCategories: [PaladinCategory.Magical, PaladinCategory.Ethereal],
   effects: [makeLethalityBuffEffect(5)],
+  used: false,
 })
 export const isSoulStorm = (spell: Spell): spell is SoulStorm => spell.key === SpellKey.SoulStorm
 
@@ -54,6 +56,7 @@ export const makeTheKey = (): TheKey => ({
   castPhases: [CastPhase.AssaultFight],
   damages: 3,
   targetCategories: [PaladinCategory.Physical, PaladinCategory.Ethereal],
+  used: false,
 })
 export const isTheKey = (spell: Spell): spell is TheKey => spell.key === SpellKey.TheKey
 
@@ -66,6 +69,7 @@ export const makePrediction = (): Prediction => ({
   cost: 2,
   castPhases: [CastPhase.Ossuary, CastPhase.PaladinsReveal],
   revealBonus: 3,
+  used: false,
 })
 export const isPrediction = (spell: Spell): spell is Prediction => spell.key === SpellKey.Prediction
 
@@ -83,12 +87,13 @@ export const makeRestoration = (): Restoration => ({
   healthRestored: 3,
   structureRepairAmount: 3,
   targetsCleansed: 1,
+  used: false,
 })
 export const isRestoration = (spell: Spell): spell is Restoration => spell.key === SpellKey.Restoration
 
 export type Spell = SoulStorm | TheKey | Restoration | Prediction
 
-export const canCast = (spell: Spell, souls: number) => spell.cost <= souls
+export const canCast = (spell: Spell, souls: number) => spell.cost <= souls && !spell.used
 export const canCastInExpeditions = (spell: Spell) => spell.castPhases.includes(CastPhase.Expeditions)
 export const canCastInAssaultFight = (spell: Spell) => spell.castPhases.includes(CastPhase.AssaultFight)
 export const canCastInPaladinsReveal = (spell: Spell) => spell.castPhases.includes(CastPhase.PaladinsReveal)

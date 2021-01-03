@@ -57,7 +57,7 @@ export const PaladinsAssaultHeader = ({ assaultPhase, deck }: PaladinsAssaultHea
             <Image block src={assaultInfoIcon} size="3.5rem" />
           </button>
           <Modal color={ModalColor.RED} isOpen={isDeckOpened} onClose={handleCloseDeck} priority={layers.INFO_MODAL}>
-            <PaladinsDeck deck={deck} />
+            <PaladinsDeck deck={deck} limitWidth />
           </Modal>
         </>
       )}
