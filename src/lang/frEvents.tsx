@@ -161,6 +161,7 @@ export const frEvents = {
   trapNemesis: 'Nemesis\u00A0:',
   undeadDetailsAbility: 'Capacité de',
   undeadDetailsUse: 'Utiliser',
+  undeadDetailsUsed: 'Déjà utilisé lors de cet assaut',
   paladinsAssaultBattle: 'Combat',
   skipPaladin: 'Passer',
   paladinShielded: (

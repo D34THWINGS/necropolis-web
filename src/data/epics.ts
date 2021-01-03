@@ -25,6 +25,7 @@ import {
   castSectumSempraAbilityEpic,
   castSeductionAbilityEpic,
   raiseUndeadEpic,
+  readyUpAbilitiesEpic,
   valetEpic,
 } from './undeads/epics'
 import { resetGameEpic } from './settings/epics'
@@ -71,4 +72,5 @@ export const rootEpic = combineEpics(
   castSeductionAbilityEpic,
   castSectumSempraAbilityEpic,
   blurAbilityEffectsEpic,
+  readyUpAbilitiesEpic,
 )

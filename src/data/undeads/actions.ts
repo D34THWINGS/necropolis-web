@@ -38,3 +38,5 @@ export const applyAbilityEffect = createAction(
 )()
 
 export const blurAbilityEffects = createAction('undeads/BLUR_ABILITY_EFFECT')()
+
+export const readyUpAbilities = createAction('undeads/READY_UP_ABILITIES')()

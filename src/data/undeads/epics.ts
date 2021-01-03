@@ -7,6 +7,7 @@ import {
   blurAbilityEffects,
   castUndeadAbility,
   damageUndead,
+  readyUpAbilities,
   upgradeValet,
 } from './actions'
 import { getHasEffectToBlur, getUndeads } from './selectors'
@@ -22,6 +23,7 @@ import { isDevotion, isLabor, isProtection, isSectumSempra, isSeduction } from '
 import {
   breakPaladinShield,
   doDamagesToPaladin,
+  endPaladinsAssault,
   forwardDamages,
   setBuildingExtraTrap,
   skipPaladin,
@@ -140,4 +142,10 @@ export const blurAbilityEffectsEpic: NecropolisEpic = (action$, state$) =>
     filter(isActionOf([setExpeditionStep, endExpedition])),
     filter(() => getHasEffectToBlur(state$.value)),
     map(() => blurAbilityEffects()),
+  )
+
+export const readyUpAbilitiesEpic: NecropolisEpic = action$ =>
+  action$.pipe(
+    filter(isActionOf(endPaladinsAssault)),
+    map(() => readyUpAbilities()),
   )

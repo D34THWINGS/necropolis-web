@@ -40,10 +40,13 @@ export const UndeadDetailsModal = ({ undead, onClose }: UndeadDetailsModalProps)
   const activePaladin = useSelector(getActivePaladin)
 
   const getCanCastAbility = () => {
-    if (!undead || !isSeduction(undead.ability)) {
-      return assaultPhase === PaladinsAssaultPhase.Fighting
+    if (!undead || undead.ability.used || assaultPhase !== PaladinsAssaultPhase.Fighting) {
+      return false
     }
-    return activePaladin.health <= undead.ability.targetPaladinMaxHealth && !isPaladinConsecrated(activePaladin)
+    if (isSeduction(undead.ability)) {
+      return activePaladin.health <= undead.ability.targetPaladinMaxHealth && !isPaladinConsecrated(activePaladin)
+    }
+    return true
   }
 
   const handleCastAbility = undead
@@ -73,7 +76,7 @@ export const UndeadDetailsModal = ({ undead, onClose }: UndeadDetailsModalProps)
             disabled={!getCanCastAbility()}
             onClick={handleCastAbility}
           >
-            {t('undeadDetailsUse')}
+            {t(undead.ability.used ? 'undeadDetailsUsed' : 'undeadDetailsUse')}
           </button>
         </>
       )}

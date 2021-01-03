@@ -13,6 +13,8 @@ import {
   cleanseUndead,
   applyAbilityEffect,
   blurAbilityEffects,
+  castUndeadAbility,
+  readyUpAbilities,
 } from './actions'
 import { setInArray } from '../helpers'
 
@@ -95,4 +97,11 @@ export const undeads = createReducer<UndeadsState>({
   .handleAction(blurAbilityEffects, state => ({
     ...state,
     list: state.list.map(undead => ({ ...undead, activeEffects: [] })),
+  }))
+  .handleAction(castUndeadAbility, (state, { payload: { undeadId } }) =>
+    updateUndeadById(state, undeadId, undead => ({ ability: { ...undead.ability, used: true } })),
+  )
+  .handleAction(readyUpAbilities, state => ({
+    ...state,
+    list: state.list.map(undead => ({ ...undead, ability: { ...undead.ability, used: false } })),
   }))

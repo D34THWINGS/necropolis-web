@@ -8,17 +8,27 @@ enum UndeadAbilityType {
   SectumSempra = 'sectumSempra',
 }
 
+type BaseAbility = {
+  used: boolean
+}
+
+const makeBaseAbility = (): BaseAbility => ({
+  used: false,
+})
+
 type AbilityWithDamages = {
   damages: number
   targetCategories: PaladinCategory[]
 }
 
-type Devotion = AbilityWithDamages & {
-  type: UndeadAbilityType.Devotion
-  healthCost: number
-  talentsBonus: number
-}
+type Devotion = BaseAbility &
+  AbilityWithDamages & {
+    type: UndeadAbilityType.Devotion
+    healthCost: number
+    talentsBonus: number
+  }
 export const makeDevotionAbility = (): Devotion => ({
+  ...makeBaseAbility(),
   type: UndeadAbilityType.Devotion,
   healthCost: 1,
   talentsBonus: 3,
@@ -27,20 +37,22 @@ export const makeDevotionAbility = (): Devotion => ({
 })
 export const isDevotion = (ability: UndeadAbility): ability is Devotion => ability.type === UndeadAbilityType.Devotion
 
-type Labor = {
+type Labor = BaseAbility & {
   type: UndeadAbilityType.Labor
 }
 export const makeLaborAbility = (): Labor => ({
+  ...makeBaseAbility(),
   type: UndeadAbilityType.Labor,
 })
 export const isLabor = (ability: UndeadAbility): ability is Labor => ability.type === UndeadAbilityType.Labor
 
-type Protection = {
+type Protection = BaseAbility & {
   type: UndeadAbilityType.Protection
   shieldValue: number
   damageBuffer: number
 }
 export const makeProtectionAbility = (): Protection => ({
+  ...makeBaseAbility(),
   type: UndeadAbilityType.Protection,
   shieldValue: 2,
   damageBuffer: 3,
@@ -48,12 +60,13 @@ export const makeProtectionAbility = (): Protection => ({
 export const isProtection = (ability: UndeadAbility): ability is Protection =>
   ability.type === UndeadAbilityType.Protection
 
-type Seduction = {
+type Seduction = BaseAbility & {
   type: UndeadAbilityType.Seduction
   talentBonus: number
   targetPaladinMaxHealth: number
 }
 export const makeSeductionAbility = (): Seduction => ({
+  ...makeBaseAbility(),
   type: UndeadAbilityType.Seduction,
   talentBonus: 1,
   targetPaladinMaxHealth: 1,
@@ -61,11 +74,13 @@ export const makeSeductionAbility = (): Seduction => ({
 export const isSeduction = (ability: UndeadAbility): ability is Seduction =>
   ability.type === UndeadAbilityType.Seduction
 
-type SectumSempra = AbilityWithDamages & {
-  type: UndeadAbilityType.SectumSempra
-  lethalityBonus: number
-}
+type SectumSempra = BaseAbility &
+  AbilityWithDamages & {
+    type: UndeadAbilityType.SectumSempra
+    lethalityBonus: number
+  }
 export const makeSectumSempraAbility = (): SectumSempra => ({
+  ...makeBaseAbility(),
   type: UndeadAbilityType.SectumSempra,
   lethalityBonus: 2,
   damages: 3,
