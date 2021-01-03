@@ -2,12 +2,14 @@ import React from 'react'
 import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { lighten, transparentize } from 'polished'
+import SwitchTransition from 'react-transition-group/SwitchTransition'
+import CSSTransition from 'react-transition-group/CSSTransition'
 import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/modalStyles'
 import { fullPagePanel, fullPagePanelInner } from '../../components/ui/Panel/panelStyles'
 import { greenBox, h2Title, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { NECROPOLIS_STRUCTURE_POINTS, TrapType } from '../../config/constants'
-import { breakpoints, colors } from '../../config/theme'
+import { breakpoints, colors, transitions } from '../../config/theme'
 import { getPaladinsAssault, getStructureHealth } from '../../data/paladins/selectors'
 import { Image } from '../../components/images/Image'
 import { trapButtonBase } from './components/TrapButton'
@@ -32,6 +34,10 @@ const fightPanelInner = [
     paddingRight: '2rem',
   }),
 ]
+
+const separator = css({
+  flex: 1,
+})
 
 const trapPool = [
   greenBox,
@@ -116,7 +122,12 @@ export const PaladinsAssaultFight = () => {
     <div css={fightPanel}>
       <div css={fightPanelInner}>
         <h2 css={h2Title}>{t('paladinsAssaultBattle')}</h2>
-        <PaladinFightCard paladin={activePaladin} />
+        <SwitchTransition>
+          <CSSTransition key={activePaladin.id} timeout={transitions.FAST_DURATION}>
+            <PaladinFightCard paladin={activePaladin} />
+          </CSSTransition>
+        </SwitchTransition>
+        <div css={separator} />
         <div css={fightStatus}>
           <div css={fightStatusCounter} data-test-id="paladinCardsCounter">
             {deck.length - remainingPaladins.length + 1}&nbsp;<span css={textColor('RED')}>/&nbsp;{deck.length}</span>

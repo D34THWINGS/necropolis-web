@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { css } from '@emotion/react'
 import { useDispatch } from 'react-redux'
+import { isActionOf } from 'typesafe-actions'
+import anime from 'animejs'
 import { darkRedBox, redBox, smallMarginTop, textColor } from '../../../styles/base'
 import { Image } from '../../../components/images/Image'
 import { PaladinType } from '../../../config/constants'
-import { colors, fonts, shadows } from '../../../config/theme'
+import { colors, fonts, shadows, transitions } from '../../../config/theme'
 import { paladinsImageMap } from '../helpers/paladinsImageMap'
 import damageIcon from '../../../assets/images/paladins/paladin-damage.png'
 import { isPaladinConsecrated, PaladinCard } from '../../../data/paladins/helpers'
 import { useTranslation } from '../../../lang/useTranslation'
-import { markPaladinsRevealed, triggerPaladinBattleCry } from '../../../data/paladins/actions'
+import { changePaladinCategories, markPaladinsRevealed, triggerPaladinBattleCry } from '../../../data/paladins/actions'
 import { Health } from '../../../components/images/Health'
 import { DamageCategories } from '../../../components/images/DamageCategories'
+import { useReduxEventHook } from '../../../hooks/useReduxEventHook'
 
 const activePaladinsDetails = [
   redBox,
@@ -20,6 +23,17 @@ const activePaladinsDetails = [
     flexDirection: 'column',
     alignItems: 'stretch',
     fontSize: '1.2rem',
+    transition: transitions.FAST,
+
+    '&.enter': {
+      transform: 'translateX(100%)',
+      opacity: 0,
+    },
+
+    '&.exit-active': {
+      transform: 'translateX(-100%)',
+      opacity: 0,
+    },
   }),
 ]
 
@@ -81,6 +95,21 @@ export const PaladinFightCard = ({ paladin }: PaladinFightCardProps) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
+  const categoriesRef = useRef<HTMLElement>(null)
+  useReduxEventHook(isActionOf(changePaladinCategories), () => {
+    if (!categoriesRef.current) {
+      return
+    }
+    anime({
+      targets: categoriesRef.current,
+      direction: 'alternate',
+      autoplay: true,
+      duration: 300,
+      scale: 1.5,
+      easing: 'easeInOutSine',
+    })
+  })
+
   useEffect(() => {
     if (!paladin.revealed) {
       dispatch(markPaladinsRevealed([paladin.id]))
@@ -108,7 +137,7 @@ export const PaladinFightCard = ({ paladin }: PaladinFightCardProps) => {
             </span>
             <span data-test-id="paladinType">
               {t('paladinType')}
-              <DamageCategories categories={paladin.categories} />
+              <DamageCategories ref={categoriesRef} categories={paladin.categories} />
             </span>
             <span />
           </div>

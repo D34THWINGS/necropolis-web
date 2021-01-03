@@ -10,6 +10,7 @@ import { resetReducer } from './resetableStore'
 import { loadReducer } from './loadableStore'
 import { persistConfig } from './persistConfig'
 import { paladinsDamageEffectsMiddleware } from '../data/paladins/middleware'
+import { createEventBusMiddleware, EventBusCallback } from './createEventBusMiddleware'
 
 declare global {
   interface Window {
@@ -28,7 +29,7 @@ declare module 'react-redux' {
   }
 }
 
-export const createAppStore = (history: History) => {
+export const createAppStore = (history: History, eventBusCallback: EventBusCallback) => {
   const persistedReducer = persistReducer(persistConfig, resetReducer(loadReducer(mainReducer)))
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   const epicMiddleware = createEpicMiddleware<RootAction, RootAction, RootState, Dependencies>({
@@ -36,7 +37,10 @@ export const createAppStore = (history: History) => {
   })
   const store = createStore(
     persistedReducer,
-    composeEnhancers(applyMiddleware(paladinsDamageEffectsMiddleware, epicMiddleware), Sentry.createReduxEnhancer()),
+    composeEnhancers(
+      applyMiddleware(paladinsDamageEffectsMiddleware, epicMiddleware, createEventBusMiddleware(eventBusCallback)),
+      Sentry.createReduxEnhancer(),
+    ),
   )
   const persistor = persistStore(store)
 
