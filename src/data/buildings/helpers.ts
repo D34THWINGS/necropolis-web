@@ -2,7 +2,7 @@ import { BuildingType, ResourceType } from '../../config/constants'
 import { Secret } from './secrets'
 import { makeUndeadPool, Undead } from '../undeads/helpers'
 
-const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 3, 5] as const
+const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 4, 5] as const
 
 const SOUL_WELL_SOUL_PRODUCTION = [0, 2, 3, 4] as const
 
@@ -71,11 +71,24 @@ export const makeSoulWell = (level = 0): SoulWell => ({
 })
 export const isSoulWell = (building: Building): building is SoulWell => building.type === BuildingType.SoulWell
 
-export type CharnelHouse = BaseBuilding & ProducingBuilding & { type: BuildingType.CharnelHouse }
+export type CharnelHouse = BaseBuilding &
+  ProducingBuilding & {
+    type: BuildingType.CharnelHouse
+    canHeal: boolean
+    healingCost: number
+    healingAmount: number
+    canCleanse: boolean
+    cleansingCost: number
+  }
 export const makeCharnelHouse = (level = 0): CharnelHouse => ({
   ...makeBaseBuilding(level),
   type: BuildingType.CharnelHouse,
   produces: { [ResourceType.Meat]: CHARNEL_HOUSE_MEAT_PRODUCTION[level] ?? 0 },
+  canHeal: level > 1,
+  healingCost: 1,
+  healingAmount: 1,
+  canCleanse: level > 2,
+  cleansingCost: 2,
 })
 export const isCharnelHouse = (building: Building): building is CharnelHouse =>
   building.type === BuildingType.CharnelHouse

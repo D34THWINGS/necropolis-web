@@ -172,13 +172,21 @@ const portraitFrame = css({
 
 export type UndeadBoxProps = {
   undead: Undead
-  renderBanText?: (name: ReactNode) => ReactNode
-  onBan?: () => void
-  disableBan?: boolean
+  renderConfirmText?: (name: ReactNode) => ReactNode
+  onClick?: () => void
+  disableConfirm?: boolean
   className?: string
+  shouldConfirmAction?: boolean
 }
 
-export const UndeadBox = ({ className, undead, disableBan, onBan, renderBanText }: UndeadBoxProps) => {
+export const UndeadBox = ({
+  className,
+  undead,
+  disableConfirm,
+  onClick,
+  shouldConfirmAction = true,
+  renderConfirmText,
+}: UndeadBoxProps) => {
   const { t } = useTranslation()
   const [showConfirm, setShowConfirm] = useState(false)
   const cancelTimeout = useRef<number | null>(null)
@@ -199,12 +207,12 @@ export const UndeadBox = ({ className, undead, disableBan, onBan, renderBanText 
     }, 3000)
   }
 
-  const handleConfirmBan = () => {
+  const handleConfirmAction = () => {
     if (cancelTimeout.current) {
       clearTimeout(cancelTimeout.current)
     }
-    if (onBan) {
-      onBan()
+    if (onClick) {
+      onClick()
     }
   }
 
@@ -222,20 +230,24 @@ export const UndeadBox = ({ className, undead, disableBan, onBan, renderBanText 
           <UndeadAbilityDescription ability={undead.ability} showAssault showExpedition />
         </div>
       </div>
-      {onBan && !showConfirm && (
-        <button type="button" css={undeadBanButton} onClick={handleShowConfirm} disabled={disableBan}>
+      {onClick && !showConfirm && (
+        <button
+          type="button"
+          css={undeadBanButton}
+          onClick={shouldConfirmAction ? handleShowConfirm : handleConfirmAction}
+        >
           <UndeadPortrait type={undead.type} />
         </button>
       )}
-      {!onBan && (
+      {!onClick && (
         <div css={portraitFrame}>
           <UndeadPortrait type={undead.type} />
         </div>
       )}
       {showConfirm && (
         <div css={undeadConfirmBox}>
-          <div>{renderBanText?.(undeadNameText) ?? t('confirmUndeadBan', undeadNameText)}</div>
-          <button type="button" css={undeadConfirmBanButton} onClick={handleConfirmBan}>
+          <div>{renderConfirmText?.(undeadNameText) ?? t('confirmUndeadBan', undeadNameText)}</div>
+          <button type="button" css={undeadConfirmBanButton} disabled={disableConfirm} onClick={handleConfirmAction}>
             <Image src={redCheckUrl} size="2rem" block />
           </button>
         </div>

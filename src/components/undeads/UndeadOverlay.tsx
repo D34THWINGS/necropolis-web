@@ -107,7 +107,14 @@ export const UndeadOverlay = () => {
               .filter(undead => !undead.banned)
               .map(undead => (
                 <CSSTransition key={undead.id} timeout={transitions.FAST_DURATION}>
-                  <UndeadBox undead={undead} disableBan={undeads.length === 1} onBan={handleBan(undead.id)} />
+                  <UndeadBox
+                    undead={undead}
+                    disableConfirm={undeads.length === 1}
+                    onClick={handleBan(undead.id)}
+                    renderConfirmText={name =>
+                      undeads.length === 1 ? t('cannotBanLastUndead') : t('confirmUndeadBan', name)
+                    }
+                  />
                 </CSSTransition>
               ))}
           </TransitionGroup>

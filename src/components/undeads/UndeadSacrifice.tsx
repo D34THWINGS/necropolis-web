@@ -26,8 +26,8 @@ export const UndeadSacrifice = () => {
         <UndeadBox
           key={undead.id}
           undead={undead}
-          onBan={isUndeadAlive(undead) ? handleSacrifice(undead.id) : undefined}
-          renderBanText={name => t('confirmUndeadSacrifice', name)}
+          onClick={isUndeadAlive(undead) ? handleSacrifice(undead.id) : undefined}
+          renderConfirmText={name => t('confirmUndeadSacrifice', name)}
         />
       ))}
     </Modal>

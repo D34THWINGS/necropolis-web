@@ -81,6 +81,42 @@ export const fr = {
       Produit <ResourceIcon type={ResourceType.Meat} text={meat} /> par tour.
     </>
   ),
+  charnelHouseUnlockHeal: (meat: number) => (
+    <>
+      Produit <ResourceIcon type={ResourceType.Meat} text={`+${meat}`} /> par tour et débloque l&apos;action libre{' '}
+      <span css={textColor('CYAN')}>Soigner</span>.
+    </>
+  ),
+  charnelHouseUnlockCleanse: (meat: number) => (
+    <>
+      Produit <ResourceIcon type={ResourceType.Meat} text={`+${meat}`} /> par tour et débloque l&apos;action libre{' '}
+      <span css={textColor('CYAN')}>Guérir maladie</span>.
+    </>
+  ),
+  charnelHouseHeal: (healAmount: number, healCost: number) => (
+    <>
+      <span css={textColor('CYAN')}>Soigner</span>&nbsp;: soigner <span css={textColor('LIME')}>{healAmount}</span>
+      &nbsp;
+      <HealthPoint />.<br />
+      <span css={textColor('CYAN')}>Coût</span>&nbsp;: <ResourceIcon type={ResourceType.Meat} text={healCost} />
+    </>
+  ),
+  charnelHouseCleanse: (cleanseCost: number) => (
+    <>
+      <span css={textColor('CYAN')}>Guérir maladie</span>&nbsp;: retire l&apos;effet{' '}
+      <span css={textColor('PURPLE')}>Maladie</span> d&apos;un mort-vivant.
+      <br />
+      <span css={textColor('CYAN')}>Coût</span>&nbsp;: <ResourceIcon type={ResourceType.Meat} text={cleanseCost} />
+    </>
+  ),
+  healUndead: 'Soigner un mort-vivant',
+  noTargetsToHeal: 'Aucun mort vivant à soigner',
+  cleanseUndead: 'Guérir un mort-vivant',
+  noTargetsToCleanse: (
+    <>
+      Aucun mort vivant atteint de <span css={textColor('PURPLE')}>Maladie</span>
+    </>
+  ),
 
   [BuildingType.Catacombs]: 'Catacombes',
   catacombDescription: () => (
@@ -190,6 +226,7 @@ export const fr = {
       Renvoyer <span css={textColor('PURPLE')}>{name}</span>
     </>
   ),
+  cannotBanLastUndead: <>C&apos;est votre dernier citoyen, vous ne pouvez pas le bannir</>,
   confirmUndeadSacrifice: (name: ReactNode) => (
     <>
       Sacrifier <span css={textColor('PURPLE')}>{name}</span>

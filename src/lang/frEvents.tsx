@@ -160,6 +160,11 @@ export const frEvents = {
   trapDescription: (type: TrapType) => trapDescriptions[type],
   trapNemesis: 'Nemesis\u00A0:',
   undeadDetailsUse: 'Utiliser',
+  undeadDetailsCursed: (
+    <>
+      Atteint de <span css={textColor('PURPLE')}>Maladie</span>
+    </>
+  ),
   undeadDetailsUsedAssault: 'Déjà utilisé lors de cet assaut',
   undeadDetailsUsedExpedition: 'Déjà utilisé lors de cette expédition',
   paladinsAssaultBattle: 'Combat',

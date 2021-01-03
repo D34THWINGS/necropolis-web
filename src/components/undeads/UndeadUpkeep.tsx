@@ -30,8 +30,8 @@ export const UndeadUpkeep = () => {
         <UndeadBox
           key={undead.type}
           undead={undead}
-          onBan={handleBan(undead.id)}
-          renderBanText={name => t('confirmUndeadSacrifice', name)}
+          onClick={handleBan(undead.id)}
+          renderConfirmText={name => t('confirmUndeadSacrifice', name)}
         />
       ))}
     </Modal>

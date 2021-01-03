@@ -57,6 +57,9 @@ export const UndeadDetailsModal = ({ undead, onClose, showAssault, showExpeditio
   const getCanCastExpeditionAbility = () => !!undead && !undead.ability.used
 
   const getCanCastAbility = () => {
+    if (undead?.cursed) {
+      return false
+    }
     if (showAssault) {
       return getCanCastAssaultAbility()
     }
@@ -66,6 +69,9 @@ export const UndeadDetailsModal = ({ undead, onClose, showAssault, showExpeditio
   const getButtonLabel = () => {
     if (!undead?.ability.used) {
       return t('undeadDetailsUse')
+    }
+    if (undead?.cursed) {
+      return t('undeadDetailsCursed')
     }
     if (showAssault) {
       return t('undeadDetailsUsedAssault')
