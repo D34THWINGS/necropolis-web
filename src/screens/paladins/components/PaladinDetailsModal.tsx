@@ -13,6 +13,12 @@ import { PALADINS_DAMAGES_MAP } from '../../../config/constants'
 import { DamageCategories } from '../../../components/images/DamageCategories'
 import { Health } from '../../../components/images/Health'
 
+const paladinName = css({
+  position: 'relative',
+  color: colors.RED,
+  filter: 'drop-shadow(0 0 5px black)',
+})
+
 const paladinImage = css({
   margin: '-4rem -1rem 1rem',
 })
@@ -75,7 +81,7 @@ export const PaladinDetailsModal = ({ card, onClose }: PaladinDetailsModalProps)
     <Modal isOpen={!!card} onClose={onClose} color={ModalColor.RED} priority={layers.INFO_MODAL}>
       {card && (
         <>
-          <h2 css={h2Title}>{t('paladinName', card.type)}</h2>
+          <h2 css={[h2Title, paladinName]}>{t('paladinName', card.type)}</h2>
           <Image css={paladinImage} src={paladinsImageMap[card.type]} size="calc(100% + 2rem)" />
           <div css={paladinDetailsHeader}>
             <div css={paladinHealth}>

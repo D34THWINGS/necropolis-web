@@ -11,6 +11,12 @@ import damageIcon from '../../../assets/images/traps/trap-damages.png'
 import { colors } from '../../../config/theme'
 import { DamageCategories } from '../../../components/images/DamageCategories'
 
+const trapName = css({
+  position: 'relative',
+  color: colors.CYAN,
+  filter: 'drop-shadow(0 0 5px black)',
+})
+
 const trapImage = css({
   margin: '-4rem -1rem 1rem',
 })
@@ -67,7 +73,7 @@ export const TrapDetailsModal = ({ type, onClose }: TrapDetailsModalProps) => {
     <Modal isOpen={!!type} onClose={onClose} color={ModalColor.GREEN}>
       {type && (
         <>
-          <h2 css={h2Title}>{t('trapName', type)}</h2>
+          <h2 css={[h2Title, trapName]}>{t('trapName', type)}</h2>
           <Image css={trapImage} src={trapsImageMap[type]} size="calc(100% + 2rem)" />
           <div css={trapDetailsHeader}>
             <div css={trapDamages}>

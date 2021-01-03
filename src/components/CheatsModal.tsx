@@ -20,12 +20,12 @@ import { endEvent } from '../data/events/actions'
 import { readyUpSpells } from '../data/spells/actions'
 
 class CheatsWrapper {
-  private readonly dispatch: Dispatch
+  #dispatch: Dispatch
 
-  private readonly open: () => void
+  open: () => void
 
   constructor(dispatch: Dispatch, onOpen: () => void) {
-    this.dispatch = dispatch
+    this.#dispatch = dispatch
     this.open = onOpen
   }
 
@@ -33,17 +33,17 @@ class CheatsWrapper {
     const migratedState = await persistConfig.migrate(state as PersistedRootState, persistConfig.version)
     if (migratedState) {
       const { _persist, ...gameState } = migratedState
-      this.dispatch(loadGameState(gameState))
+      this.#dispatch(loadGameState(gameState))
     }
   }
 
   skipAssault() {
-    this.dispatch(endEvent())
+    this.#dispatch(endEvent())
   }
 
   readyUp() {
-    this.dispatch(readyUpSpells())
-    this.dispatch(readyUpAbilities())
+    this.#dispatch(readyUpSpells())
+    this.#dispatch(readyUpAbilities())
   }
 }
 
