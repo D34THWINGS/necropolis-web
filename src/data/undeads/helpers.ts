@@ -9,6 +9,7 @@ import {
   UndeadAbility,
 } from './abilities'
 import { AbilityEffect, getTalentBuffsFromAbilityEffects } from './abilityEffects'
+import { setInArray } from '../helpers'
 
 export type UndeadId = string
 
@@ -99,3 +100,12 @@ export const makeUndeadPool = () => [makeBrikoler(), makeSkeleton(), makeLaMotte
 
 export const getUndeadTalents = (undead: Undead) =>
   undead.talents.concat(getTalentBuffsFromAbilityEffects(undead.activeEffects))
+
+export const increaseMajorTalent = (undead: Undead, value: number) => {
+  const [majorTalent, majorTalentValue] = undead.talents.sort(([, a], [, b]) => b - a)[0]
+  const index = undead.talents.findIndex(([talent]) => talent === majorTalent)
+  return {
+    ...undead,
+    talents: setInArray<Undead['talents'][number]>(undead.talents, index, [majorTalent, majorTalentValue + value]),
+  }
+}

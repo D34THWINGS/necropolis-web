@@ -15,6 +15,9 @@ const wrapper = css({
 const content = (color: string, hasButton: boolean) => [
   coloredBox(color),
   css({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
     marginLeft: '2.5rem',
     marginRight: hasButton ? '1.5rem' : 0,
     paddingLeft: '3.5rem',

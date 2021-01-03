@@ -1,6 +1,8 @@
 import { buildings, BuildingsState } from '../reducer'
-import { makeArsenal, makeCatacombs, makeOssuary } from '../helpers'
+import { isCatacombs, makeArsenal, makeCatacombs, makeOssuary } from '../helpers'
 import { collapseBuilding, repairBuilding, upgradeBuilding } from '../actions'
+import { makeBloodPrince } from '../../undeads/helpers'
+import { UndeadTalent } from '../../../config/constants'
 
 describe('Buildings reducer', () => {
   const initialState: BuildingsState = {
@@ -35,5 +37,24 @@ describe('Buildings reducer', () => {
     const state = buildings(initialState, upgradeBuilding(makeCatacombs(1)))
 
     expect(state).toEqual(initialState)
+  })
+
+  it('should increase undead pool major talents on level 3 catacomb upgrade', () => {
+    const bloodPrince = makeBloodPrince()
+    const state = buildings(
+      { ...initialState, list: [makeCatacombs()] },
+      upgradeBuilding(makeCatacombs(2, [bloodPrince])),
+    )
+
+    const catacombs = state.list.find(isCatacombs)
+    expect(catacombs?.undeadPool).toEqual([
+      {
+        ...bloodPrince,
+        talents: [
+          [UndeadTalent.Necromancy, 4],
+          [UndeadTalent.Subjugation, 1],
+        ],
+      },
+    ])
   })
 })

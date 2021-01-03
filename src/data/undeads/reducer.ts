@@ -1,5 +1,5 @@
 import { createReducer } from 'typesafe-actions'
-import { isValet, makeValet, Undead } from './helpers'
+import { increaseMajorTalent, isValet, makeValet, Undead } from './helpers'
 import { UndeadTalent } from '../../config/constants'
 import {
   addUndead,
@@ -15,6 +15,8 @@ import {
   blurAbilityEffects,
   castUndeadAbility,
   readyUpAbilities,
+  reviveUndead,
+  permanentlyIncreaseMajorTalents,
 } from './actions'
 import { setInArray } from '../helpers'
 
@@ -91,6 +93,13 @@ export const undeads = createReducer<UndeadsState>({
   .handleAction(cleanseUndead, (state, { payload: { undeadId } }) =>
     updateUndeadById(state, undeadId, () => ({ cursed: false })),
   )
+  .handleAction(reviveUndead, (state, { payload: { undeadId } }) =>
+    updateUndeadById(state, undeadId, undead => ({ health: undead.maxHealth })),
+  )
+  .handleAction(permanentlyIncreaseMajorTalents, (state, { payload: { increaseValue } }) => ({
+    ...state,
+    list: state.list.map(undead => increaseMajorTalent(undead, increaseValue)),
+  }))
   .handleAction(applyAbilityEffect, (state, { payload: { undeadId, abilityEffect } }) =>
     updateUndeadById(state, undeadId, undead => ({ activeEffects: [...undead.activeEffects, abilityEffect] })),
   )

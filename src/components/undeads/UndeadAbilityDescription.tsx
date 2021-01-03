@@ -73,7 +73,7 @@ export const UndeadAbilityDescription = ({ showAssault, showExpedition, ability 
   }
 
   return (
-    <>
+    <div>
       <Image src={excursionIconUrl} />
       &nbsp;:&nbsp;
       {getAbilityExpeditionDescription()}
@@ -81,6 +81,6 @@ export const UndeadAbilityDescription = ({ showAssault, showExpedition, ability 
       <Image src={assaultIconUrl} />
       &nbsp;:&nbsp;
       {getAbilityAssaultDescription()}
-    </>
+    </div>
   )
 }

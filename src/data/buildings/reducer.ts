@@ -10,6 +10,7 @@ import {
 import { setInArray } from '../helpers'
 import { Building, isCatacombs, isOssuary, makeInitialBuildings, makeUpgradedBuilding } from './helpers'
 import { addUndead } from '../undeads/actions'
+import { increaseMajorTalent } from '../undeads/helpers'
 
 const updateGivenBuilding = (state: BuildingsState, { type }: Building, callback: (building: Building) => Building) => {
   const buildingIndex = state.list.findIndex(building => building.type === type)
@@ -45,7 +46,18 @@ export const buildings = createReducer<BuildingsState>({
   list: makeInitialBuildings(),
 })
   .handleAction([upgradeBuilding, freeUpgradeBuilding], (state, { payload: { building } }) =>
-    updateGivenBuilding(state, building, makeUpgradedBuilding),
+    updateGivenBuilding(state, building, () => {
+      const upgradedBuilding = makeUpgradedBuilding(building)
+      if (isCatacombs(upgradedBuilding) && upgradedBuilding.level === 3) {
+        return {
+          ...upgradedBuilding,
+          undeadPool: upgradedBuilding.undeadPool.map(undead =>
+            increaseMajorTalent(undead, upgradedBuilding.fortifyBonus),
+          ),
+        }
+      }
+      return upgradedBuilding
+    }),
   )
   .handleAction(collapseBuilding, (state, { payload: { building } }) =>
     updateGivenBuilding(state, building, buildingToCollapse => ({

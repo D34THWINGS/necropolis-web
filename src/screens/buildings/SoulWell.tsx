@@ -41,15 +41,11 @@ export const SoulWell = () => {
       backgroundUrl={backgroundImageUrl}
       renderDescription={() => t('soulWellDescription', soulWell.produces[ResourceType.Souls] ?? 0)}
       renderUpgradeDescription={() => {
-        const upgradedSoulWell = makeUpgradedBuilding(soulWell)
-        switch (soulWell.level) {
-          case 0:
-            return t('soulWellUnlock', upgradedSoulWell.produces[ResourceType.Souls] ?? 0)
-          case 1:
-            return t('soulWellUpgradeStorm')
-          default:
-            return t('soulWellUpgrade', upgradedSoulWell.produces[ResourceType.Souls] ?? 0)
+        const upgradedProduction = makeUpgradedBuilding(soulWell).produces[ResourceType.Souls] ?? 0
+        if (soulWell.level === 0) {
+          return t('soulWellUnlock', upgradedProduction)
         }
+        return t('soulWellUpgrade', upgradedProduction - (soulWell.produces[ResourceType.Souls] ?? 0))
       }}
     >
       {level => (level === 0 ? null : <div css={soulWellImage(soulWellImages[level - 1])} />)}

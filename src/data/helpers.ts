@@ -5,7 +5,7 @@ import { RootState } from '../store/mainReducer'
 
 export type NecropolisEpic = Epic<RootAction, RootAction, RootState>
 
-export const setInArray = <T>(array: T[], index: number, value: T) => [
+export const setInArray = <T>(array: T[], index: number, value: T): T[] => [
   ...array.slice(0, index),
   value,
   ...array.slice(index + 1),

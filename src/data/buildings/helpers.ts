@@ -43,6 +43,8 @@ export const isOssuary = (building: Building): building is Ossuary => building.t
 export type Catacombs = BaseBuilding & {
   type: BuildingType.Catacombs
   raiseUndeadSoulCost: number
+  canRevive: boolean
+  reviveUndeadSoulCost: number
   fortifyBonus: number
   undeadPool: Undead[]
 }
@@ -50,6 +52,8 @@ export const makeCatacombs = (level = 0, undeadPool = makeUndeadPool()): Catacom
   ...makeBaseBuilding(level),
   type: BuildingType.Catacombs,
   raiseUndeadSoulCost: CATACOMBS_SOUL_COST[level],
+  canRevive: level > 1,
+  reviveUndeadSoulCost: 5,
   fortifyBonus: level < 3 ? 0 : 1,
   undeadPool,
 })

@@ -51,7 +51,7 @@ export const Ossuary = () => {
             buttonTestId="buildingShopRowButton"
           >
             <h2 css={[buildingShopRowTitle, textColor('BLUE')]}>{spellDetails.label}</h2>
-            {spellDetails.description}
+            <div>{spellDetails.description}</div>
           </ActionBox>
         )
       })}

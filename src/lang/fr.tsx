@@ -139,28 +139,27 @@ export const fr = {
       Renforce les Morts-Vivants&nbsp;: <span css={textColor('PURPLE')}>+{bonus} à leur Talent majeur</span>
     </>
   ),
+  catacombRevive: (name: ReactNode) => (
+    <>
+      Ressusciter <span css={textColor('PURPLE')}>{name}</span>
+    </>
+  ),
 
   [BuildingType.SoulWell]: 'Puit des âmes',
   soulWellDescription: (production: number) => (
     <>
-      Action: <span css={textColor('BLUE')}>Lancer un sort</span>.
-      <br />
       Produit <ResourceIcon type={ResourceType.Souls} text={production} /> par tour.
     </>
   ),
   soulWellUnlock: (souls: number) => (
     <>
-      Produit <ResourceIcon type={ResourceType.Souls} text={souls} /> par tour.
-    </>
-  ),
-  soulWellUpgradeStorm: (
-    <>
-      Débloque le sort &quot;<span css={textColor('BLUE')}>Déluge d&apos;âme</span>&quot;
+      Produit <ResourceIcon type={ResourceType.Souls} text={souls} /> par tour. Les âmes permettent de lancer des{' '}
+      <span css={textColor('BLUE')}>Sorts</span> et des réanimer de <span css={textColor('PURPLE')}>Mort-vivants</span>.
     </>
   ),
   soulWellUpgrade: (souls: number) => (
     <>
-      Augmente la production de <ResourceIcon type={ResourceType.Souls} text={souls} /> par tour.
+      Produit <ResourceIcon type={ResourceType.Souls} text={`+${souls}`} /> par tour.
     </>
   ),
 
@@ -241,7 +240,7 @@ export const fr = {
       case UndeadType.LaMotte:
         return 'Sir de la Motte'
       case UndeadType.Skeleton:
-        return 'Squelette'
+        return 'Maude Vertèbre'
       case UndeadType.BloodPrince:
         return 'Prince de Sang-Séché'
       default:

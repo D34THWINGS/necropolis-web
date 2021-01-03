@@ -6,12 +6,13 @@ import { spendResources } from '../resources/actions'
 import { ResourceType, TurnPhase } from '../../config/constants'
 import { nextPhase, win } from '../turn/actions'
 import { getAreAllBuildingsFullyUpgraded, getOssuary } from './selectors'
-import { isBuildingConstructed, isOssuary } from './helpers'
+import { isBuildingConstructed, isCatacombs, isOssuary, makeUpgradedBuilding } from './helpers'
 import { makeSecretsBatch } from './secrets'
 import { getLearntSpells } from '../spells/selectors'
 import { isDefined, NecropolisEpic } from '../helpers'
 import { getCurrentPhase, getTurn } from '../turn/selectors'
 import { learnSpell } from '../spells/actions'
+import { permanentlyIncreaseMajorTalents } from '../undeads/actions'
 
 export const upgradeBuildingEpic: NecropolisEpic = action$ =>
   action$.pipe(
@@ -45,6 +46,15 @@ export const upgradeOssuaryEpic: NecropolisEpic = (action$, state$) =>
       }
       return EMPTY
     }),
+  )
+
+export const upgradeCatacombsEpic: NecropolisEpic = action$ =>
+  action$.pipe(
+    filter(isActionOf(upgradeBuilding)),
+    map(({ payload: { building } }) => building),
+    filter(isCatacombs),
+    filter(catacombs => catacombs.level === 2),
+    map(catacombs => permanentlyIncreaseMajorTalents(makeUpgradedBuilding(catacombs).fortifyBonus)),
   )
 
 export const repairBuildingEpic: NecropolisEpic = action$ =>

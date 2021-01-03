@@ -22,6 +22,10 @@ import { UndeadPortrait } from '../../components/undeads/UndeadPortrait'
 import { TalentsList } from '../../components/talents/TalentsList'
 import { Health } from '../../components/images/Health'
 import { UndeadAbilityDescription } from '../../components/undeads/UndeadAbilityDescription'
+import { getDeadUndeads } from '../../data/undeads/selectors'
+import { largeMarginTop } from '../../styles/base'
+import { reviveUndead } from '../../data/undeads/actions'
+import { nextPhase } from '../../data/turn/actions'
 
 const undeadPortraitCircle = css({
   display: 'flex',
@@ -50,6 +54,7 @@ export const Catacombs = () => {
   const onboardingStep = useSelector(getOnboardingStep)
   const souls = useSelector(getSouls)
   const materials = useSelector(getMaterials)
+  const deadUndeads = useSelector(getDeadUndeads)
   const dispatch = useDispatch()
 
   if (!catacombs) {
@@ -67,10 +72,35 @@ export const Catacombs = () => {
     }
   }
 
+  const handleReviveUndead = (undead: Undead) => () => {
+    dispatch(reviveUndead(undead.id))
+    dispatch(nextPhase())
+  }
+
   const handleUpgrade = () => dispatch(upgradeBuilding(catacombs))
 
   return (
     <BuildingShop title={t(catacombs.type)} level={catacombs.level}>
+      {catacombs.canRevive &&
+        deadUndeads.map(undead => (
+          <ActionBox
+            key={undead.id}
+            leftCircleContent={
+              <div css={undeadPortraitCircle}>
+                <UndeadPortrait type={undead.type} size="auto" />
+              </div>
+            }
+            buttonContent={
+              <ResourceIcon type={ResourceType.Souls} text={catacombs.reviveUndeadSoulCost} size="1.1rem" />
+            }
+            disabled={souls < catacombs.reviveUndeadSoulCost}
+            onClick={handleReviveUndead(undead)}
+            boxTestId="buildingShopRow"
+            buttonTestId="buildingShopRowButton"
+          >
+            <h2 css={[buildingShopRowTitle, largeMarginTop]}>{t('catacombRevive', t('undeadName', undead.type))}</h2>
+          </ActionBox>
+        ))}
       {catacombs.undeadPool.map(undead => (
         <ActionBox
           key={undead.id}

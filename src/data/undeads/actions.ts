@@ -27,6 +27,13 @@ export const damageUndead = createAction('undeads/DAMAGE', (undeadId: Undead['id
 
 export const curseUndead = createAction('undeads/CURSE', (undeadId: Undead['id']) => ({ undeadId }))()
 
+export const reviveUndead = createAction('undeads/REVIVE', (undeadId: Undead['id']) => ({ undeadId }))()
+
+export const permanentlyIncreaseMajorTalents = createAction(
+  'undeads/PERMANENTLY_INCREASE_MAJOR_TALENT',
+  (increaseValue: number) => ({ increaseValue }),
+)()
+
 export const castUndeadAbility = createAction(
   'undeads/CAST_ABILITY',
   (undeadId: Undead['id'], ability: UndeadAbility) => ({ undeadId, ability }),

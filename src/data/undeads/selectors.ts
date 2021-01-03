@@ -7,6 +7,8 @@ export const getUndeads = (state: RootState) => state.undeads.list
 
 export const getAliveUndeads = createSelector(getUndeads, undeads => undeads.filter(isUndeadAlive))
 
+export const getDeadUndeads = createSelector(getUndeads, undeads => undeads.filter(undead => !isUndeadAlive(undead)))
+
 export const getUndeadCount = (state: RootState) => getAliveUndeads(state).length
 
 export const getUpkeep = (state: RootState) => getAliveUndeads(state).length

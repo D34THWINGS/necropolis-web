@@ -1,4 +1,12 @@
-import { applyDamages, EntityWithHealth, getMostInjured } from '../helpers'
+import {
+  applyDamages,
+  EntityWithHealth,
+  getMostInjured,
+  increaseMajorTalent,
+  makeBloodPrince,
+  makeSkeleton,
+} from '../helpers'
+import { UndeadTalent } from '../../../config/constants'
 
 describe('Undead helpers', () => {
   describe('getMostInjured()', () => {
@@ -35,6 +43,21 @@ describe('Undead helpers', () => {
       expect(applyDamages(10, 0)).toEqual(10)
       expect(applyDamages(10, 0.1)).toEqual(9.9)
       expect(applyDamages(10, -1)).toEqual(10)
+    })
+  })
+
+  describe('increaseMajorTalent()', () => {
+    it('should increase major talent by given value', () => {
+      expect(increaseMajorTalent(makeBloodPrince(), 2).talents).toEqual([
+        [UndeadTalent.Necromancy, 5],
+        [UndeadTalent.Subjugation, 1],
+      ])
+    })
+    it('should increase first talent if no major one', () => {
+      expect(increaseMajorTalent(makeSkeleton(), 2).talents).toEqual([
+        [UndeadTalent.Lethality, 4],
+        [UndeadTalent.Subjugation, 2],
+      ])
     })
   })
 })
