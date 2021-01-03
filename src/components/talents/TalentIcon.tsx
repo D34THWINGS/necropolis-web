@@ -39,12 +39,7 @@ export type TalentIconProps = Omit<IconProps, 'src'> & {
 export const TalentIcon = ({ type, text, className, marginLeft, marginRight, size, block }: TalentIconProps) => (
   <span className={className} css={[talentIconWrapper, textColor(colorMap[type])]}>
     {text}
-    <Image
-      src={iconMap[type]}
-      marginLeft={text ? '0.2rem' : marginLeft}
-      marginRight={marginRight}
-      size={size}
-      block={block}
-    />
+    {!!text && <>&nbsp;</>}
+    <Image src={iconMap[type]} marginLeft={marginLeft} marginRight={marginRight} size={size} block={block} />
   </span>
 )

@@ -2,7 +2,7 @@ import React, { forwardRef, ReactNode, Ref } from 'react'
 import { css } from '@emotion/react'
 
 import { Link } from 'react-router-dom'
-import { panelBorder, panelInner } from '../../components/ui/Panel'
+import { panelBorder, panelInner } from '../../components/ui/Panel/Panel'
 import { colors, fonts, shadows } from '../../config/theme'
 import { useTranslation } from '../../lang/useTranslation'
 

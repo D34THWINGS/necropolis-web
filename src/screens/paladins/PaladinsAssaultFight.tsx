@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { lighten, transparentize } from 'polished'
 import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/modalStyles'
-import { paladinAssaultPanel, paladinAssaultPanelInner } from './helpers/paladinAssaultStyles'
+import { fullPagePanel, fullPagePanelInner } from '../../components/ui/Panel/panelStyles'
 import { greenBox, h2Title, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { NECROPOLIS_STRUCTURE_POINTS, TrapType } from '../../config/constants'
@@ -21,11 +21,11 @@ import { isPaladinAlive } from '../../data/paladins/helpers'
 import { Trap } from '../../data/paladins/traps'
 import { BuildExtraTrapModal } from './components/BuildExtraTrapModal'
 
-const fightPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
+const fightPanel = [modalPanel(ModalColor.RED), fullPagePanel]
 
 const fightPanelInner = [
   modalInner(ModalColor.RED),
-  paladinAssaultPanelInner,
+  fullPagePanelInner,
   css({
     alignItems: 'stretch',
     paddingLeft: '2rem',

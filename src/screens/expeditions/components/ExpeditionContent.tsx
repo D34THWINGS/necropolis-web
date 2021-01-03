@@ -1,18 +1,28 @@
 import React, { ReactNode, useState } from 'react'
 import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Modal } from '../../../components/ui/Modal/Modal'
 import { ExpeditionType } from '../../../config/constants'
 import { cyanSquareButton, greenSquareButton } from '../../../styles/buttons'
 import { useTranslation } from '../../../lang/useTranslation'
-import { greenBox, h2Title, textColor } from '../../../styles/base'
-import { beginExpedition, closeExpedition, endExpedition, setExpeditionStep } from '../../../data/expeditions/actions'
+import { h2Title } from '../../../styles/base'
+import { endExpedition, setExpeditionStep } from '../../../data/expeditions/actions'
 import { getExpeditionStep, getOpenedExpedition } from '../../../data/expeditions/selectors'
 import { Image } from '../../../components/images/Image'
 import greenArrowUrl from '../../../assets/images/onboarding/next-step-arrow.png'
-import treasureUrl from '../../../assets/images/expeditions/treasure.png'
 import { ExpeditionFlee } from './ExpeditionFlee'
 import { ResourceLoot } from '../../../components/resources/ResourceLoot'
+import { ModalColor, modalInner, modalPanel } from '../../../components/ui/Modal/modalStyles'
+import { fullPagePanel, fullPagePanelInner } from '../../../components/ui/Panel/panelStyles'
+
+const expeditionPanel = [modalPanel(ModalColor.GREEN), fullPagePanel]
+
+const expeditionPanelInner = [
+  modalInner(ModalColor.GREEN),
+  fullPagePanelInner,
+  css({
+    padding: '1rem 2rem',
+  }),
+]
 
 const expeditionTitle = [
   h2Title,
@@ -42,22 +52,9 @@ const fleeButtonText = css({
   flex: '1 1 auto',
 })
 
-const treasureContainer = css({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'stretch',
-  margin: '0.4rem 0',
-  textAlign: 'center',
-})
-
-const treasureImage = css({
-  alignSelf: 'center',
-})
-
 export type ExpeditionModalProps<TStep> = {
   type: ExpeditionType
   title: ReactNode
-  renderOverview: () => ReactNode
   renderStep: (
     step: TStep,
     actions: {
@@ -68,15 +65,12 @@ export type ExpeditionModalProps<TStep> = {
       renderLoot: (children?: ReactNode) => ReactNode
     },
   ) => ReactNode
-  renderTreasure: () => ReactNode
 }
 
-export const ExpeditionModal = <TStep extends number = number>({
+export const ExpeditionContent = <TStep extends number = number>({
   type,
   title,
-  renderOverview,
   renderStep,
-  renderTreasure,
 }: ExpeditionModalProps<TStep>) => {
   const { t } = useTranslation()
   const [isFleeing, setIsFleeing] = useState(false)
@@ -84,32 +78,7 @@ export const ExpeditionModal = <TStep extends number = number>({
   const openedExpedition = useSelector(getOpenedExpedition)
   const dispatch = useDispatch()
 
-  const handleBeginExpedition = () => dispatch(beginExpedition(type))
-  const handleCloseOverview = () => dispatch(closeExpedition())
-
   const getContent = () => {
-    if (step === undefined) {
-      return (
-        <>
-          {renderOverview()}
-          <div css={treasureContainer}>
-            <Image css={treasureImage} src={treasureUrl} size="14rem" />
-            <div css={greenBox}>
-              <span css={textColor('CYAN')}>{t('expeditionTreasure')}</span> {renderTreasure()}
-            </div>
-          </div>
-          <button
-            type="button"
-            css={expeditionButton}
-            onClick={handleBeginExpedition}
-            data-test-id="beginExpeditionButton"
-          >
-            {t('beginExpedition')}
-          </button>
-        </>
-      )
-    }
-
     if (isFleeing) {
       const handleFleeExpedition = () => setIsFleeing(false)
 
@@ -168,9 +137,11 @@ export const ExpeditionModal = <TStep extends number = number>({
   }
 
   return (
-    <Modal isOpen={openedExpedition === type} onClose={step === undefined ? handleCloseOverview : undefined} noWobble>
-      <h2 css={expeditionTitle}>{title}</h2>
-      {openedExpedition === type && getContent()}
-    </Modal>
+    <div css={expeditionPanel}>
+      <div css={expeditionPanelInner}>
+        <h2 css={expeditionTitle}>{title}</h2>
+        <div>{openedExpedition === type && getContent()}</div>
+      </div>
+    </div>
   )
 }

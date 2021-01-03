@@ -6,6 +6,5 @@ export const expeditionStepDescription = [
   css({
     marginBottom: '0.8rem',
     paddingTop: '1.8rem',
-    fontSize: '0.9rem',
   }),
 ]

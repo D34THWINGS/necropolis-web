@@ -8,7 +8,7 @@ import {
   makeSeductionAbility,
   UndeadAbility,
 } from './abilities'
-import { AbilityEffect } from './abilityEffects'
+import { AbilityEffect, getTalentBuffsFromAbilityEffects } from './abilityEffects'
 
 export type UndeadId = string
 
@@ -96,3 +96,6 @@ export const getMostInjured = <T extends EntityWithHealth>(list: T[]): T | undef
 export const applyDamages = (entityHealth: number, damages: number) => Math.max(0, entityHealth - Math.max(0, damages))
 
 export const makeUndeadPool = () => [makeBrikoler(), makeSkeleton(), makeLaMotte(), makeBloodPrince()]
+
+export const getUndeadTalents = (undead: Undead) =>
+  undead.talents.concat(getTalentBuffsFromAbilityEffects(undead.activeEffects))

@@ -9,6 +9,7 @@ const usedHealthPoint = css({ filter: 'grayscale(1)' })
 export type HealthPointProps = {
   isExtra?: boolean
   isMissing?: boolean
+  size?: string
   marginRight?: string
   marginLeft?: string
   'data-test-id'?: string
@@ -17,6 +18,7 @@ export type HealthPointProps = {
 export const HealthPoint = ({
   isExtra,
   isMissing,
+  size,
   marginRight,
   marginLeft,
   'data-test-id': testId,
@@ -24,6 +26,7 @@ export const HealthPoint = ({
   <Image
     css={isMissing ? usedHealthPoint : undefined}
     src={isExtra ? extraHpIcon : hpIcon}
+    size={size}
     marginRight={marginRight}
     marginLeft={marginLeft}
     data-test-id={testId}

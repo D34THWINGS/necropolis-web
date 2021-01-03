@@ -8,15 +8,17 @@ import {
   MAIN_HUB,
   CATACOMBS,
   CHARNEL_HOUSE,
-  EXPEDITIONS,
+  EXPEDITIONS_MAP,
   OSSUARY,
   SOUL_WELL,
   PALADINS_ASSAULT,
   ARSENAL,
+  EXPEDITIONS,
+  makeExpeditionLink,
 } from '../config/routes'
 import { Header } from '../components/header/Header'
 import { MainHub } from '../screens/mainHub/MainHub'
-import { Expeditions } from '../screens/expeditions/Expeditions'
+import { ExpeditionsMap } from '../screens/expeditions/ExpeditionsMap'
 import { Catacombs } from '../screens/buildings/Catacombs'
 import { Ossuary } from '../screens/buildings/Ossuary'
 import { SoulWell } from '../screens/buildings/SoulWell'
@@ -26,7 +28,7 @@ import { UndeadOverlay } from '../components/undeads/UndeadOverlay'
 import { UndeadUpkeep } from '../components/undeads/UndeadUpkeep'
 import { EventModal } from '../screens/events/EventModal'
 import { UndeadSacrifice } from '../components/undeads/UndeadSacrifice'
-import { getIsInExpedition } from '../data/expeditions/selectors'
+import { getOpenedExpedition } from '../data/expeditions/selectors'
 import { TalentsModalProvider } from '../components/talents/TalentsModalProvider'
 import { transitions } from '../config/theme'
 import { PhaseOverlay } from '../components/PhaseOverlay'
@@ -48,12 +50,12 @@ const middleSection = css({
 
 export const GameContent = () => {
   const expeditionsMatch = useRouteMatch(EXPEDITIONS)
-  const isInExpedition = useSelector(getIsInExpedition)
+  const openedExpedition = useSelector(getOpenedExpedition)
   const isAssaultOngoing = useSelector(getPaladinsAssaultOngoing)
   const location = useLocation()
 
-  if (isInExpedition && !expeditionsMatch) {
-    return <Redirect to={EXPEDITIONS} />
+  if (openedExpedition && !expeditionsMatch) {
+    return <Redirect to={makeExpeditionLink(openedExpedition)} />
   }
 
   if (isAssaultOngoing) {
@@ -67,7 +69,7 @@ export const GameContent = () => {
           <CSSTransition key={location.pathname} timeout={transitions.SLOW_DURATION}>
             <Switch location={location}>
               <Route path={MAIN_HUB} exact component={MainHub} />
-              <Route path={EXPEDITIONS} exact component={Expeditions} />
+              <Route path={EXPEDITIONS_MAP} exact component={ExpeditionsMap} />
               <Route path={CATACOMBS} exact component={Catacombs} />
               <Route path={OSSUARY} exact component={Ossuary} />
               <Route path={SOUL_WELL} exact component={SoulWell} />

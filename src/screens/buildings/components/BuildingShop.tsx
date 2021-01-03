@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import backgroundImageUrl from '../../../assets/images/background.jpg'
 import { buildingLevel, buildingTitle } from '../helpers/buildingsStyles'
 import { ScreenWrapper } from '../../../components/ui/ScreenWrapper'
-import { panelBorder, panelInner } from '../../../components/ui/Panel'
+import { panelBorder, panelInner } from '../../../components/ui/Panel/Panel'
 import { useTranslation } from '../../../lang/useTranslation'
 
 const buildingShopBorder = [

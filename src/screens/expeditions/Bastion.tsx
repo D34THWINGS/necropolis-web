@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ExpeditionModal } from './components/ExpeditionModal'
+import { ExpeditionContent } from './components/ExpeditionContent'
 import { ExpeditionType, LooseReason, ResourceType, UndeadTalent } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
@@ -52,11 +52,9 @@ export const Bastion = () => {
   const dispatch = useDispatch()
 
   return (
-    <ExpeditionModal<BastionStep>
+    <ExpeditionContent<BastionStep>
       type={ExpeditionType.Bastion}
       title={t('bastionTitle')}
-      renderOverview={() => t('bastionOverview')}
-      renderTreasure={() => <ResourceIcon type={ResourceType.Materials} />}
       renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderContinueButton, renderLoot }) => {
         switch (step) {
           case BastionStep.Setup:
@@ -67,7 +65,7 @@ export const Bastion = () => {
                 {theKey && (
                   <ExpeditionAction
                     disabled={!canCast(theKey, souls)}
-                    cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1rem" />}
+                    cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1.2rem" />}
                     onClick={() => {
                       dispatch(castSpell(theKey))
                       goToStep(BastionStep.DoorOpens)()
@@ -78,7 +76,9 @@ export const Bastion = () => {
                 )}
                 <ExpeditionAction
                   disabled={muscles < BASTION_MUSCLES_REQUIRED}
-                  prerequisites={<TalentIcon type={UndeadTalent.Muscles} text={BASTION_MUSCLES_REQUIRED} />}
+                  prerequisites={
+                    <TalentIcon type={UndeadTalent.Muscles} text={BASTION_MUSCLES_REQUIRED} size="1.2rem" />
+                  }
                   onClick={goToStep(BastionStep.DoorOpens)}
                 >
                   {t('bastionAction6')}
@@ -104,7 +104,7 @@ export const Bastion = () => {
                 <ExpeditionAction
                   disabled={lethality < BASTION_KILL_DOGS_LETHALITY_COST}
                   prerequisites={
-                    <TalentIcon type={UndeadTalent.Lethality} text={BASTION_KILL_DOGS_LETHALITY_COST} size="1rem" />
+                    <TalentIcon type={UndeadTalent.Lethality} text={BASTION_KILL_DOGS_LETHALITY_COST} size="1.2rem" />
                   }
                   onClick={goToStep(BastionStep.DeadDogs)}
                 >
@@ -112,7 +112,7 @@ export const Bastion = () => {
                 </ExpeditionAction>
                 <ExpeditionAction
                   disabled={bones < BASTION_FEED_DOGS_BONES_COST}
-                  cost={<ResourceIcon type={ResourceType.Bones} text={BASTION_FEED_DOGS_BONES_COST} size="1rem" />}
+                  cost={<ResourceIcon type={ResourceType.Bones} text={BASTION_FEED_DOGS_BONES_COST} size="1.2rem" />}
                   onClick={handleFeedDogs}
                 >
                   {t('bastionAction3')}
@@ -148,7 +148,11 @@ export const Bastion = () => {
                 <ExpeditionAction
                   disabled={lethality < BASTION_KILL_PALADINS_LETHALITY_COST}
                   prerequisites={
-                    <TalentIcon type={UndeadTalent.Lethality} text={BASTION_KILL_PALADINS_LETHALITY_COST} size="1rem" />
+                    <TalentIcon
+                      type={UndeadTalent.Lethality}
+                      text={BASTION_KILL_PALADINS_LETHALITY_COST}
+                      size="1.2rem"
+                    />
                   }
                   onClick={goToStep(BastionStep.Perish)}
                 >
@@ -167,7 +171,7 @@ export const Bastion = () => {
                     <TalentIcon
                       type={UndeadTalent.Lethality}
                       text={BASTION_KILL_WEAKENED_PALADINS_LETHALITY_COST}
-                      size="1rem"
+                      size="1.2rem"
                     />
                   }
                   onClick={goToStep(BastionStep.Perish)}

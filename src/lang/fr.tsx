@@ -262,8 +262,8 @@ export const fr = {
   ),
   sectumSempraAssault: (damages: number, targetCategories: PaladinCategory[]) => (
     <>
-      Purge <span css={textColor('LIME')}>Consécration</span> et inflige <span css={textColor('CYAN')}>{damages}</span>{' '}
-      <Image src={trapDamageIcon} />. Type&nbsp;: <DamageCategories categories={targetCategories} />.
+      Inflige <span css={textColor('CYAN')}>{damages}</span> <Image src={trapDamageIcon} />. Type&nbsp;:{' '}
+      <DamageCategories categories={targetCategories} />.
     </>
   ),
 

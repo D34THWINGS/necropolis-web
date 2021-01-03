@@ -44,7 +44,7 @@ export const getConstructedBuildings = createSelector(getBuildings, buildings =>
 )
 
 export const getUpgradableBuildings = createSelector(getBuildings, buildings =>
-  buildings.filter(building => isBuildingConstructed(building) && isBuildingFullyUpgraded(building)),
+  buildings.filter(building => isBuildingConstructed(building) && !isBuildingFullyUpgraded(building)),
 )
 
 export const getAreAllBuildingsFullyUpgraded = (state: RootState) => getBuildings(state).every(isBuildingFullyUpgraded)

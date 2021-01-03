@@ -6,12 +6,13 @@ import { GameWon } from '../screens/gameEnd/GameWon'
 import { GameLost } from '../screens/gameEnd/GameLost'
 import { getGameState } from '../data/turn/selectors'
 import { GameContent } from './GameContent'
-import { MAIN_MENU, PALADINS_ASSAULT } from '../config/routes'
+import { EXPEDITIONS, MAIN_MENU, PALADINS_ASSAULT } from '../config/routes'
 import { PaladinsAssaultContainer } from '../screens/paladins/PaladinsAssaultContainer'
 import { Intro } from '../screens/onboarding/Intro'
 import { getIsIntroActive } from '../data/onboarding/selectors'
 import { getHasActiveGame } from '../data/settings/selectors'
 import { ResourcesModalProvider } from '../components/resources/ResourcesModalProvider'
+import { ExpeditionsContainer } from '../screens/expeditions/ExpeditionsContainer'
 
 export const GameRoutes = () => {
   const hasActiveGame = useSelector(getHasActiveGame)
@@ -37,6 +38,7 @@ export const GameRoutes = () => {
     <ResourcesModalProvider>
       <Switch>
         <Route path={PALADINS_ASSAULT} component={PaladinsAssaultContainer} />
+        <Route path={EXPEDITIONS} component={ExpeditionsContainer} />
         <Route component={GameContent} />
       </Switch>
     </ResourcesModalProvider>

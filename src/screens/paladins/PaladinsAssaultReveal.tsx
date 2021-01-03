@@ -11,12 +11,12 @@ import paladinsStrengthIcon from '../../assets/images/paladins/paladins-strengh.
 import { redSquareButton } from '../../styles/buttons'
 import { PaladinsAssaultPhase } from '../../config/constants'
 import { changeAssaultPhase } from '../../data/paladins/actions'
-import { paladinAssaultPanel, paladinAssaultPanelInner } from './helpers/paladinAssaultStyles'
+import { fullPagePanel, fullPagePanelInner } from '../../components/ui/Panel/panelStyles'
 import { PaladinsDeck } from './components/PaladinsDeck'
 
-const revealPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
+const revealPanel = [modalPanel(ModalColor.RED), fullPagePanel]
 
-const revealPanelInner = [modalInner(ModalColor.RED), paladinAssaultPanelInner]
+const revealPanelInner = [modalInner(ModalColor.RED), fullPagePanelInner]
 
 const assaultStrengthBox = [
   redBox,

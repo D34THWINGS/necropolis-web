@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { css } from '@emotion/react'
 import { lighten, transparentize } from 'polished'
 import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/modalStyles'
-import { paladinAssaultPanel, paladinAssaultPanelInner } from './helpers/paladinAssaultStyles'
+import { fullPagePanel, fullPagePanelInner } from '../../components/ui/Panel/panelStyles'
 import { useTranslation } from '../../lang/useTranslation'
 import { greenBox, h2Title } from '../../styles/base'
 import { getDefense } from '../../data/selectors'
@@ -15,9 +15,9 @@ import { getTraps } from '../../data/paladins/selectors'
 import { colors } from '../../config/theme'
 import { TrapDetailsModal } from './components/TrapDetailsModal'
 
-const preparePanel = [modalPanel(ModalColor.GREEN), paladinAssaultPanel]
+const preparePanel = [modalPanel(ModalColor.GREEN), fullPagePanel]
 
-const preparePanelInner = [modalInner(ModalColor.GREEN), paladinAssaultPanelInner]
+const preparePanelInner = [modalInner(ModalColor.GREEN), fullPagePanelInner]
 
 const prepareLayout = css({
   display: 'flex',
@@ -130,7 +130,7 @@ export const PaladinsAssaultPrepare = () => {
         <button
           type="button"
           css={assaultNextButton}
-          disabled={traps.length === 0}
+          disabled={traps.length === 0 && defense > 0}
           onClick={handleStartFighting}
           data-test-id="beginFightPhaseButton"
         >

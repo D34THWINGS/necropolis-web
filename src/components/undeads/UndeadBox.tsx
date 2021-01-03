@@ -7,7 +7,7 @@ import redCheckUrl from '../../assets/images/icons/red-check.png'
 import { coloredBox, contentCover, purpleBox } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { colors, fonts, shadows, transitions } from '../../config/theme'
-import { isUndeadAlive, Undead } from '../../data/undeads/helpers'
+import { getUndeadTalents, isUndeadAlive, Undead } from '../../data/undeads/helpers'
 import { resetButton } from '../../styles/buttons'
 import { UndeadPortrait } from './UndeadPortrait'
 import { TalentsList } from '../talents/TalentsList'
@@ -150,14 +150,35 @@ const undeadConfirmBanButton = [
   }),
 ]
 
+const portraitFrame = css({
+  position: 'absolute',
+  right: -8,
+  top: '50%',
+  border: `solid 7px ${modalColorsMap[ModalColor.GREEN][1]}`,
+  borderRadius: '50%',
+  padding: '0.3rem',
+  width: '5rem',
+  height: '5rem',
+  transform: 'translateY(-50%)',
+  backgroundColor: modalColorsMap[ModalColor.PURPLE][0],
+  textAlign: 'center',
+
+  '& > img': {
+    width: 'auto',
+    maxWidth: '100%',
+    maxHeight: '100%',
+  },
+})
+
 export type UndeadBoxProps = {
   undead: Undead
   renderBanText?: (name: ReactNode) => ReactNode
   onBan?: () => void
   disableBan?: boolean
+  className?: string
 }
 
-export const UndeadBox = ({ undead, disableBan, onBan, renderBanText }: UndeadBoxProps) => {
+export const UndeadBox = ({ className, undead, disableBan, onBan, renderBanText }: UndeadBoxProps) => {
   const { t } = useTranslation()
   const [showConfirm, setShowConfirm] = useState(false)
   const cancelTimeout = useRef<number | null>(null)
@@ -190,11 +211,11 @@ export const UndeadBox = ({ undead, disableBan, onBan, renderBanText }: UndeadBo
   const undeadNameText = t('undeadName', undead.type)
 
   return (
-    <div css={undeadBox}>
+    <div className={className} css={undeadBox}>
       <div css={undeadBoxInner(!isUndeadAlive(undead))}>
         <h4 css={undeadName}>{undeadNameText}</h4>
         <div css={undeadTalents}>
-          <TalentsList values={undead.talents} />
+          <TalentsList values={getUndeadTalents(undead)} />
         </div>
         <Health css={undeadHealth} health={undead.health} maxHealth={undead.maxHealth} />
         <div css={undeadAbility}>
@@ -205,6 +226,11 @@ export const UndeadBox = ({ undead, disableBan, onBan, renderBanText }: UndeadBo
         <button type="button" css={undeadBanButton} onClick={handleShowConfirm} disabled={disableBan}>
           <UndeadPortrait type={undead.type} />
         </button>
+      )}
+      {!onBan && (
+        <div css={portraitFrame}>
+          <UndeadPortrait type={undead.type} />
+        </div>
       )}
       {showConfirm && (
         <div css={undeadConfirmBox}>

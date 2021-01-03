@@ -30,6 +30,7 @@ export const expeditions = createReducer({
   .handleAction(beginExpedition, (state, { payload: { type } }) => ({
     ...state,
     active: [...state.active, { type, step: 0 }],
+    opened: type,
   }))
   .handleAction([closeExpedition, fleeExpedition], state => ({ ...state, opened: null }))
   .handleAction(setExpeditionStep, (state, { payload: { type, step } }) => ({

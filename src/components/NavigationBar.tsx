@@ -2,7 +2,7 @@ import React, { MouseEventHandler, useEffect, useState } from 'react'
 import { Link, useHistory, useRouteMatch } from 'react-router-dom'
 import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
-import { CATACOMBS, EXPEDITIONS, MAIN_HUB, OSSUARY } from '../config/routes'
+import { CATACOMBS, EXPEDITIONS_MAP, MAIN_HUB, OSSUARY } from '../config/routes'
 import buttonBackgroundUrl from '../assets/images/footer/button.png'
 import buildIconUrl from '../assets/images/footer/build.png'
 import expeditionsIconUrl from '../assets/images/footer/expeditions.png'
@@ -98,7 +98,7 @@ export const NavigationBar = () => {
           <Link
             ref={ref}
             className={className}
-            to={EXPEDITIONS}
+            to={EXPEDITIONS_MAP}
             replace={!isOnBuildPage}
             css={footerButton}
             onClick={onClick}

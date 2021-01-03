@@ -7,7 +7,7 @@ import { ARSENAL, CATACOMBS, CHARNEL_HOUSE, OSSUARY, SOUL_WELL } from '../../con
 import { getBuildings } from '../../data/buildings/selectors'
 import { ARTIFACT_DEFENSE_BONUS, BuildingType, OnboardingStep, ResourceType } from '../../config/constants'
 import { getHasArtifact } from '../../data/events/selectors'
-import { Panel } from '../../components/ui/Panel'
+import { Panel } from '../../components/ui/Panel/Panel'
 import { breakpoints, colors, fonts, shadows } from '../../config/theme'
 import runeImageUrl from '../../assets/images/items/rune.png'
 import { ScreenWrapper } from '../../components/ui/ScreenWrapper'

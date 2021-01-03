@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ExpeditionModal } from './components/ExpeditionModal'
+import { ExpeditionContent } from './components/ExpeditionContent'
 import { ExpeditionType, ResourceType, UndeadTalent } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
@@ -52,16 +52,9 @@ export const MiseryMarket = () => {
   const dispatch = useDispatch()
 
   return (
-    <ExpeditionModal<MiseryMarketStep>
+    <ExpeditionContent<MiseryMarketStep>
       type={ExpeditionType.MiseryMarket}
       title={t('miseryMarketTitle')}
-      renderOverview={() => t('miseryMarketOverview')}
-      renderTreasure={() => (
-        <>
-          <ResourceIcon type={ResourceType.Meat} marginRight="0.4rem" />
-          <ResourceIcon type={ResourceType.Materials} />
-        </>
-      )}
       renderStep={(step, { goToStep, renderFleeButton, renderEndButton, renderContinueButton, renderLoot }) => {
         switch (step) {
           case MiseryMarketStep.Doors: {
@@ -85,7 +78,11 @@ export const MiseryMarket = () => {
                 <ExpeditionAction
                   disabled={muscles < MISERY_MARKET_STEP1_STRENGTH_REQUIRED}
                   prerequisites={
-                    <TalentIcon type={UndeadTalent.Muscles} text={MISERY_MARKET_STEP1_STRENGTH_REQUIRED} size="1rem" />
+                    <TalentIcon
+                      type={UndeadTalent.Muscles}
+                      text={MISERY_MARKET_STEP1_STRENGTH_REQUIRED}
+                      size="1.2rem"
+                    />
                   }
                   onClick={goToStep(MiseryMarketStep.DoorsBroken)}
                 >
@@ -94,7 +91,7 @@ export const MiseryMarket = () => {
                 {theKey && (
                   <ExpeditionAction
                     disabled={!canCast(theKey, souls)}
-                    cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1rem" />}
+                    cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1.2rem" />}
                     onClick={() => {
                       dispatch(castSpell(theKey))
                       goToStep(MiseryMarketStep.DoorsAnnihilated)()
@@ -138,7 +135,7 @@ export const MiseryMarket = () => {
                     <TalentIcon
                       type={UndeadTalent.Lethality}
                       text={MISERY_MARKET_STEP2_LETHALITY_REQUIRED}
-                      size="1rem"
+                      size="1.2rem"
                     />
                   }
                   onClick={goToStep(MiseryMarketStep.GuardsFlee)}
@@ -181,7 +178,7 @@ export const MiseryMarket = () => {
                     <TalentIcon
                       type={UndeadTalent.Lethality}
                       text={MISERY_MARKET_STEP3_LETHALITY_REQUIRED}
-                      size="1rem"
+                      size="1.2rem"
                     />
                   }
                   onClick={goToStep(MiseryMarketStep.Carnage)}

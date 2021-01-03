@@ -4,12 +4,12 @@ import {
   changeSecrets,
   collapseBuilding,
   freeUpgradeBuilding,
-  raiseUndead,
   repairBuilding,
   upgradeBuilding,
 } from './actions'
 import { setInArray } from '../helpers'
 import { Building, isCatacombs, isOssuary, makeInitialBuildings, makeUpgradedBuilding } from './helpers'
+import { addUndead } from '../undeads/actions'
 
 const updateGivenBuilding = (state: BuildingsState, { type }: Building, callback: (building: Building) => Building) => {
   const buildingIndex = state.list.findIndex(building => building.type === type)
@@ -68,9 +68,9 @@ export const buildings = createReducer<BuildingsState>({
       secrets: ossuary.secrets.filter(({ id }) => secret.id !== id),
     })),
   )
-  .handleAction(raiseUndead, (state, { payload: { undead } }) =>
+  .handleAction(addUndead, (state, { payload: { undead } }) =>
     findAndUpdateBuilding(state, isCatacombs, catacombs => ({
       ...catacombs,
-      undeadPool: catacombs.undeadPool.filter(({ id }) => undead.id !== id),
+      undeadPool: catacombs.undeadPool.filter(({ type }) => undead.type !== type),
     })),
   )

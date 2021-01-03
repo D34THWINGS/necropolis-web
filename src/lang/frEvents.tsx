@@ -159,9 +159,9 @@ export const frEvents = {
   trapName: (type: TrapType) => trapNames[type],
   trapDescription: (type: TrapType) => trapDescriptions[type],
   trapNemesis: 'Nemesis\u00A0:',
-  undeadDetailsAbility: 'Capacité de',
   undeadDetailsUse: 'Utiliser',
-  undeadDetailsUsed: 'Déjà utilisé lors de cet assaut',
+  undeadDetailsUsedAssault: 'Déjà utilisé lors de cet assaut',
+  undeadDetailsUsedExpedition: 'Déjà utilisé lors de cette expédition',
   paladinsAssaultBattle: 'Combat',
   skipPaladin: 'Passer',
   paladinShielded: (

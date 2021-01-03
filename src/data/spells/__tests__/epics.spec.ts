@@ -42,7 +42,7 @@ describe('Spells epics', () => {
       const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(castSoulStormEpic)
 
       const soulStorm = makeSoulStorm()
-      stateInput$.next(mainReducer(state$.value, openExpedition(ExpeditionType.OldCoffin)))
+      stateInput$.next(mainReducer(state$.value, openExpedition(ExpeditionType.Sawmill)))
       actionsInput$.next(castSpell(soulStorm))
 
       expect(actions).toEqual([applyEffects(soulStorm.effects)])
@@ -81,7 +81,7 @@ describe('Spells epics', () => {
       stateInput$.next(mainReducer(state$.value, addUndead(undead1)))
       const undead2 = makeSkeleton()
       stateInput$.next(mainReducer(state$.value, addUndead(undead2)))
-      stateInput$.next(mainReducer(state$.value, openExpedition(ExpeditionType.OldCoffin)))
+      stateInput$.next(mainReducer(state$.value, openExpedition(ExpeditionType.Sawmill)))
       actionsInput$.next(castSpell(restoration))
 
       expect(actions).toEqual([healUndead(undead1.id, restoration.healthRestored)])

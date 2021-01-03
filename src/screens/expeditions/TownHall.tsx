@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ExpeditionModal } from './components/ExpeditionModal'
+import { ExpeditionContent } from './components/ExpeditionContent'
 import { ExpeditionType, ResourceType, UndeadTalent } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
@@ -21,6 +21,7 @@ import { expeditionStepDescription } from './helpers/expeditionStyles'
 import { getLethality } from '../../data/selectors'
 import { canCast } from '../../data/spells/helpers'
 import { makeBloodPrince } from '../../data/undeads/helpers'
+import { smallMarginTop } from '../../styles/base'
 
 const TOWN_HALL_MUSCLES_REQUIRED = 4
 const TOWN_HALL_FIRE_UNDEAD_COST = 1
@@ -47,11 +48,9 @@ export const TownHall = () => {
   const dispatch = useDispatch()
 
   return (
-    <ExpeditionModal<TownHallStep>
+    <ExpeditionContent<TownHallStep>
       type={ExpeditionType.TownHall}
       title={t('townHallTitle')}
-      renderOverview={() => t('townHallOverview')}
-      renderTreasure={() => t('townHallRewardOverview')}
       renderStep={(step, { goToStep, renderFleeButton, renderContinueButton, renderEndButton, renderLoot }) => {
         switch (step as TownHallStep) {
           case TownHallStep.Entrance:
@@ -63,7 +62,7 @@ export const TownHall = () => {
                 {theKey && (
                   <ExpeditionAction
                     disabled={!canCast(theKey, souls)}
-                    cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1rem" />}
+                    cost={<ResourceIcon type={ResourceType.Souls} text={theKey.cost} size="1.2rem" />}
                     onClick={() => {
                       dispatch(castSpell(theKey))
                       goToStep(TownHallStep.BrokenDoor)()
@@ -73,7 +72,9 @@ export const TownHall = () => {
                   </ExpeditionAction>
                 )}
                 <ExpeditionAction
-                  prerequisites={<TalentIcon type={UndeadTalent.Muscles} text={TOWN_HALL_MUSCLES_REQUIRED} />}
+                  prerequisites={
+                    <TalentIcon type={UndeadTalent.Muscles} text={TOWN_HALL_MUSCLES_REQUIRED} size="1.2rem" />
+                  }
                   disabled={muscles < TOWN_HALL_MUSCLES_REQUIRED}
                   onClick={goToStep(TownHallStep.BrokenDoor)}
                 >
@@ -100,7 +101,7 @@ export const TownHall = () => {
                 <div css={expeditionStepDescription}>{t('townHallStep3', TOWN_HALL_FIRE_UNDEAD_COST)}</div>
                 <ExpeditionAction
                   prerequisites={
-                    <TalentIcon type={UndeadTalent.Lethality} text={TOWN_HALL_LETHALITY_REQUIRED} size="1rem" />
+                    <TalentIcon type={UndeadTalent.Lethality} text={TOWN_HALL_LETHALITY_REQUIRED} size="1.2rem" />
                   }
                   disabled={undeadCount < TOWN_HALL_FIRE_UNDEAD_COST || lethality < TOWN_HALL_LETHALITY_REQUIRED}
                   onClick={handleLooseUndeadInFire(goToStep(TownHallStep.KillRunners))}
@@ -148,7 +149,7 @@ export const TownHall = () => {
             return (
               <>
                 {t('townHallStep6', isBloodPrinceInJail)}
-                {isBloodPrinceInJail && <UndeadBox undead={bloodPrince} />}
+                {isBloodPrinceInJail && <UndeadBox css={smallMarginTop} undead={bloodPrince} />}
                 {renderEndButton(isBloodPrinceInJail ? handleFreeBloodPrince : undefined)}
               </>
             )

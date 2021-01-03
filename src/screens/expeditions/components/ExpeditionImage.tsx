@@ -5,6 +5,7 @@ import { Image } from '../../../components/images/Image'
 import { colors } from '../../../config/theme'
 
 export const expeditionImage = css({
+  position: 'relative',
   margin: '-4rem -1rem -1.5rem',
   borderBottom: `2px solid ${darken(0.1, colors.GREEN)}`,
 })

@@ -128,7 +128,8 @@ export const frExpeditions = {
     isBloodPrinceInJail ? (
       <>
         Vous libérez le <span css={[alignItemsCenter, textColor('PURPLE')]}>Prince de Sang-Séché</span>. Ce dernier
-        s’explique :<br />
+        s&apos;explique&nbsp;:
+        <br />
         <i>
           &ldquo;Les Paladins m’ont mis en prison car ils doutaient de ma loyauté. L’un a proposé de prendre ma baguette
           et de me tuer, mais un changement dans le script me sauva la mise. Merci de m’avoir libéré.&rdquo;

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { css } from '@emotion/react'
-import { colors, shadows } from '../../config/theme'
-import { ModalColor, modalColorsMap } from './Modal/modalStyles'
+import { colors, shadows } from '../../../config/theme'
+import { ModalColor, modalColorsMap } from '../Modal/modalStyles'
 
 export const panelBorder = css({
   border: '2px solid #0E4039',

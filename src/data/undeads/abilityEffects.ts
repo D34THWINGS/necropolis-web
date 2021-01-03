@@ -13,3 +13,6 @@ export const makeLethalityIncreaseEffect = (increaseValue: number): TalentsIncre
 })
 
 export type AbilityEffect = TalentsIncreaseAbilityEffect
+
+export const getTalentBuffsFromAbilityEffects = (abilityEffects: AbilityEffect[]) =>
+  abilityEffects.map(effect => effect.talentBuffs).flat()

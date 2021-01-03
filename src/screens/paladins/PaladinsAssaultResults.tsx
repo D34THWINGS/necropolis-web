@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/modalStyles'
-import { paladinAssaultPanel, paladinAssaultPanelInner } from './helpers/paladinAssaultStyles'
+import { fullPagePanel, fullPagePanelInner } from '../../components/ui/Panel/panelStyles'
 import resultBg from '../../assets/images/paladins/result-bg.jpg'
 import paladinsStrengthIcon from '../../assets/images/paladins/paladins-strengh.png'
 import structurePointsIcon from '../../assets/images/paladins/structure-points.png'
@@ -19,11 +19,11 @@ import { getPaladinsAssault, getStructureHealth } from '../../data/paladins/sele
 import { gainResources } from '../../data/resources/actions'
 import { loose } from '../../data/turn/actions'
 
-const resultsPanel = [modalPanel(ModalColor.RED), paladinAssaultPanel]
+const resultsPanel = [modalPanel(ModalColor.RED), fullPagePanel]
 
 const resultsPanelInner = [
   modalInner(ModalColor.RED),
-  paladinAssaultPanelInner,
+  fullPagePanelInner,
   css({
     alignItems: 'center',
     justifyContent: 'flex-end',

@@ -8,7 +8,7 @@ import { withTranslation, WithTranslationProps } from '../lang/useTranslation'
 import { h2Title, smallMarginTop } from '../styles/base'
 import backgroundImageUrl from '../assets/images/background.jpg'
 import { colors } from '../config/theme'
-import { panelBorder, panelInner } from '../components/ui/Panel'
+import { panelBorder, panelInner } from '../components/ui/Panel/Panel'
 import { resetGame as resetGameAction } from '../data/settings/actions'
 
 const errorBoundaryWrapper = css({

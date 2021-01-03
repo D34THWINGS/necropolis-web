@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { breakpoints } from '../../../config/theme'
 
-export const paladinAssaultPanel = css({
+export const fullPagePanel = css({
   position: 'relative',
   margin: '0 -1.7rem',
   width: 'calc(100% + 3.5rem)',
@@ -16,7 +16,7 @@ export const paladinAssaultPanel = css({
   },
 })
 
-export const paladinAssaultPanelInner = css({
+export const fullPagePanelInner = css({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

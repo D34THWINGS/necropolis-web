@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../../store/mainReducer'
 import { UndeadTalent, UndeadType } from '../../config/constants'
-import { getMostInjured, isBloodPrince, isUndeadAlive, Undead } from './helpers'
+import { getMostInjured, getUndeadTalents, isBloodPrince, isUndeadAlive, Undead } from './helpers'
 
 export const getUndeads = (state: RootState) => state.undeads.list
 
@@ -9,11 +9,10 @@ export const getAliveUndeads = createSelector(getUndeads, undeads => undeads.fil
 
 export const getUndeadCount = (state: RootState) => getAliveUndeads(state).length
 
-export const getUpkeep = (state: RootState) =>
-  getAliveUndeads(state).filter(undead => undead.type !== UndeadType.Skeleton).length
+export const getUpkeep = (state: RootState) => getAliveUndeads(state).length
 
 const getUndeadTalent = (undead: Undead, searchedTalent: UndeadTalent) =>
-  (undead.talents.find(([talent]) => talent === searchedTalent) || [])[1] || 0
+  (getUndeadTalents(undead).find(([talent]) => talent === searchedTalent) || [])[1] || 0
 
 export const getUndeadArmyTalentTotal = (talent: UndeadTalent) => (state: RootState) =>
   getAliveUndeads(state).reduce((sum, undead) => sum + getUndeadTalent(undead, talent), 0)

@@ -27,7 +27,6 @@ import {
   castSeductionAbilityEpic,
   raiseUndeadEpic,
   readyUpAbilitiesEpic,
-  valetEpic,
 } from './undeads/epics'
 import { resetGameEpic } from './settings/epics'
 import {
@@ -47,7 +46,6 @@ export const rootEpic = combineEpics(
   repairBuildingEpic,
   reRollSecretsEpic,
   buySecretEpic,
-  valetEpic,
   raiseUndeadEpic,
   eventsEpic,
   endEventEpic,

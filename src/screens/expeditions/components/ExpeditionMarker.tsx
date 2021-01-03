@@ -12,7 +12,7 @@ import { Image } from '../../../components/images/Image'
 import { contentCover } from '../../../styles/base'
 import { resetButton } from '../../../styles/buttons'
 import { openExpedition } from '../../../data/expeditions/actions'
-import { getIsExpeditionActive } from '../../../data/expeditions/selectors'
+import { getExpeditionStep, getIsExpeditionActive } from '../../../data/expeditions/selectors'
 import { fadeIn } from '../../../styles/animations'
 import { transitions } from '../../../config/theme'
 
@@ -48,7 +48,7 @@ const markerFrame = (active?: boolean) => [
 ]
 
 const expeditionIconMap: Record<ExpeditionType, string> = {
-  [ExpeditionType.OldCoffin]: oldCoffinUrl,
+  [ExpeditionType.Sawmill]: oldCoffinUrl,
   [ExpeditionType.MiseryMarket]: miseryMarketUrl,
   [ExpeditionType.TownHall]: townHallUrl,
   [ExpeditionType.Bastion]: bastionUrl,
@@ -59,20 +59,22 @@ export type ExpeditionMarkerProps = {
   x: number
   y: number
   shown: boolean
+  onClick: (type: ExpeditionType) => void
   className?: string
-  onClick?: () => void
 }
 
 export const ExpeditionMarker = forwardRef(
   ({ type, x, y, shown, className, onClick }: ExpeditionMarkerProps, ref: Ref<HTMLButtonElement>) => {
     const dispatch = useDispatch()
     const active = useSelector(getIsExpeditionActive(type))
+    const step = useSelector(getExpeditionStep(type))
     const shouldAnimateRef = useRef(!shown)
 
     const handleClick = () => {
-      dispatch(openExpedition(type))
-      if (onClick) {
-        onClick()
+      if (step !== undefined) {
+        dispatch(openExpedition(type))
+      } else {
+        onClick(type)
       }
     }
 

@@ -8,16 +8,14 @@ import {
   castUndeadAbility,
   damageUndead,
   readyUpAbilities,
-  upgradeValet,
 } from './actions'
-import { getHasEffectToBlur, getUndeads } from './selectors'
+import { getHasEffectToBlur } from './selectors'
 import { spendResources } from '../resources/actions'
 import { ResourceType } from '../../config/constants'
 import { getCatacombs } from '../buildings/selectors'
 import { nextPhase } from '../turn/actions'
-import { endExpedition, setExpeditionStep } from '../expeditions/actions'
+import { endExpedition, fleeExpedition, setExpeditionStep } from '../expeditions/actions'
 import { raiseUndead } from '../buildings/actions'
-import { isValet } from './helpers'
 import { NecropolisEpic } from '../helpers'
 import { isDevotion, isLabor, isProtection, isSectumSempra, isSeduction } from './abilities'
 import {
@@ -43,13 +41,6 @@ export const raiseUndeadEpic: NecropolisEpic = (action$, state$) =>
       }
       return of(spendResources({ [ResourceType.Souls]: catacombs.raiseUndeadSoulCost }), addUndead(undead), nextPhase())
     }),
-  )
-
-export const valetEpic: NecropolisEpic = (action$, state$) =>
-  action$.pipe(
-    filter(isActionOf(endExpedition)),
-    filter(() => getUndeads(state$.value).some(isValet)),
-    map(() => upgradeValet()),
   )
 
 const filterCastAbility = filter(isActionOf(castUndeadAbility))
@@ -139,13 +130,13 @@ export const castSectumSempraAbilityEpic: NecropolisEpic = (action$, state$) =>
 
 export const blurAbilityEffectsEpic: NecropolisEpic = (action$, state$) =>
   action$.pipe(
-    filter(isActionOf([setExpeditionStep, endExpedition])),
+    filter(isActionOf([setExpeditionStep, endExpedition, fleeExpedition])),
     filter(() => getHasEffectToBlur(state$.value)),
     map(() => blurAbilityEffects()),
   )
 
 export const readyUpAbilitiesEpic: NecropolisEpic = action$ =>
   action$.pipe(
-    filter(isActionOf(endPaladinsAssault)),
+    filter(isActionOf([endPaladinsAssault, endExpedition, fleeExpedition])),
     map(() => readyUpAbilities()),
   )

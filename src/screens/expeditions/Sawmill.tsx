@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ExpeditionModal } from './components/ExpeditionModal'
+import { ExpeditionContent } from './components/ExpeditionContent'
 import { ExpeditionType, ResourceType, UndeadTalent } from '../../config/constants'
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
@@ -39,11 +39,9 @@ export const Sawmill = () => {
   const handleSawmillReward = () => dispatch(gainResources({ [ResourceType.Materials]: SAWMILL_MATERIALS_REWARD }))
 
   return (
-    <ExpeditionModal<OldCoffinStep>
-      type={ExpeditionType.OldCoffin}
+    <ExpeditionContent<OldCoffinStep>
+      type={ExpeditionType.Sawmill}
       title={t('sawmillTitle')}
-      renderOverview={() => t('sawmillOverview')}
-      renderTreasure={() => <ResourceIcon type={ResourceType.Materials} />}
       renderStep={(step, { goToStep, renderEndButton, renderLoot, renderContinueButton }) => {
         switch (step) {
           case OldCoffinStep.Door:
@@ -58,7 +56,7 @@ export const Sawmill = () => {
                   disabled={dexterity < SAWMILL_DEXTERITY_REQUIRED}
                   onClick={goToStep(OldCoffinStep.FaceHound)}
                   prerequisites={
-                    <TalentIcon type={UndeadTalent.Dexterity} size="1rem" text={SAWMILL_DEXTERITY_REQUIRED} />
+                    <TalentIcon type={UndeadTalent.Dexterity} size="1.2rem" text={SAWMILL_DEXTERITY_REQUIRED} />
                   }
                 >
                   {t('sawmillAction2')}
@@ -95,7 +93,7 @@ export const Sawmill = () => {
                 <ExpeditionAction
                   onClick={handleNourish}
                   disabled={meat < SAWMILL_MEAT_REQUIRED}
-                  cost={<ResourceIcon type={ResourceType.Meat} size="1rem" text={SAWMILL_MEAT_REQUIRED} />}
+                  cost={<ResourceIcon type={ResourceType.Meat} size="1.2rem" text={SAWMILL_MEAT_REQUIRED} />}
                 >
                   {t('sawmillAction3')}
                 </ExpeditionAction>
@@ -105,7 +103,7 @@ export const Sawmill = () => {
                   cost={
                     <>
                       <span css={textColor('RED')}>{SAWMILL_HEALTH_REQUIRED}</span>
-                      <HealthPoint marginLeft="0.3rem" />
+                      <HealthPoint marginLeft="0.3rem" size="1.2rem" />
                     </>
                   }
                 >

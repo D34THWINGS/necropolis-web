@@ -48,8 +48,6 @@ export enum TurnPhase {
 
 export const TURN_PHASES_ORDER = [TurnPhase.Production, TurnPhase.Event, TurnPhase.Action, TurnPhase.Upkeep]
 
-export const LA_MOTTE_DEFENSE_BONUS = 1
-
 export const INTRO_STEPS_COUNT = 12
 
 export enum OnboardingStep {
@@ -94,10 +92,10 @@ export enum OnboardingFlag {
 }
 
 export enum ExpeditionType {
-  OldCoffin,
-  MiseryMarket,
-  TownHall,
-  Bastion,
+  Sawmill = 'sawmill',
+  MiseryMarket = 'miseryMarket',
+  TownHall = 'townHall',
+  Bastion = 'bastion',
 }
 
 export enum EventType {

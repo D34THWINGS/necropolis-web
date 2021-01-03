@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import React, { ReactNode } from 'react'
 import { buildingActionFrame, buildingLevel, buildingTitle, buildingWrapper } from '../helpers/buildingsStyles'
-import { Panel } from '../../../components/ui/Panel'
+import { Panel } from '../../../components/ui/Panel/Panel'
 import { ResourceType } from '../../../config/constants'
 import { BuildingAction } from './BuildingAction'
 import { repairBuilding, upgradeBuilding } from '../../../data/buildings/actions'

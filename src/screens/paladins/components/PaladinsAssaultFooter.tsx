@@ -5,7 +5,7 @@ import { getAliveUndeads } from '../../../data/undeads/selectors'
 import { UndeadPortrait } from '../../../components/undeads/UndeadPortrait'
 import { buttonBase } from '../../../styles/buttons'
 import { breakpoints } from '../../../config/theme'
-import { UndeadDetailsModal } from './UndeadDetailsModal'
+import { UndeadDetailsModal } from '../../../components/undeads/UndeadDetailsModal'
 import { Undead } from '../../../data/undeads/helpers'
 
 const footerWrapper = css({
@@ -33,7 +33,7 @@ export const PaladinsAssaultFooter = () => {
           <UndeadPortrait type={undead.type} size="3rem" />
         </button>
       ))}
-      <UndeadDetailsModal undead={openedUndead} onClose={handleCloseDetails} />
+      <UndeadDetailsModal undead={openedUndead} onClose={handleCloseDetails} showAssault />
     </div>
   )
 }
