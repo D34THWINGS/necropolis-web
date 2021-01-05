@@ -31,7 +31,7 @@ export type DamageCategoriesProps = {
 }
 
 export const DamageCategories = forwardRef<HTMLElement, DamageCategoriesProps>(
-  ({ className, categories, size }, ref) => (
+  ({ className, categories, size = '1.8rem' }, ref) => (
     <span ref={ref} className={className} css={wrapper}>
       {categories.map((category, index) => (
         <Image

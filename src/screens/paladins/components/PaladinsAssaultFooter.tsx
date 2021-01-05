@@ -7,6 +7,8 @@ import { buttonBase } from '../../../styles/buttons'
 import { breakpoints } from '../../../config/theme'
 import { UndeadDetailsModal } from '../../../components/undeads/UndeadDetailsModal'
 import { Undead } from '../../../data/undeads/helpers'
+import coolDownIconUrl from '../../../assets/images/icons/cooldown.png'
+import { Image } from '../../../components/images/Image'
 
 const footerWrapper = css({
   display: 'flex',
@@ -19,6 +21,17 @@ const footerWrapper = css({
   },
 })
 
+const portrait = css({
+  position: 'relative',
+})
+
+const coolDownIcon = css({
+  position: 'absolute',
+  bottom: 0,
+  right: 0,
+  transform: 'translateX(40%)',
+})
+
 export const PaladinsAssaultFooter = () => {
   const undeads = useSelector(getAliveUndeads)
   const [openedUndead, setOpenedUndead] = useState<Undead | null>(null)
@@ -29,9 +42,17 @@ export const PaladinsAssaultFooter = () => {
   return (
     <div css={footerWrapper}>
       {undeads.map(undead => (
-        <button key={undead.type} type="button" css={buttonBase} onClick={handleOpenUndeadDetails(undead)}>
-          <UndeadPortrait type={undead.type} size="3rem" />
-        </button>
+        <span key={undead.type} css={portrait}>
+          <button
+            type="button"
+            css={buttonBase}
+            disabled={undead.ability.used}
+            onClick={handleOpenUndeadDetails(undead)}
+          >
+            <UndeadPortrait type={undead.type} size="3rem" />
+          </button>
+          {undead.ability.used && <Image src={coolDownIconUrl} size="2.5rem" css={coolDownIcon} />}
+        </span>
       ))}
       <UndeadDetailsModal undead={openedUndead} onClose={handleCloseDetails} showAssault />
     </div>

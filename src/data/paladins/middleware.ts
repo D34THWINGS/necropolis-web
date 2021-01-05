@@ -1,9 +1,21 @@
 import { Middleware } from 'redux'
 import { isActionOf } from 'typesafe-actions'
-import { DELAY_BETWEEN_TRAP_EFFECTS, PaladinCategory, PaladinType } from '../../config/constants'
-import { getPaladinById, getPaladinsAssaultOngoing, getPaladinsDeck, getRemainingPaladins } from './selectors'
-import { shuffleArray } from '../helpers'
-import { changePaladinCategories, doDamagesToPaladin, swapPaladinPostions, triggerTrap } from './actions'
+import { PaladinCategory, PaladinType } from '../../config/constants'
+import {
+  getActivePaladin,
+  getPaladinById,
+  getPaladinsAssaultOngoing,
+  getPaladinsDeck,
+  getRemainingPaladins,
+} from './selectors'
+import { getAnimationDelay, shuffleArray } from '../helpers'
+import {
+  changePaladinCategories,
+  doDamagesToPaladin,
+  forwardDamages,
+  swapPaladinPostions,
+  triggerTrap,
+} from './actions'
 import { castSpell } from '../spells/actions'
 import { isSpellWithDamages } from '../spells/helpers'
 import { isPaladinConsecrated, PaladinCard } from './helpers'
@@ -13,6 +25,7 @@ import { castUndeadAbility } from '../undeads/actions'
 import { isAbilityWithDamages } from '../undeads/abilities'
 
 const isTriggerTrapAction = isActionOf(triggerTrap)
+const isForwardDamagesAction = isActionOf(forwardDamages)
 const isDoDamageAction = isActionOf(doDamagesToPaladin)
 const isCastSpellAction = isActionOf(castSpell)
 const isCastAbilityAction = isActionOf(castUndeadAbility)
@@ -23,19 +36,30 @@ const isCastAbilityAction = isActionOf(castUndeadAbility)
 export const paladinsDamageEffectsMiddleware: Middleware<{}, RootState> = api => next => action => {
   const state = api.getState()
 
+  if (!getPaladinsAssaultOngoing(state)) {
+    return next(action)
+  }
+
   let targetPaladin: PaladinCard | null = null
   if (isTriggerTrapAction(action) || isDoDamageAction(action)) {
     targetPaladin = getPaladinById(action.payload.paladinId)(state) ?? null
   }
-  if (isCastSpellAction(action) && getPaladinsAssaultOngoing(state) && isSpellWithDamages(action.payload.spell)) {
+  if (isCastSpellAction(action) && isSpellWithDamages(action.payload.spell)) {
     ;[targetPaladin] = getRemainingPaladins(state)
   }
-  if (isCastAbilityAction(action) && getPaladinsAssaultOngoing(state) && isAbilityWithDamages(action.payload.ability)) {
+  if (isCastAbilityAction(action) && isAbilityWithDamages(action.payload.ability)) {
     ;[targetPaladin] = getRemainingPaladins(state)
+  }
+  if (isForwardDamagesAction(action)) {
+    targetPaladin = getActivePaladin(state)
+  }
+
+  if (!targetPaladin) {
+    return next(action)
   }
 
   // Commander position swap
-  if (targetPaladin && targetPaladin.type === PaladinType.Commander) {
+  if (targetPaladin.type === PaladinType.Commander) {
     const deck = getPaladinsDeck(state)
     const commanderIndex = deck.indexOf(targetPaladin)
     if (commanderIndex === 0) {
@@ -45,10 +69,7 @@ export const paladinsDamageEffectsMiddleware: Middleware<{}, RootState> = api =>
         api.dispatch(swapPaladinPostions(targetPaladin.id, swappedPaladin.id))
         if (isTriggerTrapAction(action)) {
           // Re-wire trap on the right paladin
-          setTimeout(
-            () => api.dispatch(triggerTrap(action.payload.trap, swappedPaladin.id)),
-            DELAY_BETWEEN_TRAP_EFFECTS,
-          )
+          setTimeout(() => api.dispatch(triggerTrap(action.payload.trap, swappedPaladin.id)), getAnimationDelay())
           return
         }
       }
@@ -56,7 +77,7 @@ export const paladinsDamageEffectsMiddleware: Middleware<{}, RootState> = api =>
   }
 
   // Pure category swap
-  if (targetPaladin && isPaladinConsecrated(targetPaladin)) {
+  if (isPaladinConsecrated(targetPaladin)) {
     const updatedCategories = targetPaladin.categories.reduce<PaladinCategory[]>((acc, existingCategory) => {
       if (existingCategory === PaladinCategory.Pure) {
         const possibleCategories = Object.values(PaladinCategory).filter(
@@ -70,11 +91,8 @@ export const paladinsDamageEffectsMiddleware: Middleware<{}, RootState> = api =>
       return [...acc, existingCategory]
     }, [])
     const paladinId = targetPaladin.id
-    setTimeout(
-      () => api.dispatch(changePaladinCategories(paladinId, updatedCategories)),
-      DELAY_BETWEEN_TRAP_EFFECTS / 2,
-    )
-    setTimeout(() => api.dispatch(action), DELAY_BETWEEN_TRAP_EFFECTS)
+    setTimeout(() => api.dispatch(changePaladinCategories(paladinId, updatedCategories)), getAnimationDelay() / 2)
+    setTimeout(() => api.dispatch(action), getAnimationDelay())
     return
   }
 

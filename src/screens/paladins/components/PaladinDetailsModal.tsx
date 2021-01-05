@@ -44,7 +44,7 @@ const centeredDetailsBox = [
   }),
 ]
 
-const paladinHealth = [
+const paladinHealth = (shielded: boolean) => [
   ...centeredDetailsBox,
   css({
     justifyContent: 'center',
@@ -52,6 +52,12 @@ const paladinHealth = [
     minWidth: '5rem',
     color: colors.LIME,
   }),
+  shielded
+    ? css({
+        backgroundColor: colors.CHAOS,
+        border: `solid 2px ${colors.DARK_CHAOS}`,
+      })
+    : undefined,
 ]
 
 const paladinTypes = [
@@ -84,7 +90,7 @@ export const PaladinDetailsModal = ({ card, onClose }: PaladinDetailsModalProps)
           <h2 css={[h2Title, paladinName]}>{t('paladinName', card.type)}</h2>
           <Image css={paladinImage} src={paladinsImageMap[card.type]} size="calc(100% + 2rem)" />
           <div css={paladinDetailsHeader}>
-            <div css={paladinHealth}>
+            <div css={paladinHealth(card.shield)}>
               <Health health={card.health} maxHealth={card.health} />
             </div>
             <div css={paladinTypes}>

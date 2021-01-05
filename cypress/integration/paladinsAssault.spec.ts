@@ -1,5 +1,6 @@
 const assaultSetup = (fixtureName: string) => {
   cy.loadPage('/')
+  cy.disableAnimations()
   cy.useStateFixture(fixtureName)
   cy.getByTestId('continueGameButton').click()
 }
@@ -7,6 +8,7 @@ const assaultSetup = (fixtureName: string) => {
 describe('Paladins assault', () => {
   it('Run full assault', () => {
     cy.loadPage('/')
+    cy.disableAnimations()
     cy.useStateFixture('paladinAssaultSetup')
     cy.getByTestId('continueGameButton').click()
     cy.assertContainsCount('paladinsDeck', 'paladinRevealedCard', 1)
@@ -114,10 +116,10 @@ describe('Paladins assault', () => {
 
     cy.getByTestId('useTrapButton').eq(3).click()
     cy.assertText('paladinName', 'Avant-Garde')
-    cy.assertNotContains('paladinType', 'physical')
-    cy.assertNotContains('paladinType', 'ethereal')
+    cy.assertContains('paladinType', 'physical')
+    cy.assertContains('paladinType', 'ethereal')
     cy.assertNotContains('paladinType', 'magical')
-    cy.assertContainsCount('paladinType', 'pure', 2)
+    cy.assertNotContains('paladinType', 'pure')
     cy.assertContainsCount('paladinHealth', 'remainingHealthPoint', 1)
 
     cy.getByTestId('useTrapButton').eq(0).click()
@@ -131,13 +133,13 @@ describe('Paladins assault', () => {
     assaultSetup('paladinAssaultHealer')
     cy.assertText('paladinName', 'Soigneur')
 
-    cy.getByTestId('useTrapButton').eq(3).click()
+    cy.getByTestId('useTrapButton').eq(0).click()
     cy.assertText('paladinName', 'Avant-Garde')
     cy.assertContainsCount('paladinHealth', 'extraHealthPoint', 1)
     cy.assertContainsCount('paladinHealth', 'remainingHealthPoint', 2)
     cy.assertContainsCount('paladinHealth', 'missingHealthPoint', 0)
 
-    cy.getByTestId('useTrapButton').eq(0).click()
+    cy.getByTestId('useTrapButton').eq(2).click()
     cy.assertText('paladinName', 'Avant-Garde')
     cy.assertContainsCount('paladinHealth', 'remainingHealthPoint', 2)
     cy.assertContainsCount('paladinHealth', 'missingHealthPoint', 0)
@@ -157,17 +159,12 @@ describe('Paladins assault', () => {
 
     cy.getByTestId('spellsButton').click()
     cy.getByTestId('castSpellButton').eq(0).click()
-    cy.assertText('paladinCardsCounter', '2\u00A0/\u00A06')
-    cy.assertText('paladinName', 'Avant-Garde')
     cy.assertText('paladinCardsCounter', '3\u00A0/\u00A06')
     cy.assertContainsCount('paladinHealth', 'missingHealthPoint', 1)
 
     cy.useCheat('readyUp')
     cy.getByTestId('spellsButton').click()
     cy.getByTestId('castSpellButton').eq(0).click()
-    cy.assertText('paladinCardsCounter', '4\u00A0/\u00A06')
-    cy.assertContainsCount('paladinType', 'pure', 1)
-    cy.assertContainsCount('paladinType', 'ethereal', 1)
     cy.assertText('paladinCardsCounter', '5\u00A0/\u00A06')
     cy.assertContainsCount('paladinHealth', 'missingHealthPoint', 1)
 
@@ -204,8 +201,7 @@ describe('Paladins assault', () => {
     cy.getByTestId('availableTrapButton').eq(0).click().click().click()
     cy.getByTestId('availableTrapButton').eq(1).click()
     cy.getByTestId('beginFightPhaseButton').click()
-    cy.getByTestId('spellsButton').click()
-    cy.assertNotExists('castSpellButton')
+    cy.assertNotExists('spellsButton')
   })
 
   it('The Key should break shield and deal 3 damages', () => {

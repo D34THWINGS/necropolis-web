@@ -11,15 +11,25 @@ export type SpellBoxProps = {
   label: ReactNode
   description: ReactNode
   soulCost: number
-  disabled?: boolean
+  className?: string
+  disabledButton?: boolean
   onClick?: () => void
 }
 
-export const SpellBox = ({ imageUrl, label, description, soulCost, disabled, onClick }: SpellBoxProps) => (
+export const SpellBox = ({
+  className,
+  imageUrl,
+  label,
+  description,
+  soulCost,
+  disabledButton,
+  onClick,
+}: SpellBoxProps) => (
   <ActionBox
+    className={className}
     leftCircleContent={<div css={buildingShopRowImage(imageUrl)} />}
     buttonContent={onClick && <ResourceIcon type={ResourceType.Souls} text={soulCost} size="1.1rem" />}
-    disabled={disabled}
+    disabledButton={disabledButton}
     onClick={onClick}
     buttonColor={colors.LIGHT_BLUE}
     backgroundColor={colors.DARK_BLUE}
@@ -28,6 +38,6 @@ export const SpellBox = ({ imageUrl, label, description, soulCost, disabled, onC
     buttonTestId="castSpellButton"
   >
     <h2 css={[buildingShopRowTitle, textColor('BLUE')]}>{label}</h2>
-    {description}
+    <div>{description}</div>
   </ActionBox>
 )

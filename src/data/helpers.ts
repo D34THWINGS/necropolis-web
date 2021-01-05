@@ -3,6 +3,8 @@ import { random } from './seeder'
 import { RootAction } from './actions'
 import { RootState } from '../store/mainReducer'
 
+const ANIMATION_DELAY = 500
+
 export type NecropolisEpic = Epic<RootAction, RootAction, RootState>
 
 export const setInArray = <T>(array: T[], index: number, value: T): T[] => [
@@ -36,3 +38,5 @@ export const drawRandomInArray = <T>(array: T[]) => array[Math.floor(random() * 
 export const countInArray = <T>(array: T[], predicate: (value: T) => boolean) => array.filter(predicate).length
 
 export const preventSelectorUpdate = () => true
+
+export const getAnimationDelay = () => (window.localStorage.getItem('animationsDisabled') ? 0 : ANIMATION_DELAY)

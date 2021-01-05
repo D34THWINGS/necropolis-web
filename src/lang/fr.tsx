@@ -14,6 +14,7 @@ import paladinDamageIcon from '../assets/images/paladins/paladin-damage.png'
 import { Image } from '../components/images/Image'
 import { DamageCategories } from '../components/images/DamageCategories'
 import structurePointsIcon from '../assets/images/paladins/structure-points.png'
+import hpCostIcon from '../assets/images/icons/hp-cost.png'
 
 const undeadTalent: Record<UndeadTalent, ReactNode> = {
   [UndeadTalent.Muscles]: (
@@ -250,14 +251,16 @@ export const fr = {
   undeadAbility: 'Capacité :',
   devotionExpedition: (healthCost: number, talentsBonus: number) => (
     <>
-      Perd <span css={textColor('RED')}>{healthCost}</span> <HealthPoint isMissing /> pour obtenir{' '}
-      <span css={textColor('CYAN')}>+{talentsBonus} à tous les Talents</span> durant un obstacle.
+      Perd <span css={textColor('RED')}>{healthCost}</span>&nbsp;
+      <Image src={hpCostIcon} /> pour obtenir <span css={textColor('CYAN')}>+{talentsBonus} à tous les Talents</span>{' '}
+      durant un obstacle.
     </>
   ),
   devotionAssault: (healthCost: number, damages: number, damageCategories: PaladinCategory[]) => (
     <>
-      Perd <span css={textColor('RED')}>{healthCost}</span> <HealthPoint isMissing /> pour briser le{' '}
-      <span css={textColor('PURPLE')}>Bouclier</span> et infliger <span css={textColor('CYAN')}>{damages}</span>{' '}
+      Perd <span css={textColor('RED')}>{healthCost}</span>&nbsp;
+      <Image src={hpCostIcon} /> pour briser le <span css={textColor('PURPLE')}>Bouclier</span> et infliger{' '}
+      <span css={textColor('CYAN')}>{damages}</span>&nbsp;
       <Image src={trapDamageIcon} />. Type&nbsp;: <DamageCategories categories={damageCategories} />.
     </>
   ),
@@ -269,13 +272,14 @@ export const fr = {
   ),
   protectionExpedition: (damageBuffer: number) => (
     <>
-      Encaisse une perte de jusqu&apos;à <span css={textColor('RED')}>{damageBuffer}</span> <HealthPoint isMissing />{' '}
-      durant un obstacle.
+      Encaisse une perte de jusqu&apos;à <span css={textColor('RED')}>{damageBuffer}</span>&nbsp;
+      <Image src={hpCostIcon} /> durant un obstacle.
     </>
   ),
   protectionAssault: (shieldValue: number) => (
     <>
-      Bloque <span css={textColor('RED')}>{shieldValue}</span> <Image src={paladinDamageIcon} /> de 1 Paladin
+      Bloque <span css={textColor('RED')}>{shieldValue}</span>&nbsp;
+      <Image src={paladinDamageIcon} /> de 1 Paladin
     </>
   ),
   seductionExpedition: (talentBonus: number) => (

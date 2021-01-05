@@ -10,7 +10,7 @@ import {
   PaladinCategory,
   PaladinType,
   PROVOST_TARGETS_COUNT,
-  PUTRID_PITCH_MALUS,
+  PUTRID_PITCH_EXTRA_DAMAGE,
   ResourceType,
   TrapType,
   UndeadTalent,
@@ -104,7 +104,8 @@ const trapDescriptions: Record<TrapType, ReactNode> = {
   ),
   [TrapType.PutridPitch]: (
     <>
-      <span css={textColor('RED')}>{PUTRID_PITCH_MALUS}</span> <Image src={paladinDamageIcon} /> au paladin en jeu.
+      Inflige <span css={textColor('CYAN')}>+{PUTRID_PITCH_EXTRA_DAMAGE}</span>&nbsp;
+      <Image src={trapDamageIcon} /> si le Paladin a reçu un bonus.
     </>
   ),
 }

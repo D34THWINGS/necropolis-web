@@ -13,8 +13,9 @@ import { ResourceIcon } from '../../components/resources/ResourceIcon'
 import { getMeat } from '../../data/resources/selectors'
 import { gainResources, spendResources } from '../../data/resources/actions'
 import { textColor } from '../../styles/base'
-import { HealthPoint } from '../../components/images/HealthPoint'
 import { curseUndead, damageUndead } from '../../data/undeads/actions'
+import hpCostIcon from '../../assets/images/icons/hp-cost.png'
+import { Image } from '../../components/images/Image'
 
 const SAWMILL_DEXTERITY_REQUIRED = 2
 const SAWMILL_MEAT_REQUIRED = 2
@@ -103,7 +104,8 @@ export const Sawmill = () => {
                   cost={
                     <>
                       <span css={textColor('RED')}>{SAWMILL_HEALTH_REQUIRED}</span>
-                      <HealthPoint marginLeft="0.3rem" size="1.2rem" />
+                      &nbsp;
+                      <Image src={hpCostIcon} />
                     </>
                   }
                 >

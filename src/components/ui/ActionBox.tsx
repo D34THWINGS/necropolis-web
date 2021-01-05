@@ -99,10 +99,14 @@ export const buildingShopRowImage = (backgroundUrl: string) =>
     backgroundRepeat: 'no-repeat',
   })
 
+const disabledActionBox = css({ filter: 'grayscale(1)' })
+
 export type ActionBoxProps = {
+  className?: string
   leftCircleContent: ReactNode
   buttonContent?: ReactNode
   children?: ReactNode
+  disabledButton?: boolean
   disabled?: boolean
   onClick?: () => void
   buttonColor?: string
@@ -113,10 +117,12 @@ export type ActionBoxProps = {
 }
 
 export const ActionBox = ({
+  className,
   leftCircleContent,
   buttonContent,
   children,
-  disabled,
+  disabledButton,
+  disabled = false,
   onClick,
   backgroundColor = colors.GREEN,
   buttonColor = colors.CYAN,
@@ -124,15 +130,15 @@ export const ActionBox = ({
   boxTestId,
   buttonTestId,
 }: ActionBoxProps) => (
-  <div css={wrapper} data-test-id={boxTestId}>
-    <div css={leftCircle(borderColor)}>{leftCircleContent}</div>
+  <div className={className} css={[wrapper, disabled ? disabledActionBox : undefined]} data-test-id={boxTestId}>
+    <div css={leftCircle(disabled ? backgroundColor : borderColor)}>{leftCircleContent}</div>
     <div css={content(backgroundColor, !!buttonContent)}>{children}</div>
     {buttonContent && (
       <button
         type="button"
-        disabled={disabled}
+        disabled={disabledButton}
         onClick={onClick}
-        css={button(buttonColor, borderColor)}
+        css={button(buttonColor, disabled ? backgroundColor : borderColor)}
         data-test-id={buttonTestId}
       >
         {buttonContent}

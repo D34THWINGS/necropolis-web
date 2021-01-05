@@ -22,6 +22,7 @@ import { PaladinFightCard } from './components/PaladinFightCard'
 import { isPaladinAlive } from '../../data/paladins/helpers'
 import { Trap } from '../../data/paladins/traps'
 import { BuildExtraTrapModal } from './components/BuildExtraTrapModal'
+import { getAnimationDelay } from '../../data/helpers'
 
 const fightPanel = [modalPanel(ModalColor.RED), fullPagePanel]
 
@@ -106,11 +107,7 @@ export const PaladinsAssaultFight = () => {
   const remainingPaladins = deck.filter(isPaladinAlive)
   const remainingTraps = traps.filter(trap => !trap.used)
 
-  if (remainingPaladins.length === 0) {
-    return null
-  }
-
-  const activePaladin = remainingPaladins[0]
+  const activePaladin = remainingPaladins[0] || deck[deck.length - 1]
   if (!activePaladin) {
     return null
   }
@@ -122,11 +119,15 @@ export const PaladinsAssaultFight = () => {
     <div css={fightPanel}>
       <div css={fightPanelInner}>
         <h2 css={h2Title}>{t('paladinsAssaultBattle')}</h2>
-        <SwitchTransition>
-          <CSSTransition key={activePaladin.id} timeout={transitions.FAST_DURATION}>
-            <PaladinFightCard paladin={activePaladin} />
-          </CSSTransition>
-        </SwitchTransition>
+        {getAnimationDelay() ? (
+          <SwitchTransition>
+            <CSSTransition key={activePaladin.id} timeout={transitions.FAST_DURATION}>
+              <PaladinFightCard paladin={activePaladin} />
+            </CSSTransition>
+          </SwitchTransition>
+        ) : (
+          <PaladinFightCard paladin={activePaladin} />
+        )}
         <div css={separator} />
         <div css={fightStatus}>
           <div css={fightStatusCounter} data-test-id="paladinCardsCounter">

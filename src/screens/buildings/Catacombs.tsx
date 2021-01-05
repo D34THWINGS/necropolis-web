@@ -93,7 +93,7 @@ export const Catacombs = () => {
             buttonContent={
               <ResourceIcon type={ResourceType.Souls} text={catacombs.reviveUndeadSoulCost} size="1.1rem" />
             }
-            disabled={souls < catacombs.reviveUndeadSoulCost}
+            disabledButton={souls < catacombs.reviveUndeadSoulCost}
             onClick={handleReviveUndead(undead)}
             boxTestId="buildingShopRow"
             buttonTestId="buildingShopRowButton"
@@ -110,7 +110,7 @@ export const Catacombs = () => {
             </div>
           }
           buttonContent={<ResourceIcon type={ResourceType.Souls} text={catacombs.raiseUndeadSoulCost} size="1.1rem" />}
-          disabled={souls < catacombs.raiseUndeadSoulCost}
+          disabledButton={souls < catacombs.raiseUndeadSoulCost}
           onClick={handleRaiseUndead(undead)}
           boxTestId="buildingShopRow"
           buttonTestId="buildingShopRowButton"
@@ -127,7 +127,7 @@ export const Catacombs = () => {
         <ActionBox
           leftCircleContent={<div css={buildingUpgradeArrow}>{catacombs.level + 1}</div>}
           buttonContent={<ResourceIcon type={ResourceType.Materials} text={catacombs.upgradeCost} size="1.1rem" />}
-          disabled={materials < catacombs.upgradeCost}
+          disabledButton={materials < catacombs.upgradeCost}
           onClick={handleUpgrade}
           boxTestId="buildingShopRow"
           buttonTestId="buildingShopRowButton"

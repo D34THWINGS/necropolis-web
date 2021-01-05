@@ -46,7 +46,7 @@ export const Ossuary = () => {
             key={secret.id}
             leftCircleContent={<div css={buildingShopRowImage(spellDetails.imageUrl)} />}
             buttonContent={<ResourceIcon type={ResourceType.Bones} text={price} size="1.1rem" />}
-            disabled={bones < price}
+            disabledButton={bones < price}
             onClick={handleBuySpell}
             boxTestId="buildingShopRow"
             buttonTestId="buildingShopRowButton"
@@ -60,7 +60,7 @@ export const Ossuary = () => {
         <ActionBox
           leftCircleContent={<div css={buildingUpgradeArrow}>{ossuary.level + 1}</div>}
           buttonContent={<ResourceIcon type={ResourceType.Materials} text={ossuary.upgradeCost} size="1.1rem" />}
-          disabled={materials < ossuary.upgradeCost}
+          disabledButton={materials < ossuary.upgradeCost}
           onClick={handleUpgrade}
           boxTestId="buildingShopRow"
           buttonTestId="buildingShopRowButton"

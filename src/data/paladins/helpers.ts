@@ -38,6 +38,7 @@ export type PaladinCard = {
   categories: PaladinCategory[]
   shield: boolean
   skipped: boolean
+  buffed: boolean
 }
 
 export const createPaladinCard = (type: PaladinType, revealed = false): PaladinCard => ({
@@ -51,6 +52,7 @@ export const createPaladinCard = (type: PaladinType, revealed = false): PaladinC
   categories: PALADINS_CATEGORIES_MAP[type],
   shield: PALADINS_WITH_SHIELD.indexOf(type) >= 0,
   skipped: false,
+  buffed: false,
 })
 
 export const createDeck = (nbOfCards: number, possibleTypes: PaladinType[] = Object.values(PaladinType)) =>

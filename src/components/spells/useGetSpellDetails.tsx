@@ -5,7 +5,7 @@ import theKeyBackgroundUrl from '../../assets/images/spells/the-key.jpg'
 import { useTranslation } from '../../lang/useTranslation'
 import { SpellDescription } from './SpellDescription'
 
-export const useGetSpellDetails = () => {
+export const useGetSpellDetails = ({ showExpedition = false, showAssault = false } = {}) => {
   const { t } = useTranslation()
 
   return useCallback(
@@ -13,28 +13,28 @@ export const useGetSpellDetails = () => {
       if (isSoulStorm(spell)) {
         return {
           label: t('soulStormLabel'),
-          description: <SpellDescription spell={spell} />,
+          description: <SpellDescription spell={spell} showExpedition={showExpedition} showAssault={showAssault} />,
           imageUrl: soulStormBackgroundUrl,
         }
       }
       if (isRestoration(spell)) {
         return {
           label: t('restorationLabel'),
-          description: <SpellDescription spell={spell} />,
+          description: <SpellDescription spell={spell} showExpedition={showExpedition} showAssault={showAssault} />,
           imageUrl: soulStormBackgroundUrl,
         }
       }
       if (isTheKey(spell)) {
         return {
           label: t('theKeyLabel'),
-          description: <SpellDescription spell={spell} />,
+          description: <SpellDescription spell={spell} showExpedition={showExpedition} showAssault={showAssault} />,
           imageUrl: theKeyBackgroundUrl,
         }
       }
       if (isPrediction(spell)) {
         return {
           label: t('predictionLabel'),
-          description: <SpellDescription spell={spell} />,
+          description: <SpellDescription spell={spell} showExpedition={showExpedition} showAssault={showAssault} />,
           imageUrl: soulStormBackgroundUrl,
         }
       }
@@ -42,6 +42,6 @@ export const useGetSpellDetails = () => {
       // This is a safeguard because TS is stupid
       return ((_: never) => _)(spell)
     },
-    [t],
+    [showAssault, showExpedition, t],
   )
 }

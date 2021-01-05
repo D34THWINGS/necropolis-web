@@ -42,7 +42,7 @@ describe('Buildings epics', () => {
 
     const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(upgradeOssuaryEpic)
 
-    const ossuary = makeOssuary()
+    const ossuary = makeOssuary(1)
     const upgradedOssuary = makeUpgradedBuilding(ossuary)
     stateInput$.next({
       ...state$.value,
@@ -54,7 +54,7 @@ describe('Buildings epics', () => {
     actionsInput$.next(upgradeBuilding(ossuary))
 
     resetTestSeed()
-    expect(actions).toEqual([changeSecrets(makeSecretsBatch(2, []))])
+    expect(actions).toEqual([changeSecrets(makeSecretsBatch(upgradedOssuary.secretsAmount, []))])
 
     restoreDefaultSeeder()
   })

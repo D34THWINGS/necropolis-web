@@ -13,6 +13,8 @@ export const colors = {
   LIGHT_PURPLE: '#AD8EE8',
   PURPLE: '#9a58fd',
   DARK_PURPLE: '#61458C',
+  CHAOS: '#7300FF',
+  DARK_CHAOS: '#2B0061',
   LIGHT_BLUE: '#80DDF4',
   BLUE: '#12c1f4',
   DARK_BLUE: '#2F839B',

@@ -32,13 +32,12 @@ import {
   TrapType,
   EXTRA_CHAKRAM_DAMAGE,
   HEALER_BONUS_HP,
-  PUTRID_PITCH_MALUS,
+  PUTRID_PITCH_EXTRA_DAMAGE,
   WIZARD_BONUS_DAMAGES,
   WIZARD_TARGETS_COUNT,
-  DELAY_BETWEEN_TRAP_EFFECTS,
   TurnPhase,
 } from '../../config/constants'
-import { NecropolisEpic, shuffleArray } from '../helpers'
+import { getAnimationDelay, NecropolisEpic, shuffleArray } from '../helpers'
 import { nextPhase } from '../turn/actions'
 import { getCurrentPhase } from '../turn/selectors'
 import { canTargetPaladin, isPaladinConsecrated } from './helpers'
@@ -46,10 +45,11 @@ import { canTargetPaladin, isPaladinConsecrated } from './helpers'
 export const displayAssaultResultsEpic: NecropolisEpic = (action$, state$) =>
   state$.pipe(
     filter(state => getPaladinsAssaultPhase(state) === PaladinsAssaultPhase.Fighting && isAssaultFinished(state)),
+    delay(getAnimationDelay()),
     map(() => changeAssaultPhase(PaladinsAssaultPhase.Result)),
   )
 
-export const trapsEpic = (instantTrigger = false): NecropolisEpic => action$ =>
+export const trapsEpic = (instantTrigger = false): NecropolisEpic => (action$, state$) =>
   action$.pipe(
     filter(isActionOf(triggerTrap)),
     mergeMap(({ payload: { trap, paladinId } }) => {
@@ -72,12 +72,17 @@ export const trapsEpic = (instantTrigger = false): NecropolisEpic => action$ =>
         case TrapType.Profaner:
           actions.push(setChangingPaladinCategories())
           break
-        case TrapType.PutridPitch:
+        case TrapType.PutridPitch: {
+          const paladin = getPaladinById(paladinId)(state$.value)
           actions.push(
-            changePaladinsDamages([paladinId], PUTRID_PITCH_MALUS),
-            doDamagesToPaladin(paladinId, trap.damages, trap.targetsCategories),
+            doDamagesToPaladin(
+              paladinId,
+              trap.damages + (paladin?.buffed ? PUTRID_PITCH_EXTRA_DAMAGE : 0),
+              trap.targetsCategories,
+            ),
           )
           break
+        }
         default:
           break
       }
@@ -87,7 +92,7 @@ export const trapsEpic = (instantTrigger = false): NecropolisEpic => action$ =>
       }
 
       return of(...actions).pipe(
-        concatMap((action, index) => (index === 0 ? of(action) : of(action).pipe(delay(DELAY_BETWEEN_TRAP_EFFECTS)))),
+        concatMap((action, index) => (index === 0 ? of(action) : of(action).pipe(delay(getAnimationDelay())))),
       )
     }),
   )
@@ -192,10 +197,6 @@ export const forwardDamagesEpic: NecropolisEpic = (action$, state$) =>
       if (leftDamages > 0) {
         actions.push(forwardDamages(leftDamages, targetCategories))
       }
-      return of(...actions).pipe(
-        concatMap((action, index) =>
-          index === 0 ? of(action) : of(action).pipe(delay(DELAY_BETWEEN_TRAP_EFFECTS * 1.5)),
-        ),
-      )
+      return of(...actions).pipe(delay(getAnimationDelay()))
     }),
   )

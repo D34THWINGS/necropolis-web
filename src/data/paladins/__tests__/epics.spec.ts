@@ -7,12 +7,11 @@ import {
   EXTRA_CHAKRAM_DAMAGE,
   PaladinCategory,
   PaladinType,
-  PUTRID_PITCH_MALUS,
+  PUTRID_PITCH_EXTRA_DAMAGE,
   TrapType,
 } from '../../../config/constants'
 import {
   breakPaladinShield,
-  changePaladinsDamages,
   doDamagesToPaladin,
   forwardDamages,
   setChangingPaladinCategories,
@@ -91,7 +90,30 @@ describe('Paladins epics', () => {
     expect(actions).toEqual([setChangingPaladinCategories()])
   })
 
-  it('should reduce damages with putrid pitch', () => {
+  it('should do more damages with putrid pitch on buffed paladin', () => {
+    const { actionsInput$, actions, stateInput$, state$ } = buildEpicObservables(trapsEpic(true))
+
+    const initialState = mainReducer(state$.value, init())
+    const paladin = { ...createPaladinCard(PaladinType.Dreadnought), buffed: true }
+    const putridPitch = createTrap(TrapType.PutridPitch)
+    stateInput$.next({
+      ...initialState,
+      paladins: {
+        ...initialState.paladins,
+        assault: {
+          ...createPaladinsAssault(5, 10),
+          deck: [paladin],
+        },
+      },
+    })
+    actionsInput$.next(triggerTrap(putridPitch, paladin.id))
+
+    expect(actions).toEqual([
+      doDamagesToPaladin(paladin.id, putridPitch.damages + PUTRID_PITCH_EXTRA_DAMAGE, putridPitch.targetsCategories),
+    ])
+  })
+
+  it('should not do more damages with putrid pitch on regular paladin', () => {
     const { actionsInput$, actions, stateInput$, state$ } = buildEpicObservables(trapsEpic(true))
 
     const initialState = mainReducer(state$.value, init())
@@ -109,9 +131,6 @@ describe('Paladins epics', () => {
     })
     actionsInput$.next(triggerTrap(putridPitch, paladin.id))
 
-    expect(actions).toEqual([
-      changePaladinsDamages([paladin.id], PUTRID_PITCH_MALUS),
-      doDamagesToPaladin(paladin.id, putridPitch.damages, putridPitch.targetsCategories),
-    ])
+    expect(actions).toEqual([doDamagesToPaladin(paladin.id, putridPitch.damages, putridPitch.targetsCategories)])
   })
 })

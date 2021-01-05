@@ -14,6 +14,7 @@ declare namespace Cypress {
     useCheat(method: keyof Omit<Window['cheats'], 'injectState'>): void
     getByTestId(testId: string): Chainable<Element>
     loadPage(url: string): void
+    disableAnimations(): void
   }
 }
 
@@ -29,6 +30,10 @@ Cypress.Commands.add('useCheat', (method: keyof Omit<Window['cheats'], 'injectSt
 )
 
 Cypress.Commands.add('getByTestId', (testId: string) => cy.get(`[data-test-id="${testId}"]`))
+
+Cypress.Commands.add('disableAnimations', () =>
+  cy.window().then(win => win.localStorage.setItem('animationsDisabled', 'true')),
+)
 
 Cypress.Commands.add('loadPage', (url: string) =>
   cy.visit(url, {

@@ -30,6 +30,7 @@ import {
 import { applyDamagesToPaladin, Assault, createPaladinsAssault, isCommander, PaladinCard } from './helpers'
 import {
   NECROPOLIS_STRUCTURE_POINTS,
+  PaladinCategory,
   PALADINS_ATTACK_THRESHOLD,
   PaladinsAssaultPhase,
   PaladinType,
@@ -173,6 +174,7 @@ export const paladins = createReducer<PaladinState>({
       deck: updatePaladinById(assault.deck, paladinId, paladin => ({
         ...paladin,
         categories,
+        buffed: categories.includes(PaladinCategory.Pure) ? true : paladin.buffed,
       })),
     })),
   )
@@ -191,6 +193,7 @@ export const paladins = createReducer<PaladinState>({
           updatePaladinById(tempDeck, paladinId, paladin => ({
             ...paladin,
             damages: Math.max(paladin.damages + changeValue, 0),
+            buffed: changeValue > 0 ? true : paladin.buffed,
           })),
         assault.deck,
       ),
@@ -213,6 +216,7 @@ export const paladins = createReducer<PaladinState>({
       deck: updatePaladinById(assault.deck, paladinId, paladin => ({
         ...paladin,
         shield: true,
+        buffed: true,
       })),
     })),
   )
@@ -221,6 +225,7 @@ export const paladins = createReducer<PaladinState>({
       deck: updatePaladinById(assault.deck, paladinId, paladin => ({
         ...paladin,
         health: paladin.health + amount,
+        buffed: true,
       })),
     })),
   )

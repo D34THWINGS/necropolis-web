@@ -1,5 +1,11 @@
 import { paladinsDamageEffectsMiddleware } from '../middleware'
-import { changePaladinCategories, doDamagesToPaladin, swapPaladinPostions, triggerTrap } from '../actions'
+import {
+  changePaladinCategories,
+  doDamagesToPaladin,
+  forwardDamages,
+  swapPaladinPostions,
+  triggerTrap,
+} from '../actions'
 import { createPaladinCard, createPaladinsAssault } from '../helpers'
 import { PaladinCategory, PaladinType, TrapType } from '../../../config/constants'
 import { mainReducer, RootState } from '../../../store/mainReducer'
@@ -9,6 +15,8 @@ import { makePrediction, makeSoulStorm } from '../../spells/helpers'
 import { restoreDefaultSeeder, useTestSeed } from '../../seeder'
 import { nextPhase } from '../../turn/actions'
 import { createTrap } from '../traps'
+import { castUndeadAbility } from '../../undeads/actions'
+import { makeDevotionAbility } from '../../undeads/abilities'
 
 describe('Paladins middleware', () => {
   const setup = () => {
@@ -48,6 +56,32 @@ describe('Paladins middleware', () => {
     jest.useFakeTimers()
     const { api, next, vanguard, commander } = setup()
     const action = castSpell(makeSoulStorm())
+
+    paladinsDamageEffectsMiddleware(api)(next)(action)
+    jest.runAllTimers()
+
+    expect(api.dispatch).toHaveBeenCalledTimes(1)
+    expect(api.dispatch).toHaveBeenCalledWith(swapPaladinPostions(commander.id, vanguard.id))
+    expect(next).toHaveBeenCalledWith(action)
+  })
+
+  it('should swap commander on damage forwarding', () => {
+    jest.useFakeTimers()
+    const { api, next, commander, vanguard } = setup()
+    const action = forwardDamages(2, [])
+
+    paladinsDamageEffectsMiddleware(api)(next)(action)
+    jest.runAllTimers()
+
+    expect(api.dispatch).toHaveBeenCalledTimes(1)
+    expect(api.dispatch).toHaveBeenCalledWith(swapPaladinPostions(commander.id, vanguard.id))
+    expect(next).toHaveBeenCalledWith(action)
+  })
+
+  it('should swap commander on damaging ability cast', () => {
+    jest.useFakeTimers()
+    const { api, next, vanguard, commander } = setup()
+    const action = castUndeadAbility('', makeDevotionAbility())
 
     paladinsDamageEffectsMiddleware(api)(next)(action)
     jest.runAllTimers()

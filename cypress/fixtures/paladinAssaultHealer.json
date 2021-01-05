@@ -45,7 +45,7 @@
           "health": 2,
           "maxHealth": 2,
           "damages": 2,
-          "categories": ["physical", "magical"],
+          "categories": ["physical", "ethereal"],
           "shield": false
         },
         {

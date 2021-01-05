@@ -9,5 +9,3 @@ export const getLearntSpells = (state: RootState) => state.spells.spellBook
 export const getTheKey = (state: RootState) => getLearntSpells(state).find(isTheKey)
 
 export const getActiveSpellEffects = (state: RootState) => state.spells.activeEffects
-
-export const getHasSpells = (state: RootState) => getLearntSpells(state).length > 0
