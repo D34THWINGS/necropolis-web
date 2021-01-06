@@ -278,7 +278,7 @@ export const frEvents = {
       case BuildingType.SoulWell:
         return 'Améliorer le Puits des Âmes'
       case BuildingType.Arsenal:
-        return "Améliorer l'arsenal"
+        return "Améliorer l'Arsenal"
       default:
         throw new Error('Unknown building')
     }

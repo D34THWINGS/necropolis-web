@@ -131,7 +131,8 @@ export const PaladinsAssaultFight = () => {
         <div css={separator} />
         <div css={fightStatus}>
           <div css={fightStatusCounter} data-test-id="paladinCardsCounter">
-            {deck.length - remainingPaladins.length + 1}&nbsp;<span css={textColor('RED')}>/&nbsp;{deck.length}</span>
+            {deck.indexOf(activePaladin) + 1}&nbsp;
+            <span css={textColor('RED')}>/&nbsp;{deck.length}</span>
             <Image src={paladinsStrengthIcon} marginLeft="0.3rem" />
           </div>
           <div css={fightStatusCounter} data-test-id="structureHealthCounter">

@@ -22,9 +22,8 @@ describe('Paladins assault', () => {
     cy.getByTestId('beginFightPhaseButton').click()
     cy.assertText('paladinName', 'Commandant')
 
-    cy.getByTestId('useTrapButton').eq(3).click()
-    cy.assertText('paladinName', 'Gardien')
     cy.assertText('paladinCardsCounter', '1\u00A0/\u00A07')
+    cy.getByTestId('useTrapButton').eq(3).click()
     cy.assertText('paladinName', 'Commandant')
     cy.assertText('paladinCardsCounter', '2\u00A0/\u00A07')
 

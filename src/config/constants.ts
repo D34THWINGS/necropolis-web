@@ -1,5 +1,5 @@
 export const INITIAL_MATERIALS = 0
-export const INITIAL_MEAT = 8
+export const INITIAL_MEAT = 10
 
 export const EVENTS_TURN_SPACING = 3
 export const PALADINS_STRENGTH_INCREASE = 1
