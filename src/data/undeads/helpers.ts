@@ -64,7 +64,7 @@ export const makeSkeleton = (): Undead => ({
 })
 
 export const makeLaMotte = (): Undead => ({
-  ...makeBaseUndead(4),
+  ...makeBaseUndead(3),
   type: UndeadType.LaMotte,
   talents: [
     [UndeadTalent.Lethality, 3],

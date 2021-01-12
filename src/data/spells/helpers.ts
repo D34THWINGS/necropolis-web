@@ -84,7 +84,7 @@ export const makeRestoration = (): Restoration => ({
   key: SpellKey.Restoration,
   cost: 4,
   castPhases: [CastPhase.Expeditions, CastPhase.AssaultFight],
-  healthRestored: 3,
+  healthRestored: 2,
   structureRepairAmount: 3,
   targetsCleansed: 1,
   used: false,
