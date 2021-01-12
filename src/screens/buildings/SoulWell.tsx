@@ -4,7 +4,6 @@ import { Redirect } from 'react-router'
 import { css } from '@emotion/react'
 import { useTranslation } from '../../lang/useTranslation'
 import { BuildingDetails } from './components/BuildingDetails'
-import backgroundImageUrl from '../../assets/images/background.jpg'
 import soulWell1Url from '../../assets/images/buildings/soul-well-1.png'
 import soulWell2Url from '../../assets/images/buildings/soul-well-2.png'
 import soulWell3Url from '../../assets/images/buildings/soul-well-3.png'
@@ -38,7 +37,6 @@ export const SoulWell = () => {
   return (
     <BuildingDetails
       building={soulWell}
-      backgroundUrl={backgroundImageUrl}
       renderDescription={() => t('soulWellDescription', soulWell.produces[ResourceType.Souls] ?? 0)}
       renderUpgradeDescription={() => {
         const upgradedProduction = makeUpgradedBuilding(soulWell).produces[ResourceType.Souls] ?? 0

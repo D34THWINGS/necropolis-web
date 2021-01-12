@@ -9,6 +9,7 @@ import { makeUpgradedBuilding } from '../../data/buildings/helpers'
 import { MAIN_HUB } from '../../config/routes'
 import healIconUrl from '../../assets/images/icons/heal.png'
 import lockIconUrl from '../../assets/images/icons/lock.png'
+import charnelHouseBgUrl from '../../assets/images/buildings/charnel-house-bg.jpg'
 import { Image } from '../../components/images/Image'
 import { BuildingAction } from './components/BuildingAction'
 import { getMeat } from '../../data/resources/selectors'
@@ -29,6 +30,7 @@ export const CharnelHouse = () => {
 
   return (
     <BuildingDetails
+      backgroundUrl={charnelHouseBgUrl}
       building={charnelHouse}
       renderSpecialAction={(level, isCollapsed) => (
         <>

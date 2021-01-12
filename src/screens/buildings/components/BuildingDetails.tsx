@@ -8,7 +8,7 @@ import { repairBuilding, upgradeBuilding } from '../../../data/buildings/actions
 import { useTranslation } from '../../../lang/useTranslation'
 import { getMaterials } from '../../../data/resources/selectors'
 import { ScreenWrapper } from '../../../components/ui/ScreenWrapper'
-import charnelHouseBgUrl from '../../../assets/images/buildings/charnel-house-bg.jpg'
+import baseBackgroundUrl from '../../../assets/images/background.jpg'
 import { Image } from '../../../components/images/Image'
 import upgradeIconUrl from '../../../assets/images/icons/build.png'
 import repairIconUrl from '../../../assets/images/icons/repair.png'
@@ -31,7 +31,7 @@ export const BuildingDetails = ({
   renderSpecialAction,
   renderDescription,
   renderUpgradeDescription,
-  backgroundUrl = charnelHouseBgUrl,
+  backgroundUrl = baseBackgroundUrl,
 }: BuildingDetailsProps) => {
   const { t } = useTranslation()
   const materials = useSelector(getMaterials)
