@@ -84,13 +84,13 @@ export const fr = {
   ),
   charnelHouseUnlockHeal: (meat: number) => (
     <>
-      Produit <ResourceIcon type={ResourceType.Meat} text={`+${meat}`} /> par tour et débloque l&apos;action libre{' '}
+      Produit <ResourceIcon type={ResourceType.Meat} text={`+${meat}`} /> par tour et débloque{' '}
       <span css={textColor('CYAN')}>Soigner</span>.
     </>
   ),
   charnelHouseUnlockCleanse: (meat: number) => (
     <>
-      Produit <ResourceIcon type={ResourceType.Meat} text={`+${meat}`} /> par tour et débloque l&apos;action libre{' '}
+      Produit <ResourceIcon type={ResourceType.Meat} text={`+${meat}`} /> par tour et débloque{' '}
       <span css={textColor('CYAN')}>Guérir maladie</span>.
     </>
   ),

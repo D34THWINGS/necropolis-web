@@ -12,7 +12,6 @@ import { Undead } from '../../../data/undeads/helpers'
 import { CharnelHouse } from '../../../data/buildings/helpers'
 import { spendResources } from '../../../data/resources/actions'
 import { ResourceType } from '../../../config/constants'
-import { nextPhase } from '../../../data/turn/actions'
 
 const noTargets = css({
   margin: '1rem',
@@ -33,7 +32,6 @@ export const HealUndeadModal = ({ charnelHouse, isOpen, onClose }: HealUndeadMod
   const handleHealUndead = (undead: Undead) => () => {
     dispatch(spendResources({ [ResourceType.Meat]: charnelHouse.healingCost }))
     dispatch(healUndead(undead.id, charnelHouse.healingAmount))
-    dispatch(nextPhase())
     onClose()
   }
 
