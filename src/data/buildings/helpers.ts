@@ -1,6 +1,6 @@
 import { BuildingType, ResourceType } from '../../config/constants'
 import { Secret } from './secrets'
-import { makeUndeadPool, Undead } from '../undeads/helpers'
+import { Undead } from '../undeads/helpers'
 
 const CHARNEL_HOUSE_MEAT_PRODUCTION = [0, 3, 4, 5] as const
 
@@ -47,8 +47,10 @@ export type Catacombs = BaseBuilding & {
   reviveUndeadSoulCost: number
   fortifyBonus: number
   undeadPool: Undead[]
+  undeadPoolSize: number
+  reRollPoolEvery: number
 }
-export const makeCatacombs = (level = 0, undeadPool = makeUndeadPool()): Catacombs => ({
+export const makeCatacombs = (level = 0, undeadPool: Undead[] = []): Catacombs => ({
   ...makeBaseBuilding(level),
   type: BuildingType.Catacombs,
   raiseUndeadSoulCost: CATACOMBS_SOUL_COST[level],
@@ -56,6 +58,8 @@ export const makeCatacombs = (level = 0, undeadPool = makeUndeadPool()): Catacom
   reviveUndeadSoulCost: 5,
   fortifyBonus: level < 3 ? 0 : 1,
   undeadPool,
+  undeadPoolSize: 2,
+  reRollPoolEvery: 3,
 })
 export const isCatacombs = (building: Building): building is Catacombs => building.type === BuildingType.Catacombs
 

@@ -4,9 +4,12 @@ import {
   getMostInjured,
   increaseMajorTalent,
   makeBloodPrince,
+  makeBrikoler,
   makeSkeleton,
+  makeUndeadPool,
 } from '../helpers'
 import { UndeadTalent } from '../../../config/constants'
+import { restoreDefaultSeeder, useTestSeed } from '../../seeder'
 
 describe('Undead helpers', () => {
   describe('getMostInjured()', () => {
@@ -58,6 +61,26 @@ describe('Undead helpers', () => {
         [UndeadTalent.Lethality, 4],
         [UndeadTalent.Subjugation, 2],
       ])
+    })
+  })
+
+  describe('makeUndeadPool()', () => {
+    it('should draw X undead from possible undeads', () => {
+      useTestSeed()
+      expect(makeUndeadPool(2)).toEqual([
+        { ...makeBloodPrince(), id: expect.any(String) },
+        { ...makeBrikoler(), id: expect.any(String) },
+      ])
+      restoreDefaultSeeder()
+    })
+
+    it('should not draw already raised undeads', () => {
+      useTestSeed()
+      expect(makeUndeadPool(2, [makeBloodPrince()])).toEqual([
+        { ...makeSkeleton(), id: expect.any(String) },
+        { ...makeBrikoler(), id: expect.any(String) },
+      ])
+      restoreDefaultSeeder()
     })
   })
 })

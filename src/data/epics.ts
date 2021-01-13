@@ -13,10 +13,10 @@ import {
   buySecretEpic,
   repairBuildingEpic,
   reRollSecretsEpic,
+  reRollUndeadPoolEpic,
   upgradeBuildingEpic,
   upgradeBuildingWinEpic,
   upgradeCatacombsEpic,
-  upgradeOssuaryEpic,
 } from './buildings/epics'
 import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
 import {
@@ -43,10 +43,10 @@ import {
 export const rootEpic = combineEpics(
   upgradeBuildingEpic,
   upgradeBuildingWinEpic,
-  upgradeOssuaryEpic,
   upgradeCatacombsEpic,
   repairBuildingEpic,
   reRollSecretsEpic,
+  reRollUndeadPoolEpic,
   buySecretEpic,
   raiseUndeadEpic,
   eventsEpic,

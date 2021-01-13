@@ -9,7 +9,7 @@ import {
   UndeadAbility,
 } from './abilities'
 import { AbilityEffect, getTalentBuffsFromAbilityEffects } from './abilityEffects'
-import { setInArray } from '../helpers'
+import { drawRandomInArray, setInArray, shuffleArray } from '../helpers'
 
 export type UndeadId = string
 
@@ -96,7 +96,32 @@ export const getMostInjured = <T extends EntityWithHealth>(list: T[]): T | undef
 
 export const applyDamages = (entityHealth: number, damages: number) => Math.max(0, entityHealth - Math.max(0, damages))
 
-export const makeUndeadPool = () => [makeBrikoler(), makeSkeleton(), makeLaMotte(), makeBloodPrince()]
+const makeUndeadFromType = (type: UndeadType) => {
+  switch (type) {
+    case UndeadType.Valet:
+      return makeValet()
+    case UndeadType.Brikoler:
+      return makeBrikoler()
+    case UndeadType.LaMotte:
+      return makeLaMotte()
+    case UndeadType.Skeleton:
+      return makeSkeleton()
+    case UndeadType.BloodPrince:
+      return makeBloodPrince()
+  }
+}
+
+export const makeUndeadPool = (poolSize: number, raisedUndeads: Undead[] = []) => {
+  const availableTypes = shuffleArray(
+    Object.values(UndeadType).filter(
+      type => !raisedUndeads.some(undead => undead.type === type) && type !== UndeadType.Valet,
+    ),
+  )
+  return Array.from({ length: poolSize }).reduce<Undead[]>(pool => {
+    const type = availableTypes.pop()
+    return [...pool, makeUndeadFromType(type ?? drawRandomInArray(Object.values(UndeadType)))]
+  }, [])
+}
 
 export const getUndeadTalents = (undead: Undead) =>
   undead.talents.concat(getTalentBuffsFromAbilityEffects(undead.activeEffects))

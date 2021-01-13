@@ -2,6 +2,7 @@ import { createReducer } from 'typesafe-actions'
 import {
   buySecret,
   changeSecrets,
+  changeUndeadPool,
   collapseBuilding,
   freeUpgradeBuilding,
   repairBuilding,
@@ -73,6 +74,9 @@ export const buildings = createReducer<BuildingsState>({
   )
   .handleAction(changeSecrets, (state, { payload: { secrets } }) =>
     findAndUpdateBuilding(state, isOssuary, ossuary => ({ ...ossuary, secrets })),
+  )
+  .handleAction(changeUndeadPool, (state, { payload: { undeadPool } }) =>
+    findAndUpdateBuilding(state, isCatacombs, ossuary => ({ ...ossuary, undeadPool })),
   )
   .handleAction(buySecret, (state, { payload: { secret } }) =>
     findAndUpdateBuilding(state, isOssuary, ossuary => ({

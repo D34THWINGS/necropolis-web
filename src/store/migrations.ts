@@ -47,7 +47,7 @@ const migrationsRecord: Record<number, (state: PersistedRootState) => PersistedR
         ...state.buildings,
         list: setInArray(state.buildings.list, state.buildings.list.indexOf(catacombs), {
           ...catacombs,
-          undeadPool: makeUndeadPool(),
+          undeadPool: makeUndeadPool(2),
         }),
       },
     }

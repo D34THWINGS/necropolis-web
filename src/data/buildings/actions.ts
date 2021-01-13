@@ -22,3 +22,7 @@ export const changeSecrets = createAction('buildings/CHANGE_SECRETS', (secrets: 
 export const buySecret = createAction('buildings/BUY_SECRET', (secret: Secret) => ({ secret }))()
 
 export const raiseUndead = createAction('buildings/RAISE_UNDEAD', (undead: Undead) => ({ undead }))()
+
+export const changeUndeadPool = createAction('buildings/CHANGE_UNDEAD_POOL', (undeadPool: Undead[]) => ({
+  undeadPool,
+}))()

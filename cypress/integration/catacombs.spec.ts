@@ -14,11 +14,15 @@ describe('Catacombs', () => {
 
     cy.getByTestId('nextPhaseButton').click()
     cy.getByTestId('acknowledgeEventButton').click()
-    cy.assertCount('buildingShopRow', 5)
+    cy.assertCount('buildingShopRow', 3)
 
     cy.getByTestId('buildingShopRowButton').eq(1).click()
     cy.assertText('soulsCounter', '97')
-    cy.assertCount('buildingShopRow', 4)
+    cy.assertCount('buildingShopRow', 2)
     cy.assertText('undeadUpKeep', '2')
+
+    cy.getByTestId('nextPhaseButton').click().click()
+    cy.useCheat('skipAssault')
+    cy.assertCount('buildingShopRow', 3)
   })
 })

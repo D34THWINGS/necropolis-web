@@ -2,20 +2,21 @@ import {
   buySecretEpic,
   repairBuildingEpic,
   reRollSecretsEpic,
+  reRollUndeadPoolEpic,
   upgradeBuildingEpic,
   upgradeBuildingWinEpic,
-  upgradeOssuaryEpic,
 } from '../epics'
 import { buildEpicObservables } from '../../../../tests/helpers'
-import { makeOssuary, makeUpgradedBuilding } from '../helpers'
+import { makeCatacombs, makeOssuary, makeUpgradedBuilding } from '../helpers'
 import { nextPhase, win } from '../../turn/actions'
-import { buySecret, changeSecrets, repairBuilding, upgradeBuilding } from '../actions'
+import { buySecret, changeSecrets, changeUndeadPool, repairBuilding, upgradeBuilding } from '../actions'
 import { makeSecretsBatch, makeSpellSecret } from '../secrets'
 import { resetTestSeed, restoreDefaultSeeder, useTestSeed } from '../../seeder'
 import { spendResources } from '../../resources/actions'
 import { ResourceType, TurnPhase } from '../../../config/constants'
 import { makeSoulStorm } from '../../spells/helpers'
 import { learnSpell } from '../../spells/actions'
+import { makeUndeadPool } from '../../undeads/helpers'
 
 jest.mock('uuid')
 
@@ -35,28 +36,6 @@ describe('Buildings epics', () => {
     actionsInput$.next(upgradeBuilding(fullyUpgradedOssuary))
 
     expect(actions).toEqual([win()])
-  })
-
-  it('should fill missing secrets when upgrading ossuary', () => {
-    useTestSeed()
-
-    const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(upgradeOssuaryEpic)
-
-    const ossuary = makeOssuary(1)
-    const upgradedOssuary = makeUpgradedBuilding(ossuary)
-    stateInput$.next({
-      ...state$.value,
-      buildings: {
-        ...state$.value.buildings,
-        list: [upgradedOssuary],
-      },
-    })
-    actionsInput$.next(upgradeBuilding(ossuary))
-
-    resetTestSeed()
-    expect(actions).toEqual([changeSecrets(makeSecretsBatch(upgradedOssuary.secretsAmount, []))])
-
-    restoreDefaultSeeder()
   })
 
   it('should spend resources and trigger next phase when upgrading buildings', () => {
@@ -117,6 +96,76 @@ describe('Buildings epics', () => {
 
     resetTestSeed()
     expect(actions).toEqual([changeSecrets(makeSecretsBatch(ossuary.secretsAmount, []))])
+
+    restoreDefaultSeeder()
+  })
+
+  it('should re-roll secrets when upgraded ossuary misses secrets', () => {
+    useTestSeed()
+
+    const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(reRollSecretsEpic)
+
+    const ossuary = makeOssuary(1)
+    const upgradedOssuary = makeUpgradedBuilding(ossuary)
+    stateInput$.next({
+      ...state$.value,
+      buildings: {
+        ...state$.value.buildings,
+        list: [upgradedOssuary],
+      },
+    })
+    actionsInput$.next(upgradeBuilding(ossuary))
+
+    resetTestSeed()
+    expect(actions).toEqual([changeSecrets(makeSecretsBatch(upgradedOssuary.secretsAmount, []))])
+
+    restoreDefaultSeeder()
+  })
+
+  it('should re-roll undead pool every X turns on event phase', () => {
+    useTestSeed()
+
+    const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(reRollUndeadPoolEpic)
+
+    const catacombs = makeCatacombs(1)
+    stateInput$.next({
+      ...state$.value,
+      turn: {
+        ...state$.value.turn,
+        phase: TurnPhase.Production,
+        currentTurn: catacombs.reRollPoolEvery,
+      },
+      buildings: {
+        ...state$.value.buildings,
+        list: [catacombs],
+      },
+    })
+    actionsInput$.next(nextPhase())
+
+    resetTestSeed()
+    expect(actions).toEqual([changeUndeadPool(makeUndeadPool(catacombs.undeadPoolSize, []))])
+
+    restoreDefaultSeeder()
+  })
+
+  it('should re-roll undead pool when upgraded catacombs miss undeads', () => {
+    useTestSeed()
+
+    const { actionsInput$, state$, stateInput$, actions } = buildEpicObservables(reRollUndeadPoolEpic)
+
+    const catacombs = makeCatacombs(1)
+    const upgradedCatacombs = makeUpgradedBuilding(catacombs)
+    stateInput$.next({
+      ...state$.value,
+      buildings: {
+        ...state$.value.buildings,
+        list: [upgradedCatacombs],
+      },
+    })
+    actionsInput$.next(upgradeBuilding(catacombs))
+
+    resetTestSeed()
+    expect(actions).toEqual([changeUndeadPool(makeUndeadPool(upgradedCatacombs.undeadPoolSize, []))])
 
     restoreDefaultSeeder()
   })

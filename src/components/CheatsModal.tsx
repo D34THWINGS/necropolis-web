@@ -8,14 +8,13 @@ import { greenSquareButton } from '../styles/buttons'
 import { gainResources } from '../data/resources/actions'
 import { ResourceType } from '../config/constants'
 import { freeUpgradeBuilding } from '../data/buildings/actions'
-import { addUndead, readyUpAbilities } from '../data/undeads/actions'
+import { readyUpAbilities } from '../data/undeads/actions'
 import { resetOnboarding } from '../data/onboarding/actions'
 import { loadGameState, resetGame } from '../data/settings/actions'
 import { layers } from '../config/theme'
 import { persistConfig } from '../store/persistConfig'
 import { PersistedRootState } from '../store/migrations'
 import { getBuildings } from '../data/buildings/selectors'
-import { makeBloodPrince } from '../data/undeads/helpers'
 import { endEvent } from '../data/events/actions'
 import { readyUpSpells } from '../data/spells/actions'
 
@@ -97,7 +96,6 @@ export const CheatsModal = () => {
         [ResourceType.Souls]: 2,
       }),
     )
-    dispatch(addUndead(makeBloodPrince()))
   }
 
   const handleResetOnboarding = () => {

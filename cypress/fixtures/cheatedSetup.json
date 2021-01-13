@@ -26,69 +26,9 @@
         "type": "catacombs",
         "raiseUndeadSoulCost": 0,
         "fortifyBonus": 0,
-        "undeadPool": [
-          {
-            "id": 864,
-            "type": "brikoler",
-            "talents": [
-              ["lethality", 1],
-              ["muscles", 2],
-              ["dexterity", 1]
-            ],
-            "raised": false,
-            "banned": false,
-            "cursed": false,
-            "maxHealth": 3,
-            "health": 3,
-            "ability": "labor",
-            "activeEffects": []
-          },
-          {
-            "id": 4252,
-            "type": "laMotte",
-            "talents": [
-              ["lethality", 3],
-              ["muscles", 1]
-            ],
-            "raised": false,
-            "banned": false,
-            "cursed": false,
-            "maxHealth": 4,
-            "health": 4,
-            "ability": "protection",
-            "activeEffects": []
-          },
-          {
-            "id": 3393,
-            "type": "skeleton",
-            "talents": [
-              ["lethality", 2],
-              ["subjugation", 2]
-            ],
-            "raised": false,
-            "banned": false,
-            "cursed": false,
-            "maxHealth": 3,
-            "health": 3,
-            "ability": "seduction",
-            "activeEffects": []
-          },
-          {
-            "id": 844,
-            "type": "bloodPrince",
-            "talents": [
-              ["subjugation", 1],
-              ["necromancy", 3]
-            ],
-            "raised": false,
-            "banned": false,
-            "cursed": false,
-            "maxHealth": 3,
-            "health": 3,
-            "ability": "sectumSempra",
-            "activeEffects": []
-          }
-        ]
+        "undeadPool": [],
+        "undeadPoolSize": 2,
+        "reRollPoolEvery": 3
       },
       {
         "collapsed": false,
@@ -116,7 +56,13 @@
         "cursed": false,
         "maxHealth": 3,
         "health": 3,
-        "ability": "devotion",
+        "ability": {
+          "type": "devotion",
+          "healthCost": 1,
+          "talentsBonus": 3,
+          "damages": 3,
+          "targetCategories": ["physical"]
+        },
         "activeEffects": []
       }
     ],
