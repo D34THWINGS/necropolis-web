@@ -110,6 +110,7 @@ export const UndeadDetailsModal = ({ undead, onClose, showAssault, showExpeditio
             css={[...darkPurpleSquareButton, smallMarginTop]}
             disabled={!getCanCastAbility()}
             onClick={handleCastAbility}
+            data-test-id="useUndeadAbilityButton"
           >
             {getButtonLabel()}
           </button>

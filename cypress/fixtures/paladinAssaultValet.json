@@ -1,5 +1,5 @@
 {
-  "resources": { "meat": 18, "souls": 6, "bones": 6, "materials": 3 },
+  "resources": { "meat": 18, "souls": 10, "bones": 6, "materials": 3 },
   "buildings": {
     "list": [
       {
@@ -12,7 +12,26 @@
   },
   "turn": { "currentTurn": 17, "phase": 2, "gameState": 0, "looseReason": null },
   "undeads": {
-    "list": [],
+    "list": [
+      {
+        "id": "f23119ef-b974-4604-a9a9-ba3c43c09dee",
+        "health": 3,
+        "maxHealth": 3,
+        "banned": false,
+        "cursed": false,
+        "activeEffects": [],
+        "type": "valet",
+        "talents": [["dexterity", 2]],
+        "ability": {
+          "used": false,
+          "type": "devotion",
+          "healthCost": 1,
+          "talentsBonus": 3,
+          "damages": 3,
+          "targetCategories": ["physical"]
+        }
+      }
+    ],
     "requiredSacrifices": 0
   },
   "paladins": {
@@ -25,22 +44,33 @@
       "startingStructureHealth": 8,
       "deck": [
         {
-          "id": 0,
-          "type": "dreadnought",
+          "id": 1,
+          "type": "vanguard",
           "revealed": false,
           "battleCryTriggered": false,
-          "health": 6,
-          "maxHealth": 6,
-          "damages": 10,
-          "categories": ["physical"],
-          "shield": false
+          "health": 3,
+          "maxHealth": 2,
+          "damages": 2,
+          "categories": ["physical", "magical"],
+          "shield": true
         }
       ],
       "traps": [],
       "changingPaladinCategory": false
     }
   },
-  "spells": { "spellBook": [], "activeEffects": [] },
+  "spells": {
+    "spellBook": [
+      {
+        "key": "theKey",
+        "cost": 4,
+        "castPhases": ["assaultFight"],
+        "damages": 3,
+        "targetCategories": ["physical", "ethereal"]
+      }
+    ],
+    "activeEffects": []
+  },
   "onboarding": { "active": false, "step": 0, "flags": ["paladinsExplained"] },
   "expeditions": {
     "done": [0, 1],

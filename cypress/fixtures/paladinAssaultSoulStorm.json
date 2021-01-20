@@ -21,9 +21,7 @@
   "turn": { "currentTurn": 17, "phase": 2, "gameState": 0, "looseReason": null },
   "undeads": {
     "list": [],
-    "requiredSacrifices": 0,
-    "killed": [],
-    "banned": []
+    "requiredSacrifices": 0
   },
   "paladins": {
     "calledToArms": 3,

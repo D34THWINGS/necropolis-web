@@ -48,6 +48,7 @@ export const PaladinsAssaultFooter = () => {
             css={buttonBase}
             disabled={undead.ability.used}
             onClick={handleOpenUndeadDetails(undead)}
+            data-test-id="undeadDetailsButton"
           >
             <UndeadPortrait type={undead.type} size="3rem" />
           </button>
