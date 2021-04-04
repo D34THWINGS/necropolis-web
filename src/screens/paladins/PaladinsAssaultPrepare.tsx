@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { css } from '@emotion/react'
 import { lighten, transparentize } from 'polished'
-import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/modalStyles'
-import { fullPagePanel, fullPagePanelInner } from '../../components/ui/Panel/panelStyles'
 import { useTranslation } from '../../lang/useTranslation'
 import { greenBox, h2Title } from '../../styles/base'
 import { getDefense } from '../../data/selectors'
@@ -14,10 +12,7 @@ import { addTrap, changeAssaultPhase, removeTrap } from '../../data/paladins/act
 import { getTraps } from '../../data/paladins/selectors'
 import { colors } from '../../config/theme'
 import { TrapDetailsModal } from './components/TrapDetailsModal'
-
-const preparePanel = [modalPanel(ModalColor.GREEN), fullPagePanel]
-
-const preparePanelInner = [modalInner(ModalColor.GREEN), fullPagePanelInner]
+import { Frame } from '../../components/ui/Frame'
 
 const prepareLayout = css({
   display: 'flex',
@@ -95,49 +90,47 @@ export const PaladinsAssaultPrepare = () => {
   const handleStartFighting = () => dispatch(changeAssaultPhase(PaladinsAssaultPhase.Fighting))
 
   return (
-    <div css={preparePanel}>
-      <div css={preparePanelInner}>
-        <h2 css={h2Title}>{t('paladinsAssaultPrepare')}</h2>
-        <div css={prepareLayout}>
-          <div css={placedTrapsPanel}>
-            <h3 css={trapsListTitle}>{t('paladinsAssaultPlacedTraps', traps.length, defense)}</h3>
-            <div css={trapsList}>
-              {traps.map(trap => (
-                <button
-                  key={trap.id}
-                  css={placedTrapButton(trap.type)}
-                  type="button"
-                  onClick={handleRemoveTrap(trap.id)}
-                  data-test-id="equippedTrap"
-                >
-                  {t('trapName', trap.type)}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div css={trapsStashPanel}>
-            {Object.values(TrapType).map(type => (
-              <TrapButton
-                key={type}
-                type={type}
-                disabled={traps.length >= defense}
-                onAddTrap={handleAddTrap(type)}
-                onOpenDetails={handleOpenDetails(type)}
-              />
+    <Frame fullPage>
+      <h2 css={h2Title}>{t('paladinsAssaultPrepare')}</h2>
+      <div css={prepareLayout}>
+        <div css={placedTrapsPanel}>
+          <h3 css={trapsListTitle}>{t('paladinsAssaultPlacedTraps', traps.length, defense)}</h3>
+          <div css={trapsList}>
+            {traps.map(trap => (
+              <button
+                key={trap.id}
+                css={placedTrapButton(trap.type)}
+                type="button"
+                onClick={handleRemoveTrap(trap.id)}
+                data-test-id="equippedTrap"
+              >
+                {t('trapName', trap.type)}
+              </button>
             ))}
           </div>
         </div>
-        <button
-          type="button"
-          css={assaultNextButton}
-          disabled={traps.length === 0 && defense > 0}
-          onClick={handleStartFighting}
-          data-test-id="beginFightPhaseButton"
-        >
-          {t('paladinsAssaultFight')}
-        </button>
-        <TrapDetailsModal type={openedTrap} onClose={handleCloseDetails} />
+        <div css={trapsStashPanel}>
+          {Object.values(TrapType).map(type => (
+            <TrapButton
+              key={type}
+              type={type}
+              disabled={traps.length >= defense}
+              onAddTrap={handleAddTrap(type)}
+              onOpenDetails={handleOpenDetails(type)}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+      <button
+        type="button"
+        css={assaultNextButton}
+        disabled={traps.length === 0 && defense > 0}
+        onClick={handleStartFighting}
+        data-test-id="beginFightPhaseButton"
+      >
+        {t('paladinsAssaultFight')}
+      </button>
+      <TrapDetailsModal type={openedTrap} onClose={handleCloseDetails} />
+    </Frame>
   )
 }

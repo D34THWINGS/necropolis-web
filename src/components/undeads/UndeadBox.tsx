@@ -6,12 +6,11 @@ import { Image } from '../images/Image'
 import redCheckUrl from '../../assets/images/icons/red-check.png'
 import { coloredBox, contentCover, purpleBox } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
-import { colors, fonts, shadows, transitions } from '../../config/theme'
+import { colors, fonts, frameColors, shadows, transitions } from '../../config/theme'
 import { getUndeadTalents, isUndeadAlive, Undead } from '../../data/undeads/helpers'
 import { resetButton } from '../../styles/buttons'
 import { UndeadPortrait } from './UndeadPortrait'
 import { TalentsList } from '../talents/TalentsList'
-import { ModalColor, modalColorsMap } from '../ui/Modal/modalStyles'
 import { Health } from '../images/Health'
 import { UndeadAbilityDescription } from './UndeadAbilityDescription'
 
@@ -102,7 +101,7 @@ const undeadBoxButton = (backgroundColor: string) => [
     position: 'absolute',
     right: -8,
     top: '50%',
-    border: `solid 7px ${modalColorsMap[ModalColor.PURPLE][1]}`,
+    border: `solid 7px ${frameColors.DARK_PURPLE}`,
     borderRadius: '50%',
     padding: '0.3rem',
     width: '5rem',
@@ -154,13 +153,13 @@ const portraitFrame = css({
   position: 'absolute',
   right: -8,
   top: '50%',
-  border: `solid 7px ${modalColorsMap[ModalColor.GREEN][1]}`,
+  border: `solid 7px ${frameColors.DARK_PURPLE}`,
   borderRadius: '50%',
   padding: '0.3rem',
   width: '5rem',
   height: '5rem',
   transform: 'translateY(-50%)',
-  backgroundColor: modalColorsMap[ModalColor.PURPLE][0],
+  backgroundColor: frameColors.PURPLE,
   textAlign: 'center',
 
   '& > img': {

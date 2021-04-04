@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { alignItemsCenter, textColor } from '../styles/base'
 
 export const frExpeditions = {
@@ -17,6 +17,11 @@ export const frExpeditions = {
   expeditionCost: 'Coût\u00A0:',
   expeditionContinue: 'Continuer',
   expeditionTreasure: 'Trésors\u00A0:',
+  expeditionObstacle: (index: number, text: ReactNode) => (
+    <>
+      Obstacle {index} - {text}
+    </>
+  ),
 
   sawmillTitle: 'Scierie',
   sawmillOverview: <>À la bordure de la forêt se dresse piteusement une scierie.</>,
@@ -26,25 +31,27 @@ export const frExpeditions = {
       rouillée.
     </>
   ),
-  sawmillAction1: 'Passer par la porte',
+  sawmillAction1: 'Crocheter la porte',
+  sawmillAction2: 'Enfoncer la porte',
   sawmillStep2: (
     <>
       Le <span css={textColor('PURPLE')}>Valet</span> est infecté par une&nbsp;
       <span css={textColor('PURPLE')}>Maladie</span> (ne peut pas utiliser sa Capacité jusqu&apos;à guérison).
     </>
   ),
-  sawmillAction2: 'Passer par la fenêtre',
+  sawmillAction3: 'Passer par une fenêtre',
   sawmillStep3: (
     <>À peine vous explorez l&apos;intérieur que vous tombez sur un molosse décharné, probablement le chien de garde.</>
   ),
-  sawmillAction3: 'Le nourrir',
+  sawmillAction4: 'Combattre',
+  sawmillAction5: 'Le nourrir',
   sawmillStep4: (
     <>
       Le gardien vous laisse tranquille, trop occupé à engloutir son salaire si bien mérité. Vous en profiter pour
       récupérer le stock de bois.
     </>
   ),
-  sawmillAction4: 'Se faire mordre',
+  sawmillAction6: 'Se faire mordre',
   sawmillStep5: (
     <>
       Le gardien vous laisse passer en échange d&apos;un &quot;prélèvement&quot;. Vous récupérez péniblement le stock de

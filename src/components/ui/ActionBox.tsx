@@ -3,8 +3,7 @@ import lighten from 'polished/lib/color/lighten'
 import darken from 'polished/lib/color/darken'
 import { css } from '@emotion/react'
 import { resetButton } from '../../styles/buttons'
-import { colors, fonts, shadows } from '../../config/theme'
-import { ModalColor, modalColorsMap } from './Modal/modalStyles'
+import { colors, fonts, frameColors, shadows } from '../../config/theme'
 import { coloredBox } from '../../styles/base'
 
 const wrapper = css({
@@ -126,7 +125,7 @@ export const ActionBox = ({
   onClick,
   backgroundColor = colors.GREEN,
   buttonColor = colors.CYAN,
-  borderColor = modalColorsMap[ModalColor.GREEN][1],
+  borderColor = frameColors.DARK_GREEN,
   boxTestId,
   buttonTestId,
 }: ActionBoxProps) => (

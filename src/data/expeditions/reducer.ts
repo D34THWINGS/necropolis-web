@@ -3,25 +3,38 @@ import { ExpeditionType } from '../../config/constants'
 import {
   beginExpedition,
   cancelReinforcements,
+  clearObstacle,
   closeExpedition,
   endExpedition,
   fleeExpedition,
   openExpedition,
   setExpeditionStep,
   triggerCarnage,
+  triggerObstacle,
 } from './actions'
+import { Obstacle } from './helpers'
 
 export type ActiveExpedition = {
   type: ExpeditionType
   step: number
 }
 
-export const expeditions = createReducer({
-  done: [] as ExpeditionType[],
-  active: [] as ActiveExpedition[],
-  opened: null as ExpeditionType | null,
+export type ExpeditionsState = {
+  done: ExpeditionType[]
+  active: ActiveExpedition[]
+  opened: ExpeditionType | null
+  carnage: boolean
+  cancelledReinforcements: boolean
+  obstacle: Obstacle | null
+}
+
+export const expeditions = createReducer<ExpeditionsState>({
+  done: [],
+  active: [],
+  opened: null,
   carnage: false,
   cancelledReinforcements: false,
+  obstacle: null,
 })
   .handleAction(openExpedition, (state, { payload: { type } }) => ({
     ...state,
@@ -45,3 +58,5 @@ export const expeditions = createReducer({
   }))
   .handleAction(cancelReinforcements, state => ({ ...state, cancelledReinforcements: true }))
   .handleAction(triggerCarnage, state => ({ ...state, carnage: true }))
+  .handleAction(triggerObstacle, (state, { payload: { obstacle } }) => ({ ...state, obstacle }))
+  .handleAction(clearObstacle, state => ({ ...state, obstacle: null }))

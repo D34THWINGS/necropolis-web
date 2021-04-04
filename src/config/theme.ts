@@ -1,3 +1,5 @@
+import { FrameColor } from '../components/ui/Frame'
+
 export const colors = {
   WHITE: '#ffffff',
   BLACK: '#000000',
@@ -7,6 +9,7 @@ export const colors = {
   DARK_GREEN: '#144D49',
   CYAN: '#80f4d2',
   DARK_CYAN: '#57dbb4',
+  BLUE_GREEN: '#00B2A7',
   RED: '#ff0000',
   MEDIUM_RED: '#8C454E',
   DARK_RED: '#3D0F0F',
@@ -23,6 +26,17 @@ export const colors = {
   FOREST: '#2F9B47',
   BROWN: '#BA9F8A',
   CAMO: '#828E70',
+}
+
+export const frameColors = {
+  GREEN: '#448B84',
+  DARK_GREEN: '#1B655F',
+  PURPLE: '#664991',
+  DARK_PURPLE: '#3F216B',
+  BLUE: '#457E8C',
+  DARK_BLUE: '#1C5766',
+  RED: '#8C454E',
+  DARK_RED: '#661C25',
 }
 
 const TEXT_FLAT = `0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}, 0 0 1px ${colors.BLACK}`

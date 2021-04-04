@@ -1,17 +1,11 @@
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
-import { ClassNames, SerializedStyles } from '@emotion/react'
+import { css, SerializedStyles } from '@emotion/react'
 import ReactModal from 'react-modal'
 import { blueRoundButton, cyanRoundButton, purpleRoundButton, redRoundButton } from '../../../styles/buttons'
 import closeIconUrl from '../../../assets/images/icons/close.png'
-import {
-  ModalAlignment,
-  modalCloseButton,
-  modalCloseIcon,
-  ModalColor,
-  modalInner,
-  modalOverlay,
-  modalPanel,
-} from './modalStyles'
+import { ModalAlignment, modalCloseButton, modalCloseIcon, ModalColor, modalOverlay } from './modalStyles'
+import { FrameColor, FrameInner, FrameWrapper } from '../Frame'
+import { wobbleOnAppearing } from '../../../styles/animations'
 
 const modalCloseButtonMap: Record<ModalColor, SerializedStyles[]> = {
   [ModalColor.GREEN]: cyanRoundButton,
@@ -19,6 +13,17 @@ const modalCloseButtonMap: Record<ModalColor, SerializedStyles[]> = {
   [ModalColor.BLUE]: blueRoundButton,
   [ModalColor.RED]: redRoundButton,
 }
+
+const modalColorsMap: Record<ModalColor, FrameColor> = {
+  [ModalColor.BLUE]: FrameColor.BLUE,
+  [ModalColor.GREEN]: FrameColor.GREEN,
+  [ModalColor.PURPLE]: FrameColor.PURPLE,
+  [ModalColor.RED]: FrameColor.RED,
+}
+
+const modalPanelWrapper = css({
+  outline: 'none',
+})
 
 export const useModalState = (initialState = false) => {
   const [isOpen, setIsOpen] = useState(initialState)
@@ -63,31 +68,41 @@ export const Modal = ({
   }, [isOpen, children])
 
   return (
-    <ClassNames>
-      {({ css: scopedCss }) => (
-        <ReactModal
-          className={scopedCss(modalPanel(color, !onClose && !noWobble))}
-          overlayClassName={scopedCss(modalOverlay(isOpen, priority, align))}
-          isOpen={isOpen}
-          onRequestClose={onClose}
-          ariaHideApp={false}
-          closeTimeoutMS={200}
-        >
-          <div className={className} css={modalInner(color)}>
-            {isOpen ? children : lastContent.current}
-          </div>
-          {onClose && (
-            <button
-              css={[...modalCloseButtonMap[color], modalCloseButton]}
-              onClick={onClose}
-              type="button"
-              data-test-id="modalCloseButton"
-            >
-              <img css={modalCloseIcon} src={closeIconUrl} alt="" />
-            </button>
-          )}
-        </ReactModal>
+    <ReactModal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      ariaHideApp={false}
+      closeTimeoutMS={200}
+      overlayElement={({ className: _, style, ...overlayProps }, overlayChildren) => (
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        <div {...overlayProps} css={modalOverlay(isOpen, priority, align)}>
+          {overlayChildren}
+        </div>
       )}
-    </ClassNames>
+      contentElement={({ ref, className: _, style, ...contentProps }, contentChildren) => (
+        <FrameWrapper
+          ref={ref}
+          color={modalColorsMap[color]}
+          css={noWobble ? [modalPanelWrapper] : [modalPanelWrapper, wobbleOnAppearing]}
+          otherProps={contentProps}
+        >
+          {contentChildren}
+        </FrameWrapper>
+      )}
+    >
+      <FrameInner color={modalColorsMap[color]} className={className}>
+        {isOpen ? children : lastContent.current}
+      </FrameInner>
+      {onClose && (
+        <button
+          css={[...modalCloseButtonMap[color], modalCloseButton]}
+          onClick={onClose}
+          type="button"
+          data-test-id="modalCloseButton"
+        >
+          <img css={modalCloseIcon} src={closeIconUrl} alt="" />
+        </button>
+      )}
+    </ReactModal>
   )
 }

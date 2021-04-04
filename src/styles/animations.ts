@@ -1,4 +1,4 @@
-import { keyframes } from '@emotion/react'
+import { css, keyframes } from '@emotion/react'
 
 export const fadeIn = keyframes({
   from: {
@@ -48,6 +48,13 @@ export const wobble = keyframes({
   '100%': {
     transform: 'scale(1, 1)',
   },
+})
+
+export const wobbleOnAppearing = css({
+  animationName: wobble,
+  animationDelay: '50ms',
+  animationDuration: '200ms',
+  animationTimingFunction: 'ease-in-out',
 })
 
 export const glow = keyframes({

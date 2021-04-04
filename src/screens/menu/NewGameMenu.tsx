@@ -2,13 +2,7 @@ import React from 'react'
 import { css } from '@emotion/react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
-import {
-  modalCloseButton,
-  modalCloseIcon,
-  ModalColor,
-  modalInner,
-  modalPanel,
-} from '../../components/ui/Modal/modalStyles'
+import { modalCloseButton, modalCloseIcon } from '../../components/ui/Modal/modalStyles'
 import { Image } from '../../components/images/Image'
 import { cyanRoundButton, cyanSquareButton, resetButton } from '../../styles/buttons'
 import closeIconUrl from '../../assets/images/icons/close.png'
@@ -21,6 +15,8 @@ import { useTranslation } from '../../lang/useTranslation'
 import { gameCreated, resetGame } from '../../data/settings/actions'
 import { MAIN_MENU } from '../../config/routes'
 import backgroundImageUrl from '../../assets/images/background.jpg'
+import { FrameInner, FrameWrapper } from '../../components/ui/Frame'
+import { wobbleOnAppearing } from '../../styles/animations'
 
 const newGameMenuWrapper = css({
   display: 'flex',
@@ -48,7 +44,7 @@ const scenarioSelectTitle = [
 ]
 
 const characterModal = [
-  modalPanel(ModalColor.GREEN, true),
+  wobbleOnAppearing,
   css({
     margin: 0,
     maxWidth: 'calc(100% - 2rem)',
@@ -122,8 +118,8 @@ export const NewGameMenu = () => {
   return (
     <div css={newGameMenuWrapper}>
       <h1 css={scenarioSelectTitle}>{t('characterChoosing')}</h1>
-      <div css={characterModal}>
-        <div css={modalInner(ModalColor.GREEN)}>
+      <FrameWrapper css={characterModal}>
+        <FrameInner>
           <h2 css={h2Title}>{t('marenne')}</h2>
           <div css={characterFrame}>
             <Image src={marenneUrl} size="12rem" />
@@ -143,11 +139,11 @@ export const NewGameMenu = () => {
           >
             {t('beginGame')}
           </button>
-        </div>
+        </FrameInner>
         <button css={[...cyanRoundButton, modalCloseButton]} type="button" onClick={handleClose}>
           <img css={modalCloseIcon} src={closeIconUrl} alt="" />
         </button>
-      </div>
+      </FrameWrapper>
     </div>
   )
 }

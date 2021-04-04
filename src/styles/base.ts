@@ -1,6 +1,5 @@
 import { css } from '@emotion/react'
-import { colors, fonts, shadows } from '../config/theme'
-import { ModalColor, modalColorsMap } from '../components/ui/Modal/modalStyles'
+import { colors, fonts, frameColors, shadows } from '../config/theme'
 
 export const backgroundImage = (url: string) =>
   css({
@@ -35,7 +34,7 @@ export const blueBox = coloredBox(colors.BLUE)
 
 export const redBox = coloredBox(colors.MEDIUM_RED)
 
-export const darkRedBox = coloredBox(modalColorsMap[ModalColor.RED][1])
+export const darkRedBox = coloredBox(frameColors.DARK_RED)
 
 export const h2Title = css({
   margin: 0,

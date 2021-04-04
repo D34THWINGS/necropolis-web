@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { css } from '@emotion/react'
 import { useSelector } from 'react-redux'
 import { SpellsButton } from '../../../components/header/SpellsButton'
-import { SettingsButton } from '../../../components/header/SettingsButton'
 import { buttonBase } from '../../../styles/buttons'
 import { UndeadPortrait } from '../../../components/undeads/UndeadPortrait'
 import { getAliveUndeads } from '../../../data/undeads/selectors'
@@ -43,7 +42,6 @@ export const ExpeditionsFooter = () => {
 
   return (
     <div css={footer}>
-      <SettingsButton />
       <SpellsButton />
       <div css={undeadList}>
         {undeads.map(undead => (

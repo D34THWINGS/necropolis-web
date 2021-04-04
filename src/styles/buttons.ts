@@ -54,6 +54,8 @@ export const purpleRoundButton = roundButton(colors.PURPLE, 0.2, 0.25)
 
 export const redRoundButton = roundButton(colors.RED, 0.2, 0.2)
 
+export const darkGreenRoundButton = roundButton(colors.DARK_GREEN, 0.1, 0.1)
+
 const squareButton = (backgroundColor: string, light: number, shade: number) => [
   resetButton,
   buttonDisabled,

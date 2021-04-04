@@ -16,18 +16,24 @@ import { textColor } from '../../styles/base'
 import { curseUndead, damageUndead } from '../../data/undeads/actions'
 import hpCostIcon from '../../assets/images/icons/hp-cost.png'
 import { Image } from '../../components/images/Image'
+import { triggerObstacle } from '../../data/expeditions/actions'
+import { makeObstacle, makeObstacleRow } from '../../data/expeditions/helpers'
 
 const SAWMILL_DEXTERITY_REQUIRED = 2
 const SAWMILL_MEAT_REQUIRED = 2
 const SAWMILL_HEALTH_REQUIRED = 2
 const SAWMILL_MATERIALS_REWARD = 3
 
-enum OldCoffinStep {
+enum SawmillStep {
   Door,
   InfectedValet,
   FaceHound,
   NourishedHound,
   BittenByHound,
+}
+
+enum SawmillObstacle {
+  PickDoor = 'pickDoor',
 }
 
 export const Sawmill = () => {
@@ -40,31 +46,49 @@ export const Sawmill = () => {
   const handleSawmillReward = () => dispatch(gainResources({ [ResourceType.Materials]: SAWMILL_MATERIALS_REWARD }))
 
   return (
-    <ExpeditionContent<OldCoffinStep>
+    <ExpeditionContent<SawmillStep, SawmillObstacle>
       type={ExpeditionType.Sawmill}
       title={t('sawmillTitle')}
       renderStep={(step, { goToStep, renderEndButton, renderLoot, renderContinueButton }) => {
         switch (step) {
-          case OldCoffinStep.Door:
+          case SawmillStep.Door: {
+            const handlePickDoor = () =>
+              dispatch(
+                triggerObstacle(
+                  makeObstacle(SawmillObstacle.PickDoor, [makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 0)]),
+                ),
+              )
             return (
               <>
                 <ExpeditionImage src={oldCoffin2ImageUrl} />
                 <div css={expeditionStepDescription}>{t('sawmillStep1')}</div>
-                <ExpeditionAction onClick={goToStep(OldCoffinStep.InfectedValet)}>
+                <ExpeditionAction
+                  onClick={handlePickDoor}
+                  prerequisites={<TalentIcon type={UndeadTalent.Dexterity} size="1.2rem" />}
+                >
                   {t('sawmillAction1')}
                 </ExpeditionAction>
                 <ExpeditionAction
-                  disabled={dexterity < SAWMILL_DEXTERITY_REQUIRED}
-                  onClick={goToStep(OldCoffinStep.FaceHound)}
-                  prerequisites={
-                    <TalentIcon type={UndeadTalent.Dexterity} size="1.2rem" text={SAWMILL_DEXTERITY_REQUIRED} />
-                  }
+                  onClick={goToStep(SawmillStep.FaceHound)}
+                  prerequisites={<TalentIcon type={UndeadTalent.Muscles} size="1.2rem" />}
                 >
                   {t('sawmillAction2')}
                 </ExpeditionAction>
+                <ExpeditionAction
+                  onClick={goToStep(SawmillStep.FaceHound)}
+                  prerequisites={
+                    <>
+                      <TalentIcon type={UndeadTalent.Dexterity} size="1.2rem" marginRight="0.3rem" />
+                      <TalentIcon type={UndeadTalent.Muscles} size="1.2rem" />
+                    </>
+                  }
+                >
+                  {t('sawmillAction3')}
+                </ExpeditionAction>
               </>
             )
-          case OldCoffinStep.InfectedValet: {
+          }
+          case SawmillStep.InfectedValet: {
             const handleCurseValet = () => {
               if (valet) {
                 dispatch(curseUndead(valet.id))
@@ -73,19 +97,19 @@ export const Sawmill = () => {
             return (
               <>
                 {t('sawmillStep2')}
-                {renderContinueButton(OldCoffinStep.FaceHound, handleCurseValet)}
+                {renderContinueButton(SawmillStep.FaceHound, handleCurseValet)}
               </>
             )
           }
-          case OldCoffinStep.FaceHound: {
+          case SawmillStep.FaceHound: {
             const handleNourish = () => {
               dispatch(spendResources({ [ResourceType.Meat]: SAWMILL_MEAT_REQUIRED }))
-              goToStep(OldCoffinStep.NourishedHound)()
+              goToStep(SawmillStep.NourishedHound)()
             }
             const handleGetBitten = () => {
               if (valet) {
                 dispatch(damageUndead(valet.id, SAWMILL_HEALTH_REQUIRED))
-                goToStep(OldCoffinStep.BittenByHound)()
+                goToStep(SawmillStep.BittenByHound)()
               }
             }
             return (
@@ -114,7 +138,7 @@ export const Sawmill = () => {
               </>
             )
           }
-          case OldCoffinStep.BittenByHound:
+          case SawmillStep.BittenByHound:
             return (
               <>
                 {t('sawmillStep5')}
@@ -122,7 +146,7 @@ export const Sawmill = () => {
                 {renderEndButton(handleSawmillReward)}
               </>
             )
-          case OldCoffinStep.NourishedHound:
+          case SawmillStep.NourishedHound:
             return (
               <>
                 {t('sawmillStep4')}
@@ -130,6 +154,15 @@ export const Sawmill = () => {
                 {renderEndButton(handleSawmillReward)}
               </>
             )
+        }
+      }}
+      renderObstacle={obstacle => {
+        switch (obstacle.key) {
+          case SawmillObstacle.PickDoor:
+            return {
+              title: t('expeditionObstacle', 1, t('sawmillAction1')),
+              renderRowTitle: () => t('sawmillAction1'),
+            }
         }
       }}
     />

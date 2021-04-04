@@ -3,13 +3,13 @@ import { css } from '@emotion/react'
 import { useRouteMatch } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal } from '../ui/Modal/Modal'
-import { ModalColor, modalColorsMap } from '../ui/Modal/modalStyles'
+import { ModalColor } from '../ui/Modal/modalStyles'
 import { useTranslation } from '../../lang/useTranslation'
 import { h2Title, textColor } from '../../styles/base'
 import { ResourceType } from '../../config/constants'
 import { castSpell } from '../../data/spells/actions'
 import { getSouls } from '../../data/resources/selectors'
-import { colors, layers } from '../../config/theme'
+import { colors, frameColors, layers } from '../../config/theme'
 import { canCast, canCastOnOssuary, Spell } from '../../data/spells/helpers'
 import { useGetSpellDetails } from './useGetSpellDetails'
 import { OSSUARY } from '../../config/routes'
@@ -65,7 +65,7 @@ export const SpellsModal = ({ spells, isOpen, onClose }: SpellsModalProps) => {
               onClick={handleCastSpell(spell)}
               buttonColor={colors.LIGHT_BLUE}
               backgroundColor={colors.DARK_BLUE}
-              borderColor={modalColorsMap[ModalColor.BLUE][1]}
+              borderColor={frameColors.DARK_BLUE}
               boxTestId="spellBox"
               buttonTestId="castSpellButton"
             >

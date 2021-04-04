@@ -13,10 +13,25 @@ import { drawRandomInArray, setInArray, shuffleArray } from '../helpers'
 
 export type UndeadId = string
 
+export type UndeadDice = {
+  id: string
+  type: UndeadTalent | null
+  maxValue: number
+}
+
+export const makeUndeadDice = (type: UndeadTalent | null, maxValue: number) => ({
+  id: uuid(),
+  type,
+  maxValue,
+})
+
+export const makeBaseDice = () => makeUndeadDice(null, 4)
+
 export type Undead = {
   id: UndeadId
   type: UndeadType
   talents: [UndeadTalent, number][]
+  dices: UndeadDice[]
   banned: boolean
   cursed: boolean
   maxHealth: number
@@ -38,6 +53,7 @@ export const makeValet = (): Undead => ({
   ...makeBaseUndead(3),
   type: UndeadType.Valet,
   talents: [[UndeadTalent.Dexterity, 2]],
+  dices: [makeUndeadDice(UndeadTalent.Dexterity, 8)],
   ability: makeDevotionAbility(),
 })
 export const isValet = (undead: Undead) => undead.type === UndeadType.Valet
@@ -50,6 +66,11 @@ export const makeBrikoler = (): Undead => ({
     [UndeadTalent.Muscles, 2],
     [UndeadTalent.Dexterity, 1],
   ],
+  dices: [
+    makeUndeadDice(UndeadTalent.Lethality, 6),
+    makeUndeadDice(UndeadTalent.Muscles, 6),
+    makeUndeadDice(UndeadTalent.Dexterity, 6),
+  ],
   ability: makeLaborAbility(),
 })
 
@@ -60,6 +81,7 @@ export const makeSkeleton = (): Undead => ({
     [UndeadTalent.Lethality, 2],
     [UndeadTalent.Subjugation, 2],
   ],
+  dices: [makeUndeadDice(UndeadTalent.Lethality, 6), makeUndeadDice(UndeadTalent.Subjugation, 8)],
   ability: makeSeductionAbility(),
 })
 
@@ -70,6 +92,7 @@ export const makeLaMotte = (): Undead => ({
     [UndeadTalent.Lethality, 3],
     [UndeadTalent.Muscles, 1],
   ],
+  dices: [makeUndeadDice(UndeadTalent.Lethality, 10)],
   ability: makeProtectionAbility(),
 })
 export const isLaMotte = (undead: Undead) => undead.type === UndeadType.LaMotte
@@ -81,6 +104,7 @@ export const makeBloodPrince = (): Undead => ({
     [UndeadTalent.Subjugation, 1],
     [UndeadTalent.Necromancy, 3],
   ],
+  dices: [makeUndeadDice(UndeadTalent.Necromancy, 8), makeUndeadDice(UndeadTalent.Subjugation, 6)],
   ability: makeSectumSempraAbility(),
 })
 export const isBloodPrince = (undead: Undead) => undead.type === UndeadType.BloodPrince
@@ -134,3 +158,6 @@ export const increaseMajorTalent = (undead: Undead, value: number) => {
     talents: setInArray<Undead['talents'][number]>(undead.talents, index, [majorTalent, majorTalentValue + value]),
   }
 }
+
+export const getUndeadDice = (undead: Undead, talent: UndeadTalent) =>
+  undead.dices.find(dice => dice.type === talent) ?? makeBaseDice()

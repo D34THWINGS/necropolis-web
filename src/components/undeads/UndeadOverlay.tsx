@@ -5,7 +5,7 @@ import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'
 import { breakpoints, layers, transitions } from '../../config/theme'
 import { useModalState } from '../ui/Modal/Modal'
-import { ModalColor, modalInner, modalOverlay, modalPanel } from '../ui/Modal/modalStyles'
+import { modalOverlay } from '../ui/Modal/modalStyles'
 import overlayOpenUrl from '../../assets/images/overlay-open.png'
 import overlayCloseUrl from '../../assets/images/overlay-close.png'
 import { resetButton } from '../../styles/buttons'
@@ -20,9 +20,9 @@ import { Image } from '../images/Image'
 import { getUndeadTalents, isUndeadAlive, Undead } from '../../data/undeads/helpers'
 import { OnboardingHighlight } from '../../screens/onboarding/components/OnboardingHighlight'
 import { TalentsList } from '../talents/TalentsList'
+import { FrameColor, FrameInner, FrameWrapper } from '../ui/Frame'
 
 const undeadOverlayContainer = (isOpen: boolean) => [
-  modalPanel(ModalColor.PURPLE),
   css({
     position: 'absolute',
     top: '50%',
@@ -41,7 +41,6 @@ const undeadOverlayContainer = (isOpen: boolean) => [
 ]
 
 const undeadOverlayInner = [
-  modalInner(ModalColor.PURPLE),
   css({
     maxHeight: '70vh',
     paddingLeft: '2rem',
@@ -92,8 +91,8 @@ export const UndeadOverlay = () => {
     <>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
       <div css={undeadOverlayShadow(isOpen)} onClick={close} />
-      <div css={undeadOverlayContainer(isOpen)}>
-        <div css={undeadOverlayInner}>
+      <FrameWrapper color={FrameColor.PURPLE} css={undeadOverlayContainer(isOpen)}>
+        <FrameInner color={FrameColor.PURPLE} css={undeadOverlayInner}>
           <h2 css={h2Title}>{t('undeadOverlayTitle')}</h2>
           <div css={overviewBox}>
             <span css={textColor('RED')}>{t('undeadUpkeep')}</span>
@@ -118,7 +117,7 @@ export const UndeadOverlay = () => {
                 </CSSTransition>
               ))}
           </TransitionGroup>
-        </div>
+        </FrameInner>
         <OnboardingHighlight<HTMLButtonElement> step={OnboardingStep.CoffinHelp}>
           {({ className, onClick, ref }) => {
             const handleClick = () => {
@@ -135,7 +134,7 @@ export const UndeadOverlay = () => {
             )
           }}
         </OnboardingHighlight>
-      </div>
+      </FrameWrapper>
     </>
   )
 }

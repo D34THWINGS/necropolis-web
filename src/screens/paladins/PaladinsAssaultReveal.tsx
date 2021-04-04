@@ -1,7 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/modalStyles'
 import { colors, shadows } from '../../config/theme'
 import { h2Title, redBox } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
@@ -11,12 +10,8 @@ import paladinsStrengthIcon from '../../assets/images/paladins/paladins-strengh.
 import { redSquareButton } from '../../styles/buttons'
 import { PaladinsAssaultPhase } from '../../config/constants'
 import { changeAssaultPhase } from '../../data/paladins/actions'
-import { fullPagePanel, fullPagePanelInner } from '../../components/ui/Panel/panelStyles'
 import { PaladinsDeck } from './components/PaladinsDeck'
-
-const revealPanel = [modalPanel(ModalColor.RED), fullPagePanel]
-
-const revealPanelInner = [modalInner(ModalColor.RED), fullPagePanelInner]
+import { FrameColor, FrameInner, FrameWrapper } from '../../components/ui/Frame'
 
 const assaultStrengthBox = [
   redBox,
@@ -66,18 +61,18 @@ export const PaladinsAssaultReveal = () => {
   const handleNextPhase = () => dispatch(changeAssaultPhase(PaladinsAssaultPhase.Preparing))
 
   return (
-    <div css={revealPanel}>
-      <div css={revealPanelInner}>
+    <FrameWrapper color={FrameColor.RED} fullPage>
+      <FrameInner color={FrameColor.RED} fullPage>
         <h2 css={h2Title}>{t('paladinsAssaultReveal')}</h2>
         <div css={assaultStrengthBox}>
           <span css={assaultStrength}>{assault.deck.length}</span>
           <Image src={paladinsStrengthIcon} size="2rem" />
         </div>
         <PaladinsDeck css={assaultDeck} deck={assault.deck} />
-      </div>
+      </FrameInner>
       <button type="button" css={assaultNextButton} onClick={handleNextPhase} data-test-id="beginPreparePhaseButton">
         {t('paladinsAssaultNext')}
       </button>
-    </div>
+    </FrameWrapper>
   )
 }

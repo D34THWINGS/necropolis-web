@@ -1,8 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/modalStyles'
-import { fullPagePanel, fullPagePanelInner } from '../../components/ui/Panel/panelStyles'
 import resultBg from '../../assets/images/paladins/result-bg.jpg'
 import paladinsStrengthIcon from '../../assets/images/paladins/paladins-strengh.png'
 import structurePointsIcon from '../../assets/images/paladins/structure-points.png'
@@ -18,22 +16,17 @@ import { endPaladinsAssault } from '../../data/paladins/actions'
 import { getPaladinsAssault, getStructureHealth } from '../../data/paladins/selectors'
 import { gainResources } from '../../data/resources/actions'
 import { loose } from '../../data/turn/actions'
+import { Frame, FrameColor } from '../../components/ui/Frame'
 
-const resultsPanel = [modalPanel(ModalColor.RED), fullPagePanel]
-
-const resultsPanelInner = [
-  modalInner(ModalColor.RED),
-  fullPagePanelInner,
-  css({
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingLeft: '2rem',
-    paddingRight: '2rem',
-    backgroundImage: `url("${resultBg}")`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  }),
-]
+const resultsPanel = css({
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  paddingLeft: '2rem',
+  paddingRight: '2rem',
+  backgroundImage: `url("${resultBg}")`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+})
 
 const expander = css({ flex: '1' })
 
@@ -87,39 +80,32 @@ export const PaladinsAssaultResults = () => {
   }
 
   return (
-    <div css={resultsPanel}>
-      <div css={resultsPanelInner}>
-        <h2 css={h2Title}>{t('paladinsAssaultResults')}</h2>
-        <div css={expander} />
-        {structureHealth === 0 && <div css={lostBox}>{t('paladinsAssaultLost')}</div>}
-        {structureHealth > 0 && (
-          <div css={resultBox}>
-            <div css={textColor('RED')} data-test-id="killedPaladins">
-              <Image src={paladinsStrengthIcon} marginRight="0.5rem" size="2.5rem" />
-              {t('paladinsKilled', killedPaladins, assault.deck.length)}
-            </div>
-            <div css={textColor('CAMO')}>
-              <Image src={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
-              {t('healthLost', assault.startingStructureHealth - structureHealth)}
-            </div>
-            <div css={textColor('CAMO')} data-test-id="remainingStructureHealth">
-              <Image src={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
-              {t('healthRemaining', structureHealth, NECROPOLIS_STRUCTURE_POINTS)}
-            </div>
-            <ResourceLoot>
-              <ResourceIcon type={ResourceType.Bones} text={killedPaladins} />
-            </ResourceLoot>
+    <Frame css={resultsPanel} color={FrameColor.RED} fullPage>
+      <h2 css={h2Title}>{t('paladinsAssaultResults')}</h2>
+      <div css={expander} />
+      {structureHealth === 0 && <div css={lostBox}>{t('paladinsAssaultLost')}</div>}
+      {structureHealth > 0 && (
+        <div css={resultBox}>
+          <div css={textColor('RED')} data-test-id="killedPaladins">
+            <Image src={paladinsStrengthIcon} marginRight="0.5rem" size="2.5rem" />
+            {t('paladinsKilled', killedPaladins, assault.deck.length)}
           </div>
-        )}
-        <button
-          type="button"
-          css={leaveAssaultButton}
-          onClick={handleEndAssault}
-          data-test-id="endPaladinAssaultButton"
-        >
-          {t(structureHealth === 0 ? 'rip' : 'paladinsAssaultEnd')}
-        </button>
-      </div>
-    </div>
+          <div css={textColor('CAMO')}>
+            <Image src={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
+            {t('healthLost', assault.startingStructureHealth - structureHealth)}
+          </div>
+          <div css={textColor('CAMO')} data-test-id="remainingStructureHealth">
+            <Image src={structurePointsIcon} marginRight="0.5rem" size="2.5rem" />
+            {t('healthRemaining', structureHealth, NECROPOLIS_STRUCTURE_POINTS)}
+          </div>
+          <ResourceLoot>
+            <ResourceIcon type={ResourceType.Bones} text={killedPaladins} />
+          </ResourceLoot>
+        </div>
+      )}
+      <button type="button" css={leaveAssaultButton} onClick={handleEndAssault} data-test-id="endPaladinAssaultButton">
+        {t(structureHealth === 0 ? 'rip' : 'paladinsAssaultEnd')}
+      </button>
+    </Frame>
   )
 }

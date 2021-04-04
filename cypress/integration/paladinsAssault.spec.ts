@@ -210,7 +210,7 @@ describe('Paladins assault', () => {
     cy.assertText('killedPaladins', '1\u00A0/\u00A01')
   })
 
-  it.only('Valet should break shield and deal 3 damages', () => {
+  it('Valet should break shield and deal 3 damages', () => {
     assaultSetup('paladinAssaultValet')
     cy.getByTestId('undeadDetailsButton').click()
     cy.getByTestId('useUndeadAbilityButton').click()

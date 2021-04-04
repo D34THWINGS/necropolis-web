@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { lighten, transparentize } from 'polished'
 import SwitchTransition from 'react-transition-group/SwitchTransition'
 import CSSTransition from 'react-transition-group/CSSTransition'
-import { ModalColor, modalInner, modalPanel } from '../../components/ui/Modal/modalStyles'
-import { fullPagePanel, fullPagePanelInner } from '../../components/ui/Panel/panelStyles'
 import { greenBox, h2Title, textColor } from '../../styles/base'
 import { useTranslation } from '../../lang/useTranslation'
 import { NECROPOLIS_STRUCTURE_POINTS, TrapType } from '../../config/constants'
@@ -23,18 +21,13 @@ import { isPaladinAlive } from '../../data/paladins/helpers'
 import { Trap } from '../../data/paladins/traps'
 import { BuildExtraTrapModal } from './components/BuildExtraTrapModal'
 import { getAnimationDelay } from '../../data/helpers'
+import { Frame, FrameColor } from '../../components/ui/Frame'
 
-const fightPanel = [modalPanel(ModalColor.RED), fullPagePanel]
-
-const fightPanelInner = [
-  modalInner(ModalColor.RED),
-  fullPagePanelInner,
-  css({
-    alignItems: 'stretch',
-    paddingLeft: '2rem',
-    paddingRight: '2rem',
-  }),
-]
+const fightPanel = css({
+  alignItems: 'stretch',
+  paddingLeft: '2rem',
+  paddingRight: '2rem',
+})
 
 const separator = css({
   flex: 1,
@@ -116,50 +109,48 @@ export const PaladinsAssaultFight = () => {
   const handleSkipPaladin = () => dispatch(skipPaladin(activePaladin.id))
 
   return (
-    <div css={fightPanel}>
-      <div css={fightPanelInner}>
-        <h2 css={h2Title}>{t('paladinsAssaultBattle')}</h2>
-        {getAnimationDelay() ? (
-          <SwitchTransition>
-            <CSSTransition key={activePaladin.id} timeout={transitions.FAST_DURATION}>
-              <PaladinFightCard paladin={activePaladin} />
-            </CSSTransition>
-          </SwitchTransition>
-        ) : (
-          <PaladinFightCard paladin={activePaladin} />
-        )}
-        <div css={separator} />
-        <div css={fightStatus}>
-          <div css={fightStatusCounter} data-test-id="paladinCardsCounter">
-            {deck.indexOf(activePaladin) + 1}&nbsp;
-            <span css={textColor('RED')}>/&nbsp;{deck.length}</span>
-            <Image src={paladinsStrengthIcon} marginLeft="0.3rem" />
-          </div>
-          <div css={fightStatusCounter} data-test-id="structureHealthCounter">
-            {structureHealth}&nbsp;<span css={textColor('CAMO')}>/&nbsp;{NECROPOLIS_STRUCTURE_POINTS}</span>
-            <Image src={structurePointsIcon} marginLeft="0.3rem" />
-          </div>
+    <Frame color={FrameColor.RED} css={fightPanel} fullPage>
+      <h2 css={h2Title}>{t('paladinsAssaultBattle')}</h2>
+      {getAnimationDelay() ? (
+        <SwitchTransition>
+          <CSSTransition key={activePaladin.id} timeout={transitions.FAST_DURATION}>
+            <PaladinFightCard paladin={activePaladin} />
+          </CSSTransition>
+        </SwitchTransition>
+      ) : (
+        <PaladinFightCard paladin={activePaladin} />
+      )}
+      <div css={separator} />
+      <div css={fightStatus}>
+        <div css={fightStatusCounter} data-test-id="paladinCardsCounter">
+          {deck.indexOf(activePaladin) + 1}&nbsp;
+          <span css={textColor('RED')}>/&nbsp;{deck.length}</span>
+          <Image src={paladinsStrengthIcon} marginLeft="0.3rem" />
         </div>
-        <div css={trapPool}>
-          {remainingTraps.map(trap => (
-            <button
-              key={trap.id}
-              type="button"
-              css={trapUseButton(trap.type)}
-              onClick={handleUseTrap(trap)}
-              data-test-id="useTrapButton"
-            >
-              {t('trapName', trap.type)}
-            </button>
-          ))}
-          <button type="button" css={skipPaladinButton} onClick={handleSkipPaladin} data-test-id="skipPaladinButton">
-            {t('skipPaladin')}(<span css={textColor('RED')}>{-activePaladin.damages}</span>
-            <Image src={structurePointsIcon} marginLeft="0.3rem" />)
-          </button>
+        <div css={fightStatusCounter} data-test-id="structureHealthCounter">
+          {structureHealth}&nbsp;<span css={textColor('CAMO')}>/&nbsp;{NECROPOLIS_STRUCTURE_POINTS}</span>
+          <Image src={structurePointsIcon} marginLeft="0.3rem" />
         </div>
-        <ChangePaladinCategoryModal activePaladin={activePaladin} />
-        <BuildExtraTrapModal buildingExtraTrap={buildingExtraTrap} />
       </div>
-    </div>
+      <div css={trapPool}>
+        {remainingTraps.map(trap => (
+          <button
+            key={trap.id}
+            type="button"
+            css={trapUseButton(trap.type)}
+            onClick={handleUseTrap(trap)}
+            data-test-id="useTrapButton"
+          >
+            {t('trapName', trap.type)}
+          </button>
+        ))}
+        <button type="button" css={skipPaladinButton} onClick={handleSkipPaladin} data-test-id="skipPaladinButton">
+          {t('skipPaladin')}(<span css={textColor('RED')}>{-activePaladin.damages}</span>
+          <Image src={structurePointsIcon} marginLeft="0.3rem" />)
+        </button>
+      </div>
+      <ChangePaladinCategoryModal activePaladin={activePaladin} />
+      <BuildExtraTrapModal buildingExtraTrap={buildingExtraTrap} />
+    </Frame>
   )
 }

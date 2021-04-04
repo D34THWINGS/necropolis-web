@@ -34,7 +34,7 @@ const undeadTalent: Record<UndeadTalent, ReactNode> = {
   ),
   [UndeadTalent.Necromancy]: (
     <>
-      <span css={textColor('CYAN')}>Subjugation&nbsp;:</span>&nbsp;Manipuler les esprits faibles.
+      <span css={textColor('CYAN')}>Nécromancie&nbsp;:</span>&nbsp;Déchiffrer des savoirs impies, accomplir des rituels.
     </>
   ),
   [UndeadTalent.Subjugation]: (

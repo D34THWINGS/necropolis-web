@@ -6,20 +6,18 @@ import { cyanSquareButton, greenSquareButton } from '../../../styles/buttons'
 import { useTranslation } from '../../../lang/useTranslation'
 import { h2Title } from '../../../styles/base'
 import { endExpedition, setExpeditionStep } from '../../../data/expeditions/actions'
-import { getExpeditionStep, getOpenedExpedition } from '../../../data/expeditions/selectors'
+import { getExpeditionStep, getObstacle, getOpenedExpedition } from '../../../data/expeditions/selectors'
 import { Image } from '../../../components/images/Image'
 import greenArrowUrl from '../../../assets/images/onboarding/next-step-arrow.png'
 import { ExpeditionFlee } from './ExpeditionFlee'
 import { ResourceLoot } from '../../../components/resources/ResourceLoot'
-import { ModalColor, modalInner, modalPanel } from '../../../components/ui/Modal/modalStyles'
-import { fullPagePanel, fullPagePanelInner } from '../../../components/ui/Panel/panelStyles'
-
-const expeditionPanel = [modalPanel(ModalColor.GREEN), fullPagePanel]
+import { ExpeditionObstacle } from './obstacles/ExpeditionObstacle'
+import { Obstacle } from '../../../data/expeditions/helpers'
+import { Frame } from '../../../components/ui/Frame'
 
 const expeditionPanelInner = [
-  modalInner(ModalColor.GREEN),
-  fullPagePanelInner,
   css({
+    alignItems: 'stretch',
     padding: '1rem 2rem',
   }),
 ]
@@ -52,7 +50,7 @@ const fleeButtonText = css({
   flex: '1 1 auto',
 })
 
-export type ExpeditionModalProps<TStep> = {
+export type ExpeditionModalProps<TStep extends number = number, TObstacle extends string = string> = {
   type: ExpeditionType
   title: ReactNode
   renderStep: (
@@ -65,18 +63,34 @@ export type ExpeditionModalProps<TStep> = {
       renderLoot: (children?: ReactNode) => ReactNode
     },
   ) => ReactNode
+  renderObstacle?: (obstacle: Obstacle<TObstacle>) => { title: ReactNode; renderRowTitle: (index: number) => ReactNode }
 }
 
-export const ExpeditionContent = <TStep extends number = number>({
+export const ExpeditionContent = <TStep extends number = number, TObstacle extends string = string>({
   type,
   title,
   renderStep,
-}: ExpeditionModalProps<TStep>) => {
+  renderObstacle,
+}: ExpeditionModalProps<TStep, TObstacle>) => {
   const { t } = useTranslation()
   const [isFleeing, setIsFleeing] = useState(false)
   const step = useSelector(getExpeditionStep(type))
   const openedExpedition = useSelector(getOpenedExpedition)
+  const obstacle = useSelector(getObstacle)
   const dispatch = useDispatch()
+
+  if (!!obstacle && !isFleeing && renderObstacle) {
+    const { title: obstacleTitle, renderRowTitle } = renderObstacle(obstacle as Obstacle<TObstacle>)
+    return (
+      <Frame css={expeditionPanelInner} fullPage>
+        <ExpeditionObstacle
+          title={obstacleTitle}
+          obstacle={obstacle as Obstacle<TObstacle>}
+          renderRowTitle={renderRowTitle}
+        />
+      </Frame>
+    )
+  }
 
   const getContent = () => {
     if (isFleeing) {
@@ -137,11 +151,9 @@ export const ExpeditionContent = <TStep extends number = number>({
   }
 
   return (
-    <div css={expeditionPanel}>
-      <div css={expeditionPanelInner}>
-        <h2 css={expeditionTitle}>{title}</h2>
-        <div>{openedExpedition === type && getContent()}</div>
-      </div>
-    </div>
+    <Frame css={expeditionPanelInner} fullPage>
+      <h2 css={expeditionTitle}>{title}</h2>
+      <div>{openedExpedition === type && getContent()}</div>
+    </Frame>
   )
 }
