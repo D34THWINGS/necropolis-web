@@ -13,6 +13,7 @@ export const fullPagePanel = css({
   [breakpoints.SM]: {
     margin: '0 -1.7rem',
     width: 'calc(100% + 3.5rem)',
+    maxHeight: 'none',
   },
 })
 

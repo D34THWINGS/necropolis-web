@@ -8,6 +8,7 @@ export enum FrameColor {
   PURPLE,
   BLUE,
   RED,
+  BROWN,
 }
 
 export const frameColorsMap: Record<FrameColor, [string, string]> = {
@@ -15,6 +16,7 @@ export const frameColorsMap: Record<FrameColor, [string, string]> = {
   [FrameColor.PURPLE]: [frameColors.PURPLE, frameColors.DARK_PURPLE],
   [FrameColor.BLUE]: [frameColors.BLUE, frameColors.DARK_BLUE],
   [FrameColor.RED]: [frameColors.RED, frameColors.DARK_RED],
+  [FrameColor.BROWN]: [frameColors.BROWN, frameColors.DARK_BROWN],
 }
 
 const frameWrapper = (color: FrameColor) =>

@@ -20,8 +20,12 @@ const actionSheetWrapper = (isOpen: boolean) =>
       left: 0,
       width: '100%',
       height: '10rem',
-      transform: 'translateY(-100%)',
+      transform: isOpen ? 'translateY(-100%)' : 'translateY(-100%) scaleY(0.1)',
+      transformOrigin: 'bottom center',
       background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%)',
+      opacity: isOpen ? 1 : 0,
+      transition: `opacity ${transitions.FAST}, transform ${transitions.FAST}`,
+      pointerEvents: 'none',
     },
   })
 

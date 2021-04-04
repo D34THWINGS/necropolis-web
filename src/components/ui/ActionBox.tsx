@@ -11,18 +11,22 @@ const wrapper = css({
   marginTop: '0.8rem',
 })
 
-const content = (color: string, hasButton: boolean) => [
+const content = (color: string, hasButton: boolean, hasLeftContent: boolean, horizontal: boolean) => [
   coloredBox(color),
   css({
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    marginLeft: '2.5rem',
+    marginLeft: hasLeftContent ? '2.5rem' : 0,
     marginRight: hasButton ? '1.5rem' : 0,
-    paddingLeft: '3.5rem',
+    paddingLeft: hasLeftContent ? '3.5rem' : '1rem',
     paddingRight: hasButton ? '2.5rem' : '1rem',
-    minHeight: '7rem',
+    minHeight: hasLeftContent ? '7rem' : '4rem',
   }),
+  horizontal
+    ? css({ alignItems: 'center' })
+    : css({
+        flexDirection: 'column',
+        alignItems: 'stretch',
+      }),
 ]
 
 const leftCircle = (borderColor: string) =>
@@ -88,7 +92,7 @@ export const buildingShopRowTitle = css({
   fontWeight: 'normal',
 })
 
-export const buildingShopRowImage = (backgroundUrl: string) =>
+export const actionBoxImage = (backgroundUrl: string) =>
   css({
     width: '100%',
     height: '100%',
@@ -102,7 +106,7 @@ const disabledActionBox = css({ filter: 'grayscale(1)' })
 
 export type ActionBoxProps = {
   className?: string
-  leftCircleContent: ReactNode
+  leftCircleContent?: ReactNode
   buttonContent?: ReactNode
   children?: ReactNode
   disabledButton?: boolean
@@ -113,6 +117,7 @@ export type ActionBoxProps = {
   borderColor?: string
   boxTestId?: string
   buttonTestId?: string
+  horizontalLayout?: boolean
 }
 
 export const ActionBox = ({
@@ -128,10 +133,11 @@ export const ActionBox = ({
   borderColor = frameColors.DARK_GREEN,
   boxTestId,
   buttonTestId,
+  horizontalLayout = false,
 }: ActionBoxProps) => (
   <div className={className} css={[wrapper, disabled ? disabledActionBox : undefined]} data-test-id={boxTestId}>
-    <div css={leftCircle(disabled ? backgroundColor : borderColor)}>{leftCircleContent}</div>
-    <div css={content(backgroundColor, !!buttonContent)}>{children}</div>
+    {leftCircleContent && <div css={leftCircle(disabled ? backgroundColor : borderColor)}>{leftCircleContent}</div>}
+    <div css={content(backgroundColor, !!buttonContent, !!leftCircleContent, horizontalLayout)}>{children}</div>
     {buttonContent && (
       <button
         type="button"

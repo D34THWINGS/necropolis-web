@@ -311,6 +311,8 @@ export const fr = {
   talentsDescription: 'Les talents sont des caractéristiques nécessaires aux excursions et à certains événements.',
   talentDetails: (talent: UndeadTalent) => undeadTalent[talent],
 
+  inventoryEmpty: 'Votre inventaire est vide.',
+
   resourcesTitle: 'Resources',
   resourcesDescription: "Les resources sont nécessaires pour l'expension de la Nécropole",
   [ResourceType.Materials]: (

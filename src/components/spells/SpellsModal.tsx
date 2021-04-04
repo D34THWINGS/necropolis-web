@@ -13,7 +13,7 @@ import { colors, frameColors, layers } from '../../config/theme'
 import { canCast, canCastOnOssuary, Spell } from '../../data/spells/helpers'
 import { useGetSpellDetails } from './useGetSpellDetails'
 import { OSSUARY } from '../../config/routes'
-import { ActionBox, buildingShopRowImage, buildingShopRowTitle } from '../ui/ActionBox'
+import { ActionBox, actionBoxImage, buildingShopRowTitle } from '../ui/ActionBox'
 import { ResourceIcon } from '../resources/ResourceIcon'
 import coolDownIconUrl from '../../assets/images/icons/cooldown.png'
 import { Image } from '../images/Image'
@@ -54,7 +54,7 @@ export const SpellsModal = ({ spells, isOpen, onClose }: SpellsModalProps) => {
         return (
           <div key={spell.key} css={spellWrapper}>
             <ActionBox
-              leftCircleContent={<div css={buildingShopRowImage(spellDetails.imageUrl)} />}
+              leftCircleContent={<div css={actionBoxImage(spellDetails.imageUrl)} />}
               buttonContent={
                 isOnOssuary && !canCastOnOssuary(spell) ? undefined : (
                   <ResourceIcon type={ResourceType.Souls} text={spell.cost} size="1.1rem" />

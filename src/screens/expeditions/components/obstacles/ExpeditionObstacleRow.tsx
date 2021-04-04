@@ -1,7 +1,6 @@
 import React, { ReactNode, KeyboardEvent } from 'react'
 import { css } from '@emotion/react'
 import { TalentsList } from '../../../../components/talents/TalentsList'
-import { HealthPoint } from '../../../../components/images/HealthPoint'
 import { UndeadPortrait } from '../../../../components/undeads/UndeadPortrait'
 import { getUndeadDice, Undead } from '../../../../data/undeads/helpers'
 import { ObstacleRow } from '../../../../data/expeditions/helpers'

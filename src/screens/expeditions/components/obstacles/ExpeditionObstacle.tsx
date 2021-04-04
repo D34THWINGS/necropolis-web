@@ -64,6 +64,7 @@ export const ExpeditionObstacle = ({ title, obstacle, renderRowTitle }: Expediti
       <h2 css={obstacleTitle}>{title}</h2>
       {obstacle.rows.map(row => (
         <ExpeditionObstacleRow
+          key={row.id}
           title={renderRowTitle(row.index)}
           row={row}
           undeads={undeads}

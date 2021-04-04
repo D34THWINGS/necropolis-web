@@ -5,7 +5,7 @@ import { ExpeditionType, ResourceType, UndeadTalent } from '../../config/constan
 import { useTranslation } from '../../lang/useTranslation'
 import { ExpeditionAction } from './components/ExpeditionAction'
 import { TalentIcon } from '../../components/talents/TalentIcon'
-import { getUndeadArmyDexterity, getValet } from '../../data/undeads/selectors'
+import { getValet } from '../../data/undeads/selectors'
 import { expeditionStepDescription } from './helpers/expeditionStyles'
 import oldCoffin2ImageUrl from '../../assets/images/expeditions/oldCoffin/old-coffin-2.jpg'
 import { ExpeditionImage } from './components/ExpeditionImage'
@@ -19,7 +19,6 @@ import { Image } from '../../components/images/Image'
 import { triggerObstacle } from '../../data/expeditions/actions'
 import { makeObstacle, makeObstacleRow } from '../../data/expeditions/helpers'
 
-const SAWMILL_DEXTERITY_REQUIRED = 2
 const SAWMILL_MEAT_REQUIRED = 2
 const SAWMILL_HEALTH_REQUIRED = 2
 const SAWMILL_MATERIALS_REWARD = 3
@@ -39,7 +38,6 @@ enum SawmillObstacle {
 export const Sawmill = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const dexterity = useSelector(getUndeadArmyDexterity)
   const meat = useSelector(getMeat)
   const valet = useSelector(getValet)
 
@@ -55,7 +53,7 @@ export const Sawmill = () => {
             const handlePickDoor = () =>
               dispatch(
                 triggerObstacle(
-                  makeObstacle(SawmillObstacle.PickDoor, [makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 0)]),
+                  makeObstacle(SawmillObstacle.PickDoor, [makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1)]),
                 ),
               )
             return (

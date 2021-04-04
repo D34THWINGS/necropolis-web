@@ -7,7 +7,7 @@ import { getOssuary } from '../../data/buildings/selectors'
 import { MAIN_HUB } from '../../config/routes'
 import { isBuildingConstructed, isBuildingFullyUpgraded, makeUpgradedBuilding } from '../../data/buildings/helpers'
 import { BuildingShop } from './components/BuildingShop'
-import { ActionBox, buildingShopRowImage, buildingShopRowTitle } from '../../components/ui/ActionBox'
+import { ActionBox, actionBoxImage, buildingShopRowTitle } from '../../components/ui/ActionBox'
 import { ResourceIcon } from '../../components/resources/ResourceIcon'
 import { ResourceType } from '../../config/constants'
 import { buildingUpgradeArrow } from './helpers/buildingsStyles'
@@ -44,7 +44,7 @@ export const Ossuary = () => {
         return (
           <ActionBox
             key={secret.id}
-            leftCircleContent={<div css={buildingShopRowImage(spellDetails.imageUrl)} />}
+            leftCircleContent={<div css={actionBoxImage(spellDetails.imageUrl)} />}
             buttonContent={<ResourceIcon type={ResourceType.Bones} text={price} size="1.1rem" />}
             disabledButton={bones < price}
             onClick={handleBuySpell}

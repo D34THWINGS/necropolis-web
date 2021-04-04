@@ -38,7 +38,7 @@ const roundButton = (backgroundColor: string, light: number, shade: number) => [
     backgroundColor,
     border: '1px solid rgba(0, 0, 0, 0.75)',
     boxSizing: 'border-box',
-    boxShadow: `inset 0px 8px 6px ${lighten(light, backgroundColor)}, inset 0px -8px 6px ${darken(
+    boxShadow: `inset 0px 7px 3px ${lighten(light, backgroundColor)}, inset 0px -7px 3px ${darken(
       shade,
       backgroundColor,
     )}`,

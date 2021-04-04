@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { textColor } from '../../styles/base'
-import { ActionBox, buildingShopRowImage, buildingShopRowTitle } from '../ui/ActionBox'
+import { ActionBox, actionBoxImage, buildingShopRowTitle } from '../ui/ActionBox'
 import { ResourceIcon } from '../resources/ResourceIcon'
 import { ResourceType } from '../../config/constants'
 import { colors, frameColors } from '../../config/theme'
@@ -26,7 +26,7 @@ export const SpellBox = ({
 }: SpellBoxProps) => (
   <ActionBox
     className={className}
-    leftCircleContent={<div css={buildingShopRowImage(imageUrl)} />}
+    leftCircleContent={<div css={actionBoxImage(imageUrl)} />}
     buttonContent={onClick && <ResourceIcon type={ResourceType.Souls} text={soulCost} size="1.1rem" />}
     disabledButton={disabledButton}
     onClick={onClick}
