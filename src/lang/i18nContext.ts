@@ -11,7 +11,7 @@ export type Translator = {
   t: <K extends FrTranslationKey>(
     key: K,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ...args: TranslationBundle[K] extends (...args2: any) => any ? Parameters<TranslationBundle[K]> : []
+    ...args: TranslationBundle[K] extends (...args2: any[]) => any ? Parameters<TranslationBundle[K]> : []
   ) => Translation
   lang: SupportedLanguages
   setLang: (lang: SupportedLanguages) => void
