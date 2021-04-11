@@ -1,6 +1,7 @@
 import { createAction } from 'typesafe-actions'
 import { ExpeditionType } from '../../config/constants'
 import { Obstacle } from './helpers'
+import { UndeadId } from '../undeads/helpers'
 
 export const openExpedition = createAction('expeditions/OPEN', (type: ExpeditionType) => ({ type }))<{
   type: ExpeditionType
@@ -33,3 +34,24 @@ export const triggerCarnage = createAction('expeditions/CARNAGE')()
 export const triggerObstacle = createAction('expeditions/TRIGGER_OBSTACLE', (obstacle: Obstacle) => ({ obstacle }))()
 
 export const clearObstacle = createAction('expeditions/CLEAR_OBSTACLE')()
+
+export const setObstacleActiveRow = createAction('expeditions/SET_OBSTACLE_ACTIVE_ROW', (rowId: string) => ({
+  rowId,
+}))()
+
+export const addUndeadToObstacle = createAction('expeditions/ADD_UNDEAD_TO_OBSTACLE', (undeadId: UndeadId) => ({
+  undeadId,
+}))()
+
+export const removeUndeadFromObstacle = createAction(
+  'expeditions/REMOVE_UNDEAD_FROM_OBSTACLE',
+  (undeadId: UndeadId) => ({
+    undeadId,
+  }),
+)()
+
+export const rollObstacleDices = createAction('expeditions/ROLL_OBSTACLE_DICES')()
+
+export const setObstacleRolls = createAction('expeditions/SET_OBSTACLE_ROLLS', (rolls: [UndeadId, number][]) => ({
+  rolls,
+}))()

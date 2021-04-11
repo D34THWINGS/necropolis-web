@@ -35,11 +35,18 @@ const undeadDetailsName = css({
 type UndeadDetailsProps = {
   undead: Undead
   onCastAbility: () => void
+  onRollDices?: () => void
   showExpedition?: boolean
   showAssault?: boolean
 }
 
-export const UndeadDetails = ({ undead, showExpedition, showAssault, onCastAbility }: UndeadDetailsProps) => {
+export const UndeadDetails = ({
+  undead,
+  showExpedition,
+  showAssault,
+  onCastAbility,
+  onRollDices,
+}: UndeadDetailsProps) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const assaultPhase = useSelector(getPaladinsAssaultPhase)
@@ -107,6 +114,7 @@ export const UndeadDetails = ({ undead, showExpedition, showAssault, onCastAbili
           borderColor={frameColors.DARK_PURPLE}
           buttonContent={<Image src={rollDiceUrl} size="2.5rem" />}
           buttonColor={colors.LIGHT_PURPLE}
+          onClick={onRollDices}
         >
           <div>
             <Dice type={baseDice.type} value={baseDice.maxValue} size="3rem" />

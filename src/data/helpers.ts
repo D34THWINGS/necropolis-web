@@ -15,6 +15,8 @@ export const setInArray = <T>(array: T[], index: number, value: T): T[] => [
 
 export const isDefined = <T>(value: T | undefined): value is T => !!value
 
+export const isNotNull = <T>(value: T | null): value is T => !!value
+
 export const shuffleArray = <T>(array: T[]) => {
   const arrayCopy = [...array]
   for (let i = arrayCopy.length - 1; i > 0; i -= 1) {

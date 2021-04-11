@@ -18,7 +18,7 @@ import {
   upgradeBuildingWinEpic,
   upgradeCatacombsEpic,
 } from './buildings/epics'
-import { endExpeditionEpic, fleeExpeditionEpic } from './expeditions/epics'
+import { endExpeditionEpic, fleeExpeditionEpic, rollObstacleDicesEpic } from './expeditions/epics'
 import {
   blurAbilityEffectsEpic,
   castDevotionAbilityEpic,
@@ -55,6 +55,7 @@ export const rootEpic = combineEpics(
   castRestorationEpic,
   blurEffectsEpic,
   endExpeditionEpic,
+  rollObstacleDicesEpic,
   fleeExpeditionEpic,
   castSoulStormEpic,
   castTheKeyEpic,

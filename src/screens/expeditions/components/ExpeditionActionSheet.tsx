@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { css } from '@emotion/react'
 import { ActionSheet } from '../../../components/ui/ActionSheet'
 import { useModalState } from '../../../components/ui/Modal/Modal'
@@ -17,6 +17,7 @@ import { useTranslation } from '../../../lang/useTranslation'
 import { getLearntSpells } from '../../../data/spells/selectors'
 import { useGetSpellDetails } from '../../../components/spells/useGetSpellDetails'
 import { SpellBox } from '../../../components/spells/SpellBox'
+import { addUndeadToObstacle } from '../../../data/expeditions/actions'
 
 const tabsList = css({
   display: 'flex',
@@ -82,6 +83,7 @@ export const ExpeditionActionSheet = () => {
   const undeads = useSelector(getAliveUndeads)
   const spells = useSelector(getLearntSpells)
   const getSpellDetails = useGetSpellDetails({ showExpedition: true })
+  const dispatch = useDispatch()
 
   const selectedUndead =
     selectedTab?.type === TabType.Undead && undeads.find(undead => undead.id === selectedTab.undeadId)
@@ -94,6 +96,11 @@ export const ExpeditionActionSheet = () => {
   const handleOpenTab = (type: TabType.Spells | TabType.Inventory) => () => {
     setSelectedTab({ type })
     open()
+  }
+
+  const handleRollDices = (undeadId: string) => () => {
+    dispatch(addUndeadToObstacle(undeadId))
+    close()
   }
 
   const getFrameColor = () => {
@@ -126,7 +133,14 @@ export const ExpeditionActionSheet = () => {
         </button>
       </nav>
       <Frame color={getFrameColor()} fullPage css={tabBody}>
-        {selectedUndead && <UndeadDetails undead={selectedUndead} onCastAbility={close} showExpedition />}
+        {selectedUndead && (
+          <UndeadDetails
+            undead={selectedUndead}
+            onCastAbility={close}
+            onRollDices={handleRollDices(selectedUndead.id)}
+            showExpedition
+          />
+        )}
         {selectedTab?.type === TabType.Inventory && <span>{t('inventoryEmpty')}</span>}
         {selectedTab?.type === TabType.Spells &&
           spells.map(spell => {

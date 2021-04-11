@@ -10,6 +10,7 @@ import {
 } from './abilities'
 import { AbilityEffect, getTalentBuffsFromAbilityEffects } from './abilityEffects'
 import { drawRandomInArray, setInArray, shuffleArray } from '../helpers'
+import { random } from '../seeder'
 
 export type UndeadId = string
 
@@ -161,3 +162,5 @@ export const increaseMajorTalent = (undead: Undead, value: number) => {
 
 export const getUndeadDice = (undead: Undead, talent: UndeadTalent) =>
   undead.dices.find(dice => dice.type === talent) ?? makeBaseDice()
+
+export const rollDice = (dice: UndeadDice) => Math.ceil(random() * dice.maxValue)

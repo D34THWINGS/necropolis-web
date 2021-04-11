@@ -14,6 +14,8 @@ export type ObstacleRow = {
 export type Obstacle<TKey extends string = string> = {
   key: TKey
   rows: ObstacleRow[]
+  activeRow: string | null
+  rolls: [UndeadId, number][] | null
 }
 
 export const makeObstacleRow = (
@@ -33,4 +35,6 @@ export const makeObstacleRow = (
 export const makeObstacle = <TKey extends string = string>(key: TKey, rows: ObstacleRow[]): Obstacle => ({
   key,
   rows,
+  activeRow: null,
+  rolls: null,
 })
