@@ -68,8 +68,8 @@ describe('Undead helpers', () => {
     it('should draw X undead from possible undeads', () => {
       useTestSeed()
       expect(makeUndeadPool(2)).toEqual([
-        { ...makeBloodPrince(), id: expect.any(String) },
-        { ...makeBrikoler(), id: expect.any(String) },
+        { ...makeBloodPrince(), id: expect.any(String), dices: expect.any(Array) },
+        { ...makeBrikoler(), id: expect.any(String), dices: expect.any(Array) },
       ])
       restoreDefaultSeeder()
     })
@@ -77,8 +77,8 @@ describe('Undead helpers', () => {
     it('should not draw already raised undeads', () => {
       useTestSeed()
       expect(makeUndeadPool(2, [makeBloodPrince()])).toEqual([
-        { ...makeSkeleton(), id: expect.any(String) },
-        { ...makeBrikoler(), id: expect.any(String) },
+        { ...makeSkeleton(), id: expect.any(String), dices: expect.any(Array) },
+        { ...makeBrikoler(), id: expect.any(String), dices: expect.any(Array) },
       ])
       restoreDefaultSeeder()
     })
