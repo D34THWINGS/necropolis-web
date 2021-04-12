@@ -10,7 +10,6 @@ import {
   fleeExpedition,
   openExpedition,
   removeUndeadFromObstacle,
-  rollObstacleDices,
   setExpeditionStep,
   setObstacleActiveRow,
   setObstacleRolls,
