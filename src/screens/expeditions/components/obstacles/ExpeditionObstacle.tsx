@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { css } from '@emotion/react'
-import { Obstacle } from '../../../../data/expeditions/helpers'
+import { isObstacleRowPassed, Obstacle } from '../../../../data/expeditions/helpers'
 import { getUndeads } from '../../../../data/undeads/selectors'
 import { Image } from '../../../../components/images/Image'
 import fleeIconUrl from '../../../../assets/images/expeditions/flee.png'
@@ -9,7 +9,12 @@ import rollIconUrl from '../../../../assets/images/expeditions/dices/dice.png'
 import { colors, fonts, frameColors } from '../../../../config/theme'
 import { ExpeditionObstacleRow } from './ExpeditionObstacleRow'
 import { cyanRoundButton, darkGreenRoundButton, redSquareButton } from '../../../../styles/buttons'
-import { removeUndeadFromObstacle, rollObstacleDices, setObstacleActiveRow } from '../../../../data/expeditions/actions'
+import {
+  applyObstacleConsequences,
+  removeUndeadFromObstacle,
+  rollObstacleDices,
+  setObstacleActiveRow,
+} from '../../../../data/expeditions/actions'
 import { redBox, textColor } from '../../../../styles/base'
 import { useTranslation } from '../../../../lang/useTranslation'
 import { UndeadPortrait } from '../../../../components/undeads/UndeadPortrait'
@@ -91,6 +96,7 @@ export const ExpeditionObstacle = ({ title, obstacle, renderRowTitle }: Expediti
   const handleToggleRow = (rowId: string) => () => dispatch(setObstacleActiveRow(rowId))
   const handleRemoveUndead = (undeadId: string) => dispatch(removeUndeadFromObstacle(undeadId))
   const handleRollDices = () => dispatch(rollObstacleDices())
+  const handleApplyConsequences = () => dispatch(applyObstacleConsequences())
 
   return (
     <>
@@ -121,8 +127,7 @@ export const ExpeditionObstacle = ({ title, obstacle, renderRowTitle }: Expediti
       {hasRolledDices && (
         <div css={consequencesBox}>
           {obstacle.rows.flatMap(row => {
-            const result = row.slottedUndeads.reduce((sum, undeadId) => sum + (rollsMap.get(undeadId) ?? 0), 0)
-            if (result >= row.requiredTalent[1]) {
+            if (isObstacleRowPassed(row, rollsMap)) {
               return []
             }
             return row.slottedUndeads.map(undeadId => {
@@ -141,7 +146,7 @@ export const ExpeditionObstacle = ({ title, obstacle, renderRowTitle }: Expediti
               )
             })
           })}
-          <button type="button" css={redSquareButton}>
+          <button type="button" css={redSquareButton} onClick={handleApplyConsequences}>
             {t('applyConsequences')}
           </button>
         </div>

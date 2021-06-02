@@ -1,13 +1,23 @@
 import { isActionOf } from 'typesafe-actions'
-import { of } from 'rxjs'
-import { filter, map, mapTo, mergeMapTo } from 'rxjs/operators'
-import { endExpedition, fleeExpedition, rollObstacleDices, setObstacleRolls } from './actions'
+import { EMPTY, of } from 'rxjs'
+import { filter, map, mapTo, mergeMap, mergeMapTo } from 'rxjs/operators'
+import {
+  applyObstacleConsequences,
+  clearObstacleRolls,
+  endExpedition,
+  fleeExpedition,
+  rollObstacleDices,
+  setObstacleRolls,
+} from './actions'
 import { nextPhase } from '../turn/actions'
 import { increasePaladinsCounter } from '../paladins/actions'
 import { isNotNull, NecropolisEpic } from '../helpers'
 import { getObstacle } from './selectors'
 import { getUndeads } from '../undeads/selectors'
 import { getUndeadDice, rollDice, UndeadId } from '../undeads/helpers'
+import { damageUndead } from '../undeads/actions'
+import { isObstacleRowPassed } from './helpers'
+import { RootAction } from '../actions'
 
 export const endExpeditionEpic: NecropolisEpic = action$ =>
   action$.pipe(filter(isActionOf(endExpedition)), mapTo(nextPhase()))
@@ -35,6 +45,30 @@ export const rollObstacleDicesEpic: NecropolisEpic = (action$, state$) =>
             })
             .filter(isNotNull),
         ),
+      )
+    }),
+  )
+
+export const applyObstacleConsequencesEpic: NecropolisEpic = (action$, state$) =>
+  action$.pipe(
+    filter(isActionOf(applyObstacleConsequences)),
+    map(() => getObstacle(state$.value)),
+    filter(isNotNull),
+    mergeMap(obstacle => {
+      if (!obstacle.rolls) {
+        return EMPTY
+      }
+
+      const rollsMap = new Map(obstacle.rolls)
+      const failedRows = obstacle.rows.filter(row => !isObstacleRowPassed(row, rollsMap))
+
+      if (failedRows.length === 0) {
+        return EMPTY
+      }
+
+      return of<RootAction>(
+        clearObstacleRolls(),
+        ...failedRows.flatMap(row => row.slottedUndeads.map(undeadId => damageUndead(undeadId, row.healthCost))),
       )
     }),
   )

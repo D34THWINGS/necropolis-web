@@ -5,6 +5,7 @@ import {
   beginExpedition,
   cancelReinforcements,
   clearObstacle,
+  clearObstacleRolls,
   closeExpedition,
   endExpedition,
   fleeExpedition,
@@ -132,6 +133,18 @@ export const expeditions = createReducer<ExpeditionsState>({
       obstacle: {
         ...state.obstacle,
         rolls,
+      },
+    }
+  })
+  .handleAction(clearObstacleRolls, state => {
+    if (!state.obstacle) {
+      return state
+    }
+    return {
+      ...state,
+      obstacle: {
+        ...state.obstacle,
+        rolls: null,
       },
     }
   })

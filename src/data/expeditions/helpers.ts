@@ -38,3 +38,8 @@ export const makeObstacle = <TKey extends string = string>(key: TKey, rows: Obst
   activeRow: null,
   rolls: null,
 })
+
+export const isObstacleRowPassed = (row: ObstacleRow, rollsMap: Map<UndeadId, number>) => {
+  const result = row.slottedUndeads.reduce((sum, undeadId) => sum + (rollsMap.get(undeadId) ?? 0), 0)
+  return result >= row.requiredTalent[1]
+}
