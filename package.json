@@ -37,6 +37,8 @@
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "cypress": "^6.0.1",
+    "esbuild": "^0.12.5",
+    "esbuild-jest": "^0.5.0",
     "eslint": "^7.3.1",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-plugin-import": "^2.20.2",
@@ -47,7 +49,7 @@
     "imagemin-cli": "^6.0.0",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-pngquant": "^9.0.0",
-    "jest": "^26.6.3",
+    "jest": "^27.0.3",
     "parcel": "^2.0.0-beta.2",
     "prettier": "^2.0.1",
     "typescript": "^4.0.2",
@@ -81,6 +83,7 @@
     "testPathIgnorePatterns": [
       "cypress/*"
     ],
+    "testEnvironment": "jsdom",
     "moduleFileExtensions": [
       "js",
       "json",
@@ -89,6 +92,9 @@
       "ts",
       "tsx"
     ],
+    "transform": {
+      "^.+\\.m?[tj]sx?$": "esbuild-jest"
+    },
     "modulePathIgnorePatterns": [
       "cache/*",
       "cypress/*",
