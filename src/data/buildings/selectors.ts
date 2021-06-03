@@ -16,9 +16,10 @@ import {
 
 export const getBuildings = (state: RootState) => state.buildings.list
 
-export const getBuilding = <T extends Building>(predicate: (building: Building) => building is T) => (
-  state: RootState,
-) => getBuildings(state).find(predicate)
+export const getBuilding =
+  <T extends Building>(predicate: (building: Building) => building is T) =>
+  (state: RootState) =>
+    getBuildings(state).find(predicate)
 
 export const getOssuary = getBuilding(isOssuary)
 
@@ -49,12 +50,12 @@ export const getUpgradableBuildings = createSelector(getBuildings, buildings =>
 
 export const getAreAllBuildingsFullyUpgraded = (state: RootState) => getBuildings(state).every(isBuildingFullyUpgraded)
 
-const getIsBuildingBuilt = <T extends Building>(predicate: (building: Building) => building is T) => (
-  state: RootState,
-) => {
-  const building = getBuilding(predicate)(state)
-  return !!building && isBuildingConstructed(building)
-}
+const getIsBuildingBuilt =
+  <T extends Building>(predicate: (building: Building) => building is T) =>
+  (state: RootState) => {
+    const building = getBuilding(predicate)(state)
+    return !!building && isBuildingConstructed(building)
+  }
 
 export const getIsOssuaryBuilt = getIsBuildingBuilt(isOssuary)
 

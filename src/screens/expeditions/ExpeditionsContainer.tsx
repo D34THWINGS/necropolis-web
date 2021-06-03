@@ -20,6 +20,7 @@ import backgroundImageUrl from '../../assets/images/background.jpg'
 import { ScreenWrapper } from '../../components/ui/ScreenWrapper'
 import { breakpoints } from '../../config/theme'
 import { UndeadSacrifice } from '../../components/undeads/UndeadSacrifice'
+import { LastUndeadDiedModal } from '../../components/undeads/LastUndeadDiedModal'
 
 const wrapper = css({
   display: 'flex',
@@ -54,6 +55,7 @@ export const ExpeditionsContainer = () => {
       </Switch>
       <ExpeditionsFooter />
       <UndeadSacrifice />
+      <LastUndeadDiedModal />
     </ScreenWrapper>
   )
 }

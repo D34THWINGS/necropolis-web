@@ -116,11 +116,10 @@ export const isPaladinConsecrated = (paladin: PaladinCard) => paladin.categories
 export const canTargetPaladin = (paladin: PaladinCard, targetsCategories: PaladinCategory[]) =>
   targetsCategories.some(category => paladin.categories.indexOf(category) >= 0)
 
-export const applyDamagesToPaladin = (damages: number, targetCategories: PaladinCategory[]) => (
-  paladin: PaladinCard,
-) => {
-  if (paladin.shield || !canTargetPaladin(paladin, targetCategories)) {
-    return paladin
+export const applyDamagesToPaladin =
+  (damages: number, targetCategories: PaladinCategory[]) => (paladin: PaladinCard) => {
+    if (paladin.shield || !canTargetPaladin(paladin, targetCategories)) {
+      return paladin
+    }
+    return { ...paladin, health: applyDamages(paladin.health, damages) }
   }
-  return { ...paladin, health: applyDamages(paladin.health, damages) }
-}

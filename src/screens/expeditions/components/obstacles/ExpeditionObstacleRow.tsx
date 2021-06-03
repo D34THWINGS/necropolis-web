@@ -4,18 +4,19 @@ import { TalentsList } from '../../../../components/talents/TalentsList'
 import { UndeadPortrait } from '../../../../components/undeads/UndeadPortrait'
 import { getUndeadDice, Undead, UndeadId } from '../../../../data/undeads/helpers'
 import { ObstacleRow } from '../../../../data/expeditions/helpers'
-import { colors, fonts, frameColors } from '../../../../config/theme'
+import { colors, fonts, frameColors, transitions } from '../../../../config/theme'
 import { Image } from '../../../../components/images/Image'
 import anyDiceIconUrl from '../../../../assets/images/expeditions/dices/any-dice.png'
 import hpCostIcon from '../../../../assets/images/icons/hp-cost.png'
 import { buttonBase } from '../../../../styles/buttons'
-import { Dice } from '../../../../components/images/Dice'
+import { RollingDice } from '../../../../components/images/RollingDice'
 
 const obstacleRowWrapper = (isFailed: boolean) =>
   css({
     padding: '0.3rem 0.8rem',
     borderRadius: '15px',
     backgroundColor: isFailed ? colors.MEDIUM_RED : colors.GREEN,
+    transition: transitions.FAST,
   })
 
 const obstacleRowHeader = css({
@@ -65,6 +66,7 @@ const obstacleRowRequirements = (isFailed: boolean) => [
   obstacleRowStatBox,
   css({
     backgroundColor: isFailed ? '#B20000' : colors.BLUE_GREEN,
+    transition: transitions.FAST,
   }),
 ]
 
@@ -73,6 +75,7 @@ const obstacleRowCosts = (isFailed: boolean) => [
   css({
     color: colors.RED,
     backgroundColor: isFailed ? frameColors.DARK_RED : colors.MEDIUM_RED,
+    transition: transitions.FAST,
   }),
 ]
 
@@ -99,6 +102,7 @@ const obstacleRowSlot = (isFailed: boolean) =>
     border: `solid 2px ${isFailed ? colors.RED : colors.DARK_GREEN}`,
     height: '4rem',
     backgroundColor: isFailed ? frameColors.DARK_RED : frameColors.DARK_GREEN,
+    transition: transitions.SLOW,
   })
 
 const voidSlot = css({
@@ -159,15 +163,7 @@ export const ExpeditionObstacleRow = ({
         </svg>
         <h2 css={obstacleRowTitle}>{title}</h2>
         <div css={spacer} />
-        <TalentsList
-          css={obstacleRowRequirementsDetails}
-          values={[row.requiredTalent]}
-          renderText={text => (
-            <>
-              {row.slottedUndeads.length}/{text}
-            </>
-          )}
-        />
+        {!isActive && <TalentsList css={obstacleRowRequirementsDetails} values={[row.requiredTalent]} />}
       </div>
       <div css={obstacleRowBody(isActive)}>
         <div css={obstacleRowStats}>
@@ -199,7 +195,7 @@ export const ExpeditionObstacleRow = ({
                 return (
                   <div key={index} css={obstacleRowSlot(isRowFailed)}>
                     <UndeadPortrait type={slottedUndead.type} size="2rem" />
-                    <Dice value={rollsMap.get(slottedUndead.id) ?? 0} type={dice.type} size="2.5rem" />
+                    <RollingDice value={rollsMap.get(slottedUndead.id) ?? 0} type={dice.type} size="3rem" />
                   </div>
                 )
               }
@@ -214,7 +210,7 @@ export const ExpeditionObstacleRow = ({
                     onClick={() => onRemoveUndead(slottedUndead.id)}
                   >
                     <UndeadPortrait type={slottedUndead.type} size="2rem" />
-                    <Dice value={rollsMap.get(slottedUndead.id) ?? dice.maxValue} type={dice.type} size="2.5rem" />
+                    <RollingDice value={rollsMap.get(slottedUndead.id) ?? dice.maxValue} type={dice.type} size="3rem" />
                   </button>
                 )
               }

@@ -115,6 +115,7 @@ export const UndeadDetails = ({
           buttonContent={<Image src={rollDiceUrl} size="2.5rem" />}
           buttonColor={colors.LIGHT_PURPLE}
           onClick={onRollDices}
+          buttonTestId="addUndeadToObstacleButton"
         >
           <div>
             <Dice type={baseDice.type} value={baseDice.maxValue} size="3rem" />

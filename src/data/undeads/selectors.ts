@@ -1,9 +1,20 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../../store/mainReducer'
 import { UndeadTalent, UndeadType } from '../../config/constants'
-import { getMissingHealth, getMostInjured, getUndeadTalents, isBloodPrince, isUndeadAlive, Undead } from './helpers'
+import {
+  getMissingHealth,
+  getMostInjured,
+  getUndeadTalents,
+  isBloodPrince,
+  isUndeadAlive,
+  Undead,
+  UndeadId,
+} from './helpers'
 
 export const getUndeads = (state: RootState) => state.undeads.list
+
+export const getUndeadById = (undeadId: UndeadId) => (state: RootState) =>
+  state.undeads.list.find(undead => undead.id === undeadId)
 
 export const getAliveUndeads = createSelector(getUndeads, undeads => undeads.filter(isUndeadAlive))
 

@@ -1,24 +1,29 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { css } from '@emotion/react'
-import { isObstacleRowPassed, Obstacle } from '../../../../data/expeditions/helpers'
+import { isObstaclePassed, isObstacleRowPassed, Obstacle } from '../../../../data/expeditions/helpers'
 import { getUndeads } from '../../../../data/undeads/selectors'
 import { Image } from '../../../../components/images/Image'
 import fleeIconUrl from '../../../../assets/images/expeditions/flee.png'
 import rollIconUrl from '../../../../assets/images/expeditions/dices/dice.png'
 import { colors, fonts, frameColors } from '../../../../config/theme'
 import { ExpeditionObstacleRow } from './ExpeditionObstacleRow'
-import { cyanRoundButton, darkGreenRoundButton, redSquareButton } from '../../../../styles/buttons'
+import { cyanRoundButton, cyanSquareButton, darkGreenRoundButton, redSquareButton } from '../../../../styles/buttons'
 import {
   applyObstacleConsequences,
+  clearObstacle,
   removeUndeadFromObstacle,
   rollObstacleDices,
   setObstacleActiveRow,
 } from '../../../../data/expeditions/actions'
-import { redBox, textColor } from '../../../../styles/base'
+import { greenBox, redBox, smallMarginTop, textColor } from '../../../../styles/base'
 import { useTranslation } from '../../../../lang/useTranslation'
 import { UndeadPortrait } from '../../../../components/undeads/UndeadPortrait'
 import hpCostIcon from '../../../../assets/images/icons/hp-cost.png'
+import { ResourceIcon } from '../../../../components/resources/ResourceIcon'
+import { ResourceType } from '../../../../config/constants'
+import { ResourceLoot } from '../../../../components/resources/ResourceLoot'
+import { gainResources, ResourcePayload } from '../../../../data/resources/actions'
 
 const obstacleTitle = css({
   margin: '0 -1rem 0.8rem',
@@ -81,22 +86,62 @@ const consequencesSlot = css({
 
 export type ExpeditionObstacleProps = {
   title: ReactNode
+  rewardText: ReactNode
+  rewardResources: [ResourceType, number][]
   obstacle: Obstacle
   renderRowTitle: (index: number) => ReactNode
+  onEnd: () => void
+  onFlee: () => void
 }
 
-export const ExpeditionObstacle = ({ title, obstacle, renderRowTitle }: ExpeditionObstacleProps) => {
+export const ExpeditionObstacle = ({
+  title,
+  rewardText,
+  rewardResources,
+  obstacle,
+  renderRowTitle,
+  onEnd,
+  onFlee,
+}: ExpeditionObstacleProps) => {
   const { t } = useTranslation()
   const undeads = useSelector(getUndeads)
   const dispatch = useDispatch()
+  const [showReward, setShowReward] = useState(false)
 
   const hasRolledDices = !!obstacle.rolls
   const rollsMap = new Map(obstacle.rolls)
+  const isSuccess = isObstaclePassed(obstacle)
 
   const handleToggleRow = (rowId: string) => () => dispatch(setObstacleActiveRow(rowId))
   const handleRemoveUndead = (undeadId: string) => dispatch(removeUndeadFromObstacle(undeadId))
   const handleRollDices = () => dispatch(rollObstacleDices())
   const handleApplyConsequences = () => dispatch(applyObstacleConsequences())
+  const handleShowReward = () => setShowReward(true)
+  const handleEndObstacle = () => {
+    dispatch(clearObstacle())
+    dispatch(
+      gainResources(rewardResources.reduce<ResourcePayload>((acc, [type, value]) => ({ ...acc, [type]: value }), {})),
+    )
+    onEnd()
+  }
+
+  if (showReward) {
+    return (
+      <>
+        <h2 css={obstacleTitle}>{title}</h2>
+        <div css={greenBox}>{rewardText}</div>
+        <ResourceLoot css={smallMarginTop}>
+          {rewardResources.map(([type, value]) => (
+            <ResourceIcon key={type} type={type} text={value} size="1.8rem" marginLeft="0.2rem" marginRight="0.2rem" />
+          ))}
+        </ResourceLoot>
+        <div css={spacer} />
+        <button type="button" css={cyanSquareButton} onClick={handleEndObstacle} data-test-id="endObstacleButton">
+          {t('obstacleEnd')}
+        </button>
+      </>
+    )
+  }
 
   return (
     <>
@@ -116,15 +161,15 @@ export const ExpeditionObstacle = ({ title, obstacle, renderRowTitle }: Expediti
       <div css={spacer} />
       {!hasRolledDices && (
         <div css={obstacleFooter}>
-          <button css={fleeButton} type="button">
+          <button css={fleeButton} type="button" onClick={onFlee}>
             <Image src={fleeIconUrl} size="2.5rem" />
           </button>
-          <button css={rollButton} type="button" onClick={handleRollDices}>
+          <button css={rollButton} type="button" onClick={handleRollDices} data-test-id="rollDicesButton">
             <Image src={rollIconUrl} size="4rem" />
           </button>
         </div>
       )}
-      {hasRolledDices && (
+      {hasRolledDices && !isSuccess && (
         <div css={consequencesBox}>
           {obstacle.rows.flatMap(row => {
             if (isObstacleRowPassed(row, rollsMap)) {
@@ -150,6 +195,11 @@ export const ExpeditionObstacle = ({ title, obstacle, renderRowTitle }: Expediti
             {t('applyConsequences')}
           </button>
         </div>
+      )}
+      {hasRolledDices && isSuccess && (
+        <button type="button" css={cyanSquareButton} onClick={handleShowReward} data-test-id="showObstacleRewardButton">
+          {t('obstacleEnd')}
+        </button>
       )}
     </>
   )

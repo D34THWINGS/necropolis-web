@@ -49,53 +49,55 @@ export const displayAssaultResultsEpic: NecropolisEpic = (action$, state$) =>
     map(() => changeAssaultPhase(PaladinsAssaultPhase.Result)),
   )
 
-export const trapsEpic = (instantTrigger = false): NecropolisEpic => (action$, state$) =>
-  action$.pipe(
-    filter(isActionOf(triggerTrap)),
-    mergeMap(({ payload: { trap, paladinId } }) => {
-      const actions: RootAction[] = []
+export const trapsEpic =
+  (instantTrigger = false): NecropolisEpic =>
+  (action$, state$) =>
+    action$.pipe(
+      filter(isActionOf(triggerTrap)),
+      mergeMap(({ payload: { trap, paladinId } }) => {
+        const actions: RootAction[] = []
 
-      switch (trap.type) {
-        case TrapType.Impaler:
-          actions.push(
-            breakPaladinShield(paladinId),
-            doDamagesToPaladin(paladinId, trap.damages, trap.targetsCategories),
-          )
-          break
-        case TrapType.Chakrams: {
-          actions.push(
-            doDamagesToPaladin(paladinId, trap.damages, trap.targetsCategories),
-            forwardDamages(EXTRA_CHAKRAM_DAMAGE, Object.values(PaladinCategory)),
-          )
-          break
+        switch (trap.type) {
+          case TrapType.Impaler:
+            actions.push(
+              breakPaladinShield(paladinId),
+              doDamagesToPaladin(paladinId, trap.damages, trap.targetsCategories),
+            )
+            break
+          case TrapType.Chakrams: {
+            actions.push(
+              doDamagesToPaladin(paladinId, trap.damages, trap.targetsCategories),
+              forwardDamages(EXTRA_CHAKRAM_DAMAGE, Object.values(PaladinCategory)),
+            )
+            break
+          }
+          case TrapType.Profaner:
+            actions.push(setChangingPaladinCategories())
+            break
+          case TrapType.PutridPitch: {
+            const paladin = getPaladinById(paladinId)(state$.value)
+            actions.push(
+              doDamagesToPaladin(
+                paladinId,
+                trap.damages + (paladin?.buffed ? PUTRID_PITCH_EXTRA_DAMAGE : 0),
+                trap.targetsCategories,
+              ),
+            )
+            break
+          }
+          default:
+            break
         }
-        case TrapType.Profaner:
-          actions.push(setChangingPaladinCategories())
-          break
-        case TrapType.PutridPitch: {
-          const paladin = getPaladinById(paladinId)(state$.value)
-          actions.push(
-            doDamagesToPaladin(
-              paladinId,
-              trap.damages + (paladin?.buffed ? PUTRID_PITCH_EXTRA_DAMAGE : 0),
-              trap.targetsCategories,
-            ),
-          )
-          break
+
+        if (instantTrigger) {
+          return of(...actions)
         }
-        default:
-          break
-      }
 
-      if (instantTrigger) {
-        return of(...actions)
-      }
-
-      return of(...actions).pipe(
-        concatMap((action, index) => (index === 0 ? of(action) : of(action).pipe(delay(getAnimationDelay())))),
-      )
-    }),
-  )
+        return of(...actions).pipe(
+          concatMap((action, index) => (index === 0 ? of(action) : of(action).pipe(delay(getAnimationDelay())))),
+        )
+      }),
+    )
 
 export const paladinBattleCryEpic: NecropolisEpic = (action$, state$) =>
   action$.pipe(

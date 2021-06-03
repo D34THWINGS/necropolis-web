@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+import { css } from '@emotion/react'
 import { Image, IconProps } from '../images/Image'
 import { ResourceType } from '../../config/constants'
 import bonesImageUrl from '../../assets/images/resources/bones.png'
@@ -7,6 +8,11 @@ import meatImageUrl from '../../assets/images/resources/meat.png'
 import soulsImageUrl from '../../assets/images/resources/souls.png'
 import { textColor } from '../../styles/base'
 import { colors } from '../../config/theme'
+
+const resourceText = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+})
 
 const iconMap: Record<ResourceType, string> = {
   [ResourceType.Materials]: materialsImageUrl,
@@ -27,9 +33,8 @@ export type ResourceIconProps = Omit<IconProps, 'src'> & {
   text?: ReactNode
 }
 
-export const ResourceIcon = ({ type, text, className, marginLeft, marginRight, size, block }: ResourceIconProps) => (
-  <>
-    {text === undefined ? null : <span css={textColor(colorMap[type])}>{text}</span>}
+export const ResourceIcon = ({ type, text, className, marginLeft, marginRight, size, block }: ResourceIconProps) => {
+  const icon = (
     <Image
       src={iconMap[type]}
       className={className}
@@ -38,5 +43,16 @@ export const ResourceIcon = ({ type, text, className, marginLeft, marginRight, s
       size={size}
       block={block}
     />
-  </>
-)
+  )
+
+  if (!text) {
+    return icon
+  }
+
+  return (
+    <span css={[textColor(colorMap[type]), resourceText]}>
+      {text}
+      {icon}
+    </span>
+  )
+}

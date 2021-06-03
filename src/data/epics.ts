@@ -22,6 +22,7 @@ import {
   applyObstacleConsequencesEpic,
   endExpeditionEpic,
   fleeExpeditionEpic,
+  removeUndeadFromObstacleOnDeathEpic,
   rollObstacleDicesEpic,
 } from './expeditions/epics'
 import {
@@ -62,6 +63,7 @@ export const rootEpic = combineEpics(
   endExpeditionEpic,
   rollObstacleDicesEpic,
   applyObstacleConsequencesEpic,
+  removeUndeadFromObstacleOnDeathEpic,
   fleeExpeditionEpic,
   castSoulStormEpic,
   castTheKeyEpic,

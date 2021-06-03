@@ -12,6 +12,7 @@ export const frExpeditions = {
     </>
   ),
   applyConsequences: 'Subir les conséquences',
+  obstacleEnd: 'Suite',
   fleeExpeditionDescription: 'Les Paladins ont eu vent de votre instant de faiblesse.',
   fleeExpeditionButton: 'Partir',
   expeditionPrerequisites: 'Prérequis\u00A0:',
@@ -33,7 +34,16 @@ export const frExpeditions = {
     </>
   ),
   sawmillAction1: 'Crocheter la porte',
+  sawmillReward1: (
+    <>Après un court instant, la serrure clique et la porte s&apos;entrouvre. Vous vous faufilez à l&apos;intérieur</>
+  ),
   sawmillAction2: 'Enfoncer la porte',
+  sawmillReward2: (
+    <>
+      La porte vol en éclat, le bois pourri n&apos;offrait aucune résistance. Vous faites une entrée fracassante dans la
+      petite cabane.
+    </>
+  ),
   sawmillStep2: (
     <>
       Le <span css={textColor('PURPLE')}>Valet</span> est infecté par une&nbsp;
@@ -45,6 +55,9 @@ export const frExpeditions = {
     <>À peine vous explorez l&apos;intérieur que vous tombez sur un molosse décharné, probablement le chien de garde.</>
   ),
   sawmillAction4: 'Combattre',
+  sawmillReward3: (
+    <>Le gardien a failli à sa mission. Vous le décepez, puis récupérez le stock de bois de la scierie.</>
+  ),
   sawmillAction5: 'Le nourrir',
   sawmillStep4: (
     <>

@@ -121,7 +121,13 @@ export const ExpeditionActionSheet = () => {
     <ActionSheet isOpen={isOpen} onClose={close}>
       <nav css={tabsList}>
         {undeads.map(undead => (
-          <button key={undead.id} type="button" css={undeadTab} onClick={handleUndeadTabClick(undead.id)}>
+          <button
+            key={undead.id}
+            type="button"
+            css={undeadTab}
+            onClick={handleUndeadTabClick(undead.id)}
+            data-test-id="undeadTab"
+          >
             <UndeadPortrait type={undead.type} size="1.3rem" />
           </button>
         ))}

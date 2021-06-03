@@ -22,6 +22,7 @@ import { makeObstacle, makeObstacleRow } from '../../data/expeditions/helpers'
 const SAWMILL_MEAT_REQUIRED = 2
 const SAWMILL_HEALTH_REQUIRED = 2
 const SAWMILL_MATERIALS_REWARD = 3
+const SAWMILL_BONES_REWARD = 2
 
 enum SawmillStep {
   Door,
@@ -33,6 +34,8 @@ enum SawmillStep {
 
 enum SawmillObstacle {
   PickDoor = 'pickDoor',
+  BreakDoor = 'breakDoor',
+  FightHound = 'fightHound',
 }
 
 export const Sawmill = () => {
@@ -56,6 +59,12 @@ export const Sawmill = () => {
                   makeObstacle(SawmillObstacle.PickDoor, [makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1)]),
                 ),
               )
+            const handleBreakDoor = () =>
+              dispatch(
+                triggerObstacle(
+                  makeObstacle(SawmillObstacle.BreakDoor, [makeObstacleRow(0, 3, [UndeadTalent.Muscles, 3], 1)]),
+                ),
+              )
             return (
               <>
                 <ExpeditionImage src={oldCoffin2ImageUrl} />
@@ -67,21 +76,10 @@ export const Sawmill = () => {
                   {t('sawmillAction1')}
                 </ExpeditionAction>
                 <ExpeditionAction
-                  onClick={goToStep(SawmillStep.FaceHound)}
+                  onClick={handleBreakDoor}
                   prerequisites={<TalentIcon type={UndeadTalent.Muscles} size="1.2rem" />}
                 >
                   {t('sawmillAction2')}
-                </ExpeditionAction>
-                <ExpeditionAction
-                  onClick={goToStep(SawmillStep.FaceHound)}
-                  prerequisites={
-                    <>
-                      <TalentIcon type={UndeadTalent.Dexterity} size="1.2rem" marginRight="0.3rem" />
-                      <TalentIcon type={UndeadTalent.Muscles} size="1.2rem" />
-                    </>
-                  }
-                >
-                  {t('sawmillAction3')}
                 </ExpeditionAction>
               </>
             )
@@ -100,6 +98,12 @@ export const Sawmill = () => {
             )
           }
           case SawmillStep.FaceHound: {
+            const handleFightHound = () =>
+              dispatch(
+                triggerObstacle(
+                  makeObstacle(SawmillObstacle.FightHound, [makeObstacleRow(0, 3, [UndeadTalent.Lethality, 3], 1)]),
+                ),
+              )
             const handleNourish = () => {
               dispatch(spendResources({ [ResourceType.Meat]: SAWMILL_MEAT_REQUIRED }))
               goToStep(SawmillStep.NourishedHound)()
@@ -114,11 +118,17 @@ export const Sawmill = () => {
               <>
                 {t('sawmillStep3')}
                 <ExpeditionAction
-                  onClick={handleNourish}
+                  onClick={handleFightHound}
+                  prerequisites={<TalentIcon type={UndeadTalent.Lethality} size="1.2rem" />}
+                >
+                  {t('sawmillAction4')}
+                </ExpeditionAction>
+                <ExpeditionAction
                   disabled={meat < SAWMILL_MEAT_REQUIRED}
+                  onClick={handleNourish}
                   cost={<ResourceIcon type={ResourceType.Meat} size="1.2rem" text={SAWMILL_MEAT_REQUIRED} />}
                 >
-                  {t('sawmillAction3')}
+                  {t('sawmillAction5')}
                 </ExpeditionAction>
                 <ExpeditionAction
                   disabled={!valet}
@@ -131,7 +141,7 @@ export const Sawmill = () => {
                     </>
                   }
                 >
-                  {t('sawmillAction4')}
+                  {t('sawmillAction6')}
                 </ExpeditionAction>
               </>
             )
@@ -154,12 +164,40 @@ export const Sawmill = () => {
             )
         }
       }}
-      renderObstacle={obstacle => {
+      renderObstacle={(obstacle, { goToStep, endExpedition }) => {
         switch (obstacle.key) {
           case SawmillObstacle.PickDoor:
             return {
               title: t('expeditionObstacle', 1, t('sawmillAction1')),
+              rewardText: t('sawmillReward1'),
+              rewardResources: [
+                [ResourceType.Materials, SAWMILL_MATERIALS_REWARD],
+                [ResourceType.Bones, SAWMILL_BONES_REWARD],
+              ],
               renderRowTitle: () => t('sawmillAction1'),
+              onEnd: () => goToStep(SawmillStep.FaceHound),
+            }
+          case SawmillObstacle.BreakDoor:
+            return {
+              title: t('expeditionObstacle', 1, t('sawmillAction2')),
+              rewardText: t('sawmillReward2'),
+              rewardResources: [
+                [ResourceType.Materials, SAWMILL_MATERIALS_REWARD],
+                [ResourceType.Bones, SAWMILL_BONES_REWARD],
+              ],
+              renderRowTitle: () => t('sawmillAction2'),
+              onEnd: () => goToStep(SawmillStep.FaceHound),
+            }
+          case SawmillObstacle.FightHound:
+            return {
+              title: t('expeditionObstacle', 2, t('sawmillAction4')),
+              rewardText: t('sawmillReward3'),
+              rewardResources: [
+                [ResourceType.Materials, SAWMILL_MATERIALS_REWARD],
+                [ResourceType.Bones, SAWMILL_BONES_REWARD],
+              ],
+              renderRowTitle: () => t('sawmillAction4'),
+              onEnd: () => endExpedition(),
             }
         }
       }}

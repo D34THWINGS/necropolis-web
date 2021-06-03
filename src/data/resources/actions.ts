@@ -1,7 +1,7 @@
 import { createAction } from 'typesafe-actions'
 import type { ResourcesState } from './reducer'
 
-type ResourcePayload = Partial<ResourcesState>
+export type ResourcePayload = Partial<ResourcesState>
 
 export const spendResources = createAction('resources/SPEND', (payload: ResourcePayload) => payload)<ResourcePayload>()
 

@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react'
 import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ExpeditionType } from '../../../config/constants'
+import { ExpeditionType, ResourceType } from '../../../config/constants'
 import { cyanSquareButton, greenSquareButton } from '../../../styles/buttons'
 import { useTranslation } from '../../../lang/useTranslation'
 import { h2Title } from '../../../styles/base'
@@ -63,7 +63,16 @@ export type ExpeditionModalProps<TStep extends number = number, TObstacle extend
       renderLoot: (children?: ReactNode) => ReactNode
     },
   ) => ReactNode
-  renderObstacle?: (obstacle: Obstacle<TObstacle>) => { title: ReactNode; renderRowTitle: (index: number) => ReactNode }
+  renderObstacle?: (
+    obstacle: Obstacle<TObstacle>,
+    actions: { goToStep: (step: TStep) => void; endExpedition: () => void },
+  ) => {
+    title: ReactNode
+    rewardText: ReactNode
+    rewardResources: [ResourceType, number][]
+    renderRowTitle: (index: number) => ReactNode
+    onEnd: () => void
+  }
 }
 
 export const ExpeditionContent = <TStep extends number = number, TObstacle extends string = string>({
@@ -80,13 +89,26 @@ export const ExpeditionContent = <TStep extends number = number, TObstacle exten
   const dispatch = useDispatch()
 
   if (!!obstacle && !isFleeing && renderObstacle) {
-    const { title: obstacleTitle, renderRowTitle } = renderObstacle(obstacle as Obstacle<TObstacle>)
+    const {
+      title: obstacleTitle,
+      renderRowTitle,
+      rewardText,
+      rewardResources,
+      onEnd,
+    } = renderObstacle(obstacle as Obstacle<TObstacle>, {
+      goToStep: (newStep: TStep) => dispatch(setExpeditionStep(type, newStep)),
+      endExpedition: () => dispatch(endExpedition(type)),
+    })
     return (
       <Frame css={expeditionPanelInner} fullPage>
         <ExpeditionObstacle
           title={obstacleTitle}
+          rewardText={rewardText}
+          rewardResources={rewardResources}
           obstacle={obstacle as Obstacle<TObstacle>}
           renderRowTitle={renderRowTitle}
+          onEnd={onEnd}
+          onFlee={() => setIsFleeing(true)}
         />
       </Frame>
     )

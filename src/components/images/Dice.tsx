@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { css } from '@emotion/react'
 import { Image } from './Image'
 import { UndeadTalent } from '../../config/constants'
@@ -26,8 +26,8 @@ const diceValue = css({
   justifyContent: 'center',
   fontSize: '1.5rem',
   fontFamily: fonts.TITLES,
-  paddingTop: '0.4rem',
-  paddingRight: '0.1rem',
+  paddingTop: '0.2rem',
+  // paddingRight: '0.1rem',
   textShadow: shadows.TEXT,
 })
 
@@ -53,9 +53,9 @@ export type DiceProps = {
   size?: string
 }
 
-export const Dice = ({ size, value, type }: DiceProps) => (
-  <span css={diceWrapper}>
+export const Dice = forwardRef<HTMLSpanElement, DiceProps>(({ size, value, type }, ref) => (
+  <span ref={ref} css={diceWrapper}>
     <Image src={type ? diceImageMap[type] : neutralDiceUrl} size={size} />
     <span css={[diceValue, textColor(type ? diceColorMap[type] : 'METEOR')]}>{value}</span>
   </span>
-)
+))

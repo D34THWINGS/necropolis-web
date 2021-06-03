@@ -74,3 +74,12 @@ export const glow = keyframes({
     opacity: 0,
   },
 })
+
+export const shine = keyframes({
+  from: {
+    filter: 'brightness(1)',
+  },
+  to: {
+    filter: 'brightness(1.3)',
+  },
+})

@@ -1,11 +1,12 @@
 import { isActionOf } from 'typesafe-actions'
 import { EMPTY, of } from 'rxjs'
-import { filter, map, mapTo, mergeMap, mergeMapTo } from 'rxjs/operators'
+import { delay, filter, map, mapTo, mergeMap, mergeMapTo } from 'rxjs/operators'
 import {
   applyObstacleConsequences,
   clearObstacleRolls,
   endExpedition,
   fleeExpedition,
+  removeUndeadFromObstacle,
   rollObstacleDices,
   setObstacleRolls,
 } from './actions'
@@ -13,10 +14,10 @@ import { nextPhase } from '../turn/actions'
 import { increasePaladinsCounter } from '../paladins/actions'
 import { isNotNull, NecropolisEpic } from '../helpers'
 import { getObstacle } from './selectors'
-import { getUndeads } from '../undeads/selectors'
+import { getUndeadById, getUndeads } from '../undeads/selectors'
 import { getUndeadDice, rollDice, UndeadId } from '../undeads/helpers'
 import { damageUndead } from '../undeads/actions'
-import { isObstacleRowPassed } from './helpers'
+import { isObstacleRowPassed, isUndeadSlottedInObstacle } from './helpers'
 import { RootAction } from '../actions'
 
 export const endExpeditionEpic: NecropolisEpic = action$ =>
@@ -30,6 +31,7 @@ export const rollObstacleDicesEpic: NecropolisEpic = (action$, state$) =>
     filter(isActionOf(rollObstacleDices)),
     map(() => getObstacle(state$.value)),
     filter(isNotNull),
+    delay(700),
     map(obstacle => {
       const undeads = getUndeads(state$.value)
       return setObstacleRolls(
@@ -70,5 +72,23 @@ export const applyObstacleConsequencesEpic: NecropolisEpic = (action$, state$) =
         clearObstacleRolls(),
         ...failedRows.flatMap(row => row.slottedUndeads.map(undeadId => damageUndead(undeadId, row.healthCost))),
       )
+    }),
+  )
+
+export const removeUndeadFromObstacleOnDeathEpic: NecropolisEpic = (action$, state$) =>
+  action$.pipe(
+    filter(isActionOf(damageUndead)),
+    mergeMap(({ payload: { undeadId } }) => {
+      const obstacle = getObstacle(state$.value)
+      if (!obstacle) {
+        return EMPTY
+      }
+
+      const undead = getUndeadById(undeadId)(state$.value)
+      if (!undead || undead.health > 0 || !isUndeadSlottedInObstacle(obstacle, undeadId)) {
+        return EMPTY
+      }
+
+      return of(removeUndeadFromObstacle(undeadId))
     }),
   )
