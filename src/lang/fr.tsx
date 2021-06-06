@@ -15,6 +15,7 @@ import { Image } from '../components/images/Image'
 import { DamageCategories } from '../components/images/DamageCategories'
 import structurePointsIcon from '../assets/images/paladins/structure-points.png'
 import hpCostIcon from '../assets/images/icons/hp-cost.png'
+import anyDiceIcon from '../assets/images/expeditions/dices/any-dice.png'
 
 const undeadTalent: Record<UndeadTalent, ReactNode> = {
   [UndeadTalent.Muscles]: (
@@ -311,7 +312,22 @@ export const fr = {
   talentsDescription: 'Les talents sont des caractéristiques nécessaires aux excursions et à certains événements.',
   talentDetails: (talent: UndeadTalent) => undeadTalent[talent],
 
+  inventoryTitle: 'Inventaire',
   inventoryEmpty: 'Votre inventaire est vide.',
+  exquisiteMeat: 'Viande exquise',
+  exquisiteMeatDescription: (healAmount: number) => (
+    <>
+      Rend {healAmount}&nbsp;
+      <HealthPoint />.
+    </>
+  ),
+  haysteStrands: 'Brins de Haste',
+  haysteStrandsDescription: (rerolledDices: number) => (
+    <>
+      Relance {rerolledDices}&nbsp;
+      <Image src={anyDiceIcon} />.
+    </>
+  ),
 
   resourcesTitle: 'Resources',
   resourcesDescription: "Les resources sont nécessaires pour l'expension de la Nécropole",

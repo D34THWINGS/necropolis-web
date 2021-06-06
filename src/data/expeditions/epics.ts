@@ -7,6 +7,7 @@ import {
   endExpedition,
   fleeExpedition,
   removeUndeadFromObstacle,
+  rerollUndeadDices,
   rollObstacleDices,
   setObstacleRolls,
 } from './actions'
@@ -48,6 +49,29 @@ export const rollObstacleDicesEpic: NecropolisEpic = (action$, state$) =>
             .filter(isNotNull),
         ),
       )
+    }),
+  )
+
+export const rerollUndeadDicesEpic: NecropolisEpic = (action$, state$) =>
+  action$.pipe(
+    filter(isActionOf(rerollUndeadDices)),
+    delay(700),
+    mergeMap(({ payload: { undeadId } }) => {
+      const undead = getUndeadById(undeadId)(state$.value)
+      const obstacle = getObstacle(state$.value)
+      if (!obstacle?.rolls || !undead) {
+        return EMPTY
+      }
+
+      const slottedRow = obstacle.rows.find(row => row.slottedUndeads.includes(undeadId))
+      if (!slottedRow) {
+        return EMPTY
+      }
+
+      const rollsMap = new Map(obstacle.rolls)
+      const dice = getUndeadDice(undead, slottedRow.requiredTalent[0])
+      rollsMap.set(undeadId, rollDice(dice))
+      return of(setObstacleRolls(Array.from(rollsMap.entries())))
     }),
   )
 

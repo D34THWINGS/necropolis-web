@@ -10,6 +10,7 @@ import { onboarding } from '../data/onboarding/reducer'
 import { expeditions } from '../data/expeditions/reducer'
 import { events } from '../data/events/reducer'
 import { settings } from '../data/settings/reducer'
+import { inventory } from '../data/inventory/reducer'
 
 export const mainReducer = combineReducers({
   resources,
@@ -22,6 +23,7 @@ export const mainReducer = combineReducers({
   expeditions,
   events,
   settings,
+  inventory,
 })
 
 export type RootState = StateType<typeof mainReducer>

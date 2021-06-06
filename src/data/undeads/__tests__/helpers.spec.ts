@@ -22,6 +22,7 @@ describe('Undead helpers', () => {
           { health: 9, maxHealth: 10 },
           highlyDamagedEntity,
           { health: 10, maxHealth: 10 },
+          { health: 12, maxHealth: 10 },
         ],
         [
           { health: 10, maxHealth: 10 },
@@ -29,6 +30,7 @@ describe('Undead helpers', () => {
           { health: 9, maxHealth: 10 },
           { health: 10, maxHealth: 10 },
           { health: 10, maxHealth: 10 },
+          { health: 12, maxHealth: 10 },
         ],
       ]
 
@@ -36,6 +38,15 @@ describe('Undead helpers', () => {
         const mostInjured = getMostInjured(entities)
         expect(mostInjured).toEqual(highlyDamagedEntity)
       })
+    })
+
+    it('should return no entity if none is injured', () => {
+      expect(
+        getMostInjured([
+          { health: 10, maxHealth: 10 },
+          { health: 12, maxHealth: 10 },
+        ]),
+      ).toEqual(null)
     })
   })
 

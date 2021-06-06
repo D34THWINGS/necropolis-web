@@ -19,6 +19,9 @@ import { Image } from '../../components/images/Image'
 import { triggerObstacle } from '../../data/expeditions/actions'
 import { makeObstacle, makeObstacleRow } from '../../data/expeditions/helpers'
 
+const SAWMILL_DEXTERITY_REQUIRED = 3
+const SAWMILL_MUSCLES_REQUIRED = 3
+const SAWMILL_LETHALITY_REQUIRED = 3
 const SAWMILL_MEAT_REQUIRED = 2
 const SAWMILL_HEALTH_REQUIRED = 2
 const SAWMILL_MATERIALS_REWARD = 3
@@ -56,13 +59,17 @@ export const Sawmill = () => {
             const handlePickDoor = () =>
               dispatch(
                 triggerObstacle(
-                  makeObstacle(SawmillObstacle.PickDoor, [makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1)]),
+                  makeObstacle(SawmillObstacle.PickDoor, [
+                    makeObstacleRow(0, 3, [UndeadTalent.Dexterity, SAWMILL_DEXTERITY_REQUIRED], 1),
+                  ]),
                 ),
               )
             const handleBreakDoor = () =>
               dispatch(
                 triggerObstacle(
-                  makeObstacle(SawmillObstacle.BreakDoor, [makeObstacleRow(0, 3, [UndeadTalent.Muscles, 3], 1)]),
+                  makeObstacle(SawmillObstacle.BreakDoor, [
+                    makeObstacleRow(0, 3, [UndeadTalent.Muscles, SAWMILL_MUSCLES_REQUIRED], 1),
+                  ]),
                 ),
               )
             return (
@@ -101,7 +108,9 @@ export const Sawmill = () => {
             const handleFightHound = () =>
               dispatch(
                 triggerObstacle(
-                  makeObstacle(SawmillObstacle.FightHound, [makeObstacleRow(0, 3, [UndeadTalent.Lethality, 3], 1)]),
+                  makeObstacle(SawmillObstacle.FightHound, [
+                    makeObstacleRow(0, 3, [UndeadTalent.Lethality, SAWMILL_LETHALITY_REQUIRED], 1),
+                  ]),
                 ),
               )
             const handleNourish = () => {

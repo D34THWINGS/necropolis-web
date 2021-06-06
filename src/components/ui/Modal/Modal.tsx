@@ -25,6 +25,14 @@ const modalPanelWrapper = css({
   outline: 'none',
 })
 
+const modalParentSelector = () => {
+  const parent = document.querySelector<HTMLDivElement>('#modal-root')
+  if (!parent) {
+    throw new Error('Modal parent (#modal-root) unreachable')
+  }
+  return parent
+}
+
 export const useModalState = (initialState = false) => {
   const [isOpen, setIsOpen] = useState(initialState)
   return useMemo(
@@ -71,6 +79,7 @@ export const Modal = ({
     <ReactModal
       isOpen={isOpen}
       onRequestClose={onClose}
+      parentSelector={modalParentSelector}
       ariaHideApp={false}
       closeTimeoutMS={200}
       overlayElement={({ className: _, style, ...overlayProps }, overlayChildren) => (

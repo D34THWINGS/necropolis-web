@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react'
 import { alignItemsCenter, textColor } from '../styles/base'
+import anyDiceIcon from '../assets/images/expeditions/dices/any-dice.png'
+import { Image } from '../components/images/Image'
 
 export const frExpeditions = {
   beginExpedition: "S'y rendre",
@@ -22,6 +24,13 @@ export const frExpeditions = {
   expeditionObstacle: (index: number, text: ReactNode) => (
     <>
       Obstacle {index} - {text}
+    </>
+  ),
+
+  rerollTitle: 'Relance',
+  rerollText: (diceNumber: number) => (
+    <>
+      Choisissez {diceNumber} <Image src={anyDiceIcon} /> à relancer.
     </>
   ),
 

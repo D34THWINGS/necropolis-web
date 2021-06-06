@@ -1,15 +1,13 @@
 import React, { ReactNode, KeyboardEvent } from 'react'
 import { css } from '@emotion/react'
 import { TalentsList } from '../../../../components/talents/TalentsList'
-import { UndeadPortrait } from '../../../../components/undeads/UndeadPortrait'
 import { getUndeadDice, Undead, UndeadId } from '../../../../data/undeads/helpers'
 import { ObstacleRow } from '../../../../data/expeditions/helpers'
 import { colors, fonts, frameColors, transitions } from '../../../../config/theme'
 import { Image } from '../../../../components/images/Image'
 import anyDiceIconUrl from '../../../../assets/images/expeditions/dices/any-dice.png'
 import hpCostIcon from '../../../../assets/images/icons/hp-cost.png'
-import { buttonBase } from '../../../../styles/buttons'
-import { RollingDice } from '../../../../components/images/RollingDice'
+import { ObstacleRowSlot } from './ObstacleRowSlot'
 
 const obstacleRowWrapper = (isFailed: boolean) =>
   css({
@@ -193,25 +191,28 @@ export const ExpeditionObstacleRow = ({
               if (hasRolledDices && slottedUndead) {
                 const dice = getUndeadDice(slottedUndead, row.requiredTalent[0])
                 return (
-                  <div key={index} css={obstacleRowSlot(isRowFailed)}>
-                    <UndeadPortrait type={slottedUndead.type} size="2rem" />
-                    <RollingDice value={rollsMap.get(slottedUndead.id) ?? 0} type={dice.type} size="3rem" />
-                  </div>
+                  <ObstacleRowSlot
+                    key={index}
+                    isFailed={isRowFailed}
+                    undead={slottedUndead}
+                    dice={dice}
+                    roll={rollsMap.get(slottedUndead.id) ?? 0}
+                    readOnly
+                  />
                 )
               }
 
               if (slottedUndead) {
                 const dice = getUndeadDice(slottedUndead, row.requiredTalent[0])
                 return (
-                  <button
+                  <ObstacleRowSlot
                     key={index}
-                    type="button"
-                    css={[...buttonBase, obstacleRowSlot(isRowFailed)]}
+                    isFailed={isRowFailed}
+                    undead={slottedUndead}
+                    dice={dice}
+                    roll={rollsMap.get(slottedUndead.id) ?? dice.maxValue}
                     onClick={() => onRemoveUndead(slottedUndead.id)}
-                  >
-                    <UndeadPortrait type={slottedUndead.type} size="2rem" />
-                    <RollingDice value={rollsMap.get(slottedUndead.id) ?? dice.maxValue} type={dice.type} size="3rem" />
-                  </button>
+                  />
                 )
               }
 

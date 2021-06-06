@@ -52,6 +52,10 @@ export const removeUndeadFromObstacle = createAction(
 
 export const rollObstacleDices = createAction('expeditions/ROLL_OBSTACLE_DICES')()
 
+export const rerollUndeadDices = createAction('expeditions/REROLL_UNDEAD_DICES', (undeadId: UndeadId) => ({
+  undeadId,
+}))()
+
 export const clearObstacleRolls = createAction('expeditions/CLEAR_OBSTACLE_ROLLS')()
 
 export const setObstacleRolls = createAction('expeditions/SET_OBSTACLE_ROLLS', (rolls: [UndeadId, number][]) => ({

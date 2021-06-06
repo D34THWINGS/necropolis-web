@@ -4,6 +4,7 @@ import soulStormBackgroundUrl from '../../assets/images/spells/soul-storm.jpg'
 import theKeyBackgroundUrl from '../../assets/images/spells/the-key.jpg'
 import { useTranslation } from '../../lang/useTranslation'
 import { SpellDescription } from './SpellDescription'
+import { assertNeverType } from '../../data/helpers'
 
 export const useGetSpellDetails = ({ showExpedition = false, showAssault = false } = {}) => {
   const { t } = useTranslation()
@@ -40,7 +41,7 @@ export const useGetSpellDetails = ({ showExpedition = false, showAssault = false
       }
 
       // This is a safeguard because TS is stupid
-      return ((_: never) => _)(spell)
+      return assertNeverType(spell)
     },
     [showAssault, showExpedition, t],
   )

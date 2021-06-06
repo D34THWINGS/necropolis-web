@@ -21,7 +21,7 @@ export const modalOverlay = (isOpen: boolean, priority?: number, align: ModalAli
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: align,
-    position: 'fixed',
+    position: 'absolute',
     top: 0,
     right: 0,
     bottom: 0,

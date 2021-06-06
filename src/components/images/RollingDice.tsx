@@ -3,15 +3,18 @@ import { isActionOf } from 'typesafe-actions'
 import anime from 'animejs'
 import { Dice, DiceProps } from './Dice'
 import { useReduxEventHook } from '../../hooks/useReduxEventHook'
-import { rollObstacleDices } from '../../data/expeditions/actions'
+import { rerollUndeadDices, rollObstacleDices } from '../../data/expeditions/actions'
+import { UndeadId } from '../../data/undeads/helpers'
 
-export type RollingDiceProps = DiceProps
+export type RollingDiceProps = DiceProps & {
+  undeadId: UndeadId
+}
 
-export const RollingDice = ({ size, value, type }: RollingDiceProps) => {
+export const RollingDice = ({ size, value, type, undeadId }: RollingDiceProps) => {
   const diceRef = useRef<HTMLSpanElement>(null)
 
-  useReduxEventHook(isActionOf(rollObstacleDices), () => {
-    if (!diceRef.current) {
+  useReduxEventHook(isActionOf([rollObstacleDices, rerollUndeadDices]), action => {
+    if (!diceRef.current || (isActionOf(rerollUndeadDices, action) && action.payload.undeadId !== undeadId)) {
       return
     }
     anime({

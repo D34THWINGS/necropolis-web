@@ -23,6 +23,7 @@ import {
   endExpeditionEpic,
   fleeExpeditionEpic,
   removeUndeadFromObstacleOnDeathEpic,
+  rerollUndeadDicesEpic,
   rollObstacleDicesEpic,
 } from './expeditions/epics'
 import {
@@ -62,6 +63,7 @@ export const rootEpic = combineEpics(
   blurEffectsEpic,
   endExpeditionEpic,
   rollObstacleDicesEpic,
+  rerollUndeadDicesEpic,
   applyObstacleConsequencesEpic,
   removeUndeadFromObstacleOnDeathEpic,
   fleeExpeditionEpic,

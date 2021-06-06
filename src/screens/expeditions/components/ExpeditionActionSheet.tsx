@@ -13,11 +13,13 @@ import { Image } from '../../../components/images/Image'
 import spellsIconUrl from '../../../assets/images/resources/souls.png'
 import inventoryIconUrl from '../../../assets/images/expeditions/inventory.png'
 import { UndeadId } from '../../../data/undeads/helpers'
-import { useTranslation } from '../../../lang/useTranslation'
 import { getLearntSpells } from '../../../data/spells/selectors'
 import { useGetSpellDetails } from '../../../components/spells/useGetSpellDetails'
 import { SpellBox } from '../../../components/spells/SpellBox'
 import { addUndeadToObstacle } from '../../../data/expeditions/actions'
+import { Inventory } from '../../../components/inventory/Inventory'
+import { Item } from '../../../data/inventory/items'
+import { InventoryActionsActionSheet } from '../../../components/inventory/InventoryActionsActionSheet'
 
 const tabsList = css({
   display: 'flex',
@@ -70,19 +72,19 @@ const tabBody = css({
 
 enum TabType {
   Undead = 'undead',
-  Inventory = 'inventory',
+  Items = 'items',
   Spells = 'spells',
 }
 
-type Tab = { type: TabType.Undead; undeadId: UndeadId } | { type: TabType.Inventory } | { type: TabType.Spells }
+type Tab = { type: TabType.Undead; undeadId: UndeadId } | { type: TabType.Items } | { type: TabType.Spells }
 
 export const ExpeditionActionSheet = () => {
-  const { t } = useTranslation()
   const { isOpen, close, open } = useModalState()
   const [selectedTab, setSelectedTab] = useState<Tab | null>(null)
   const undeads = useSelector(getAliveUndeads)
   const spells = useSelector(getLearntSpells)
   const getSpellDetails = useGetSpellDetails({ showExpedition: true })
+  const [usedItem, setUsedItem] = useState<Item | null>(null)
   const dispatch = useDispatch()
 
   const selectedUndead =
@@ -93,7 +95,7 @@ export const ExpeditionActionSheet = () => {
     open()
   }
 
-  const handleOpenTab = (type: TabType.Spells | TabType.Inventory) => () => {
+  const handleOpenTab = (type: TabType.Spells | TabType.Items) => () => {
     setSelectedTab({ type })
     open()
   }
@@ -110,58 +112,66 @@ export const ExpeditionActionSheet = () => {
     switch (selectedTab.type) {
       case TabType.Undead:
         return FrameColor.PURPLE
-      case TabType.Inventory:
+      case TabType.Items:
         return FrameColor.BROWN
       case TabType.Spells:
         return FrameColor.BLUE
     }
   }
 
+  const handleUseItem = (item: Item) => {
+    close()
+    setUsedItem(item)
+  }
+
   return (
-    <ActionSheet isOpen={isOpen} onClose={close}>
-      <nav css={tabsList}>
-        {undeads.map(undead => (
-          <button
-            key={undead.id}
-            type="button"
-            css={undeadTab}
-            onClick={handleUndeadTabClick(undead.id)}
-            data-test-id="undeadTab"
-          >
-            <UndeadPortrait type={undead.type} size="1.3rem" />
+    <>
+      <ActionSheet isOpen={isOpen} onClose={close}>
+        <nav css={tabsList}>
+          {undeads.map(undead => (
+            <button
+              key={undead.id}
+              type="button"
+              css={undeadTab}
+              onClick={handleUndeadTabClick(undead.id)}
+              data-test-id="undeadTab"
+            >
+              <UndeadPortrait type={undead.type} size="1.3rem" />
+            </button>
+          ))}
+          <button type="button" css={inventoryTab} onClick={handleOpenTab(TabType.Items)}>
+            <Image src={inventoryIconUrl} size="1.8rem" />
           </button>
-        ))}
-        <button type="button" css={inventoryTab} onClick={handleOpenTab(TabType.Inventory)}>
-          <Image src={inventoryIconUrl} size="1.8rem" />
-        </button>
-        <button type="button" css={spellsTab} onClick={handleOpenTab(TabType.Spells)}>
-          <Image src={spellsIconUrl} size="1.5rem" />
-        </button>
-      </nav>
-      <Frame color={getFrameColor()} fullPage css={tabBody}>
-        {selectedUndead && (
-          <UndeadDetails
-            undead={selectedUndead}
-            onCastAbility={close}
-            onRollDices={handleRollDices(selectedUndead.id)}
-            showExpedition
-          />
-        )}
-        {selectedTab?.type === TabType.Inventory && <span>{t('inventoryEmpty')}</span>}
-        {selectedTab?.type === TabType.Spells &&
-          spells.map(spell => {
-            const spellDetails = getSpellDetails(spell)
-            return (
-              <SpellBox
-                key={spell.key}
-                imageUrl={spellDetails.imageUrl}
-                label={spellDetails.label}
-                description={spellDetails.description}
-                soulCost={spell.cost}
-              />
-            )
-          })}
-      </Frame>
-    </ActionSheet>
+          <button type="button" css={spellsTab} onClick={handleOpenTab(TabType.Spells)}>
+            <Image src={spellsIconUrl} size="1.5rem" />
+          </button>
+        </nav>
+        <Frame color={getFrameColor()} fullPage css={tabBody}>
+          {selectedUndead && (
+            <UndeadDetails
+              undead={selectedUndead}
+              onCastAbility={close}
+              onRollDices={handleRollDices(selectedUndead.id)}
+              showExpedition
+            />
+          )}
+          {selectedTab?.type === TabType.Items && <Inventory onItemUse={handleUseItem} />}
+          {selectedTab?.type === TabType.Spells &&
+            spells.map(spell => {
+              const spellDetails = getSpellDetails(spell)
+              return (
+                <SpellBox
+                  key={spell.key}
+                  imageUrl={spellDetails.imageUrl}
+                  label={spellDetails.label}
+                  description={spellDetails.description}
+                  soulCost={spell.cost}
+                />
+              )
+            })}
+        </Frame>
+      </ActionSheet>
+      <InventoryActionsActionSheet usedItem={usedItem} onClose={() => setUsedItem(null)} />
+    </>
   )
 }

@@ -38,6 +38,7 @@ export const App = () => (
             <Route path={[MAIN_MENU, NEW_GAME]} exact component={MenuWrapper} />
             <Route component={GameRoutes} />
           </Switch>
+          <div id="modal-root" />
         </div>
       </div>
       <CheatsModal />

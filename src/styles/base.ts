@@ -36,6 +36,8 @@ export const redBox = coloredBox(colors.MEDIUM_RED)
 
 export const darkRedBox = coloredBox(frameColors.DARK_RED)
 
+export const brownBox = coloredBox(frameColors.BROWN)
+
 export const h2Title = css({
   margin: 0,
   fontSize: '1.8rem',
@@ -68,4 +70,8 @@ export const smallMarginTop = css({
 
 export const largeMarginTop = css({
   marginTop: '2rem',
+})
+
+export const fullWidth = css({
+  width: '100%',
 })

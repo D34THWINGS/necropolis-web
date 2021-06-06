@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect } from 'react-router'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from '../../lang/useTranslation'
 import { BuildingDetails } from './components/BuildingDetails'
 import { getCharnelHouse } from '../../data/buildings/selectors'
@@ -16,9 +16,13 @@ import { getMeat } from '../../data/resources/selectors'
 import { useModalState } from '../../components/ui/Modal/Modal'
 import { HealUndeadModal } from './components/HealUndeadModal'
 import { CleanseUndeadModal } from './components/CleanseUndeadModal'
+import { Undead } from '../../data/undeads/helpers'
+import { spendResources } from '../../data/resources/actions'
+import { healUndead } from '../../data/undeads/actions'
 
 export const CharnelHouse = () => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const meat = useSelector(getMeat)
   const charnelHouse = useSelector(getCharnelHouse)
   const { isOpen: isHealing, close: closeHealing, open: openHealing } = useModalState(false)
@@ -26,6 +30,11 @@ export const CharnelHouse = () => {
 
   if (!charnelHouse) {
     return <Redirect to={MAIN_HUB} />
+  }
+
+  const handleHealUndead = (undead: Undead) => {
+    dispatch(spendResources({ [ResourceType.Meat]: charnelHouse.healingCost }))
+    dispatch(healUndead(undead.id, charnelHouse.healingAmount))
   }
 
   return (
@@ -45,7 +54,7 @@ export const CharnelHouse = () => {
               >
                 {t('charnelHouseHeal', charnelHouse.healingAmount, charnelHouse.healingCost)}
               </BuildingAction>
-              <HealUndeadModal charnelHouse={charnelHouse} isOpen={isHealing} onClose={closeHealing} />
+              <HealUndeadModal onHeal={handleHealUndead} isOpen={isHealing} onClose={closeHealing} />
             </>
           )}
           {charnelHouse.canCleanse && (
