@@ -21,9 +21,10 @@ import { useTranslation } from '../../../../lang/useTranslation'
 import { UndeadPortrait } from '../../../../components/undeads/UndeadPortrait'
 import hpCostIcon from '../../../../assets/images/icons/hp-cost.png'
 import { ResourceIcon } from '../../../../components/resources/ResourceIcon'
-import { ResourceType } from '../../../../config/constants'
 import { ResourceLoot } from '../../../../components/resources/ResourceLoot'
 import { gainResources, ResourcePayload } from '../../../../data/resources/actions'
+import { gainItems } from '../../../../data/inventory/actions'
+import { useGetItemDetails } from '../../../../components/inventory/useGetItemDetails'
 
 const obstacleTitle = css({
   margin: '0 -1rem 0.8rem',
@@ -87,7 +88,6 @@ const consequencesSlot = css({
 export type ExpeditionObstacleProps = {
   title: ReactNode
   rewardText: ReactNode
-  rewardResources: [ResourceType, number][]
   obstacle: Obstacle
   renderRowTitle: (index: number) => ReactNode
   onEnd: () => void
@@ -97,7 +97,6 @@ export type ExpeditionObstacleProps = {
 export const ExpeditionObstacle = ({
   title,
   rewardText,
-  rewardResources,
   obstacle,
   renderRowTitle,
   onEnd,
@@ -107,10 +106,12 @@ export const ExpeditionObstacle = ({
   const undeads = useSelector(getUndeads)
   const dispatch = useDispatch()
   const [showReward, setShowReward] = useState(false)
+  const getItemDetails = useGetItemDetails()
 
   const hasRolledDices = !!obstacle.rolls
   const rollsMap = new Map(obstacle.rolls)
   const isSuccess = isObstaclePassed(obstacle)
+  const hasSlottedUndeads = obstacle.rows.some(row => row.slottedUndeads.length > 0)
 
   const handleToggleRow = (rowId: string) => () => dispatch(setObstacleActiveRow(rowId))
   const handleRemoveUndead = (undeadId: string) => dispatch(removeUndeadFromObstacle(undeadId))
@@ -119,9 +120,16 @@ export const ExpeditionObstacle = ({
   const handleShowReward = () => setShowReward(true)
   const handleEndObstacle = () => {
     dispatch(clearObstacle())
-    dispatch(
-      gainResources(rewardResources.reduce<ResourcePayload>((acc, [type, value]) => ({ ...acc, [type]: value }), {})),
-    )
+    if (obstacle.rewardResources.length > 0) {
+      dispatch(
+        gainResources(
+          obstacle.rewardResources.reduce<ResourcePayload>((acc, [type, value]) => ({ ...acc, [type]: value }), {}),
+        ),
+      )
+    }
+    if (obstacle.rewardLoot.length > 0) {
+      dispatch(gainItems(obstacle.rewardLoot))
+    }
     onEnd()
   }
 
@@ -131,8 +139,13 @@ export const ExpeditionObstacle = ({
         <h2 css={obstacleTitle}>{title}</h2>
         <div css={greenBox}>{rewardText}</div>
         <ResourceLoot css={smallMarginTop}>
-          {rewardResources.map(([type, value]) => (
+          {obstacle.rewardResources.map(([type, value]) => (
             <ResourceIcon key={type} type={type} text={value} size="1.8rem" marginLeft="0.2rem" marginRight="0.2rem" />
+          ))}
+          {obstacle.rewardLoot.map(item => (
+            <span key={item.id} css={textColor('CYAN')}>
+              {getItemDetails(item).name}
+            </span>
           ))}
         </ResourceLoot>
         <div css={spacer} />
@@ -164,7 +177,13 @@ export const ExpeditionObstacle = ({
           <button css={fleeButton} type="button" onClick={onFlee}>
             <Image src={fleeIconUrl} size="2.5rem" />
           </button>
-          <button css={rollButton} type="button" onClick={handleRollDices} data-test-id="rollDicesButton">
+          <button
+            css={rollButton}
+            type="button"
+            onClick={handleRollDices}
+            disabled={!hasSlottedUndeads}
+            data-test-id="rollDicesButton"
+          >
             <Image src={rollIconUrl} size="4rem" />
           </button>
         </div>
@@ -191,7 +210,12 @@ export const ExpeditionObstacle = ({
               )
             })
           })}
-          <button type="button" css={redSquareButton} onClick={handleApplyConsequences}>
+          <button
+            type="button"
+            css={redSquareButton}
+            onClick={handleApplyConsequences}
+            data-test-id="applyConsequencesButton"
+          >
             {t('applyConsequences')}
           </button>
         </div>

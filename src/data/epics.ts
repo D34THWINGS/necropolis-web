@@ -63,7 +63,7 @@ export const rootEpic = combineEpics(
   blurEffectsEpic,
   endExpeditionEpic,
   rollObstacleDicesEpic,
-  rerollUndeadDicesEpic,
+  rerollUndeadDicesEpic(),
   applyObstacleConsequencesEpic,
   removeUndeadFromObstacleOnDeathEpic,
   fleeExpeditionEpic,

@@ -59,17 +59,21 @@ export const Sawmill = () => {
             const handlePickDoor = () =>
               dispatch(
                 triggerObstacle(
-                  makeObstacle(SawmillObstacle.PickDoor, [
-                    makeObstacleRow(0, 3, [UndeadTalent.Dexterity, SAWMILL_DEXTERITY_REQUIRED], 1),
-                  ]),
+                  makeObstacle(
+                    SawmillObstacle.PickDoor,
+                    [makeObstacleRow(0, 3, [UndeadTalent.Dexterity, SAWMILL_DEXTERITY_REQUIRED], 1)],
+                    { loot: 1 },
+                  ),
                 ),
               )
             const handleBreakDoor = () =>
               dispatch(
                 triggerObstacle(
-                  makeObstacle(SawmillObstacle.BreakDoor, [
-                    makeObstacleRow(0, 3, [UndeadTalent.Muscles, SAWMILL_MUSCLES_REQUIRED], 1),
-                  ]),
+                  makeObstacle(
+                    SawmillObstacle.BreakDoor,
+                    [makeObstacleRow(0, 3, [UndeadTalent.Muscles, SAWMILL_MUSCLES_REQUIRED], 1)],
+                    { loot: 1 },
+                  ),
                 ),
               )
             return (
@@ -108,9 +112,16 @@ export const Sawmill = () => {
             const handleFightHound = () =>
               dispatch(
                 triggerObstacle(
-                  makeObstacle(SawmillObstacle.FightHound, [
-                    makeObstacleRow(0, 3, [UndeadTalent.Lethality, SAWMILL_LETHALITY_REQUIRED], 1),
-                  ]),
+                  makeObstacle(
+                    SawmillObstacle.FightHound,
+                    [makeObstacleRow(0, 3, [UndeadTalent.Lethality, SAWMILL_LETHALITY_REQUIRED], 1)],
+                    {
+                      resources: [
+                        [ResourceType.Materials, SAWMILL_MATERIALS_REWARD],
+                        [ResourceType.Bones, SAWMILL_BONES_REWARD],
+                      ],
+                    },
+                  ),
                 ),
               )
             const handleNourish = () => {
@@ -179,10 +190,6 @@ export const Sawmill = () => {
             return {
               title: t('expeditionObstacle', 1, t('sawmillAction1')),
               rewardText: t('sawmillReward1'),
-              rewardResources: [
-                [ResourceType.Materials, SAWMILL_MATERIALS_REWARD],
-                [ResourceType.Bones, SAWMILL_BONES_REWARD],
-              ],
               renderRowTitle: () => t('sawmillAction1'),
               onEnd: () => goToStep(SawmillStep.FaceHound),
             }
@@ -190,10 +197,6 @@ export const Sawmill = () => {
             return {
               title: t('expeditionObstacle', 1, t('sawmillAction2')),
               rewardText: t('sawmillReward2'),
-              rewardResources: [
-                [ResourceType.Materials, SAWMILL_MATERIALS_REWARD],
-                [ResourceType.Bones, SAWMILL_BONES_REWARD],
-              ],
               renderRowTitle: () => t('sawmillAction2'),
               onEnd: () => goToStep(SawmillStep.FaceHound),
             }
@@ -201,10 +204,6 @@ export const Sawmill = () => {
             return {
               title: t('expeditionObstacle', 2, t('sawmillAction4')),
               rewardText: t('sawmillReward3'),
-              rewardResources: [
-                [ResourceType.Materials, SAWMILL_MATERIALS_REWARD],
-                [ResourceType.Bones, SAWMILL_BONES_REWARD],
-              ],
               renderRowTitle: () => t('sawmillAction4'),
               onEnd: () => endExpedition(),
             }

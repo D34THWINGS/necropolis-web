@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react'
 import { css } from '@emotion/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ExpeditionType, ResourceType } from '../../../config/constants'
+import { ExpeditionType } from '../../../config/constants'
 import { cyanSquareButton, greenSquareButton } from '../../../styles/buttons'
 import { useTranslation } from '../../../lang/useTranslation'
 import { h2Title } from '../../../styles/base'
@@ -69,7 +69,6 @@ export type ExpeditionModalProps<TStep extends number = number, TObstacle extend
   ) => {
     title: ReactNode
     rewardText: ReactNode
-    rewardResources: [ResourceType, number][]
     renderRowTitle: (index: number) => ReactNode
     onEnd: () => void
   }
@@ -93,7 +92,6 @@ export const ExpeditionContent = <TStep extends number = number, TObstacle exten
       title: obstacleTitle,
       renderRowTitle,
       rewardText,
-      rewardResources,
       onEnd,
     } = renderObstacle(obstacle as Obstacle<TObstacle>, {
       goToStep: (newStep: TStep) => dispatch(setExpeditionStep(type, newStep)),
@@ -104,7 +102,6 @@ export const ExpeditionContent = <TStep extends number = number, TObstacle exten
         <ExpeditionObstacle
           title={obstacleTitle}
           rewardText={rewardText}
-          rewardResources={rewardResources}
           obstacle={obstacle as Obstacle<TObstacle>}
           renderRowTitle={renderRowTitle}
           onEnd={onEnd}

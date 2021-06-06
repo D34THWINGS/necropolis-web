@@ -152,7 +152,14 @@ export const ExpeditionObstacleRow = ({
 
   return (
     <div key={row.id} css={obstacleRowWrapper(isRowFailed)}>
-      <div css={obstacleRowHeader} onClick={onToggleRow} onKeyPress={handleKeyPress} role="button" tabIndex={-1}>
+      <div
+        css={obstacleRowHeader}
+        onClick={onToggleRow}
+        onKeyPress={handleKeyPress}
+        role="button"
+        tabIndex={-1}
+        data-test-id="obstacleRow"
+      >
         <svg css={caret} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 9">
           <path
             d="M13.668 1.006l-.674-.674A1.15 1.15 0 0012.176 0c-.318 0-.587.11-.809.332L7 4.7 2.633.333A1.101 1.101 0 001.824 0c-.311 0-.584.11-.818.333l-.665.674c-.227.227-.341.5-.341.817 0 .324.114.593.341.809l5.85 5.85c.216.227.485.341.809.341.317 0 .59-.114.818-.341l5.85-5.85A1.1 1.1 0 0014 1.824c0-.311-.11-.584-.332-.818z"

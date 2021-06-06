@@ -101,7 +101,7 @@ export const UndeadDetails = ({
     <>
       <div css={undeadDetailsHeader}>
         <UndeadPortrait type={undead.type} marginRight="0.5rem" />
-        <div>
+        <div data-test-id="undeadHealth">
           <div css={undeadDetailsName}>{t('undeadName', undead.type)}</div>
           <Health health={undead.health} maxHealth={undead.maxHealth} />
           {showExpedition && <TalentsList values={getUndeadTalents(undead)} />}

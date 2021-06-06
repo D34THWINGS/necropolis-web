@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { drawRandomInArray } from '../helpers'
 
 enum ItemType {
   ExquisiteMeat = 'exquisiteMeat',
@@ -40,3 +41,8 @@ export const makeHaysteStrands = (): HaysteStrands => ({
 export const isHaysteStrands = (item: Item): item is HaysteStrands => item.type === ItemType.HaysteStrands
 
 export type Item = ExquisiteMeat | HaysteStrands
+
+export const drawRandomItem = () => {
+  const items: Item[] = [makeHaysteStrands(), makeExquisiteMeat()]
+  return drawRandomInArray(items)
+}

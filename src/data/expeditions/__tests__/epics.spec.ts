@@ -1,12 +1,59 @@
 import { buildEpicObservables } from '../../../../tests/helpers'
-import { applyObstacleConsequencesEpic, removeUndeadFromObstacleOnDeathEpic } from '../epics'
-import { applyObstacleConsequences, clearObstacleRolls, removeUndeadFromObstacle } from '../actions'
+import { applyObstacleConsequencesEpic, removeUndeadFromObstacleOnDeathEpic, rerollUndeadDicesEpic } from '../epics'
+import {
+  applyObstacleConsequences,
+  clearObstacleRolls,
+  removeUndeadFromObstacle,
+  rerollUndeadDices,
+  setObstacleRolls,
+} from '../actions'
 import { makeObstacle, makeObstacleRow } from '../helpers'
 import { UndeadTalent } from '../../../config/constants'
 import { makeBrikoler, makeSkeleton } from '../../undeads/helpers'
 import { damageUndead } from '../../undeads/actions'
+import { restoreDefaultSeeder, useTestSeed } from '../../seeder'
 
 describe('Expedition epics', () => {
+  describe('Reroll undead dice', () => {
+    it('should preserve old rolls and reroll only selected undead', () => {
+      useTestSeed()
+      const { actionsInput$, actions, state$, stateInput$ } = buildEpicObservables(rerollUndeadDicesEpic(0))
+
+      const valet = state$.value.undeads.list[0]
+      const brikoler = makeBrikoler()
+      stateInput$.next({
+        ...state$.value,
+        undeads: {
+          ...state$.value.undeads,
+          list: [...state$.value.undeads.list, brikoler],
+        },
+        expeditions: {
+          ...state$.value.expeditions,
+          obstacle: {
+            ...makeObstacle(
+              'foo',
+              [{ ...makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1), slottedUndeads: [brikoler.id, valet.id] }],
+              { loot: 1 },
+            ),
+            rolls: [
+              [valet.id, 1],
+              [brikoler.id, 5],
+            ],
+          },
+        },
+      })
+      actionsInput$.next(rerollUndeadDices(valet.id))
+
+      expect(actions).toEqual([
+        setObstacleRolls([
+          [valet.id, 2],
+          [brikoler.id, 5],
+        ]),
+      ])
+      restoreDefaultSeeder()
+    })
+  })
+
   describe('Apply obstacle consequences', () => {
     it('should do nothing if no obstacle', () => {
       const { actionsInput$, actions } = buildEpicObservables(applyObstacleConsequencesEpic)
@@ -30,10 +77,14 @@ describe('Expedition epics', () => {
         expeditions: {
           ...state$.value.expeditions,
           obstacle: {
-            ...makeObstacle('foo', [
-              { ...makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1), slottedUndeads: [brikoler.id] },
-              { ...makeObstacleRow(0, 3, [UndeadTalent.Subjugation, 2], 1), slottedUndeads: [skeleton.id] },
-            ]),
+            ...makeObstacle(
+              'foo',
+              [
+                { ...makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1), slottedUndeads: [brikoler.id] },
+                { ...makeObstacleRow(0, 3, [UndeadTalent.Subjugation, 2], 1), slottedUndeads: [skeleton.id] },
+              ],
+              { loot: 1 },
+            ),
             rolls: [
               [brikoler.id, 4],
               [skeleton.id, 2],
@@ -60,10 +111,14 @@ describe('Expedition epics', () => {
         expeditions: {
           ...state$.value.expeditions,
           obstacle: {
-            ...makeObstacle('foo', [
-              { ...makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1), slottedUndeads: [brikoler.id] },
-              { ...makeObstacleRow(0, 3, [UndeadTalent.Subjugation, 2], 1), slottedUndeads: [skeleton.id] },
-            ]),
+            ...makeObstacle(
+              'foo',
+              [
+                { ...makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1), slottedUndeads: [brikoler.id] },
+                { ...makeObstacleRow(0, 3, [UndeadTalent.Subjugation, 2], 1), slottedUndeads: [skeleton.id] },
+              ],
+              { loot: 1 },
+            ),
             rolls: [
               [brikoler.id, 1],
               [skeleton.id, 2],
@@ -93,7 +148,7 @@ describe('Expedition epics', () => {
         ...state$.value,
         expeditions: {
           ...state$.value.expeditions,
-          obstacle: makeObstacle('foo', [makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1)]),
+          obstacle: makeObstacle('foo', [makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1)], { loot: 1 }),
         },
       })
       actionsInput$.next(damageUndead(state$.value.undeads.list[0].id, 10))
@@ -109,9 +164,11 @@ describe('Expedition epics', () => {
         ...state$.value,
         expeditions: {
           ...state$.value.expeditions,
-          obstacle: makeObstacle('foo', [
-            { ...makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1), slottedUndeads: [valetId] },
-          ]),
+          obstacle: makeObstacle(
+            'foo',
+            [{ ...makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1), slottedUndeads: [valetId] }],
+            { loot: 1 },
+          ),
         },
       })
       actionsInput$.next(damageUndead(valetId, 10))
@@ -131,9 +188,11 @@ describe('Expedition epics', () => {
         },
         expeditions: {
           ...state$.value.expeditions,
-          obstacle: makeObstacle('foo', [
-            { ...makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1), slottedUndeads: [valetId] },
-          ]),
+          obstacle: makeObstacle(
+            'foo',
+            [{ ...makeObstacleRow(0, 3, [UndeadTalent.Dexterity, 3], 1), slottedUndeads: [valetId] }],
+            { loot: 1 },
+          ),
         },
       })
       actionsInput$.next(damageUndead(valetId, 10))

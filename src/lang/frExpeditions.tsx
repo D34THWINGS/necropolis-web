@@ -15,6 +15,7 @@ export const frExpeditions = {
   ),
   applyConsequences: 'Subir les conséquences',
   obstacleEnd: 'Suite',
+  loot: (amount: number) => <>{amount}&nbsp;Butin</>,
   fleeExpeditionDescription: 'Les Paladins ont eu vent de votre instant de faiblesse.',
   fleeExpeditionButton: 'Partir',
   expeditionPrerequisites: 'Prérequis\u00A0:',

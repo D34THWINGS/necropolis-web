@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid'
-import { UndeadTalent } from '../../config/constants'
+import { ResourceType, UndeadTalent } from '../../config/constants'
 import { UndeadId } from '../undeads/helpers'
+import { drawRandomItem, Item } from '../inventory/items'
 
 export type ObstacleRow = {
   id: string
@@ -16,6 +17,8 @@ export type Obstacle<TKey extends string = string> = {
   rows: ObstacleRow[]
   activeRow: string | null
   rolls: [UndeadId, number][] | null
+  rewardResources: [ResourceType, number][]
+  rewardLoot: Item[]
 }
 
 export const makeObstacleRow = (
@@ -32,11 +35,20 @@ export const makeObstacleRow = (
   slottedUndeads: [],
 })
 
-export const makeObstacle = <TKey extends string = string>(key: TKey, rows: ObstacleRow[]): Obstacle => ({
+export const makeObstacle = <TKey extends string = string>(
+  key: TKey,
+  rows: ObstacleRow[],
+  reward: {
+    resources?: [ResourceType, number][]
+    loot?: number
+  },
+): Obstacle => ({
   key,
   rows,
   activeRow: rows[0].id,
   rolls: null,
+  rewardLoot: reward.loot ? Array.from({ length: reward.loot }).map(() => drawRandomItem()) : [],
+  rewardResources: reward.resources ?? [],
 })
 
 export const isObstacleRowPassed = (row: ObstacleRow, rollsMap: Map<UndeadId, number>) => {

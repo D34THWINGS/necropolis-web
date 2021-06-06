@@ -1,5 +1,5 @@
 import { isActionOf } from 'typesafe-actions'
-import { EMPTY, of } from 'rxjs'
+import { EMPTY, identity, of } from 'rxjs'
 import { delay, filter, map, mapTo, mergeMap, mergeMapTo } from 'rxjs/operators'
 import {
   applyObstacleConsequences,
@@ -52,28 +52,30 @@ export const rollObstacleDicesEpic: NecropolisEpic = (action$, state$) =>
     }),
   )
 
-export const rerollUndeadDicesEpic: NecropolisEpic = (action$, state$) =>
-  action$.pipe(
-    filter(isActionOf(rerollUndeadDices)),
-    delay(700),
-    mergeMap(({ payload: { undeadId } }) => {
-      const undead = getUndeadById(undeadId)(state$.value)
-      const obstacle = getObstacle(state$.value)
-      if (!obstacle?.rolls || !undead) {
-        return EMPTY
-      }
+export const rerollUndeadDicesEpic =
+  (animationDelay = 700): NecropolisEpic =>
+  (action$, state$) =>
+    action$.pipe(
+      filter(isActionOf(rerollUndeadDices)),
+      animationDelay ? delay(animationDelay) : map(identity),
+      mergeMap(({ payload: { undeadId } }) => {
+        const undead = getUndeadById(undeadId)(state$.value)
+        const obstacle = getObstacle(state$.value)
+        if (!obstacle?.rolls || !undead) {
+          return EMPTY
+        }
 
-      const slottedRow = obstacle.rows.find(row => row.slottedUndeads.includes(undeadId))
-      if (!slottedRow) {
-        return EMPTY
-      }
+        const slottedRow = obstacle.rows.find(row => row.slottedUndeads.includes(undeadId))
+        if (!slottedRow) {
+          return EMPTY
+        }
 
-      const rollsMap = new Map(obstacle.rolls)
-      const dice = getUndeadDice(undead, slottedRow.requiredTalent[0])
-      rollsMap.set(undeadId, rollDice(dice))
-      return of(setObstacleRolls(Array.from(rollsMap.entries())))
-    }),
-  )
+        const rollsMap = new Map(obstacle.rolls)
+        const dice = getUndeadDice(undead, slottedRow.requiredTalent[0])
+        rollsMap.set(undeadId, rollDice(dice))
+        return of(setObstacleRolls(Array.from(rollsMap.entries())))
+      }),
+    )
 
 export const applyObstacleConsequencesEpic: NecropolisEpic = (action$, state$) =>
   action$.pipe(
