@@ -1,14 +1,7 @@
 import { ActionType, isActionOf } from 'typesafe-actions'
 import { EMPTY, of } from 'rxjs'
 import { filter, map, mergeMap } from 'rxjs/operators'
-import {
-  addUndead,
-  applyAbilityEffect,
-  blurAbilityEffects,
-  castUndeadAbility,
-  damageUndead,
-  readyUpAbilities,
-} from './actions'
+import { addUndead, applyAbilityEffect, blurAbilityEffects, castUndeadAbility, readyUpAbilities } from './actions'
 import { getHasEffectToBlur } from './selectors'
 import { spendResources } from '../resources/actions'
 import { ResourceType } from '../../config/constants'
@@ -54,15 +47,11 @@ export const castDevotionAbilityEpic: NecropolisEpic = (action$, state$) =>
         return EMPTY
       }
       if (getIsInExpedition(state$.value)) {
-        return of(
-          damageUndead(undeadId, ability.healthCost),
-          applyAbilityEffect(undeadId, makeAllTalentsIncreaseEffect(ability.talentsBonus)),
-        )
+        return of(applyAbilityEffect(undeadId, makeAllTalentsIncreaseEffect(ability.talentsBonus)))
       }
       if (getPaladinsAssaultOngoing(state$.value)) {
         const activePaladin = getActivePaladin(state$.value)
         return of(
-          damageUndead(undeadId, ability.healthCost),
           breakPaladinShield(activePaladin.id),
           doDamagesToPaladin(activePaladin.id, ability.damages, ability.targetCategories),
         )

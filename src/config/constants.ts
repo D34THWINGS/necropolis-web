@@ -5,7 +5,7 @@ export const EVENTS_TURN_SPACING = 3
 export const PALADINS_STRENGTH_INCREASE = 1
 export const PALADINS_INCREASE_SPACING = 3
 export const PALADINS_CALL_TO_ARMS_TURN = 2
-export const PALADINS_ATTACK_THRESHOLD = 3
+export const PALADINS_ATTACK_THRESHOLD = 4
 export const PALADINS_WARN_THRESHOLD = 2
 
 export enum UndeadType {

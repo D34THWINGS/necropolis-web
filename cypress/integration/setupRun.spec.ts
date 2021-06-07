@@ -26,6 +26,8 @@ describe('Setup run', () => {
     cy.getByTestId('buildingLink').eq(4).click()
     cy.getByTestId('buildingActionButton').click()
     cy.getByTestId('nextPhaseButton').click().click()
+    cy.getByTestId('buildingActionButton').click()
+    cy.getByTestId('nextPhaseButton').click().click()
     cy.assertVisible('startPaladinAssaultButton')
   })
 })

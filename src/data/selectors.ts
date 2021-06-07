@@ -4,9 +4,8 @@ import { getUndeadArmyLethality } from './undeads/selectors'
 import { getSpellsLethalityBonus } from './spells/selectors'
 import { ARTIFACT_DEFENSE_BONUS, EventType, PLUNDER_ACTIVATION_TURN } from '../config/constants'
 import { getArsenal, getConstructedBuildings } from './buildings/selectors'
-import { getHasArtifact, getIsEventPast, getPastEvents } from './events/selectors'
+import { getHasArtifact, getPastEvents } from './events/selectors'
 import { getTurn } from './turn/selectors'
-import { getCarnage } from './expeditions/selectors'
 import { getPaladinsShouldAttack } from './paladins/selectors'
 
 export const getLethality = (state: RootState) => getUndeadArmyLethality(state) + getSpellsLethalityBonus(state)
@@ -31,9 +30,6 @@ export const getRandomEventPool = createSelector(
 )
 
 export const getQuestEvent = (state: RootState) => {
-  if (getCarnage(state) && !getIsEventPast(EventType.StateOfEmergency)(state)) {
-    return EventType.StateOfEmergency
-  }
   if (getPaladinsShouldAttack(state)) {
     return EventType.PaladinsAssault
   }

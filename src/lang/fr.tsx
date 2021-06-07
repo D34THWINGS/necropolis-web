@@ -252,15 +252,12 @@ export const fr = {
   undeadAbility: 'Capacité :',
   devotionExpedition: (healthCost: number, talentsBonus: number) => (
     <>
-      Perd <span css={textColor('RED')}>{healthCost}</span>&nbsp;
-      <Image src={hpCostIcon} /> pour obtenir <span css={textColor('CYAN')}>+{talentsBonus} à tous les Talents</span>{' '}
-      durant un obstacle.
+      Obtient <span css={textColor('CYAN')}>+{talentsBonus} à tous les Talents</span> durant un obstacle.
     </>
   ),
   devotionAssault: (healthCost: number, damages: number, damageCategories: PaladinCategory[]) => (
     <>
-      Perd <span css={textColor('RED')}>{healthCost}</span>&nbsp;
-      <Image src={hpCostIcon} /> pour briser le <span css={textColor('PURPLE')}>Bouclier</span> et infliger{' '}
+      Briser le <span css={textColor('PURPLE')}>Bouclier</span> et inflige{' '}
       <span css={textColor('CYAN')}>{damages}</span>&nbsp;
       <Image src={trapDamageIcon} />. Type&nbsp;: <DamageCategories categories={damageCategories} />.
     </>
